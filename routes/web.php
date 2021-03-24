@@ -19,7 +19,7 @@ Route::get('/tesprint', function () {
 
 
 Route::get('{any}', function () { 
-    return view('pages.resto'); 
+    return view('pages.bengkel'); 
 })->where('any', '.*'); 
 
 

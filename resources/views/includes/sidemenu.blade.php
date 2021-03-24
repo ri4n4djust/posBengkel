@@ -28,8 +28,6 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="{{url('/barang')}}"><i class="fa fa-circle-o"></i>Daftar Barang</a></li>
-            <li><a href="{{url('/barangmentah')}}"><i class="fa fa-circle-o"></i>Barang Mentah</a></li>
-            <li><a href="{{url('/menu')}}"><i class="fa fa-circle-o"></i>Daftar Menu</a></li>
             <li><a href="{{url('/kategori')}}"><i class="fa fa-circle-o"></i>Kategori Barang</a></li>
             <li><a href="{{url('/stokopname')}}"><i class="fa fa-circle-o"></i>Stok Opname</a></li>
             <li><a href="{{url('/stokinventori')}}"><i class="fa fa-circle-o"></i>Stok Inventori</a></li>
@@ -58,12 +56,6 @@
             <i class="fa fa-calendar"></i> <span>Live Order</span>
           </a>
         </li>
-        <li>
-          <a href="{{url('/meja')}}">
-            <i class="fa fa-calendar"></i> <span>Table</span>
-          </a>
-        </li>
-      
         <li class="treeview">
           <a href="#">
             <i class="fa fa-table"></i> <span>Laporan</span>

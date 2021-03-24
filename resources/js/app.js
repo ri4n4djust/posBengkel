@@ -59,7 +59,6 @@ Vue.use(VueHtmlToPaper, options);
 import IndexComponent from './components/posts/Index.vue';
 import CreateComponent from './components/posts/Create.vue';
 import EditComponent from './components/posts/Edit.vue';
-import mentahComponent from './components/posts/barangMentah.vue';
 
 import IndexSupComponent from './components/supplier/Index.vue';
 import CreateSupComponent from './components/supplier/Create.vue';
@@ -69,14 +68,7 @@ import IndexKatComponent from './components/kategori/Index.vue';
 import CreateKatComponent from './components/kategori/Create.vue';
 import EditKatComponent from './components/kategori/Edit.vue';
 
-import IndexMejaComponent from './components/meja/Index.vue';
-import CreateMejaComponent from './components/meja/Create.vue';
-import EditMejaComponent from './components/meja/Edit.vue';
-import DetailMejaComponent from './components/meja/Detail.vue';
-
-import IndexMenuComponent from './components/menu/Index.vue';
-import CreateMenuComponent from './components/menu/Create.vue';
-import EditMenuComponent from './components/menu/Edit.vue';
+import homeComponent from './components/Home.vue';
 
 import IndexUserComponent from './components/user/Index.vue';
 import CreateUserComponent from './components/user/Create.vue';
@@ -85,7 +77,6 @@ import EditUserComponent from './components/user/Edit.vue';
 import CreatePembelian from './components/PembelianCreate.vue';
 import liveorder from './components/LiveOrder.vue';
 
-import homeComponent from './components/Home.vue';
 
 import LaporanPenjualanComponent from './components/laporan/laporanPenjualan.vue';
 import LaporanPembelianComponent from './components/laporan/laporanPembelian.vue';
@@ -113,11 +104,6 @@ const routes = [
         name: 'posts',
         path: '/barang',
         component: IndexComponent
-    },
-    {
-        name: 'barangmentah',
-        path: '/barangmentah',
-        component: mentahComponent
     },
     {
         name: 'create',
@@ -161,43 +147,7 @@ const routes = [
         path: '/kategori/edit/:id',
         component: EditKatComponent
     },
-    //meja
-    {
-        name: 'meja',
-        path: '/meja',
-        component: IndexMejaComponent
-    },
-    {
-        name: 'createMeja',
-        path: '/meja/create',
-        component: CreateMejaComponent
-    },
-    {
-        name: 'editMeja',
-        path: '/meja/edit/:id',
-        component: EditMejaComponent
-    },
-    {
-        name: 'detailMeja',
-        path: '/meja/detail/:id',
-        component: DetailMejaComponent
-    },
-    //menu
-    {
-        name: 'menu',
-        path: '/menu',
-        component: IndexMenuComponent
-    },
-    {
-        name: 'createMenu',
-        path: '/menu/create',
-        component: CreateMenuComponent
-    },
-    {
-        name: 'editMenu',
-        path: '/menu/edit/:id',
-        component: EditMenuComponent
-    },
+    
     //=============User
     {
         name: 'user',
