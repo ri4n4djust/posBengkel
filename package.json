@@ -26,6 +26,7 @@
     },
     "dependencies": {
         "@andresouzaabreu/vue-data-table": "^3.0.0",
+        "@chenfengyuan/vue-barcode": "^1.0.1",
         "@vue/compiler-sfc": "^3.0.4",
         "bootstrap-vue": "^2.21.1",
         "git": "^0.1.5",

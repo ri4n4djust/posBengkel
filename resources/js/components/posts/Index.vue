@@ -58,8 +58,10 @@ import Vue from 'vue';
 
 import DataTable from "@andresouzaabreu/vue-data-table";
 
+import VueBarcode from '@chenfengyuan/vue-barcode';
+
 import ActionButtons from './componentAksi.vue';
-Vue.component("data-table", DataTable);
+Vue.component("data-table", DataTable, VueBarcode);
     export default {
         data() {
             return {

@@ -11,7 +11,10 @@
                             
                              <div class="form-group">
                                 <input type="text" class="form-control" :value="post.kdBarang" :name="kdBarang" disabled >
-                             </div>
+                                <input type="text" class="form-control" v-model="post.barcode">
+                                <barcode v-model="post.barcode" :options="{ displayValue: true }"></barcode> 
+
+                            </div>
                             <div class="form-group">
                                 <label>TITLE</label>
                                 <input type="text" class="form-control" v-model="post.nmBarang"
@@ -165,6 +168,9 @@
 
 
 <script>
+import Vue from 'vue';
+import VueBarcode from '@chenfengyuan/vue-barcode';
+Vue.component(VueBarcode.name, VueBarcode);
     export default {
         data() {
             return {
