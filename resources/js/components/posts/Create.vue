@@ -92,7 +92,7 @@
                                     <div class="box-body">
                                     <div class="row" v-for="(input,k) in inputs" :key="k">
                                         <div class="col-xs-5">
-                                        <input type="text" class="form-control" v-model="input.name" placeholder="Satuan">
+                                        <input type="text" class="form-control" v-model="post.satuanBarang" placeholder="Satuan">
                                         </div>
                                         <div class="col-xs-3">
                                         <input type="text" class="form-control" v-model="input.party" placeholder="Isi">

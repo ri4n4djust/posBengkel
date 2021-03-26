@@ -21,6 +21,7 @@ class CreateBarangsTable extends Migration
             $table->double('hrgPokok');
             $table->double('hrgJual');
             $table->char('ktgBarang');
+            $table->char('satuanBarang');
             $table->char('merek');
             $table->char('stkBarang')->nullable();
             $table->char('stkSatuan')->nullable();
