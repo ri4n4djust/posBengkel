@@ -67,7 +67,7 @@
                             :options="users"
                             :required="true"
                             optionLabel="nmBarang" 
-                            optionKey="kdBarang"
+                            optionKey="barcode"
                     ></vue-single-select>
 
                     <div class="row">

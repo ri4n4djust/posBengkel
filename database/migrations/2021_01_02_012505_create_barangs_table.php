@@ -16,17 +16,16 @@ class CreateBarangsTable extends Migration
         Schema::create('tblBarang', function (Blueprint $table) {
             $table->id();
             $table->string('kdBarang');
+            $table->string('barcode')->nullable();
             $table->string('nmBarang');
             $table->double('hrgPokok');
             $table->double('hrgJual');
             $table->char('ktgBarang');
-            $table->char('satuanBarang');
             $table->char('merek');
-            $table->char('stkBarang');
+            $table->char('stkBarang')->nullable();
             $table->char('stkSatuan')->nullable();
             $table->char('qtyMin');
             $table->char('qtyMax');
-            $table->text('stsBarang');
             $table->text('deskripsi');
             $table->timestamps();
         });

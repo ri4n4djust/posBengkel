@@ -3,20 +3,21 @@
       <div class="card-header">TAMBAH BARANG</div>
         <div class="card-body">
         
-        <form  @submit.prevent="PostStore" id="anyName">
+        <form  @submit.prevent="PostStore" id="anyName" class="form-horizontal">
         <!-- left column -->
             <div class="col-md-6">
           <!-- general form elements -->
-                <div class="box box-primary">
+                <div class="box-body">
                             
                              <div class="form-group">
+                                 <label class="col-sm-2 control-label">Kode</label>
+                                 <div class="col-sm-10">
                                 <input type="text" class="form-control" :value="post.kdBarang" :name="kdBarang" disabled >
-                                <input type="text" class="form-control" v-model="post.barcode">
-                                <barcode v-model="post.barcode" :options="{ displayValue: true }"></barcode> 
-
-                            </div>
+                                 </div>
+                             </div>
                             <div class="form-group">
-                                <label>TITLE</label>
+                                <label class="col-sm-2 control-label">Nama</label>
+                                <div class="col-sm-10">
                                 <input type="text" class="form-control" v-model="post.nmBarang"
                                        placeholder="Masukkan Title">
                                 <div v-if="validation.nmBarang">
@@ -24,10 +25,12 @@
                                         {{ validation.nmBarang[0] }}
                                     </div>
                                 </div>
+                                </div>
                             </div>
 
                             <div class="form-group">
-                                <label>Harga Pokok</label>
+                                <label class="col-sm-2 control-label">H. Beli</label>
+                                <div class="col-sm-10">
                                 <input type="text" class="form-control" v-model="post.hrgPokok"
                                        placeholder="Harga Pokok" @keypress="onlyNumber">
                                 <div v-if="validation.hrgPokok">
@@ -35,10 +38,12 @@
                                         {{ validation.hrgPokok[0] }}
                                     </div>
                                 </div>
+                                </div>
                             </div>
 
                             <div class="form-group">
-                                <label>Harga Jual</label>
+                                <label class="col-sm-2 control-label">H. Jual</label>
+                                <div class="col-sm-10">
                                 <input type="text" class="form-control" v-model="post.hrgJual"
                                        placeholder="Harga Jual" @keypress="onlyNumber">
                                 <div v-if="validation.hrgJual">
@@ -46,28 +51,28 @@
                                         {{ validation.hrgJual[0] }}
                                     </div>
                                 </div>
+                                </div>
                             </div>
 
                             <div class="form-group">
-                            <label>Select Kategori:</label>
+                            <label class="col-sm-2 control-label">Kategori:</label>
+                            <div class="col-sm-10">
                             <select class='form-control' v-model='post.ktgBarang' required>
                                 <option v-for='data in countries' :value='data.kodeKtg' :key='data.id'>{{ data.namaKtg }}</option>
                             </select>
                             </div>
+                            </div> 
 
-                            <div class="form-group">
-                            <label>Select Kategori:</label>
-                            <select class='form-control' v-model='post.stsBarang' required>
-                                <option  value='1'>Barang Jadi</option>
-                                <option value='2' >Barang Mentah</option>
-                            </select>
+                            <div class="form-group">   
+                                <label class="col-sm-2 control-label">Bacode</label>
+                                <div class="col-sm-10"> 
+                                <input type="text" class="form-control" v-model="post.barcode">
+                                <barcode v-model="post.barcode" :options="{ displayValue: true }"></barcode> 
+                                 </div>
                             </div>
 
-                            
-                            <div class="form-group">
-                                <button type="submit"  class="btn btn-md btn-success">SIMPAN</button>
-                                <router-link :to="{ name: 'posts' }" class="btn btn-primary btn-success">KEMBALI</router-link>
-                            </div>
+
+                          
                 </div>
             </div>
     
@@ -76,73 +81,76 @@
         <!-- left column -->
             <div class="col-md-6">
           <!-- general form elements -->
-                <div class="box box-info">
+                <div class="box-body">
 
-                            <div class="form-group">
-                                <label>Stok</label>
-                                <input type="text" class="form-control" v-model="post.stkBarang"
-                                       placeholder="Stok Barang" @keypress="onlyNumber">
-                                <div v-if="validation.stkBarang">
-                                    <div class="alert alert-danger mt-1" role="alert">
-                                        {{ validation.stkBarang[0] }}
+
+                                <div class="form-group" >
+                                    <label class="col-sm-2 control-label">Satuan</label>
+                                    
+                                    <div class="col-sm-10">
+
+                                    <div class="box-body">
+                                    <div class="row" v-for="(input,k) in inputs" :key="k">
+                                        <div class="col-xs-5">
+                                        <input type="text" class="form-control" v-model="input.name" placeholder="Satuan">
+                                        </div>
+                                        <div class="col-xs-3">
+                                        <input type="text" class="form-control" v-model="input.party" placeholder="Isi">
+                                        </div>
+                                        <span>
+                                        <i class="fa fa-fw fa-remove" @click="remove(k)" v-show="k || ( !k && inputs.length > 1)">del</i>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <i class="fa fa-fw fa-plus-square" @click="add(k)" v-show="k == inputs.length-1">Tambah</i>
+                                        </span>
                                     </div>
+                                    </div>
+                                    
+                                    </div>
+                                    
+                                    
+                                    
                                 </div>
                                 
-                            </div>
+            
 
                             <div class="form-group">
-                                <label>Stok Pcs</label>
-                                <input type="text" class="form-control" v-model="post.stkInve"
-                                       placeholder="Stok Pcs" @keypress="onlyNumber">
-                                <div v-if="validation.stkInve">
-                                    <div class="alert alert-danger mt-1" role="alert">
-                                        {{ validation.stkInve[0] }}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Satuan</label>
-                                <input type="text" class="form-control" v-model="post.satuanBarang">
-                                <div v-if="validation.satuanBarang">
-                                    <div class="alert alert-danger mt-1" role="alert">
-                                        {{ validation.satuanBarang[0] }}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>QTY Min</label>
+                                <label class="col-sm-2 control-label">QTY Min</label>
+                                <div class="col-sm-10">
                                 <input type="text" class="form-control" v-model="post.qtyMin">
                                 <div v-if="validation.qtyMin" @keypress="onlyNumber">
                                     <div class="alert alert-danger mt-1" role="alert">
                                         {{ validation.qtyMin[0] }}
                                     </div>
                                 </div>
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label>QTY Max</label>
+                                <label class="col-sm-2 control-label">QTY Max</label>
+                                <div class="col-sm-10">
                                 <input type="text" class="form-control" v-model="post.qtyMax">
                                 <div v-if="validation.qtyMax" @keypress="onlyNumber">
                                     <div class="alert alert-danger mt-1" role="alert">
                                         {{ validation.qtyMax[0] }}
                                     </div>
                                 </div>
+                                </div>
                             </div>
 
                             <div class="form-group">
-                                <label>Merek</label>
+                                <label class="col-sm-2 control-label">Merek</label>
+                                <div class="col-sm-10">
                                 <input type="text" class="form-control" v-model="post.merek">
                                 <div v-if="validation.merek">
                                     <div class="alert alert-danger mt-1" role="alert">
                                         {{ validation.merek[0] }}
                                     </div>
                                 </div>
+                                </div>
                             </div>
 
 
                             <div class="form-group">
-                                <label>KONTEN</label>
+                                <label class="col-sm-2 control-label">KONTEN</label>
+                                <div class="col-sm-10">
                                 <textarea class="form-control" v-model="post.deskripsi" rows="5"
                                           placeholder="Masukkan Konten"></textarea>
                                 <div v-if="validation.deskripsi">
@@ -150,7 +158,15 @@
                                         {{ validation.deskripsi[0] }}
                                     </div>
                                 </div>
+                                </div>
                             </div>
+
+
+                              <div class="form-group">
+                                <button type="submit"  class="btn btn-md btn-success">SIMPAN</button>
+                                <router-link :to="{ name: 'posts' }" class="btn btn-primary btn-success">KEMBALI</router-link>
+                            </div>
+
                         
                                          
                     
@@ -181,6 +197,11 @@ Vue.component(VueBarcode.name, VueBarcode);
                 countries: {},
                 total: {},
                 kdBarang: '',
+                //barcode: this.post.kdBarang,
+                inputs: [{
+                    name: '',
+                    party: ''
+                }]
             }
             
         },
@@ -198,6 +219,26 @@ Vue.component(VueBarcode.name, VueBarcode);
         
 
         methods: {
+            add () {
+            this.inputs.push({
+                name: '',
+                party: ''
+            })
+            console.log(this.inputs)
+            },
+
+            remove (index) {
+            this.inputs.splice(index, 1)
+            },
+
+            addCandidate () {
+            axios
+                .post('/candidates', {
+                my_prop_name: JSON.stringify(this.inputs)
+                })
+                .then(response => {})
+                .catch(error => {})
+            },
             PostStore() {
                 let uri = '/api/posts/store';
                 this.axios.post(uri, this.post)

@@ -11,6 +11,6 @@ class Barang extends Model
 
     protected $fillable = [
         'nmBarang', 'hrgPokok', 'hrgJual', 'stkBarang', 'deskripsi', 'gmbrBarang', 'ktgBarang', 'satuanBarang', 
-        'merek', 'qtyMin', 'qtyMax', 'kdBarang', 'stsBarang'
+        'merek', 'qtyMin', 'qtyMax', 'kdBarang', 'stsBarang', 'barcode'
     ];
 }
