@@ -75,6 +75,7 @@ import CreateUserComponent from './components/user/Create.vue';
 import EditUserComponent from './components/user/Edit.vue';
 
 import CreatePembelian from './components/PembelianCreate.vue';
+import CreatePenjualan from './components/PenjualanCreate.vue';
 import liveorder from './components/LiveOrder.vue';
 
 
@@ -169,6 +170,12 @@ const routes = [
         name: 'pembelian',
         path: '/pembelian',
         component: CreatePembelian
+    },
+    //=======Penjualan
+    {
+        name: 'penjualan',
+        path: '/penjualan',
+        component: CreatePenjualan
     },
     //=======Live Order
     {

@@ -201,14 +201,15 @@ Vue.component(VueBarcode.name, VueBarcode);
                 inputs: [{
                     name: '',
                     party: ''
-                }]
+                }],
+               
             }
             
         },
         created: function(){
             this.loadKdBarang()
             this.getCountries()
-            //this.loadData()
+            
             
         },
         beforeCreate: function () {
@@ -229,6 +230,10 @@ Vue.component(VueBarcode.name, VueBarcode);
 
             remove (index) {
             this.inputs.splice(index, 1)
+            },
+            
+            CangeKd () {
+                this.post.barcode = this.post.kdBarang;
             },
 
             addCandidate () {

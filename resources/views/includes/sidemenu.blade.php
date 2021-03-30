@@ -46,10 +46,17 @@
             <li><a href="{{url('/user')}}"><i class="fa fa-circle-o"></i>User</a></li>
           </ul>
         </li>
-        <li >
-          <a href="{{url('/pembelian')}}">
-            <i class="fa fa-calendar"></i> <span>Pembelian</span>
+        <li class="treeview">
+        <a href="#">
+            <i class="fa fa-table"></i> <span>Transaksi</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
+          <ul class="treeview-menu">
+            <li><a href="{{url('/pembelian')}}"><i class="fa fa-circle-o"></i>Pembelian</a></li>
+            <li><a href="{{url('/penjualan')}}"><i class="fa fa-circle-o"></i>Penjualan</a></li>
+          </ul>
         </li>
         <li>
           <a href="{{url('/liveorder')}}">
