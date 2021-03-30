@@ -67,5 +67,106 @@ class penjualanController extends Controller
             ], 404);
         }
     }
+
+    public function addItemPenjualan(Request $request)
+    {
+        $brg = DB::table('tblPenjualanDetail')
+                ->where('kdBarang', $request->input('kdBarang'))
+                ->where('noNotaPenjualan', $request->input('noNotaPenjualan'))
+                ->first();
+        if ($brg == null ){
+
+            $post = PenjualanDetail::create([
+                'noNotaPenjualan'     => $request->input('noNotaPenjualan'),
+                'kdBarang'     => $request->input('kdBarang'),
+                'hrgJual'     => $request->input('hrgJual'),
+                'qtyJual'     => $request->input('qtyJual'),
+                'totalJual'     => $request->input('totalJual'),
+            ]);
+            
+            $barang = DB::table('tblBarang')->where('kdBarang', $request->input('kdBarang'))->first();
+            $stokLama = $barang->stkBarang;
+            $satuanKartu = $barang->satuanBarang;
+
+            DB::table('tblBarang')->where('kdBarang', $request->input('kdBarang'))->update([
+                'stkBarang'     => $stokLama - $request->input('qtyJual'),
+                'hrgJual'     => $request->input('hrgJual'),
+            ]);
+
+
+                        
+            KartuStok::create([
+                'kdBarang'     => $request->input('kdBarang'),
+                'tglKartu'     => $request->input('tglNotaPenjualan'),
+                'qtyMasuk'     => '0',
+                'qtyKeluar'     => $request->input('qtyJual'),
+                'noTransaksi'     => $request->input('noNotaPenjualan'),
+                'keteranganKartu'     => 'Penjualan',
+                'satuanKartu' => $satuanKartu,
+            ]);
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Post Berhasil Disimpan!',
+                ], 200);
+
+        } else {
+
+            //=========PenjualanDetail
+            $brng = DB::table('tblPenjualanDetail')
+                ->where('kdBarang', $request->input('kdBarang'))
+                ->where('noNotaPenjualan', $request->input('noNotaPenjualan'))
+                ->first();
+            $qtyB = $brng->qtyJual ;
+            $totalB = $brng->totalJual ;
+            
+            
+            DB::table('tblPenjualanDetail')
+                ->where('kdBarang', $request->input('kdBarang'))
+                ->where('noNotaPembelian', $request->input('noNotaPembelian'))
+                ->update([
+                    'qtyBeli' => $qtyB + $request->input('qtyBeli'),
+                    'totalBeli' => $totalB + $request->input('totalBeli'),
+                    ]);
+            //=======Update stok tabel barang
+            $barang = DB::table('tblBarang')->where('kdBarang', $request->input('kdBarang'))->first();
+            $stokLama = $barang->stkBarang;
+            DB::table('tblBarang')->where('kdBarang', $request->input('kdBarang'))->update([
+            'stkBarang'     => $stokLama + $request->input('qtyBeli')
+            ]);
+            //======================
+            //=======Update Tabel Inventori
+            $inven = DB::table('tblInventori')->where('kdBarang', $request->input('kdBarang'))->first();
+            $stokLamaInv = $inven->stkInventori;
+            DB::table('tblInventori')->where('kdBarang', $request->input('kdBarang'))->update([
+            'stkInventori'     => $stokLamaInv + $request->input('qtySatuan')
+            ]);
+            //===============================
+
+            //=========EndPembelianDetail
+            //=========Update Kartu Stok
+            $brngstok = DB::table('tblKartuStok')
+                ->where('kdBarang', $request->input('kdBarang'))
+                ->where('noTransaksi', $request->input('noNotaPembelian'))
+                ->first();
+            $qtyS = $brngstok->qtyMasuk ;
+            DB::table('tblKartuStok')
+                ->where('kdBarang', $request->input('kdBarang'))
+                ->where('noTransaksi', $request->input('noNotaPembelian'))
+                ->update([
+                    'qtyMasuk' => $qtyS + $request->input('qtyBeli'),
+                    ]);
+            //=========endKartu stok
+
+            
+
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'Post Berhasil Disimpan!',
+                    ], 200);
+
+            
+        }
+    }
     
 }

@@ -19,12 +19,12 @@ use Illuminate\Support\Facades\DB;
 class nomorController extends Controller
 {
     //
-    public function noNota($id)
+    public function noNota()
     {
         $count = Penjualan::all();
         if($count->isEmpty()){
             $tahun = date('Y');
-            $post = 'INV-'.$tahun.'-'.$id.'-'.'1';
+            $post = 'INV-'.$tahun.'-'.'1';
             return response()->json([
                 'success' => true,
                 'message' => 'Detail Post!',
@@ -37,13 +37,13 @@ class nomorController extends Controller
             $kodeBaru = $terakhir + 1  ;
 
             $tahun = date('Y');
-            $post = 'INV-'.$tahun.'-'.$id.'-'.$kodeBaru;
+            $post = 'INV-'.$tahun.'-'.$kodeBaru;
 
             
 
             if (Penjualan::where('noNota', $post)->exists()) {
                 $kodeBarulagi = $kodeBaru + 1 ;
-                $post = 'INV-'.$tahun.'-'.$id.'-'.$kodeBarulagi;
+                $post = 'INV-'.$tahun.'-'.$kodeBarulagi;
                 return response()->json([
                     'success' => true,
                     'message' => 'Detail Post!',
