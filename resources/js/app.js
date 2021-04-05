@@ -74,6 +74,10 @@ import IndexUserComponent from './components/user/Index.vue';
 import CreateUserComponent from './components/user/Create.vue';
 import EditUserComponent from './components/user/Edit.vue';
 
+import IndexCustComponent from './components/pelanggan/Index.vue';
+import CreateCustComponent from './components/pelanggan/Create.vue';
+import EditCustComponent from './components/pelanggan/Edit.vue';
+
 import CreatePembelian from './components/PembelianCreate.vue';
 import CreatePenjualan from './components/PenjualanCreate.vue';
 import liveorder from './components/LiveOrder.vue';
@@ -164,6 +168,23 @@ const routes = [
         name: 'editUser',
         path: '/user/edit/:id',
         component: EditUserComponent
+    },
+
+    //=============Pelanggan
+    {
+        name: 'pelanggan',
+        path: '/pelanggan',
+        component: IndexCustComponent
+    },
+    {
+        name: 'createPelanggan',
+        path: '/pelanggan/create',
+        component: CreateCustComponent
+    },
+    {
+        name: 'editPelanggan',
+        path: '/pelanggan/edit/:id',
+        component: EditCustComponent
     },
     //=======Pembelian
     {

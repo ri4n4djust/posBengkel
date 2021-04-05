@@ -43,6 +43,13 @@ Route::get('/supplier/{id?}', 'supplierController@show');
 Route::post('/supplier/update/{id?}', 'supplierController@update');
 Route::delete('/supplier/{id?}', 'supplierController@destroy');
 
+//========Pelanggan
+Route::get('/pelanggan', 'pelangganController@index');
+Route::post('/pelanggan/store', 'pelangganController@store');
+Route::get('/pelanggan/{id?}', 'pelangganController@show');
+Route::post('/pelanggan/update/{id?}', 'pelangganController@update');
+Route::delete('/pelanggan/{id?}', 'pelangganController@destroy');
+
 //========meja
 Route::get('/meja', 'mejaController@index');
 Route::get('/mejakosong', 'mejaController@mejakosong');
@@ -75,7 +82,8 @@ Route::get('/kodeMenu', 'nomorController@kodeMenu');
 Route::get('/kodePembelian', 'nomorController@kodePembelian');
 Route::get('/kodePenjualan', 'nomorController@noNota');
 Route::get('/kodeSupplier', 'nomorController@kodeSupplier');
-Route::get('/kodeKategori', 'nomorController@kodeKategori');
+Route::get('/kodeSupplier', 'nomorController@kodeSupplier');
+Route::get('/kodePelanggan', 'nomorController@kodePelanggan');
 Route::get('/kodeStokOpname', 'nomorController@kodeStokOpname');
 Route::get('/username', 'nomorController@kodeUsername');
 
@@ -89,7 +97,8 @@ Route::post('/addPembelian/store', 'pembelianController@addTransaksiPembelian');
 
 //=========Penjualan
 Route::post('/addItemPenjualan/store', 'penjualanController@addItemPenjualan');
-Route::post('/dataPenjualan/{id}', 'penjualanController@listTransaksiPenjualan');
+Route::post('/addJasaPenjualan/store', 'penjualanController@addJasaPenjualan');
+Route::get('/dataPenjualan/{id}', 'penjualanController@listTransaksiPenjualan');
 Route::post('/totalTrxPenjualan', 'penjualanController@totalTrxPenjualan');
 Route::delete('/penjualanDelete/{id?}', 'penjualanController@destroy1');
 Route::post('/addPenjualan/store', 'penjualanController@addTransaksiPenjualan');

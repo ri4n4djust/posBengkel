@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Penjualan;
+use App\PenjualanDetail;
+use App\KartuStok;
 //use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -68,6 +70,29 @@ class penjualanController extends Controller
         }
     }
 
+    public function listTransaksiPenjualan($id)
+    {
+        //$post = TransaksiDetail::whereId($id)->first();
+        $post = DB::table('tblPenjualanDetail')
+                    ->join('tblBarang', 'tblBarang.kdBarang', '=', 'tblPenjualanDetail.kdBarang')
+                    ->select('tblPenjualanDetail.*', 'tblBarang.nmBarang')
+                    ->where('noNotaPenjualan', $id)->get();
+
+        if ($post) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Detail Post!',
+                'data'    => $post
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Post Tidak Ditemukan!',
+                'data'    => ''
+            ], 404);
+        }
+    }
+
     public function addItemPenjualan(Request $request)
     {
         $brg = DB::table('tblPenjualanDetail')
@@ -82,6 +107,8 @@ class penjualanController extends Controller
                 'hrgJual'     => $request->input('hrgJual'),
                 'qtyJual'     => $request->input('qtyJual'),
                 'totalJual'     => $request->input('totalJual'),
+                'satuanJual'  => $request->input('satuanJual'),
+                'tglPenjualan' => $request->input('tglPenjualan'),
             ]);
             
             $barang = DB::table('tblBarang')->where('kdBarang', $request->input('kdBarang'))->first();
@@ -166,6 +193,71 @@ class penjualanController extends Controller
                     ], 200);
 
             
+        }
+    }
+
+    public function addJasaPenjualan(Request $request)
+    {
+        $brg = DB::table('tblPenjualanDetail')
+                ->where('kdBarang', $request->input('kdBarang'))
+                ->where('noNotaPenjualan', $request->input('noNotaPenjualan'))
+                ->first();
+        if ($brg == null ){
+
+            $post = PenjualanDetail::create([
+                'noNotaPenjualan'     => $request->input('noNotaPenjualan'),
+                'kdBarang'     => $request->input('kdBarang'),
+                'hrgJual'     => $request->input('hrgJual'),
+                'qtyJual'     => $request->input('qtyJual'),
+                'totalJual'     => $request->input('totalJual'),
+            ]);
+            
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Post Berhasil Disimpan!',
+                ], 200);
+
+        } else {
+            
+            
+            DB::table('tblPenjualanDetail')
+                ->where('kdBarang', $request->input('kdBarang'))
+                ->where('noNotaPembelian', $request->input('noNotaPembelian'))
+                ->update([
+                    'qtyBeli' => $qtyB + $request->input('qtyBeli'),
+                    'totalBeli' => $totalB + $request->input('totalBeli'),
+                    ]);
+            //======================
+            
+
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'Post Berhasil Disimpan!',
+                    ], 200);
+
+            
+        }
+    }
+
+    public function totalTrxPenjualan(Request $request)
+    {
+        $totalNota = DB::table('tblPenjualanDetail')
+            ->where('noNotaPenjualan', '=', $request->input('ntp'))
+            ->sum('totalJual');
+
+        if ($totalNota) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Detail Post!',
+                'subTotalJual'    => $totalNota
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Post Tidak Ditemukan!',
+                'subTotalJual'    => ''
+            ], 404);
         }
     }
     

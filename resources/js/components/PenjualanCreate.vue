@@ -22,10 +22,8 @@
                             v-model="post"
                             :options="posts"
                             :required="true"
-                            optionLabel="nmSupplier" 
+                            optionLabel="namaPelanggan" 
                 ></vue-single-select>
-                
-
                 
                 </p>
                 <p class="text-muted text-center">
@@ -58,8 +56,6 @@
                     </div>
                     <div class="box-body">
 
-                      
-
                  
                   <form  @submit.prevent="PostItemPenjualan" id="anyName" >
                     <vue-single-select
@@ -81,11 +77,11 @@
                         </div>
                         <div class="col-xs-2">
                           <label>Qty</label>
-                        <input type="text" v-model="qtyBeli" class="form-control" placeholder="Qty" @keypress="onlyNumber">
+                        <input type="text" v-model="qtyJual" class="form-control" placeholder="Qty" @keypress="onlyNumber">
                         </div>
                         <div class="col-xs-2">
                           <label>Total</label>
-                        <input type="text" :value="(post1.hrgPokok * qtyBeli) || 0" :name="subTotal" class="form-control" placeholder="Total">
+                        <input type="text" :value="(post1.hrgJual * qtyJual) || 0" :name="subTotal" class="form-control" placeholder="Total">
                         </div>
 
                         <div class="col-xs-2">
@@ -214,13 +210,14 @@
                 post1: {},
                 users: {},
                 pem: {},
-                qtyBeli: '',
+                qtyJual: '',
                 qtySa: '',
-                hrgBeli: '',
+                hrgJual: '',
                 subTotal: '',
                 totalBayar: '',
                 subtotal: '',
                 ntp:'',
+                satuanJual: '',
                 noNotaPenjualan: '',
                 totalPenjualan: '',
                 tglPenjualan: new Date().toJSON().slice(0,10).replace(/-/g,'/'),
@@ -305,8 +302,8 @@
                 
             });
             },
-            LoadSupplier() {
-              let uri = '/api/supplier';
+            LoadPelanggan() {
+              let uri = '/api/pelanggan';
               this.axios.get(uri).then(response => {
                   this.posts = response.data.data;
               });
@@ -319,8 +316,8 @@
             });
             },
             loadTransaksiPenjualan:function(){
-                let uri = '/api/dataPembelian/'+ this.noNotaPenjualan;
-                this.axios.post(uri).then(response => {
+                let uri = '/api/dataPenjualan/'+ this.noNotaPenjualan;
+                this.axios.get(uri).then(response => {
                     this.pem = response.data.data;
                    // alert('no nota '+ this.data.noNota);
                 }).catch(error => {
@@ -334,26 +331,48 @@
                     .then(response => {
                         alert('Berhasil Di Hapus');
                         this.loadTotal()
-                        this.loadTransaksiPembelian()
+                        this.loadTransaksiPenjualan()
                     }).catch(error => {
                     
                 });
               }
             },
             PostItemPenjualan() {
-                let uri = '/api/addItemPembelian/store';
+                let uri = '/api/addItemPenjualan/store';
                 this.axios.post(uri, 
                 {
                     noNotaPenjualan: this.noNotaPenjualan,
                     kdBarang: this.post1.kdBarang,
-                    hrgBeli: this.post1.hrgPokok,
-                    qtyBeli: this.qtyBeli,
-                    totalBeli: this.post1.hrgPokok * this.qtyBeli,
-                    tglNotaPembelian: this.tglPenjualan,
+                    hrgJual: this.post1.hrgJual,
+                    qtyJual: this.qtyJual,
+                    totalJual: this.post1.hrgJual * this.qtyJual,
+                    tglPenjualan: this.tglPenjualan,
+                    satuanJual: this.post1.satuanBarang,
                 })
                     .then((response) => {
                         this.loadTotal()
-                        this.loadTransaksiPembelian()
+                        this.loadTransaksiPenjualan()
+                        alert('sukses donkkkkkkkk');
+                        document.getElementById("anyName").reset();
+                        //this.loadTransaksiPenjualan()
+                        //this.loadTotal()
+                    });
+                
+            },
+            PostJasaPenjualan() {
+                let uri = '/api/addJasaPenjualan/store';
+                this.axios.post(uri, 
+                {
+                    noNotaPenjualan: this.noNotaPenjualan,
+                    kdBarang: this.post1.kdBarang,
+                    hrgJual: this.post1.hrgJual,
+                    qtyJual: this.qtyJual,
+                    totalJual: this.post1.hrgJual * this.qtyJual,
+                    tglNotaPenjualan: this.tglPenjualan,
+                })
+                    .then((response) => {
+                        this.loadTotal()
+                        this.loadTransaksiPenjualan()
                         alert('sukses donkkkkkkkk');
                         document.getElementById("anyName").reset();
                         //this.loadTransaksiPenjualan()
@@ -362,7 +381,7 @@
                 
             },
             PostPenjualan() {
-                let uri = '/api/addPembelian/store';
+                let uri = '/api/addPenjualan/store';
                 this.axios.post(uri, 
                 {
                     noNotaPenjualan: this.noNotaPenjualan,
@@ -388,7 +407,7 @@
         created() {
             this.loadNotaPenjualan()
             this.loadBarang()
-            this.LoadSupplier()
+            this.LoadPelanggan()
             this.loadTransaksiPenjualan()
             this.loadTotal()
             
