@@ -124,7 +124,7 @@ class penjualanController extends Controller
                         
             KartuStok::create([
                 'kdBarang'     => $request->input('kdBarang'),
-                'tglKartu'     => $request->input('tglNotaPenjualan'),
+                'tglKartu'     => $request->input('tglPenjualan'),
                 'qtyMasuk'     => '0',
                 'qtyKeluar'     => $request->input('qtyJual'),
                 'noTransaksi'     => $request->input('noNotaPenjualan'),
@@ -150,38 +150,29 @@ class penjualanController extends Controller
             
             DB::table('tblPenjualanDetail')
                 ->where('kdBarang', $request->input('kdBarang'))
-                ->where('noNotaPembelian', $request->input('noNotaPembelian'))
+                ->where('noNotaPenjualan', $request->input('noNotaPenjualan'))
                 ->update([
-                    'qtyBeli' => $qtyB + $request->input('qtyBeli'),
-                    'totalBeli' => $totalB + $request->input('totalBeli'),
+                    'qtyJual' => $qtyB + $request->input('qtyJual'),
+                    'totalJual' => $totalB + $request->input('totalJual'),
                     ]);
             //=======Update stok tabel barang
             $barang = DB::table('tblBarang')->where('kdBarang', $request->input('kdBarang'))->first();
             $stokLama = $barang->stkBarang;
             DB::table('tblBarang')->where('kdBarang', $request->input('kdBarang'))->update([
-            'stkBarang'     => $stokLama + $request->input('qtyBeli')
+            'stkBarang'     => $stokLama - $request->input('qtyJual')
             ]);
             //======================
-            //=======Update Tabel Inventori
-            $inven = DB::table('tblInventori')->where('kdBarang', $request->input('kdBarang'))->first();
-            $stokLamaInv = $inven->stkInventori;
-            DB::table('tblInventori')->where('kdBarang', $request->input('kdBarang'))->update([
-            'stkInventori'     => $stokLamaInv + $request->input('qtySatuan')
-            ]);
-            //===============================
-
-            //=========EndPembelianDetail
             //=========Update Kartu Stok
             $brngstok = DB::table('tblKartuStok')
                 ->where('kdBarang', $request->input('kdBarang'))
-                ->where('noTransaksi', $request->input('noNotaPembelian'))
+                ->where('noTransaksi', $request->input('noNotaPenjualan'))
                 ->first();
-            $qtyS = $brngstok->qtyMasuk ;
+            $qtyS = $brngstok->qtyKeluar ;
             DB::table('tblKartuStok')
                 ->where('kdBarang', $request->input('kdBarang'))
-                ->where('noTransaksi', $request->input('noNotaPembelian'))
+                ->where('noTransaksi', $request->input('noNotaPenjualan'))
                 ->update([
-                    'qtyMasuk' => $qtyS + $request->input('qtyBeli'),
+                    'qtyKeluar' => $qtyS + $request->input('qtyJual'),
                     ]);
             //=========endKartu stok
 
@@ -258,6 +249,74 @@ class penjualanController extends Controller
                 'message' => 'Post Tidak Ditemukan!',
                 'subTotalJual'    => ''
             ], 404);
+        }
+    }
+
+    public function addTransaksiPenjualan(Request $request)
+    {
+        $post = Penjualan::create([
+            'noNota'     => $request->input('noNota'),
+            'liftNo'     => $request->input('liftNo'),
+            'tglNota'     => $request->input('tglNota'),
+            'totalNota'     => $request->input('totalNota'),
+            'taxNota'     => $request->input('taxNota'),
+            'diskonNota'     => $request->input('diskonNota'),
+            'bayarNota'     => $request->input('bayarNota'),
+            'kembalianNota'     => $request->input('kembalianNota'),
+            'pelangganNota'     => $request->input('pelanggan'),
+            'userNota'     => $request->input('userNota'),
+            'mekanikNota'     => $request->input('mekanikNota'),
+        ]);
+
+            if ($post) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Post Berhasil Disimpan!',
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Post Gagal Disimpan!',
+                ], 400);
+            }
+    }
+
+    public function destroy1($id)
+    {
+        
+
+        $post = PenjualanDetail::findOrFail($id);
+
+        $noNotaPenjualan = $post->noNotaPenjualan;
+        $kodebarang = $post->kdBarang;
+        $qtybarang = $post->qtyJual;
+        //$satuanJual = $post->satuanJual;
+
+        $barang = DB::table('tblBarang')->where('kdBarang', $kodebarang)->first();
+        $stokLama = $barang->stkBarang;
+        DB::table('tblBarang')->where('kdBarang', $kodebarang)->update([
+                'stkBarang'     => $stokLama + $qtybarang
+        ]);
+
+
+        DB::table('tblKartuStok')
+            ->where('kdBarang', $kodebarang)
+            ->where('noTransaksi', $noNotaPenjualan)
+            ->delete();
+        
+
+        $post->delete();
+
+        if ($post) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Post Berhasil Dihapus!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Post Gagal Dihapus!',
+            ], 500);
         }
     }
     

@@ -16,7 +16,7 @@ class CreatePenjualansTable extends Migration
         Schema::create('tblPenjualan', function (Blueprint $table) {
             $table->id();
             $table->string('noNota');
-            $table->string('noMeja');
+            $table->string('liftNo')->nullable();
             $table->string('pelangganNota');
             $table->string('tglNota');
             $table->string('totalNota');
@@ -25,6 +25,7 @@ class CreatePenjualansTable extends Migration
             $table->string('bayarNota');
             $table->string('kembalianNota');
             $table->string('userNota');
+            $table->string('mekanikNota')->nullable();
             $table->timestamps();
         });
     }

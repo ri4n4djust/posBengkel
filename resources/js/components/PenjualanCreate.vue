@@ -24,10 +24,6 @@
                             :required="true"
                             optionLabel="namaPelanggan" 
                 ></vue-single-select>
-                
-                </p>
-                <p class="text-muted text-center">
-                <input type="hidden" class="form-control" v-model="post.kdSupplier" placeholder="No nota">
                 </p>
                 <p class="text-muted text-center">
                 <input type="text" class="form-control" v-model="noNotaPenjualan" placeholder="No nota">
@@ -112,9 +108,9 @@
                                 <tbody>
                                 <tr v-for="pe in pem" :key="pe.id">
                                     <td>{{ pe.nmBarang }} </td>
-                                    <td>{{ pe.qtyBeli}}</td>
-                                    <td>{{ pe.hrgPokok | currency }}</td>
-                                    <td>{{ pe.totalBeli | currency }}</td>
+                                    <td>{{ pe.qtyJual}}</td>
+                                    <td>{{ pe.hrgJual | currency }}</td>
+                                    <td>{{ pe.totalJual | currency }}</td>
                                     <td class="text-center">
                                         <button @click.prevent="PostDeleteTrx(pe.id)" class="btn btn-sm btn-danger">HAPUS</button>
                                     </td>
@@ -144,39 +140,171 @@
                 <h4 class="modal-title">Add Payment</h4>
               </div>
               <div class="modal-body">
-                
-
-                <form  @submit.prevent="PostPembelian" >
-                <p class="text-muted text-center">
-                </p>
-                <p class="text-muted text-center">
-                  <vue-single-select
-                            v-model="post"
-                            :options="posts"
-                            :required="true"
-                            optionLabel="nmSupplier" 
-                ></vue-single-select>
-
-                <input type="hidden" class="form-control" v-model="post.id" placeholder="Supplier" required>
-                <input type="hidden" class="form-control" v-model="tglPembelian"  >
-                </p>
-                <p class="text-muted text-center">
+                <form  @submit.prevent="PostTransaksiPenjualan" >
+                  <input type="hidden" class="form-control" v-model="tglPenjualan" >
+                <input type="text" class="form-control" v-model="post.kodePelanggan" placeholder="Customer">
                 <input type="hidden" class="form-control" v-model="noNotaPenjualan" placeholder="No nota">
-                </p>
+                <input type="hidden" class="form-control" v-model="subtotal">
+                <input type="text" class="form-control" v-model="liftNo">
+                <input type="text" class="form-control" v-model="mekanikNota">
+
                 <p class="text-muted text-center">
-                <input type="text" class="form-control" v-model="subtotal" >
-                </p>
+                <input type="hidden" class="form-control" :value="((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * diskon / 100))  || 0 " :name="totalTransaksiBayar"  >
+                <h3 class="profile-username ">Total {{ ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * diskon / 100))  || 0 | currency }}</h3>
+
+
+                <div class="row input-group">
+                <div class="col-xs-4">
+                  <span class="input-group-addon">Tax in %</span>
+                  <input type="number" class="form-control " v-model="pajak" placeholder="Tax">
+                  <input type="hidden" class="form-control" :value="(subtotal * pajak / 100 + subtotal)" :name="totalTransaksipjk" >
+                </div>
+                <div class="col-xs-4">
+                  <span class="input-group-addon">Disc in %</span>
+                  <input type="number" class="form-control" v-model="diskon" placeholder="Diskon">
+                  <input type="hidden" class="form-control" :value="((subtotal * pajak / 100 + subtotal) * diskon / 100)" :name="diskon1" >
+                </div>
+              </div>
+              <br>
+                            <select class='form-control' v-model='pembayaran' >
+                                <option value='1' selected>Cash</option>
+                                <option value='2'>Debit</option>
+                                <option value='3'>E-Money</option>
+                            </select>
+                            <br>
+                            <div v-if="pembayaran === '1'">
+                              <div class="input-group">
+                                    <span class="input-group-addon">Rp.</span>
+                                    <input type="number" class="form-control" v-model="totalBayar" placeholder="Bayar" required>
+                                  </div>
+                                  
+                                  <h3 class="profile-username ">Kembali : {{ totalBayar - ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * diskon / 100))  || 0 | currency }}</h3>
+                                  <p class="text-muted text-center">
+                                  <button type="submit"  class="btn btn-md btn-success" >Bayar</button>                
+                                  </p>
+                            </div>
+                            <div v-else-if="pembayaran === '2'">
+                              <div class="input-group">
+                                    <span class="input-group-addon">Card Carge %</span>
+                                    <input type="number" class="form-control" v-model="taxDebit" placeholder="0" >
+                                  </div>
+                                  <br>
+                                  <div class="input-group">
+                                    <span class="input-group-addon">Card No.</span>
+                                    <input type="number" class="form-control" v-model="noDebit" placeholder="No Kartu" >
+                                  </div>
+                                  <br>
+                                  <div class="input-group">
+                                    <span class="input-group-addon">Rp.</span>
+                                    <input type="number" class="form-control" v-model="totalBayar" placeholder="Bayar" required>
+                                  </div>
+                                  <br>
+                                  <p class="text-muted text-center">
+                                  <button type="submit"  class="btn btn-md btn-success" >Bayar</button>                
+                                  </p>
+                            </div>
+                            <div v-else-if="pembayaran === '3'">
+                              Emoney
+                            </div>
+
                
-                <p class="text-muted text-center">
-                <input type="number" class="form-control" v-model="totalBayar" placeholder="Bayar" @keypress="onlyNumber" required>
-                </p>
-                      
-                <h3 class="profile-username ">Total {{ subtotal || 0 | currency }}</h3>
-                <h3 class="profile-username ">Kembali : {{ totalBayar - subtotal  || 0 | currency }}</h3>
-                <p class="text-muted text-center">
-                <button type="submit"  class="btn btn-md btn-success">Bayar</button>                
-                </p>
               </form>
+
+              <div id="printMe">
+                <!-- info row -->
+               <address>
+                    <strong>Bengkel Kita.</strong><br>
+                    Jimbaran<br>
+
+                    Phone: (804) 123-5432<br>
+                    Email: info@almasaeedstudio.com
+                  </address>
+              <div class="row">
+                <div class="col-md-4 invoice-col">
+                  <address>
+                    <strong>Customer :</strong> {{pelanggan}}<br>
+                    <b> Tgl : </b>{{tglNota}}<br>
+                    <b> Lift : </b>1<br>
+                  </address>
+                </div>
+                <!-- /.col -->
+                <div class="col-md-4 invoice-col">
+                  <address>
+                  <b>No Inv: </b>{{noNotaPenjualan}}<br>
+                  <b>Kasir : </b>{{$session.get('user')}}
+                  </address>
+                </div>
+
+                <div class="col-md-4 invoice-col">
+                  <address>
+                  <b>Waiter : </b>{{post.name}}<br>
+                  <b>Type : </b>
+                  <div v-if="pembayaran === '1'">
+                    Cash
+                  </div>
+                  <div v-else-if="pembayaran === '2'">
+                    Debit
+                  </div>
+                  <div v-else-if="pembayaran === '3'">
+                    E-Money
+                  </div>
+                  </address>
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+                
+                  <table width="90%" border="1" style="border:1px solid black; border-collapse: collapse;">
+                                <thead>
+                                <tr>
+                                    <th>Nama </th>
+                                    <th>Qty</th>
+                                    <th>Harga</th>
+                                    <th>Total</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="trx in pem" :key="trx.id">
+                                    <td>{{ trx.kdBarang }} </td>
+                                    <td>{{ trx.qtyJual}}</td>
+                                    <td>{{ trx.hrgJual | currency }}</td>
+                                    <td>{{ trx.totalJual | currency }}</td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="3">subTotal :</th>
+                                        <th>{{subtotal | currency}}</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="3">Tax & Service :</th>
+                                        <th>{{ (subtotal * pajak / 100 ) | currency}}</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="3">Discount</th>
+                                        <th>{{ ((subtotal * pajak / 100 + subtotal) * diskon / 100) | currency}}</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="3">subTotal :</th>
+                                        <th>{{ ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * diskon / 100))  || 0 | currency }}</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="3">Payment :</th>
+                                        <th>{{totalBayar | currency}}</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="3">Kembalian :</th>
+                                        <th>{{ totalBayar - ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * diskon / 100))  || 0 | currency }}</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="5">Terima Kasih Telah Berbelanja</th>
+
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+    </div>
+              
 
 
               </div>
@@ -218,7 +346,17 @@
                 subtotal: '',
                 ntp:'',
                 satuanJual: '',
-                noNotaPenjualan: '',
+                pajak: '',
+                diskon: '',
+                pembayaran: '1',
+                totalTransaksiBayar: '',
+                totalTransaksipjk: '',
+                diskon1: '',
+                pelanggan: 'PL-2021-1',
+                tglNota: new Date().toJSON().slice(0,10).replace(/-/g,'/'),
+                liftNo: '1',
+                mekanikNota: 'mekanik 1',
+                //noNotaPenjualan: '',
                 totalPenjualan: '',
                 tglPenjualan: new Date().toJSON().slice(0,10).replace(/-/g,'/'),
                 validation: [],
@@ -290,7 +428,7 @@
                     ntp: this.noNotaPenjualan,
                 }).then(response => {
                   //alert('mount' + this.noNotaPembelian)
-                this.subtotal = response.data.subTotalBeli;
+                this.subtotal = response.data.subTotalJual;
                 }).catch(error => {
                     console.log(error.response)
                 });
@@ -327,7 +465,7 @@
             PostDeleteTrx(id)
             {
               if(confirm("Do you really want to delete?")){
-                this.axios.delete(`/api/pembelianDelete/${id}`)
+                this.axios.delete(`/api/penjualanDelete/${id}`)
                     .then(response => {
                         alert('Berhasil Di Hapus');
                         this.loadTotal()
@@ -380,15 +518,21 @@
                     });
                 
             },
-            PostPenjualan() {
+            PostTransaksiPenjualan() {
                 let uri = '/api/addPenjualan/store';
                 this.axios.post(uri, 
                 {
-                    noNotaPenjualan: this.noNotaPenjualan,
-                    idSupplier: this.post.kdSupplier,
-                    tglNotaPembelian: this.tglPembelian,
-                    totalNotaPembelian: this.subtotal,
-                    userPembelian: this.$session.get('userId'),
+                    noNota: this.noNotaPenjualan,
+                    liftNo: this.liftNo,
+                    pelanggan: this.post.kodePelanggan,
+                    tglNota: this.tglPenjualan,
+                    taxNota: (this.subtotal * this.pajak / 100),
+                    diskonNota: ((this.subtotal * this.pajak / 100 + this.subtotal) * this.diskon / 100),
+                    totalNota: ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.diskon / 100)),
+                    bayarNota: this.totalBayar,
+                    userNota: this.$session.get('userId'),
+                    mekanikNota: this.mekanikNota,
+                    kembalianNota: this.totalBayar - ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.diskon / 100)),
                     
                 })
                     .then((response) => {
@@ -402,14 +546,15 @@
         beforeCreate: function () {
             if (!this.$session.exists()) {
             this.$router.push('/')
-            }
+            };
+            this.loadNotaPenjualan();
         },
         created() {
-            this.loadNotaPenjualan()
-            this.loadBarang()
-            this.LoadPelanggan()
-            this.loadTransaksiPenjualan()
-            this.loadTotal()
+            this.loadNotaPenjualan();
+            this.loadBarang();
+            this.LoadPelanggan();
+            this.loadTransaksiPenjualan();
+            this.loadTotal();
             
             
         },
