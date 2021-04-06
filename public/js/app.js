@@ -13017,6 +13017,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -13050,6 +13072,8 @@ __webpack_require__.r(__webpack_exports__);
       tglNota: new Date().toJSON().slice(0, 10).replace(/-/g, '/'),
       liftNo: '1',
       mekanikNota: 'mekanik 1',
+      typePenjualan: '1',
+      termPenjualan: '0',
       //noNotaPenjualan: '',
       totalPenjualan: '',
       tglPenjualan: new Date().toJSON().slice(0, 10).replace(/-/g, '/'),
@@ -13669,8 +13693,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.loadData(); //this.something()
-
-    this.loadDetailPenjualan();
+    //this.loadDetailPenjualan()
   },
   methods: {
     something: function something() {
@@ -13691,6 +13714,7 @@ __webpack_require__.r(__webpack_exports__);
     loadDetailPenjualan: function loadDetailPenjualan() {
       var _this3 = this;
 
+      this.showModalPenjualan = true;
       var uri = '/api/detailpenjualan/' + this.data.noNota;
       this.axios.post(uri).then(function (response) {
         _this3.pem = response.data.data; // alert('no nota '+ this.data.noNota);
@@ -14425,11 +14449,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component("data-table", _andresouzaab
           title: "No Nota",
           sortable: false
         }, {
-          key: "noMeja",
-          title: "No Meja",
-          sortable: false
-        }, {
-          key: "pelangganNota",
+          key: "namaPelanggan",
           title: "Pelanggan",
           sortable: false
         }, {
@@ -56724,10 +56744,15 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
+              _c("p", { staticClass: "text-muted text-center" }),
               _c(
-                "p",
-                { staticClass: "text-muted text-center" },
+                "div",
+                { staticClass: "input-group" },
                 [
+                  _c("span", { staticClass: "input-group-addon" }, [
+                    _vm._v("Cust.")
+                  ]),
+                  _vm._v(" "),
                   _c("vue-single-select", {
                     attrs: {
                       options: _vm.posts,
@@ -56746,7 +56771,12 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c("p", { staticClass: "text-muted text-center" }, [
+              _c("p", { staticClass: "text-muted text-center" }),
+              _c("div", { staticClass: "input-group" }, [
+                _c("span", { staticClass: "input-group-addon" }, [
+                  _vm._v("INV.")
+                ]),
+                _vm._v(" "),
                 _c("input", {
                   directives: [
                     {
@@ -56769,6 +56799,82 @@ var render = function() {
                   }
                 })
               ]),
+              _vm._v(" "),
+              _c("p", { staticClass: "text-muted text-center" }),
+              _c("div", { staticClass: "input-group" }, [
+                _c("span", { staticClass: "input-group-addon" }, [
+                  _vm._v("Type")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.typePenjualan,
+                        expression: "typePenjualan"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { required: "" },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.typePenjualan = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { value: "1" } }, [_vm._v("Cash")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "2" } }, [_vm._v("Kredit")])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("p", { staticClass: "text-muted text-center" }),
+              _vm.typePenjualan === "2"
+                ? _c("div", [
+                    _c("div", { staticClass: "input-group" }, [
+                      _c("span", { staticClass: "input-group-addon" }, [
+                        _vm._v("Term")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.termPenjualan,
+                            expression: "termPenjualan"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.termPenjualan },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.termPenjualan = $event.target.value
+                          }
+                        }
+                      })
+                    ])
+                  ])
+                : _vm._e(),
               _vm._v(" "),
               _c("input", {
                 staticClass: "form-control",
@@ -58369,7 +58475,7 @@ var render = function() {
       {
         on: {
           click: function($event) {
-            _vm.showModalPenjualan = true
+            return _vm.loadDetailPenjualan()
           }
         }
       },
@@ -58412,17 +58518,22 @@ var render = function() {
                       _c("div", { staticClass: "modal-body" }, [
                         _c("div", { staticClass: "row invoice-info" }, [
                           _c("div", { staticClass: "col-sm-4 invoice-col" }, [
+                            _vm._v(
+                              "\n                                        " +
+                                _vm._s(_vm.data.id) +
+                                "\n                                        "
+                            ),
                             _c("address", [
                               _c("strong", [_vm._v("Customer :")]),
-                              _vm._v(" " + _vm._s(_vm.data.pelangganNota)),
+                              _vm._v(" " + _vm._s(_vm.data.namaPelanggan)),
                               _c("br"),
                               _vm._v(" "),
                               _c("b", [_vm._v(" Tgl : ")]),
                               _vm._v(_vm._s(_vm.data.tglNota)),
                               _c("br"),
                               _vm._v(" "),
-                              _c("b", [_vm._v(" Meja No : ")]),
-                              _vm._v(_vm._s(_vm.data.noMeja)),
+                              _c("b", [_vm._v(" Mekanik : ")]),
+                              _vm._v(_vm._s(_vm.data.mekanikNota)),
                               _c("br")
                             ])
                           ]),
@@ -58492,7 +58603,7 @@ var render = function() {
                                 return _c("tr", { key: pe.id }, [
                                   _c("td", [_vm._v(_vm._s(pe.nmBarang) + " ")]),
                                   _vm._v(" "),
-                                  _c("td", [_vm._v(_vm._s(pe.qty))]),
+                                  _c("td", [_vm._v(_vm._s(pe.qtyJual))]),
                                   _vm._v(" "),
                                   _c("td", [
                                     _vm._v(
@@ -58503,7 +58614,9 @@ var render = function() {
                                   _c("td", [
                                     _vm._v(
                                       _vm._s(
-                                        _vm._f("currency")(pe.qty * pe.hrgJual)
+                                        _vm._f("currency")(
+                                          pe.qtyJual * pe.hrgJual
+                                        )
                                       )
                                     )
                                   ])

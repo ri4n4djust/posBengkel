@@ -18,16 +18,38 @@
                 <date-picker v-model="tglPenjualan" value-type="format" format="YYYY/MM/DD"></date-picker>
                 </p>
                 <p class="text-muted text-center">
+                  <div class="input-group">
+                  <span class="input-group-addon">Cust.</span>
                 <vue-single-select
                             v-model="post"
                             :options="posts"
                             :required="true"
                             optionLabel="namaPelanggan" 
                 ></vue-single-select>
-                </p>
+                  </div>
+               
                 <p class="text-muted text-center">
+                  <div class="input-group">
+                  <span class="input-group-addon">INV.</span>
                 <input type="text" class="form-control" v-model="noNotaPenjualan" placeholder="No nota">
-                </p>
+                  </div>
+               
+                <p class="text-muted text-center">
+                  <div class="input-group">
+                  <span class="input-group-addon">Type</span>
+                      <select class='form-control' v-model='typePenjualan' required>
+                          <option  value='1'>Cash</option>
+                          <option value='2' >Kredit</option>
+                        </select>
+                  </div>
+                  <p class="text-muted text-center">
+                  <div v-if="typePenjualan === '2'">
+                    <div class="input-group">
+                    <span class="input-group-addon">Term</span>
+                    <input type="text" class="form-control" v-model="termPenjualan" >
+                    </div>
+                  </div>
+                
                 
                 <input type="hidden" class="form-control" :value="subtotal" :name="totalPenjualan" >
                 <h3 class="profile-username text-center">Total {{ subtotal  || 0 | currency }}</h3>
@@ -356,6 +378,8 @@
                 tglNota: new Date().toJSON().slice(0,10).replace(/-/g,'/'),
                 liftNo: '1',
                 mekanikNota: 'mekanik 1',
+                typePenjualan: '1',
+                termPenjualan: '0',
                 //noNotaPenjualan: '',
                 totalPenjualan: '',
                 tglPenjualan: new Date().toJSON().slice(0,10).replace(/-/g,'/'),

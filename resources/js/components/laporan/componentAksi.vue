@@ -1,6 +1,6 @@
 <template>
     <div >
-        <button  @click="showModalPenjualan = true">
+        <button  @click="loadDetailPenjualan()">
             <i class="fa fa-eye"></i>
         </button>
        
@@ -21,11 +21,11 @@
 
                                         <div class="row invoice-info">
                                             <div class="col-sm-4 invoice-col">
-                                            
+                                            {{data.id}}
                                             <address>
-                                                <strong>Customer :</strong> {{data.pelangganNota}}<br>
+                                                <strong>Customer :</strong> {{data.namaPelanggan}}<br>
                                                 <b> Tgl : </b>{{data.tglNota}}<br>
-                                                <b> Meja No : </b>{{data.noMeja}}<br>
+                                                <b> Mekanik : </b>{{data.mekanikNota}}<br>
                                             </address>
                                             </div>
                                             <!-- /.col -->
@@ -59,9 +59,9 @@
                                                         <tbody>
                                                         <tr v-for="pe in pem" :key="pe.id">
                                                             <td>{{ pe.nmBarang }} </td>
-                                                            <td>{{ pe.qty}}</td>
+                                                            <td>{{ pe.qtyJual}}</td>
                                                             <td>{{ pe.hrgJual | currency }}</td>
-                                                            <td>{{ pe.qty * pe.hrgJual | currency }}</td>
+                                                            <td>{{ pe.qtyJual * pe.hrgJual | currency }}</td>
 
                                                         </tr>
                                                         </tbody>
@@ -96,7 +96,7 @@ export default {
     created() {
             this.loadData()
             //this.something()
-            this.loadDetailPenjualan()
+            //this.loadDetailPenjualan()
         },
    
        
@@ -115,6 +115,7 @@ export default {
             });
             },
             loadDetailPenjualan:function(){
+                this.showModalPenjualan = true;
                 let uri = '/api/detailpenjualan/'+ this.data.noNota;
                 this.axios.post(uri).then(response => {
                     this.pem = response.data.data;

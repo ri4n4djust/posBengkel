@@ -15,8 +15,9 @@ class penjualanController extends Controller
     //
     public function index()
     {
-        $posts = Penjualan::join('tblMeja', 'tblPenjualan.noMeja', 'tblMeja.id')
+        $posts = Penjualan::join('tblPelanggan', 'tblPenjualan.pelangganNota', 'tblPelanggan.kodePelanggan')
                 ->join('users', 'tblPenjualan.userNota', 'users.id')
+                ->select('tblPenjualan.*', 'tblPelanggan.namaPelanggan', 'users.name')
                 ->get();
         return response([
             'success' => true,
@@ -53,7 +54,9 @@ class penjualanController extends Controller
     {
         //$post = TransaksiDetail::whereId($id)->first();
         $post = DB::table('tblPenjualanDetail')
-                    ->where('noNota', $id)->get();
+                    ->join('tblBarang', 'tblPenjualandetail.kdBarang', 'tblBarang.kdBarang' )
+                    ->select('tblPenjualanDetail.*', 'tblBarang.nmBarang')
+                    ->where('tblPenjualanDetail.noNotaPenjualan', $id)->get();
 
         if ($post) {
             return response()->json([
