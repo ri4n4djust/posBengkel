@@ -12050,6 +12050,644 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/GrandJualCreate.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/GrandJualCreate.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue2_datepicker__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue2-datepicker */ "./node_modules/vue2-datepicker/index.esm.js");
+/* harmony import */ var vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue2-datepicker/index.css */ "./node_modules/vue2-datepicker/index.css");
+/* harmony import */ var vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vue_single_select__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-single-select */ "./node_modules/vue-single-select/dist/index.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    DatePicker: vue2_datepicker__WEBPACK_IMPORTED_MODULE_0__["default"],
+    VueSingleSelect: vue_single_select__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  data: function data() {
+    return {
+      post: {},
+      posts: [],
+      post1: {},
+      users: {},
+      pem: {},
+      qtyJual: '',
+      qtySa: '',
+      hrgJual: '',
+      subTotal: '',
+      totalBayar: '',
+      subtotal: '',
+      ntp: '',
+      satuanJual: '',
+      pajak: '',
+      diskon: '',
+      pembayaran: '1',
+      totalTransaksiBayar: '',
+      totalTransaksipjk: '',
+      diskon1: '',
+      pelanggan: 'PL-2021-1',
+      tglNota: new Date().toJSON().slice(0, 10).replace(/-/g, '/'),
+      liftNo: '1',
+      mekanikNota: 'mekanik 1',
+      typePenjualan: '1',
+      termPenjualan: '0',
+      piutangPenjualan: '',
+      totalx: '',
+      //noNotaPenjualan: '',
+      totalPenjualan: '',
+      tglPenjualan: new Date().toJSON().slice(0, 10).replace(/-/g, '/'),
+      validation: [],
+      showModal: false,
+      showModalMenu: false,
+      showModalBayar: false
+    };
+  },
+  watch: {
+    post: function post() {
+      this.$emit('input', this.post);
+    }
+  },
+  //props: ['value'],
+  props: {
+    value: {
+      require: true
+    },
+    options: {
+      type: Array,
+      required: false,
+      "default": function _default() {
+        return [];
+      }
+    },
+    optionLabel: {
+      type: String,
+      required: false,
+      "default": function _default() {
+        return null;
+      }
+    },
+    optionKey: {
+      type: String,
+      required: false,
+      "default": function _default() {
+        return null;
+      }
+    },
+    placeholder: {
+      type: String,
+      required: false,
+      "default": function _default() {
+        return "Cari Barang";
+      }
+    },
+    getOptionDescription: {
+      type: Function,
+      "default": function _default(option) {
+        if (this.optionKey && this.optionLabel) {
+          return option[this.optionKey] + " - " + option[this.optionLabel];
+        }
+
+        if (this.optionLabel) {
+          return option[this.optionLabel];
+        }
+
+        if (this.optionKey) {
+          return option[this.optionKey];
+        }
+
+        return option;
+      }
+    }
+  },
+  methods: {
+    detailPiutang: function detailPiutang() {
+      alert("tess");
+    },
+    onlyNumber: function onlyNumber($event) {
+      //console.log($event.keyCode); //keyCodes value
+      var keyCode = $event.keyCode ? $event.keyCode : $event.which;
+
+      if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+        // 46 is dot
+        $event.preventDefault();
+      }
+    },
+    loadTotal: function loadTotal() {
+      var _this = this;
+
+      var uri = '/api/totalTrxPenjualan';
+      this.axios.post(uri, {
+        ntp: this.noNotaPenjualan
+      }).then(function (response) {
+        //alert('mount' + this.noNotaPembelian)
+        _this.subtotal = response.data.subTotalJual;
+      })["catch"](function (error) {
+        console.log(error.response);
+      });
+    },
+    loadNotaPenjualan: function loadNotaPenjualan() {
+      var _this2 = this;
+
+      var uri = "/api/kodePenjualan";
+      this.axios.get(uri).then(function (response) {
+        _this2.noNotaPenjualan = response.data.noNota;
+      });
+    },
+    LoadPelanggan: function LoadPelanggan() {
+      var _this3 = this;
+
+      var uri = '/api/pelanggan';
+      this.axios.get(uri).then(function (response) {
+        _this3.posts = response.data.data;
+      });
+    },
+    loadBarang: function loadBarang() {
+      var _this4 = this;
+
+      var uri = '/api/posts';
+      this.axios.get(uri).then(function (response) {
+        _this4.users = response.data.data;
+      });
+    },
+    loadTransaksiPenjualan: function loadTransaksiPenjualan() {
+      var _this5 = this;
+
+      var uri = '/api/dataPenjualan/' + this.noNotaPenjualan;
+      this.axios.get(uri).then(function (response) {
+        _this5.pem = response.data.data; // alert('no nota '+ this.data.noNota);
+      })["catch"](function (error) {
+        console.log(error.response);
+      });
+    },
+    PostDeleteTrx: function PostDeleteTrx(id) {
+      var _this6 = this;
+
+      if (confirm("Do you really want to delete?")) {
+        this.axios["delete"]("/api/penjualanDelete/".concat(id)).then(function (response) {
+          alert('Berhasil Di Hapus');
+
+          _this6.loadTotal();
+
+          _this6.loadTransaksiPenjualan();
+        })["catch"](function (error) {});
+      }
+    },
+    PostItemPenjualan: function PostItemPenjualan() {
+      var _this7 = this;
+
+      var uri = '/api/addItemPenjualan/store';
+      this.axios.post(uri, {
+        noNotaPenjualan: this.noNotaPenjualan,
+        kdBarang: this.post1.kdBarang,
+        hrgJual: this.post1.hrgJual,
+        qtyJual: this.qtyJual,
+        totalJual: this.post1.hrgJual * this.qtyJual,
+        tglPenjualan: this.tglPenjualan,
+        satuanJual: this.post1.satuanBarang
+      }).then(function (response) {
+        _this7.loadTotal();
+
+        _this7.loadTransaksiPenjualan();
+
+        alert('sukses donkkkkkkkk');
+        document.getElementById("anyName").reset(); //this.loadTransaksiPenjualan()
+        //this.loadTotal()
+      });
+    },
+    PostJasaPenjualan: function PostJasaPenjualan() {
+      var _this8 = this;
+
+      var uri = '/api/addJasaPenjualan/store';
+      this.axios.post(uri, {
+        noNotaPenjualan: this.noNotaPenjualan,
+        kdBarang: this.post1.kdBarang,
+        hrgJual: this.post1.hrgJual,
+        qtyJual: this.qtyJual,
+        totalJual: this.post1.hrgJual * this.qtyJual,
+        tglNotaPenjualan: this.tglPenjualan
+      }).then(function (response) {
+        _this8.loadTotal();
+
+        _this8.loadTransaksiPenjualan();
+
+        alert('sukses donkkkkkkkk');
+        document.getElementById("anyName").reset(); //this.loadTransaksiPenjualan()
+        //this.loadTotal()
+      });
+    },
+    PostTransaksiPenjualan: function PostTransaksiPenjualan() {
+      var _this9 = this;
+
+      var uri = '/api/addPenjualan/store';
+      this.axios.post(uri, {
+        noNota: this.noNotaPenjualan,
+        liftNo: this.liftNo,
+        pelanggan: this.post.kodePelanggan,
+        tglNota: this.tglPenjualan,
+        taxNota: this.subtotal * this.pajak / 100,
+        diskonNota: (this.subtotal * this.pajak / 100 + this.subtotal) * this.diskon / 100,
+        totalNota: this.subtotal * this.pajak / 100 + this.subtotal - (this.subtotal * this.pajak / 100 + this.subtotal) * this.diskon / 100,
+        bayarNota: this.totalBayar,
+        userNota: this.$session.get('userId'),
+        mekanikNota: this.mekanikNota,
+        kembalianNota: this.totalBayar - (this.subtotal * this.pajak / 100 + this.subtotal - (this.subtotal * this.pajak / 100 + this.subtotal) * this.diskon / 100),
+        typeNota: this.typePenjualan,
+        termNota: this.termPenjualan,
+        piutangNota: Math.abs(this.totalBayar - (this.subtotal * this.pajak / 100 + this.subtotal - (this.subtotal * this.pajak / 100 + this.subtotal) * this.diskon / 100))
+      }).then(function (response) {
+        alert('Transaksi Selesai');
+
+        _this9.$router.go(0); //this.$router.push({name: 'pembelian'});
+
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.piutangPenjualan = this.subtotal;
+    this.totalx = totalBayar - (subtotal * pajak / 100 + subtotal - (subtotal * pajak / 100 + subtotal) * diskon / 100);
+  },
+  beforeCreate: function beforeCreate() {
+    if (!this.$session.exists()) {
+      this.$router.push('/');
+    }
+
+    ;
+    this.loadNotaPenjualan();
+  },
+  created: function created() {
+    this.loadNotaPenjualan();
+    this.loadBarang();
+    this.LoadPelanggan();
+    this.loadTransaksiPenjualan();
+    this.loadTotal();
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Home.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Home.vue?vue&type=script&lang=js& ***!
@@ -13039,6 +13677,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -13074,6 +13719,8 @@ __webpack_require__.r(__webpack_exports__);
       mekanikNota: 'mekanik 1',
       typePenjualan: '1',
       termPenjualan: '0',
+      piutangPenjualan: '',
+      totalx: '',
       //noNotaPenjualan: '',
       totalPenjualan: '',
       tglPenjualan: new Date().toJSON().slice(0, 10).replace(/-/g, '/'),
@@ -13268,7 +13915,10 @@ __webpack_require__.r(__webpack_exports__);
         bayarNota: this.totalBayar,
         userNota: this.$session.get('userId'),
         mekanikNota: this.mekanikNota,
-        kembalianNota: this.totalBayar - (this.subtotal * this.pajak / 100 + this.subtotal - (this.subtotal * this.pajak / 100 + this.subtotal) * this.diskon / 100)
+        kembalianNota: this.totalBayar - (this.subtotal * this.pajak / 100 + this.subtotal - (this.subtotal * this.pajak / 100 + this.subtotal) * this.diskon / 100),
+        typeNota: this.typePenjualan,
+        termNota: this.termPenjualan,
+        piutangNota: Math.abs(this.totalBayar - (this.subtotal * this.pajak / 100 + this.subtotal - (this.subtotal * this.pajak / 100 + this.subtotal) * this.diskon / 100))
       }).then(function (response) {
         alert('Transaksi Selesai');
 
@@ -13276,6 +13926,10 @@ __webpack_require__.r(__webpack_exports__);
 
       });
     }
+  },
+  mounted: function mounted() {
+    this.piutangPenjualan = this.subtotal;
+    this.totalx = totalBayar - (subtotal * pajak / 100 + subtotal - (subtotal * pajak / 100 + subtotal) * diskon / 100);
   },
   beforeCreate: function beforeCreate() {
     if (!this.$session.exists()) {
@@ -14477,8 +15131,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component("data-table", _andresouzaab
           sortable: false,
           searchable: false
         }, {
-          key: "kembalianNota",
-          title: "Kembalian",
+          key: "piutangNota",
+          title: "Piutang",
           sortable: false,
           searchable: false
         }, {
@@ -55839,6 +56493,1330 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/GrandJualCreate.vue?vue&type=template&id=5deffae3&":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/GrandJualCreate.vue?vue&type=template&id=5deffae3& ***!
+  \******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "mt-3" }, [
+    _c("section", { staticClass: "content" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-3" }, [
+          _c("div", { staticClass: "box box-primary" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "box-body" }, [
+              _c(
+                "p",
+                { staticClass: "text-muted text-center" },
+                [
+                  _c("date-picker", {
+                    attrs: { "value-type": "format", format: "YYYY/MM/DD" },
+                    model: {
+                      value: _vm.tglPenjualan,
+                      callback: function($$v) {
+                        _vm.tglPenjualan = $$v
+                      },
+                      expression: "tglPenjualan"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("p", { staticClass: "text-muted text-center" }),
+              _c(
+                "div",
+                { staticClass: "input-group" },
+                [
+                  _c("span", { staticClass: "input-group-addon" }, [
+                    _vm._v("Cust.")
+                  ]),
+                  _vm._v(" "),
+                  _c("vue-single-select", {
+                    attrs: {
+                      options: _vm.posts,
+                      required: true,
+                      optionLabel: "namaPelanggan",
+                      onchange: "detailPiutang()"
+                    },
+                    model: {
+                      value: _vm.post,
+                      callback: function($$v) {
+                        _vm.post = $$v
+                      },
+                      expression: "post"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("p", { staticClass: "text-muted text-center" }),
+              _c("div", { staticClass: "input-group" }, [
+                _c("span", { staticClass: "input-group-addon" }, [
+                  _vm._v("INV.")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.noNotaPenjualan,
+                      expression: "noNotaPenjualan"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", placeholder: "No nota" },
+                  domProps: { value: _vm.noNotaPenjualan },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.noNotaPenjualan = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("p", { staticClass: "text-muted text-center" }),
+              _c("div", { staticClass: "input-group" }, [
+                _c("span", { staticClass: "input-group-addon" }, [
+                  _vm._v("Type")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.typePenjualan,
+                        expression: "typePenjualan"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { required: "" },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.typePenjualan = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { value: "1" } }, [_vm._v("Cash")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "2" } }, [_vm._v("Kredit")])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("p", { staticClass: "text-muted text-center" }),
+              _vm.typePenjualan === "2"
+                ? _c("div", [
+                    _c("div", { staticClass: "input-group" }, [
+                      _c("span", { staticClass: "input-group-addon" }, [
+                        _vm._v("Term")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.termPenjualan,
+                            expression: "termPenjualan"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.termPenjualan },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.termPenjualan = $event.target.value
+                          }
+                        }
+                      })
+                    ])
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("input", {
+                staticClass: "form-control",
+                attrs: { type: "hidden", name: _vm.totalPenjualan },
+                domProps: { value: _vm.subtotal }
+              }),
+              _vm._v(" "),
+              _c("h3", { staticClass: "profile-username text-center" }, [
+                _vm._v("Total " + _vm._s(_vm._f("currency")(_vm.subtotal || 0)))
+              ]),
+              _vm._v(" "),
+              _c("p", { staticClass: "text-muted text-center" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-primary btn-block",
+                    attrs: { href: "#" },
+                    on: {
+                      click: function($event) {
+                        _vm.showModalBayar = true
+                      }
+                    }
+                  },
+                  [_c("b", [_vm._v("Payment")])]
+                )
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-9" }, [
+          _c("div", { staticClass: "box box-danger" }, [
+            _vm._m(1),
+            _vm._v(" "),
+            _c("div", { staticClass: "box-body" }, [
+              _c(
+                "form",
+                {
+                  attrs: { id: "anyName" },
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.PostItemPenjualan($event)
+                    }
+                  }
+                },
+                [
+                  _c("vue-single-select", {
+                    attrs: {
+                      options: _vm.users,
+                      required: true,
+                      optionLabel: "nmBarang",
+                      optionKey: "barcode"
+                    },
+                    model: {
+                      value: _vm.post1,
+                      callback: function($$v) {
+                        _vm.post1 = $$v
+                      },
+                      expression: "post1"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-xs-2" }, [
+                      _c("label", [_vm._v("Satuan")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.post1.satuanBarang,
+                            expression: "post1.satuanBarang"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          placeholder: "Satuan",
+                          disabled: ""
+                        },
+                        domProps: { value: _vm.post1.satuanBarang },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.post1,
+                              "satuanBarang",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-xs-2" }, [
+                      _c("label", [_vm._v("Harga")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.post1.hrgJual,
+                            expression: "post1.hrgJual"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", placeholder: "Harga" },
+                        domProps: { value: _vm.post1.hrgJual },
+                        on: {
+                          keypress: _vm.onlyNumber,
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.post1, "hrgJual", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-xs-2" }, [
+                      _c("label", [_vm._v("Qty")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.qtyJual,
+                            expression: "qtyJual"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", placeholder: "Qty" },
+                        domProps: { value: _vm.qtyJual },
+                        on: {
+                          keypress: _vm.onlyNumber,
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.qtyJual = $event.target.value
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-xs-2" }, [
+                      _c("label", [_vm._v("Total")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          name: _vm.subTotal,
+                          placeholder: "Total"
+                        },
+                        domProps: {
+                          value: _vm.post1.hrgJual * _vm.qtyJual || 0
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(2)
+                  ])
+                ],
+                1
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("table", { staticClass: "table table-hover table-bordered" }, [
+            _vm._m(3),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.pem, function(pe) {
+                return _c("tr", { key: pe.id }, [
+                  _c("td", [_vm._v(_vm._s(pe.nmBarang) + " ")]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(pe.qtyJual))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(_vm._f("currency")(pe.hrgJual)))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(_vm._f("currency")(pe.totalJual)))]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-center" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-sm btn-danger",
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.PostDeleteTrx(pe.id)
+                          }
+                        }
+                      },
+                      [_vm._v("HAPUS")]
+                    )
+                  ])
+                ])
+              }),
+              0
+            )
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _vm.showModalBayar
+      ? _c(
+          "div",
+          [
+            _c("transition", { attrs: { name: "modal" } }, [
+              _c("div", { staticClass: "modal-mask" }, [
+                _c("div", { staticClass: "modal-wrapper" }, [
+                  _c("div", { staticClass: "modal-dialog" }, [
+                    _c("div", { staticClass: "modal-content" }, [
+                      _c("div", { staticClass: "modal-header" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "close",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                _vm.showModalBayar = false
+                              }
+                            }
+                          },
+                          [
+                            _c("span", { attrs: { "aria-hidden": "true" } }, [
+                              _vm._v("×")
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("h4", { staticClass: "modal-title" }, [
+                          _vm._v("Add Payment")
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "modal-body" }, [
+                        _c(
+                          "form",
+                          {
+                            on: {
+                              submit: function($event) {
+                                $event.preventDefault()
+                                return _vm.PostTransaksiPenjualan($event)
+                              }
+                            }
+                          },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.tglPenjualan,
+                                  expression: "tglPenjualan"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { type: "hidden" },
+                              domProps: { value: _vm.tglPenjualan },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.tglPenjualan = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.post.kodePelanggan,
+                                  expression: "post.kodePelanggan"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { type: "text", placeholder: "Customer" },
+                              domProps: { value: _vm.post.kodePelanggan },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.post,
+                                    "kodePelanggan",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.noNotaPenjualan,
+                                  expression: "noNotaPenjualan"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { type: "hidden", placeholder: "No nota" },
+                              domProps: { value: _vm.noNotaPenjualan },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.noNotaPenjualan = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.subtotal,
+                                  expression: "subtotal"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { type: "hidden" },
+                              domProps: { value: _vm.subtotal },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.subtotal = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.liftNo,
+                                  expression: "liftNo"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { type: "hidden" },
+                              domProps: { value: _vm.liftNo },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.liftNo = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.mekanikNota,
+                                  expression: "mekanikNota"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { type: "hidden" },
+                              domProps: { value: _vm.mekanikNota },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.mekanikNota = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.typePenjualan,
+                                  expression: "typePenjualan"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { type: "hidden" },
+                              domProps: { value: _vm.typePenjualan },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.typePenjualan = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.termPenjualan,
+                                  expression: "termPenjualan"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { type: "hidden" },
+                              domProps: { value: _vm.termPenjualan },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.termPenjualan = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: {
+                                type: "hidden",
+                                name: _vm.pitangPenjualan
+                              },
+                              domProps: {
+                                value: Math.abs(
+                                  _vm.totalBayar -
+                                    ((_vm.subtotal * _vm.pajak) / 100 +
+                                      _vm.subtotal -
+                                      (((_vm.subtotal * _vm.pajak) / 100 +
+                                        _vm.subtotal) *
+                                        _vm.diskon) /
+                                        100)
+                                )
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("p", { staticClass: "text-muted text-center" }, [
+                              _c("input", {
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "hidden",
+                                  name: _vm.totalTransaksiBayar
+                                },
+                                domProps: {
+                                  value:
+                                    (_vm.subtotal * _vm.pajak) / 100 +
+                                      _vm.subtotal -
+                                      (((_vm.subtotal * _vm.pajak) / 100 +
+                                        _vm.subtotal) *
+                                        _vm.diskon) /
+                                        100 || 0
+                                }
+                              })
+                            ]),
+                            _c("h3", { staticClass: "profile-username " }, [
+                              _vm._v(
+                                "Total " +
+                                  _vm._s(
+                                    _vm._f("currency")(
+                                      (_vm.subtotal * _vm.pajak) / 100 +
+                                        _vm.subtotal -
+                                        (((_vm.subtotal * _vm.pajak) / 100 +
+                                          _vm.subtotal) *
+                                          _vm.diskon) /
+                                          100 || 0
+                                    )
+                                  )
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "row input-group" }, [
+                              _c("div", { staticClass: "col-md-4" }, [
+                                _c(
+                                  "span",
+                                  { staticClass: "input-group-addon" },
+                                  [_vm._v("Tax in %")]
+                                ),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.pajak,
+                                      expression: "pajak"
+                                    }
+                                  ],
+                                  staticClass: "form-control ",
+                                  attrs: { type: "number", placeholder: "Tax" },
+                                  domProps: { value: _vm.pajak },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.pajak = $event.target.value
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "hidden",
+                                    name: _vm.totalTransaksipjk
+                                  },
+                                  domProps: {
+                                    value:
+                                      (_vm.subtotal * _vm.pajak) / 100 +
+                                      _vm.subtotal
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-md-4" }, [
+                                _c(
+                                  "span",
+                                  { staticClass: "input-group-addon" },
+                                  [_vm._v("Disc in %")]
+                                ),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.diskon,
+                                      expression: "diskon"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "number",
+                                    placeholder: "Diskon"
+                                  },
+                                  domProps: { value: _vm.diskon },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.diskon = $event.target.value
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: { type: "hidden", name: _vm.diskon1 },
+                                  domProps: {
+                                    value:
+                                      (((_vm.subtotal * _vm.pajak) / 100 +
+                                        _vm.subtotal) *
+                                        _vm.diskon) /
+                                      100
+                                  }
+                                })
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.pembayaran,
+                                    expression: "pembayaran"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                on: {
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.pembayaran = $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  }
+                                }
+                              },
+                              [
+                                _c(
+                                  "option",
+                                  { attrs: { value: "1", selected: "" } },
+                                  [_vm._v("Cash")]
+                                ),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "2" } }, [
+                                  _vm._v("Debit")
+                                ]),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "3" } }, [
+                                  _vm._v("E-Money")
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(" "),
+                            _vm.pembayaran === "1"
+                              ? _c("div", [
+                                  _c("div", { staticClass: "input-group" }, [
+                                    _c(
+                                      "span",
+                                      { staticClass: "input-group-addon" },
+                                      [_vm._v("Rp.")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.totalBayar,
+                                          expression: "totalBayar"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "number",
+                                        placeholder: "Bayar",
+                                        required: ""
+                                      },
+                                      domProps: { value: _vm.totalBayar },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.totalBayar = $event.target.value
+                                        }
+                                      }
+                                    })
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "h3",
+                                    { staticClass: "profile-username " },
+                                    [
+                                      _vm._v(
+                                        "Kembali : " +
+                                          _vm._s(
+                                            _vm._f("currency")(
+                                              _vm.totalBayar -
+                                                ((_vm.subtotal * _vm.pajak) /
+                                                  100 +
+                                                  _vm.subtotal -
+                                                  (((_vm.subtotal * _vm.pajak) /
+                                                    100 +
+                                                    _vm.subtotal) *
+                                                    _vm.diskon) /
+                                                    100) || 0
+                                            )
+                                          )
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "p",
+                                    { staticClass: "text-muted text-center" },
+                                    [
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass: "btn btn-md btn-success",
+                                          attrs: { type: "submit" }
+                                        },
+                                        [_vm._v("Bayar")]
+                                      )
+                                    ]
+                                  )
+                                ])
+                              : _vm.pembayaran === "2"
+                              ? _c("div", [
+                                  _c("div", { staticClass: "input-group" }, [
+                                    _c(
+                                      "span",
+                                      { staticClass: "input-group-addon" },
+                                      [_vm._v("Card Carge %")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.taxDebit,
+                                          expression: "taxDebit"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "number",
+                                        placeholder: "0"
+                                      },
+                                      domProps: { value: _vm.taxDebit },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.taxDebit = $event.target.value
+                                        }
+                                      }
+                                    })
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("br"),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "input-group" }, [
+                                    _c(
+                                      "span",
+                                      { staticClass: "input-group-addon" },
+                                      [_vm._v("Card No.")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.noDebit,
+                                          expression: "noDebit"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "number",
+                                        placeholder: "No Kartu"
+                                      },
+                                      domProps: { value: _vm.noDebit },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.noDebit = $event.target.value
+                                        }
+                                      }
+                                    })
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("br"),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "input-group" }, [
+                                    _c(
+                                      "span",
+                                      { staticClass: "input-group-addon" },
+                                      [_vm._v("Rp.")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.totalBayar,
+                                          expression: "totalBayar"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "number",
+                                        placeholder: "Bayar",
+                                        required: ""
+                                      },
+                                      domProps: { value: _vm.totalBayar },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.totalBayar = $event.target.value
+                                        }
+                                      }
+                                    })
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("br"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "p",
+                                    { staticClass: "text-muted text-center" },
+                                    [
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass: "btn btn-md btn-success",
+                                          attrs: { type: "submit" }
+                                        },
+                                        [_vm._v("Bayar")]
+                                      )
+                                    ]
+                                  )
+                                ])
+                              : _vm.pembayaran === "3"
+                              ? _c("div", [
+                                  _vm._v(
+                                    "\n                             Emoney\n                           "
+                                  )
+                                ])
+                              : _vm._e()
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { attrs: { id: "printMe" } }, [
+                          _c("address", [
+                            _c("strong", [_vm._v("Bengkel Kita.")]),
+                            _c("br"),
+                            _vm._v("\n                   Jimbaran"),
+                            _c("br"),
+                            _vm._v(
+                              "\n\n                   Phone: (804) 123-5432"
+                            ),
+                            _c("br"),
+                            _vm._v(
+                              "\n                   Email: info@almasaeedstudio.com\n                 "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "col-md-4 invoice-col" }, [
+                              _c("address", [
+                                _c("strong", [_vm._v("Customer :")]),
+                                _vm._v(" " + _vm._s(_vm.pelanggan)),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c("b", [_vm._v(" Tgl : ")]),
+                                _vm._v(_vm._s(_vm.tglNota)),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c("b", [_vm._v(" Lift : ")]),
+                                _vm._v("1"),
+                                _c("br")
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-4 invoice-col" }, [
+                              _c("address", [
+                                _c("b", [_vm._v("No Inv: ")]),
+                                _vm._v(_vm._s(_vm.noNotaPenjualan)),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c("b", [_vm._v("Kasir : ")]),
+                                _vm._v(
+                                  _vm._s(_vm.$session.get("user")) +
+                                    "\n                 "
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-4 invoice-col" }, [
+                              _c("address", [
+                                _c("b", [_vm._v("Waiter : ")]),
+                                _vm._v(_vm._s(_vm.post.name)),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c("b", [_vm._v("Type : ")]),
+                                _vm._v(" "),
+                                _vm.pembayaran === "1"
+                                  ? _c("div", [
+                                      _vm._v(
+                                        "\n                   Cash\n                 "
+                                      )
+                                    ])
+                                  : _vm.pembayaran === "2"
+                                  ? _c("div", [
+                                      _vm._v(
+                                        "\n                   Debit\n                 "
+                                      )
+                                    ])
+                                  : _vm.pembayaran === "3"
+                                  ? _c("div", [
+                                      _vm._v(
+                                        "\n                   E-Money\n                 "
+                                      )
+                                    ])
+                                  : _vm._e()
+                              ])
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "table",
+                            {
+                              staticStyle: {
+                                border: "1px solid black",
+                                "border-collapse": "collapse"
+                              },
+                              attrs: { width: "90%", border: "1" }
+                            },
+                            [
+                              _c("thead", [
+                                _c("tr", [
+                                  _c("th", [_vm._v("Nama ")]),
+                                  _vm._v(" "),
+                                  _c("th", [_vm._v("Qty")]),
+                                  _vm._v(" "),
+                                  _c("th", [_vm._v("Harga")]),
+                                  _vm._v(" "),
+                                  _c("th", [_vm._v("Total")])
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "tbody",
+                                _vm._l(_vm.pem, function(trx) {
+                                  return _c("tr", { key: trx.id }, [
+                                    _c("td", [
+                                      _vm._v(_vm._s(trx.kdBarang) + " ")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [_vm._v(_vm._s(trx.qtyJual))]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(
+                                        _vm._s(_vm._f("currency")(trx.hrgJual))
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(
+                                        _vm._s(
+                                          _vm._f("currency")(trx.totalJual)
+                                        )
+                                      )
+                                    ])
+                                  ])
+                                }),
+                                0
+                              ),
+                              _vm._v(" "),
+                              _c("tfoot", [
+                                _c("tr", [
+                                  _c("th", { attrs: { colspan: "3" } }, [
+                                    _vm._v("subTotal :")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("th", [
+                                    _vm._v(
+                                      _vm._s(_vm._f("currency")(_vm.subtotal))
+                                    )
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("tr", [
+                                  _c("th", { attrs: { colspan: "3" } }, [
+                                    _vm._v("Tax & Service :")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("th", [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm._f("currency")(
+                                          (_vm.subtotal * _vm.pajak) / 100
+                                        )
+                                      )
+                                    )
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("tr", [
+                                  _c("th", { attrs: { colspan: "3" } }, [
+                                    _vm._v("Discount")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("th", [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm._f("currency")(
+                                          (((_vm.subtotal * _vm.pajak) / 100 +
+                                            _vm.subtotal) *
+                                            _vm.diskon) /
+                                            100
+                                        )
+                                      )
+                                    )
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("tr", [
+                                  _c("th", { attrs: { colspan: "3" } }, [
+                                    _vm._v("subTotal :")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("th", [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm._f("currency")(
+                                          (_vm.subtotal * _vm.pajak) / 100 +
+                                            _vm.subtotal -
+                                            (((_vm.subtotal * _vm.pajak) / 100 +
+                                              _vm.subtotal) *
+                                              _vm.diskon) /
+                                              100 || 0
+                                        )
+                                      )
+                                    )
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("tr", [
+                                  _c("th", { attrs: { colspan: "3" } }, [
+                                    _vm._v("Payment :")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("th", [
+                                    _vm._v(
+                                      _vm._s(_vm._f("currency")(_vm.totalBayar))
+                                    )
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("tr", [
+                                  _c("th", { attrs: { colspan: "3" } }, [
+                                    _vm._v("Kembalian :")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("th", [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm._f("currency")(
+                                          _vm.totalBayar -
+                                            ((_vm.subtotal * _vm.pajak) / 100 +
+                                              _vm.subtotal -
+                                              (((_vm.subtotal * _vm.pajak) /
+                                                100 +
+                                                _vm.subtotal) *
+                                                _vm.diskon) /
+                                                100) || 0
+                                        )
+                                      )
+                                    )
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("tr", [
+                                  _c("th", { attrs: { colspan: "5" } }, [
+                                    _vm._v("Terima Kasih Telah Berbelanja")
+                                  ])
+                                ])
+                              ])
+                            ]
+                          )
+                        ])
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ],
+          1
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box-header with-border" }, [
+      _c("h3", { staticClass: "box-title" }, [_vm._v("Grand Jual")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box-header with-border" }, [
+      _c("h3", { staticClass: "box-title" }, [_vm._v("Cari Barang")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-xs-2" }, [
+      _c("label", [_vm._v("Aksi")]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-md btn-success form-control",
+          attrs: { type: "submit" }
+        },
+        [_vm._v("Add")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Nama ")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Qty")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Harga")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Total")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("AKSI")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Home.vue?vue&type=template&id=f2b6376c&":
 /*!*******************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Home.vue?vue&type=template&id=f2b6376c& ***!
@@ -57237,7 +59215,7 @@ var render = function() {
                                 }
                               ],
                               staticClass: "form-control",
-                              attrs: { type: "text" },
+                              attrs: { type: "hidden" },
                               domProps: { value: _vm.liftNo },
                               on: {
                                 input: function($event) {
@@ -57259,7 +59237,7 @@ var render = function() {
                                 }
                               ],
                               staticClass: "form-control",
-                              attrs: { type: "text" },
+                              attrs: { type: "hidden" },
                               domProps: { value: _vm.mekanikNota },
                               on: {
                                 input: function($event) {
@@ -57268,6 +59246,69 @@ var render = function() {
                                   }
                                   _vm.mekanikNota = $event.target.value
                                 }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.typePenjualan,
+                                  expression: "typePenjualan"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { type: "hidden" },
+                              domProps: { value: _vm.typePenjualan },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.typePenjualan = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.termPenjualan,
+                                  expression: "termPenjualan"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { type: "hidden" },
+                              domProps: { value: _vm.termPenjualan },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.termPenjualan = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: {
+                                type: "hidden",
+                                name: _vm.pitangPenjualan
+                              },
+                              domProps: {
+                                value: Math.abs(
+                                  _vm.totalBayar -
+                                    ((_vm.subtotal * _vm.pajak) / 100 +
+                                      _vm.subtotal -
+                                      (((_vm.subtotal * _vm.pajak) / 100 +
+                                        _vm.subtotal) *
+                                        _vm.diskon) /
+                                        100)
+                                )
                               }
                             }),
                             _vm._v(" "),
@@ -57306,7 +59347,7 @@ var render = function() {
                             ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "row input-group" }, [
-                              _c("div", { staticClass: "col-xs-4" }, [
+                              _c("div", { staticClass: "col-md-4" }, [
                                 _c(
                                   "span",
                                   { staticClass: "input-group-addon" },
@@ -57349,7 +59390,7 @@ var render = function() {
                                 })
                               ]),
                               _vm._v(" "),
-                              _c("div", { staticClass: "col-xs-4" }, [
+                              _c("div", { staticClass: "col-md-4" }, [
                                 _c(
                                   "span",
                                   { staticClass: "input-group-addon" },
@@ -86750,15 +88791,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_pelanggan_Edit_vue__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./components/pelanggan/Edit.vue */ "./resources/js/components/pelanggan/Edit.vue");
 /* harmony import */ var _components_PembelianCreate_vue__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./components/PembelianCreate.vue */ "./resources/js/components/PembelianCreate.vue");
 /* harmony import */ var _components_PenjualanCreate_vue__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./components/PenjualanCreate.vue */ "./resources/js/components/PenjualanCreate.vue");
-/* harmony import */ var _components_LiveOrder_vue__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./components/LiveOrder.vue */ "./resources/js/components/LiveOrder.vue");
-/* harmony import */ var _components_laporan_laporanPenjualan_vue__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./components/laporan/laporanPenjualan.vue */ "./resources/js/components/laporan/laporanPenjualan.vue");
-/* harmony import */ var _components_laporan_laporanPembelian_vue__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./components/laporan/laporanPembelian.vue */ "./resources/js/components/laporan/laporanPembelian.vue");
-/* harmony import */ var _components_laporan_laporanStokOpname_vue__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./components/laporan/laporanStokOpname.vue */ "./resources/js/components/laporan/laporanStokOpname.vue");
-/* harmony import */ var _components_stokOpname_StokOpname_vue__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./components/stokOpname/StokOpname.vue */ "./resources/js/components/stokOpname/StokOpname.vue");
-/* harmony import */ var _components_stokOpname_StokOpnameCreate_vue__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./components/stokOpname/StokOpnameCreate.vue */ "./resources/js/components/stokOpname/StokOpnameCreate.vue");
-/* harmony import */ var _components_stokInventori_StokInventori_vue__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./components/stokInventori/StokInventori.vue */ "./resources/js/components/stokInventori/StokInventori.vue");
-/* harmony import */ var _components_stokInventori_StokInventoriCreate_vue__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./components/stokInventori/StokInventoriCreate.vue */ "./resources/js/components/stokInventori/StokInventoriCreate.vue");
-/* harmony import */ var vue_currency_filter__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! vue-currency-filter */ "./node_modules/vue-currency-filter/dist/vue-currency-filter.module.js");
+/* harmony import */ var _components_GrandJualCreate_vue__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./components/GrandJualCreate.vue */ "./resources/js/components/GrandJualCreate.vue");
+/* harmony import */ var _components_LiveOrder_vue__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./components/LiveOrder.vue */ "./resources/js/components/LiveOrder.vue");
+/* harmony import */ var _components_laporan_laporanPenjualan_vue__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./components/laporan/laporanPenjualan.vue */ "./resources/js/components/laporan/laporanPenjualan.vue");
+/* harmony import */ var _components_laporan_laporanPembelian_vue__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./components/laporan/laporanPembelian.vue */ "./resources/js/components/laporan/laporanPembelian.vue");
+/* harmony import */ var _components_laporan_laporanStokOpname_vue__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./components/laporan/laporanStokOpname.vue */ "./resources/js/components/laporan/laporanStokOpname.vue");
+/* harmony import */ var _components_stokOpname_StokOpname_vue__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./components/stokOpname/StokOpname.vue */ "./resources/js/components/stokOpname/StokOpname.vue");
+/* harmony import */ var _components_stokOpname_StokOpnameCreate_vue__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./components/stokOpname/StokOpnameCreate.vue */ "./resources/js/components/stokOpname/StokOpnameCreate.vue");
+/* harmony import */ var _components_stokInventori_StokInventori_vue__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./components/stokInventori/StokInventori.vue */ "./resources/js/components/stokInventori/StokInventori.vue");
+/* harmony import */ var _components_stokInventori_StokInventoriCreate_vue__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./components/stokInventori/StokInventoriCreate.vue */ "./resources/js/components/stokInventori/StokInventoriCreate.vue");
+/* harmony import */ var vue_currency_filter__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! vue-currency-filter */ "./node_modules/vue-currency-filter/dist/vue-currency-filter.module.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -86824,7 +88866,8 @@ Vue.use(vue_html_to_paper__WEBPACK_IMPORTED_MODULE_8___default.a, options);
 
 
 
-Vue.use(vue_currency_filter__WEBPACK_IMPORTED_MODULE_35__["default"], {
+
+Vue.use(vue_currency_filter__WEBPACK_IMPORTED_MODULE_36__["default"], {
   symbol: 'Rp.',
   thousandsSeparator: '.',
   fractionCount: 0,
@@ -86906,41 +88949,45 @@ var routes = [{
   name: 'penjualan',
   path: '/penjualan',
   component: _components_PenjualanCreate_vue__WEBPACK_IMPORTED_MODULE_26__["default"]
+}, {
+  name: 'grandjual',
+  path: '/grandjual',
+  component: _components_GrandJualCreate_vue__WEBPACK_IMPORTED_MODULE_27__["default"]
 }, //=======Live Order
 {
   name: 'liveorder',
   path: '/liveorder',
-  component: _components_LiveOrder_vue__WEBPACK_IMPORTED_MODULE_27__["default"]
+  component: _components_LiveOrder_vue__WEBPACK_IMPORTED_MODULE_28__["default"]
 }, //=======Laporan
 {
   name: 'laporanpenjualan',
   path: '/laporanpenjualan',
-  component: _components_laporan_laporanPenjualan_vue__WEBPACK_IMPORTED_MODULE_28__["default"]
+  component: _components_laporan_laporanPenjualan_vue__WEBPACK_IMPORTED_MODULE_29__["default"]
 }, {
   name: 'laporanpembelian',
   path: '/laporanpembelian',
-  component: _components_laporan_laporanPembelian_vue__WEBPACK_IMPORTED_MODULE_29__["default"]
+  component: _components_laporan_laporanPembelian_vue__WEBPACK_IMPORTED_MODULE_30__["default"]
 }, {
   name: 'laporanstokopname',
   path: '/laporanstokopname',
-  component: _components_laporan_laporanStokOpname_vue__WEBPACK_IMPORTED_MODULE_30__["default"]
+  component: _components_laporan_laporanStokOpname_vue__WEBPACK_IMPORTED_MODULE_31__["default"]
 }, //=========Stok Opname
 {
   name: 'stokopname',
   path: '/stokopname',
-  component: _components_stokOpname_StokOpname_vue__WEBPACK_IMPORTED_MODULE_31__["default"]
+  component: _components_stokOpname_StokOpname_vue__WEBPACK_IMPORTED_MODULE_32__["default"]
 }, {
   name: 'stokopnamecreate',
   path: '/stokopnamecreate',
-  component: _components_stokOpname_StokOpnameCreate_vue__WEBPACK_IMPORTED_MODULE_32__["default"]
+  component: _components_stokOpname_StokOpnameCreate_vue__WEBPACK_IMPORTED_MODULE_33__["default"]
 }, {
   name: 'stokinventori',
   path: '/stokinventori',
-  component: _components_stokInventori_StokInventori_vue__WEBPACK_IMPORTED_MODULE_33__["default"]
+  component: _components_stokInventori_StokInventori_vue__WEBPACK_IMPORTED_MODULE_34__["default"]
 }, {
   name: 'stokinventoricreate',
   path: '/stokinventoricreate',
-  component: _components_stokInventori_StokInventoriCreate_vue__WEBPACK_IMPORTED_MODULE_34__["default"]
+  component: _components_stokInventori_StokInventoriCreate_vue__WEBPACK_IMPORTED_MODULE_35__["default"]
 }, //=========Home
 {
   name: 'home',
@@ -86999,6 +89046,75 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/components/GrandJualCreate.vue":
+/*!*****************************************************!*\
+  !*** ./resources/js/components/GrandJualCreate.vue ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _GrandJualCreate_vue_vue_type_template_id_5deffae3___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GrandJualCreate.vue?vue&type=template&id=5deffae3& */ "./resources/js/components/GrandJualCreate.vue?vue&type=template&id=5deffae3&");
+/* harmony import */ var _GrandJualCreate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GrandJualCreate.vue?vue&type=script&lang=js& */ "./resources/js/components/GrandJualCreate.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _GrandJualCreate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _GrandJualCreate_vue_vue_type_template_id_5deffae3___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _GrandJualCreate_vue_vue_type_template_id_5deffae3___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/GrandJualCreate.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/GrandJualCreate.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/GrandJualCreate.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GrandJualCreate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./GrandJualCreate.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/GrandJualCreate.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GrandJualCreate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/GrandJualCreate.vue?vue&type=template&id=5deffae3&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/GrandJualCreate.vue?vue&type=template&id=5deffae3& ***!
+  \************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GrandJualCreate_vue_vue_type_template_id_5deffae3___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./GrandJualCreate.vue?vue&type=template&id=5deffae3& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/GrandJualCreate.vue?vue&type=template&id=5deffae3&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GrandJualCreate_vue_vue_type_template_id_5deffae3___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GrandJualCreate_vue_vue_type_template_id_5deffae3___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 

@@ -257,6 +257,11 @@ class penjualanController extends Controller
 
     public function addTransaksiPenjualan(Request $request)
     {
+        if($request->input('typeNota') == '2'){
+            $sisaPiutang = $request->input('piutangNota');
+        }else{
+            $sisaPiutang = '0';
+        }
         $post = Penjualan::create([
             'noNota'     => $request->input('noNota'),
             'liftNo'     => $request->input('liftNo'),
@@ -269,6 +274,9 @@ class penjualanController extends Controller
             'pelangganNota'     => $request->input('pelanggan'),
             'userNota'     => $request->input('userNota'),
             'mekanikNota'     => $request->input('mekanikNota'),
+            'typeNota'      =>$request->input('typeNota'),
+            'termNota'      =>$request->input('termNota'),
+            'piutangNota'   =>$sisaPiutang,
         ]);
 
             if ($post) {

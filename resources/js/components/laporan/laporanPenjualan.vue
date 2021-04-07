@@ -235,8 +235,8 @@ Vue.component("data-table", DataTable);
                             searchable: false,
                         },
                         {
-                            key: "kembalianNota",
-                            title: "Kembalian",
+                            key: "piutangNota",
+                            title: "Piutang",
                             sortable: false,
                             searchable: false,
                         },

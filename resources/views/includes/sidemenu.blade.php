@@ -55,7 +55,11 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="{{url('/pembelian')}}"><i class="fa fa-circle-o"></i>Pembelian</a></li>
+            <li><a href="{{url('/grandbeli')}}"><i class="fa fa-circle-o"></i>Grand Beli</a></li>
             <li><a href="{{url('/penjualan')}}"><i class="fa fa-circle-o"></i>Penjualan</a></li>
+            <li><a href="{{url('/grandjual')}}"><i class="fa fa-circle-o"></i>Grand Jual</a></li>
+            <li><a href="{{url('/returpembelian')}}"><i class="fa fa-circle-o"></i>Retur Pembelian</a></li>
+            <li><a href="{{url('/returpenjualan')}}"><i class="fa fa-circle-o"></i>Retur Penjualan</a></li>
           </ul>
         </li>
         <li>
@@ -71,9 +75,11 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{url('/laporanpenjualan')}}"><i class="fa fa-circle-o"></i>Laporan Penjualan</a></li>
-            <li><a href="{{url('/laporanpembelian')}}"><i class="fa fa-circle-o"></i>Laporan Pembelian</a></li>
-            <li><a href="{{url('/laporanstokopname')}}"><i class="fa fa-circle-o"></i>Laporan Stok Opname</a></li>
+            <li><a href="{{url('/laporanpenjualan')}}"><i class="fa fa-circle-o"></i>Lap. Penjualan</a></li>
+            <li><a href="{{url('/laporanpembelian')}}"><i class="fa fa-circle-o"></i>Lap. Pembelian</a></li>
+            <li><a href="{{url('/laporanpiutang')}}"><i class="fa fa-circle-o"></i>Lap. Piutang</a></li>
+            <li><a href="{{url('/laporanhutang')}}"><i class="fa fa-circle-o"></i>Lap. Hutang</a></li>
+            <li><a href="{{url('/laporanstokopname')}}"><i class="fa fa-circle-o"></i>Lap. Stok Opname</a></li>
           </ul>
         </li>
         

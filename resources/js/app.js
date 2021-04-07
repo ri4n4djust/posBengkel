@@ -80,6 +80,7 @@ import EditCustComponent from './components/pelanggan/Edit.vue';
 
 import CreatePembelian from './components/PembelianCreate.vue';
 import CreatePenjualan from './components/PenjualanCreate.vue';
+import CreateGrandJual from './components/GrandJualCreate.vue';
 import liveorder from './components/LiveOrder.vue';
 
 
@@ -197,6 +198,11 @@ const routes = [
         name: 'penjualan',
         path: '/penjualan',
         component: CreatePenjualan
+    },
+    {
+        name: 'grandjual',
+        path: '/grandjual',
+        component: CreateGrandJual
     },
     //=======Live Order
     {

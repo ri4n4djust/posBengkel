@@ -9,7 +9,7 @@
           <!-- About Me Box -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Penjualan</h3>
+              <h3 class="box-title">Grand Jual</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -24,7 +24,8 @@
                             v-model="post"
                             :options="posts"
                             :required="true"
-                            optionLabel="namaPelanggan" 
+                            optionLabel="namaPelanggan"
+                            onchange="detailPiutang()" 
                 ></vue-single-select>
                   </div>
                
@@ -448,6 +449,9 @@
         },
 
         methods: {
+          detailPiutang(){
+            alert("tess");
+          },
           onlyNumber ($event) {
                 //console.log($event.keyCode); //keyCodes value
                 let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
