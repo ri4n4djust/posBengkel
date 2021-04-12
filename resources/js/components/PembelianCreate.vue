@@ -252,7 +252,8 @@
                 showModalMenu: false,
                 showModalBayar: false,
                 typePembelian: '1',
-                termPembelian: '',
+                termPembelian: '0',
+                hutangPembelian: '0',
             }
         },
 
@@ -395,6 +396,9 @@
                     tglNotaPembelian: this.tglPembelian,
                     totalNotaPembelian: this.subtotal,
                     userPembelian: this.$session.get('userId'),
+                    typePembelian: this.typePembelian,
+                    termPembelian: this.termPembelian,
+                    hutangPembelian: this.subtotal - this.totalBayar,
                     
                 })
                     .then((response) => {

@@ -25,6 +25,20 @@ class penjualanController extends Controller
             'data' => $posts
         ], 200);
     }
+    public function piutangPelanggan(Request $request)
+    {
+        $posts = Penjualan::join('tblPelanggan', 'tblPenjualan.pelangganNota', 'tblPelanggan.kodePelanggan')
+                ->join('users', 'tblPenjualan.userNota', 'users.id')
+                ->where('tblPenjualan.piutangNota', '!=', '0' )
+                ->where('tblPenjualan.pelangganNota', $request->input('pelanggan'))
+                ->select('tblPenjualan.*', 'tblPelanggan.namaPelanggan', 'users.name')
+                ->get();
+        return response([
+            'success' => true,
+            'message' => 'List Semua SPenjualan',
+            'data' => $posts
+        ], 200);
+    }
     public function sorting(Request $request)
     {
         //$from = date('2021/02/01');

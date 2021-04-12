@@ -12063,241 +12063,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue2-datepicker/index.css */ "./node_modules/vue2-datepicker/index.css");
 /* harmony import */ var vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var vue_single_select__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-single-select */ "./node_modules/vue-single-select/dist/index.js");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -12428,7 +12195,7 @@ __webpack_require__.r(__webpack_exports__);
     VueSingleSelect: vue_single_select__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   data: function data() {
-    return {
+    return _defineProperty({
       post: {},
       posts: [],
       post1: {},
@@ -12441,20 +12208,11 @@ __webpack_require__.r(__webpack_exports__);
       totalBayar: '',
       subtotal: '',
       ntp: '',
-      satuanJual: '',
-      pajak: '',
-      diskon: '',
       pembayaran: '1',
-      totalTransaksiBayar: '',
-      totalTransaksipjk: '',
-      diskon1: '',
       pelanggan: 'PL-2021-1',
       tglNota: new Date().toJSON().slice(0, 10).replace(/-/g, '/'),
-      liftNo: '1',
-      mekanikNota: 'mekanik 1',
-      typePenjualan: '1',
-      termPenjualan: '0',
       piutangPenjualan: '',
+      bayarpiutang: {},
       totalx: '',
       //noNotaPenjualan: '',
       totalPenjualan: '',
@@ -12463,7 +12221,7 @@ __webpack_require__.r(__webpack_exports__);
       showModal: false,
       showModalMenu: false,
       showModalBayar: false
-    };
+    }, "totalBayar", '');
   },
   watch: {
     post: function post() {
@@ -12523,8 +12281,11 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    detailPiutang: function detailPiutang() {
-      alert("tess");
+    edit: function edit(index) {
+      alert(this.pems[index]); // update using an api that returns the updated data.
+      // var updatedPhone = update(phone.id)
+      // how to update with reloading all the phone list?
+      //this.phones.splice(index, 1, updatedPhone)
     },
     onlyNumber: function onlyNumber($event) {
       //console.log($event.keyCode); //keyCodes value
@@ -12572,11 +12333,13 @@ __webpack_require__.r(__webpack_exports__);
         _this4.users = response.data.data;
       });
     },
-    loadTransaksiPenjualan: function loadTransaksiPenjualan() {
+    loadPiutang: function loadPiutang() {
       var _this5 = this;
 
-      var uri = '/api/dataPenjualan/' + this.noNotaPenjualan;
-      this.axios.get(uri).then(function (response) {
+      var uri = '/api/dataPiutang';
+      this.axios.post(uri, {
+        pelanggan: this.post.kodePelanggan
+      }).then(function (response) {
         _this5.pem = response.data.data; // alert('no nota '+ this.data.noNota);
       })["catch"](function (error) {
         console.log(error.response);
@@ -12595,51 +12358,8 @@ __webpack_require__.r(__webpack_exports__);
         })["catch"](function (error) {});
       }
     },
-    PostItemPenjualan: function PostItemPenjualan() {
-      var _this7 = this;
-
-      var uri = '/api/addItemPenjualan/store';
-      this.axios.post(uri, {
-        noNotaPenjualan: this.noNotaPenjualan,
-        kdBarang: this.post1.kdBarang,
-        hrgJual: this.post1.hrgJual,
-        qtyJual: this.qtyJual,
-        totalJual: this.post1.hrgJual * this.qtyJual,
-        tglPenjualan: this.tglPenjualan,
-        satuanJual: this.post1.satuanBarang
-      }).then(function (response) {
-        _this7.loadTotal();
-
-        _this7.loadTransaksiPenjualan();
-
-        alert('sukses donkkkkkkkk');
-        document.getElementById("anyName").reset(); //this.loadTransaksiPenjualan()
-        //this.loadTotal()
-      });
-    },
-    PostJasaPenjualan: function PostJasaPenjualan() {
-      var _this8 = this;
-
-      var uri = '/api/addJasaPenjualan/store';
-      this.axios.post(uri, {
-        noNotaPenjualan: this.noNotaPenjualan,
-        kdBarang: this.post1.kdBarang,
-        hrgJual: this.post1.hrgJual,
-        qtyJual: this.qtyJual,
-        totalJual: this.post1.hrgJual * this.qtyJual,
-        tglNotaPenjualan: this.tglPenjualan
-      }).then(function (response) {
-        _this8.loadTotal();
-
-        _this8.loadTransaksiPenjualan();
-
-        alert('sukses donkkkkkkkk');
-        document.getElementById("anyName").reset(); //this.loadTransaksiPenjualan()
-        //this.loadTotal()
-      });
-    },
     PostTransaksiPenjualan: function PostTransaksiPenjualan() {
-      var _this9 = this;
+      var _this7 = this;
 
       var uri = '/api/addPenjualan/store';
       this.axios.post(uri, {
@@ -12660,15 +12380,12 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         alert('Transaksi Selesai');
 
-        _this9.$router.go(0); //this.$router.push({name: 'pembelian'});
+        _this7.$router.go(0); //this.$router.push({name: 'pembelian'});
 
       });
     }
   },
-  mounted: function mounted() {
-    this.piutangPenjualan = this.subtotal;
-    this.totalx = totalBayar - (subtotal * pajak / 100 + subtotal - (subtotal * pajak / 100 + subtotal) * diskon / 100);
-  },
+  mounted: function mounted() {},
   beforeCreate: function beforeCreate() {
     if (!this.$session.exists()) {
       this.$router.push('/');
@@ -12680,8 +12397,8 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     this.loadNotaPenjualan();
     this.loadBarang();
-    this.LoadPelanggan();
-    this.loadTransaksiPenjualan();
+    this.LoadPelanggan(); //this.loadPiutang();
+
     this.loadTotal();
   }
 });
@@ -13149,7 +12866,8 @@ __webpack_require__.r(__webpack_exports__);
       showModalMenu: false,
       showModalBayar: false,
       typePembelian: '1',
-      termPembelian: ''
+      termPembelian: '0',
+      hutangPembelian: '0'
     };
   },
   watch: {
@@ -13309,7 +13027,10 @@ __webpack_require__.r(__webpack_exports__);
         idSupplier: this.post.kdSupplier,
         tglNotaPembelian: this.tglPembelian,
         totalNotaPembelian: this.subtotal,
-        userPembelian: this.$session.get('userId')
+        userPembelian: this.$session.get('userId'),
+        typePembelian: this.typePembelian,
+        termPembelian: this.termPembelian,
+        hutangPembelian: this.subtotal - this.totalBayar
       }).then(function (response) {
         alert('Transaksi Selesai');
 
@@ -22976,7 +22697,7 @@ exports = module.exports = __webpack_require__(/*! ../css-loader/lib/css-base.js
 
 
 // module
-exports.push([module.i, ".mx-icon-left:before,.mx-icon-right:before,.mx-icon-double-left:before,.mx-icon-double-right:before,.mx-icon-double-left:after,.mx-icon-double-right:after{content:\"\";position:relative;top:-1px;display:inline-block;width:10px;height:10px;vertical-align:middle;border-style:solid;border-color:currentColor;border-width:2px 0 0 2px;border-radius:1px;-webkit-box-sizing:border-box;box-sizing:border-box;-webkit-transform-origin:center;transform-origin:center;-webkit-transform:rotate(-45deg) scale(0.7);transform:rotate(-45deg) scale(0.7)}.mx-icon-double-left:after{left:-4px}.mx-icon-double-right:before{left:4px}.mx-icon-right:before,.mx-icon-double-right:before,.mx-icon-double-right:after{-webkit-transform:rotate(135deg) scale(0.7);transform:rotate(135deg) scale(0.7)}.mx-btn{-webkit-box-sizing:border-box;box-sizing:border-box;line-height:1;font-size:14px;font-weight:500;padding:7px 15px;margin:0;cursor:pointer;background-color:transparent;outline:none;border:1px solid rgba(0,0,0,.1);border-radius:4px;color:#73879c;white-space:nowrap}.mx-btn:hover{border-color:#1284e7;color:#1284e7}.mx-btn-text{border:0;padding:0 4px;text-align:left;line-height:inherit}.mx-scrollbar{height:100%}.mx-scrollbar:hover .mx-scrollbar-track{opacity:1}.mx-scrollbar-wrap{height:100%;overflow-x:hidden;overflow-y:auto}.mx-scrollbar-track{position:absolute;top:2px;right:2px;bottom:2px;width:6px;z-index:1;border-radius:4px;opacity:0;-webkit-transition:opacity .24s ease-out;transition:opacity .24s ease-out}.mx-scrollbar-track .mx-scrollbar-thumb{position:absolute;width:100%;height:0;cursor:pointer;border-radius:inherit;background-color:rgba(144,147,153,.3);-webkit-transition:background-color .3s;transition:background-color .3s}.mx-zoom-in-down-enter-active,.mx-zoom-in-down-leave-active{opacity:1;-webkit-transform:scaleY(1);transform:scaleY(1);-webkit-transition:opacity .3s cubic-bezier(0.23, 1, 0.32, 1),-webkit-transform .3s cubic-bezier(0.23, 1, 0.32, 1);transition:opacity .3s cubic-bezier(0.23, 1, 0.32, 1),-webkit-transform .3s cubic-bezier(0.23, 1, 0.32, 1);transition:transform .3s cubic-bezier(0.23, 1, 0.32, 1),opacity .3s cubic-bezier(0.23, 1, 0.32, 1);transition:transform .3s cubic-bezier(0.23, 1, 0.32, 1),opacity .3s cubic-bezier(0.23, 1, 0.32, 1),-webkit-transform .3s cubic-bezier(0.23, 1, 0.32, 1);-webkit-transform-origin:center top;transform-origin:center top}.mx-zoom-in-down-enter,.mx-zoom-in-down-leave-to{opacity:0;-webkit-transform:scaleY(0);transform:scaleY(0)}.mx-datepicker{position:relative;display:inline-block;width:210px}.mx-datepicker svg{width:1em;height:1em;vertical-align:-0.15em;fill:currentColor;overflow:hidden}.mx-datepicker-range{width:320px}.mx-datepicker-inline{width:auto}.mx-input-wrapper{position:relative}.mx-input-wrapper .mx-icon-clear{display:none}.mx-input-wrapper:hover .mx-icon-clear{display:block}.mx-input-wrapper:hover .mx-icon-clear+.mx-icon-calendar{display:none}.mx-input{display:inline-block;-webkit-box-sizing:border-box;box-sizing:border-box;width:100%;height:34px;padding:6px 30px;padding-left:10px;font-size:14px;line-height:1.4;color:#555;background-color:#fff;border:1px solid #ccc;border-radius:4px;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);box-shadow:inset 0 1px 1px rgba(0,0,0,.075)}.mx-input:hover,.mx-input:focus{border-color:#409aff}.mx-input:disabled,.mx-input.disabled{color:#ccc;background-color:#f3f3f3;border-color:#ccc;cursor:not-allowed}.mx-input:focus{outline:none}.mx-input::-ms-clear{display:none}.mx-icon-calendar,.mx-icon-clear{position:absolute;top:50%;right:8px;-webkit-transform:translateY(-50%);transform:translateY(-50%);font-size:16px;line-height:1;color:rgba(0,0,0,.5);vertical-align:middle}.mx-icon-clear{cursor:pointer}.mx-icon-clear:hover{color:rgba(0,0,0,.8)}.mx-datepicker-main{font:14px/1.5 \"Helvetica Neue\",Helvetica,Arial,\"Microsoft Yahei\",sans-serif;color:#73879c;background-color:#fff;border:1px solid #e8e8e8}.mx-datepicker-popup{position:absolute;margin-top:1px;margin-bottom:1px;-webkit-box-shadow:0 6px 12px rgba(0,0,0,.175);box-shadow:0 6px 12px rgba(0,0,0,.175);z-index:2001}.mx-datepicker-sidebar{float:left;-webkit-box-sizing:border-box;box-sizing:border-box;width:100px;padding:6px;overflow:auto}.mx-datepicker-sidebar+.mx-datepicker-content{margin-left:100px;border-left:1px solid #e8e8e8}.mx-datepicker-body{position:relative;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.mx-btn-shortcut{display:block;padding:0 6px;line-height:24px}.mx-range-wrapper{display:-webkit-box;display:-ms-flexbox;display:flex}@media(max-width: 750px){.mx-range-wrapper{-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column}}.mx-datepicker-header{padding:6px 8px;border-bottom:1px solid #e8e8e8}.mx-datepicker-footer{padding:6px 8px;text-align:right;border-top:1px solid #e8e8e8}.mx-calendar{-webkit-box-sizing:border-box;box-sizing:border-box;width:248px;padding:6px 12px}.mx-calendar+.mx-calendar{border-left:1px solid #e8e8e8}.mx-calendar-header,.mx-time-header{-webkit-box-sizing:border-box;box-sizing:border-box;height:34px;line-height:34px;text-align:center;overflow:hidden}.mx-btn-icon-left,.mx-btn-icon-double-left{float:left}.mx-btn-icon-right,.mx-btn-icon-double-right{float:right}.mx-calendar-header-label{font-size:14px}.mx-calendar-decade-separator{margin:0 2px}.mx-calendar-decade-separator:after{content:\"~\"}.mx-calendar-content{position:relative;height:224px;-webkit-box-sizing:border-box;box-sizing:border-box}.mx-calendar-content .cell{cursor:pointer}.mx-calendar-content .cell:hover{color:#73879c;background-color:#f3f9fe}.mx-calendar-content .cell.active{color:#fff;background-color:#1284e7}.mx-calendar-content .cell.in-range,.mx-calendar-content .cell.hover-in-range{color:#73879c;background-color:#dbedfb}.mx-calendar-content .cell.disabled{cursor:not-allowed;color:#ccc;background-color:#f3f3f3}.mx-calendar-week-mode .mx-date-row{cursor:pointer}.mx-calendar-week-mode .mx-date-row:hover{background-color:#f3f9fe}.mx-calendar-week-mode .mx-date-row.mx-active-week{background-color:#dbedfb}.mx-calendar-week-mode .mx-date-row .cell:hover{color:inherit;background-color:transparent}.mx-calendar-week-mode .mx-date-row .cell.active{color:inherit;background-color:transparent}.mx-week-number{opacity:.5}.mx-table{table-layout:fixed;border-collapse:separate;border-spacing:0;width:100%;height:100%;-webkit-box-sizing:border-box;box-sizing:border-box;text-align:center;vertical-align:middle}.mx-table th{padding:0;font-weight:500}.mx-table td{padding:0}.mx-table-date td,.mx-table-date th{height:32px;font-size:12px}.mx-table-date .today{color:#2a90e9}.mx-table-date .cell.not-current-month{color:#ccc;background:none}.mx-time{-webkit-box-flex:1;-ms-flex:1;flex:1;width:224px;background:#fff}.mx-time+.mx-time{border-left:1px solid #e8e8e8}.mx-calendar-time{position:absolute;top:0;left:0;width:100%;height:100%}.mx-time-header{border-bottom:1px solid #e8e8e8}.mx-time-content{height:224px;-webkit-box-sizing:border-box;box-sizing:border-box;overflow:hidden}.mx-time-columns{display:-webkit-box;display:-ms-flexbox;display:flex;width:100%;height:100%;overflow:hidden}.mx-time-column{-webkit-box-flex:1;-ms-flex:1;flex:1;position:relative;border-left:1px solid #e8e8e8;text-align:center}.mx-time-column:first-child{border-left:0}.mx-time-column .mx-time-list{margin:0;padding:0;list-style:none}.mx-time-column .mx-time-list::after{content:\"\";display:block;height:192px}.mx-time-column .mx-time-item{cursor:pointer;font-size:12px;height:32px;line-height:32px}.mx-time-column .mx-time-item:hover{color:#73879c;background-color:#f3f9fe}.mx-time-column .mx-time-item.active{color:#1284e7;background-color:transparent;font-weight:700}.mx-time-column .mx-time-item.disabled{cursor:not-allowed;color:#ccc;background-color:#f3f3f3}.mx-time-option{cursor:pointer;padding:8px 10px;font-size:14px;line-height:20px}.mx-time-option:hover{color:#73879c;background-color:#f3f9fe}.mx-time-option.active{color:#1284e7;background-color:transparent;font-weight:700}.mx-time-option.disabled{cursor:not-allowed;color:#ccc;background-color:#f3f3f3}\n", ""]);
+exports.push([module.i, ".mx-icon-left:before,.mx-icon-right:before,.mx-icon-double-left:before,.mx-icon-double-right:before,.mx-icon-double-left:after,.mx-icon-double-right:after{content:\"\";position:relative;top:-1px;display:inline-block;width:10px;height:10px;vertical-align:middle;border-style:solid;border-color:currentColor;border-width:2px 0 0 2px;border-radius:1px;-webkit-box-sizing:border-box;box-sizing:border-box;-webkit-transform-origin:center;transform-origin:center;-webkit-transform:rotate(-45deg) scale(0.7);transform:rotate(-45deg) scale(0.7)}.mx-icon-double-left:after{left:-4px}.mx-icon-double-right:before{left:4px}.mx-icon-right:before,.mx-icon-double-right:before,.mx-icon-double-right:after{-webkit-transform:rotate(135deg) scale(0.7);transform:rotate(135deg) scale(0.7)}.mx-btn{-webkit-box-sizing:border-box;box-sizing:border-box;line-height:1;font-size:14px;font-weight:500;padding:7px 15px;margin:0;cursor:pointer;background-color:transparent;outline:none;border:1px solid rgba(0,0,0,.1);border-radius:4px;color:#73879c;white-space:nowrap}.mx-btn:hover{border-color:#1284e7;color:#1284e7}.mx-btn-text{border:0;padding:0 4px;text-align:left;line-height:inherit}.mx-scrollbar{height:100%}.mx-scrollbar:hover .mx-scrollbar-track{opacity:1}.mx-scrollbar-wrap{height:100%;overflow-x:hidden;overflow-y:auto}.mx-scrollbar-track{position:absolute;top:2px;right:2px;bottom:2px;width:6px;z-index:1;border-radius:4px;opacity:0;-webkit-transition:opacity .24s ease-out;transition:opacity .24s ease-out}.mx-scrollbar-track .mx-scrollbar-thumb{position:absolute;width:100%;height:0;cursor:pointer;border-radius:inherit;background-color:rgba(144,147,153,.3);-webkit-transition:background-color .3s;transition:background-color .3s}.mx-zoom-in-down-enter-active,.mx-zoom-in-down-leave-active{opacity:1;-webkit-transform:scaleY(1);transform:scaleY(1);-webkit-transition:opacity .3s cubic-bezier(0.23, 1, 0.32, 1),-webkit-transform .3s cubic-bezier(0.23, 1, 0.32, 1);transition:opacity .3s cubic-bezier(0.23, 1, 0.32, 1),-webkit-transform .3s cubic-bezier(0.23, 1, 0.32, 1);transition:transform .3s cubic-bezier(0.23, 1, 0.32, 1),opacity .3s cubic-bezier(0.23, 1, 0.32, 1);transition:transform .3s cubic-bezier(0.23, 1, 0.32, 1),opacity .3s cubic-bezier(0.23, 1, 0.32, 1),-webkit-transform .3s cubic-bezier(0.23, 1, 0.32, 1);-webkit-transform-origin:center top;transform-origin:center top}.mx-zoom-in-down-enter,.mx-zoom-in-down-leave-to{opacity:0;-webkit-transform:scaleY(0);transform:scaleY(0)}.mx-datepicker{position:relative;display:inline-block;width:210px}.mx-datepicker svg{width:1em;height:1em;vertical-align:-0.15em;fill:currentColor;overflow:hidden}.mx-datepicker-range{width:320px}.mx-datepicker-inline{width:auto}.mx-input-wrapper{position:relative}.mx-input-wrapper .mx-icon-clear{display:none}.mx-input-wrapper:hover .mx-icon-clear{display:block}.mx-input-wrapper:hover .mx-icon-clear+.mx-icon-calendar{display:none}.mx-input{display:inline-block;-webkit-box-sizing:border-box;box-sizing:border-box;width:100%;height:34px;padding:6px 30px;padding-left:10px;font-size:14px;line-height:1.4;color:#555;background-color:#fff;border:1px solid #ccc;border-radius:4px;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);box-shadow:inset 0 1px 1px rgba(0,0,0,.075)}.mx-input:hover,.mx-input:focus{border-color:#409aff}.mx-input:disabled,.mx-input.disabled{color:#ccc;background-color:#f3f3f3;border-color:#ccc;cursor:not-allowed}.mx-input:focus{outline:none}.mx-input::-ms-clear{display:none}.mx-icon-calendar,.mx-icon-clear{position:absolute;top:50%;right:8px;-webkit-transform:translateY(-50%);transform:translateY(-50%);font-size:16px;line-height:1;color:rgba(0,0,0,.5);vertical-align:middle}.mx-icon-clear{cursor:pointer}.mx-icon-clear:hover{color:rgba(0,0,0,.8)}.mx-datepicker-main{font:14px/1.5 \"Helvetica Neue\",Helvetica,Arial,\"Microsoft Yahei\",sans-serif;color:#73879c;background-color:#fff;border:1px solid #e8e8e8}.mx-datepicker-popup{position:absolute;margin-top:1px;margin-bottom:1px;-webkit-box-shadow:0 6px 12px rgba(0,0,0,.175);box-shadow:0 6px 12px rgba(0,0,0,.175);z-index:2001}.mx-datepicker-sidebar{float:left;-webkit-box-sizing:border-box;box-sizing:border-box;width:100px;padding:6px;overflow:auto}.mx-datepicker-sidebar+.mx-datepicker-content{margin-left:100px;border-left:1px solid #e8e8e8}.mx-datepicker-body{position:relative;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.mx-btn-shortcut{display:block;padding:0 6px;line-height:24px}.mx-range-wrapper{display:-webkit-box;display:-ms-flexbox;display:flex}@media(max-width: 750px){.mx-range-wrapper{-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column}}.mx-datepicker-header{padding:6px 8px;border-bottom:1px solid #e8e8e8}.mx-datepicker-footer{padding:6px 8px;text-align:right;border-top:1px solid #e8e8e8}.mx-calendar{-webkit-box-sizing:border-box;box-sizing:border-box;width:248px;padding:6px 12px}.mx-calendar+.mx-calendar{border-left:1px solid #e8e8e8}.mx-calendar-header,.mx-time-header{-webkit-box-sizing:border-box;box-sizing:border-box;height:34px;line-height:34px;text-align:center;overflow:hidden}.mx-btn-icon-left,.mx-btn-icon-double-left{float:left}.mx-btn-icon-right,.mx-btn-icon-double-right{float:right}.mx-calendar-header-label{font-size:14px}.mx-calendar-decade-separator{margin:0 2px}.mx-calendar-decade-separator:after{content:\"~\"}.mx-calendar-content{position:relative;height:224px;-webkit-box-sizing:border-box;box-sizing:border-box}.mx-calendar-content .cell{cursor:pointer}.mx-calendar-content .cell:hover{color:#73879c;background-color:#f3f9fe}.mx-calendar-content .cell.active{color:#fff;background-color:#1284e7}.mx-calendar-content .cell.in-range,.mx-calendar-content .cell.hover-in-range{color:#73879c;background-color:#dbedfb}.mx-calendar-content .cell.disabled{cursor:not-allowed;color:#ccc;background-color:#f3f3f3}.mx-calendar-week-mode .mx-date-row{cursor:pointer}.mx-calendar-week-mode .mx-date-row:hover{background-color:#f3f9fe}.mx-calendar-week-mode .mx-date-row.mx-active-week{background-color:#dbedfb}.mx-calendar-week-mode .mx-date-row .cell:hover{color:inherit;background-color:transparent}.mx-calendar-week-mode .mx-date-row .cell.active{color:inherit;background-color:transparent}.mx-week-number{opacity:.5}.mx-table{table-layout:fixed;border-collapse:separate;border-spacing:0;width:100%;height:100%;-webkit-box-sizing:border-box;box-sizing:border-box;text-align:center;vertical-align:middle}.mx-table th{padding:0;font-weight:500}.mx-table td{padding:0}.mx-table-date td,.mx-table-date th{height:32px;font-size:12px}.mx-table-date .today{color:#2a90e9}.mx-table-date .cell.not-current-month{color:#ccc;background:none}.mx-time{-webkit-box-flex:1;-ms-flex:1;flex:1;width:224px;background:#fff}.mx-time+.mx-time{border-left:1px solid #e8e8e8}.mx-calendar-time{position:absolute;top:0;left:0;width:100%;height:100%}.mx-time-header{border-bottom:1px solid #e8e8e8}.mx-time-content{height:224px;-webkit-box-sizing:border-box;box-sizing:border-box;overflow:hidden}.mx-time-columns{display:-webkit-box;display:-ms-flexbox;display:flex;width:100%;height:100%;overflow:hidden}.mx-time-column{-webkit-box-flex:1;-ms-flex:1;flex:1;position:relative;border-left:1px solid #e8e8e8;text-align:center}.mx-time-column:first-child{border-left:0}.mx-time-column .mx-time-list{margin:0;padding:0;list-style:none}.mx-time-column .mx-time-list::after{content:\"\";display:block;height:192px}.mx-time-column .mx-time-item{cursor:pointer;font-size:12px;height:32px;line-height:32px}.mx-time-column .mx-time-item:hover{color:#73879c;background-color:#f3f9fe}.mx-time-column .mx-time-item.active{color:#1284e7;background-color:transparent;font-weight:700}.mx-time-column .mx-time-item.disabled{cursor:not-allowed;color:#ccc;background-color:#f3f3f3}.mx-time-option{cursor:pointer;padding:8px 10px;font-size:14px;line-height:20px}.mx-time-option:hover{color:#73879c;background-color:#f3f9fe}.mx-time-option.active{color:#1284e7;background-color:transparent;font-weight:700}.mx-time-option.disabled{cursor:not-allowed;color:#ccc;background-color:#f3f3f3}\r\n", ""]);
 
 // exports
 
@@ -22995,7 +22716,7 @@ exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base
 
 
 // module
-exports.push([module.i, "\n.w-full[data-v-27213e1d] {\n  width: 100%;\n}\n.inline-block[data-v-27213e1d] {\n  display: inline-block;\n}\n.block[data-v-27213e1d] {\n  display: block;\n}\n.flex[data-v-27213e1d] {\n  display: flex;\n}\n.border[data-v-27213e1d] {\n  border-width: thin;\n  border-style: solid;\n}\n.rounded[data-v-27213e1d] {\n  border-radius: 0.25em;\n}\n.text-black[data-v-27213e1d] {\n  color: #22292f;\n}\n.border-grey-lighter[data-v-27213e1d] {\n  border-color: #ced4da;\n}\n.bg-grey-lighter[data-v-27213e1d] {\n  background-color: #606f7b;\n}\n.bg-grey-light[data-v-27213e1d] {\n  background-color: #dae1e7;\n}\n.bg-grey-dark[data-v-27213e1d] {\n  background-color: #8795a1;\n}\n.bg-white[data-v-27213e1d] {\n  background-color: #fff;\n}\n.pin-r[data-v-27213e1d] {\n  right: 0;\n}\n.pin-y[data-v-27213e1d] {\n  top: 0;\n  bottom: 0;\n}\n.absolute[data-v-27213e1d] {\n  position: absolute;\n}\n.relative[data-v-27213e1d] {\n  position: relative;\n}\n.items-center[data-v-27213e1d] {\n  align-items: center;\n}\n.p-0[data-v-27213e1d] {\n  padding: 0;\n}\n.p-1[data-v-27213e1d] {\n  padding: 0.25em;\n}\n.px-1[data-v-27213e1d] {\n  padding-left: 0.25em;\n  padding-right: 0.25em;\n}\n.py-2[data-v-27213e1d] {\n  padding-top: 0.5em;\n  padding-bottom: 0.5em;\n}\n.px-2[data-v-27213e1d] {\n  padding-left: 0.5em;\n  padding-right: 0.5em;\n}\n.mt-px[data-v-27213e1d] {\n  margin-top: 1px;\n}\n.leading-tight[data-v-27213e1d] {\n  line-height: 1.25;\n}\n.leading-normal[data-v-27213e1d] {\n  line-height: 1.5;\n}\n.text-left[data-v-27213e1d] {\n  text-align: left;\n}\n.w-full[data-v-27213e1d] {\n  width: 100%;\n}\n.shadow[data-v-27213e1d] {\n  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);\n}\n.list-reset[data-v-27213e1d] {\n  list-style: none;\n  padding: 0;\n}\n.overflow-auto[data-v-27213e1d] {\n  overflow: auto;\n}\n.appearance-none[data-v-27213e1d] {\n  -webkit-appearance: none;\n  -moz-appearance: none;\n  appearance: none;\n}\n.w-1[data-v-27213e1d] {\n  width: 0.25em;\n}\n.w-2[data-v-27213e1d] {\n  width: 0.5em;\n}\n.w-3[data-v-27213e1d] {\n  width: 0.75em;\n}\n.w-4[data-v-27213e1d] {\n  width: 1em;\n}\n.h-4[data-v-27213e1d] {\n  height: 1em;\n}\n.h-1[data-v-27213e1d] {\n  height: 0.25em;\n}\n.h-2[data-v-27213e1d] {\n  height: 0.5em;\n}\n.h-3[data-v-27213e1d] {\n  height: 0.75em;\n}\n.fill-current[data-v-27213e1d] {\n  fill: currentColor;\n}\n.no-underline[data-v-27213e1d] {\n  text-decoration: none;\n}\n.hover\\:no-underline[data-v-27213e1d]:hover {\n  text-decoration: none;\n}\n.outline-none[data-v-27213e1d] {\n  outline: 0;\n}\n.hover\\:outline-none[data-v-27213e1d] {\n  outline: 0;\n}\n.hover\\:bg-grey-light[data-v-27213e1d]:hover {\n  background-color: #dae1e7;\n}\n.shadow-md[data-v-27213e1d] {\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.08);\n}\n.search-input[data-v-27213e1d] {\n  display: block;\n  width: 100%;\n  padding: 0.375em 0.75em;\n  font-size: 1em;\n  line-height: 1.5;\n  color: #495057;\n  background-color: #fff;\n  background-clip: padding-box;\n  border: 1px solid #ced4da;\n  border-radius: 0.25em;\n  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;\n  box-sizing: border-box;\n}\n.icons[data-v-27213e1d] {\n  padding: 0 1em;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  fill: #606f7b;\n}\n.icons svg[data-v-27213e1d] {\n  width: 0.75em;\n  height: 0.75em;\n}\n.single-select-wrapper[data-v-27213e1d] {\n  position: relative;\n  margin-bottom: 0.5em;\n}\n.required[data-v-27213e1d] {\n  _color: #721c24;\n  _background-color: #f8d7da;\n  border-color: #f5c6cb;\n}\n.cursor-pointer[data-v-27213e1d] {\n  cursor: pointer;\n}\n.dropdown[data-v-27213e1d] {\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.08);\n  background-color: #fff;\n  color: #606f7b;\n  border-radius: 0.25em;\n  line-height: 1.25;\n  text-align: left;\n}\n.dropdown > li[data-v-27213e1d] {\n  padding: 0.5em 0.75em;\n}\n.active[data-v-27213e1d] {\n  background: #dae1e7;\n}\n", ""]);
+exports.push([module.i, "\n.w-full[data-v-27213e1d] {\r\n  width: 100%;\n}\n.inline-block[data-v-27213e1d] {\r\n  display: inline-block;\n}\n.block[data-v-27213e1d] {\r\n  display: block;\n}\n.flex[data-v-27213e1d] {\r\n  display: flex;\n}\n.border[data-v-27213e1d] {\r\n  border-width: thin;\r\n  border-style: solid;\n}\n.rounded[data-v-27213e1d] {\r\n  border-radius: 0.25em;\n}\n.text-black[data-v-27213e1d] {\r\n  color: #22292f;\n}\n.border-grey-lighter[data-v-27213e1d] {\r\n  border-color: #ced4da;\n}\n.bg-grey-lighter[data-v-27213e1d] {\r\n  background-color: #606f7b;\n}\n.bg-grey-light[data-v-27213e1d] {\r\n  background-color: #dae1e7;\n}\n.bg-grey-dark[data-v-27213e1d] {\r\n  background-color: #8795a1;\n}\n.bg-white[data-v-27213e1d] {\r\n  background-color: #fff;\n}\n.pin-r[data-v-27213e1d] {\r\n  right: 0;\n}\n.pin-y[data-v-27213e1d] {\r\n  top: 0;\r\n  bottom: 0;\n}\n.absolute[data-v-27213e1d] {\r\n  position: absolute;\n}\n.relative[data-v-27213e1d] {\r\n  position: relative;\n}\n.items-center[data-v-27213e1d] {\r\n  align-items: center;\n}\n.p-0[data-v-27213e1d] {\r\n  padding: 0;\n}\n.p-1[data-v-27213e1d] {\r\n  padding: 0.25em;\n}\n.px-1[data-v-27213e1d] {\r\n  padding-left: 0.25em;\r\n  padding-right: 0.25em;\n}\n.py-2[data-v-27213e1d] {\r\n  padding-top: 0.5em;\r\n  padding-bottom: 0.5em;\n}\n.px-2[data-v-27213e1d] {\r\n  padding-left: 0.5em;\r\n  padding-right: 0.5em;\n}\n.mt-px[data-v-27213e1d] {\r\n  margin-top: 1px;\n}\n.leading-tight[data-v-27213e1d] {\r\n  line-height: 1.25;\n}\n.leading-normal[data-v-27213e1d] {\r\n  line-height: 1.5;\n}\n.text-left[data-v-27213e1d] {\r\n  text-align: left;\n}\n.w-full[data-v-27213e1d] {\r\n  width: 100%;\n}\n.shadow[data-v-27213e1d] {\r\n  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);\n}\n.list-reset[data-v-27213e1d] {\r\n  list-style: none;\r\n  padding: 0;\n}\n.overflow-auto[data-v-27213e1d] {\r\n  overflow: auto;\n}\n.appearance-none[data-v-27213e1d] {\r\n  -webkit-appearance: none;\r\n  -moz-appearance: none;\r\n  appearance: none;\n}\n.w-1[data-v-27213e1d] {\r\n  width: 0.25em;\n}\n.w-2[data-v-27213e1d] {\r\n  width: 0.5em;\n}\n.w-3[data-v-27213e1d] {\r\n  width: 0.75em;\n}\n.w-4[data-v-27213e1d] {\r\n  width: 1em;\n}\n.h-4[data-v-27213e1d] {\r\n  height: 1em;\n}\n.h-1[data-v-27213e1d] {\r\n  height: 0.25em;\n}\n.h-2[data-v-27213e1d] {\r\n  height: 0.5em;\n}\n.h-3[data-v-27213e1d] {\r\n  height: 0.75em;\n}\n.fill-current[data-v-27213e1d] {\r\n  fill: currentColor;\n}\n.no-underline[data-v-27213e1d] {\r\n  text-decoration: none;\n}\n.hover\\:no-underline[data-v-27213e1d]:hover {\r\n  text-decoration: none;\n}\n.outline-none[data-v-27213e1d] {\r\n  outline: 0;\n}\n.hover\\:outline-none[data-v-27213e1d] {\r\n  outline: 0;\n}\n.hover\\:bg-grey-light[data-v-27213e1d]:hover {\r\n  background-color: #dae1e7;\n}\n.shadow-md[data-v-27213e1d] {\r\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.08);\n}\n.search-input[data-v-27213e1d] {\r\n  display: block;\r\n  width: 100%;\r\n  padding: 0.375em 0.75em;\r\n  font-size: 1em;\r\n  line-height: 1.5;\r\n  color: #495057;\r\n  background-color: #fff;\r\n  background-clip: padding-box;\r\n  border: 1px solid #ced4da;\r\n  border-radius: 0.25em;\r\n  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;\r\n  box-sizing: border-box;\n}\n.icons[data-v-27213e1d] {\r\n  padding: 0 1em;\r\n  right: 0;\r\n  top: 0;\r\n  bottom: 0;\r\n  fill: #606f7b;\n}\n.icons svg[data-v-27213e1d] {\r\n  width: 0.75em;\r\n  height: 0.75em;\n}\n.single-select-wrapper[data-v-27213e1d] {\r\n  position: relative;\r\n  margin-bottom: 0.5em;\n}\n.required[data-v-27213e1d] {\r\n  _color: #721c24;\r\n  _background-color: #f8d7da;\r\n  border-color: #f5c6cb;\n}\n.cursor-pointer[data-v-27213e1d] {\r\n  cursor: pointer;\n}\n.dropdown[data-v-27213e1d] {\r\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.08);\r\n  background-color: #fff;\r\n  color: #606f7b;\r\n  border-radius: 0.25em;\r\n  line-height: 1.25;\r\n  text-align: left;\n}\n.dropdown > li[data-v-27213e1d] {\r\n  padding: 0.5em 0.75em;\n}\n.active[data-v-27213e1d] {\r\n  background: #dae1e7;\n}\r\n", ""]);
 
 // exports
 
@@ -23033,7 +22754,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.data-table {\n\tdisplay: grid;\n\twidth: 100%;\n\theight: 100%;\n}\n", ""]);
+exports.push([module.i, "\n.data-table {\r\n\tdisplay: grid;\r\n\twidth: 100%;\r\n\theight: 100%;\n}\r\n", ""]);
 
 // exports
 
@@ -23052,7 +22773,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.data-table {\n\tdisplay: grid;\n\twidth: 100%;\n\theight: 100%;\n}\n", ""]);
+exports.push([module.i, "\n.data-table {\r\n\tdisplay: grid;\r\n\twidth: 100%;\r\n\theight: 100%;\n}\r\n", ""]);
 
 // exports
 
@@ -23071,7 +22792,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.data-table {\n\tdisplay: grid;\n\twidth: 100%;\n\theight: 100%;\n}\n", ""]);
+exports.push([module.i, "\n.data-table {\r\n\tdisplay: grid;\r\n\twidth: 100%;\r\n\theight: 100%;\n}\r\n", ""]);
 
 // exports
 
@@ -23090,7 +22811,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.data-table {\n\tdisplay: grid;\n\twidth: 100%;\n\theight: 100%;\n}\n", ""]);
+exports.push([module.i, "\n.data-table {\r\n\tdisplay: grid;\r\n\twidth: 100%;\r\n\theight: 100%;\n}\r\n", ""]);
 
 // exports
 
@@ -56566,7 +56287,7 @@ var render = function() {
                       options: _vm.posts,
                       required: true,
                       optionLabel: "namaPelanggan",
-                      onchange: "detailPiutang()"
+                      optionKey: "kodePelanggan"
                     },
                     model: {
                       value: _vm.post,
@@ -56609,82 +56330,6 @@ var render = function() {
                 })
               ]),
               _vm._v(" "),
-              _c("p", { staticClass: "text-muted text-center" }),
-              _c("div", { staticClass: "input-group" }, [
-                _c("span", { staticClass: "input-group-addon" }, [
-                  _vm._v("Type")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.typePenjualan,
-                        expression: "typePenjualan"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { required: "" },
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.typePenjualan = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { value: "1" } }, [_vm._v("Cash")]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "2" } }, [_vm._v("Kredit")])
-                  ]
-                )
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "text-muted text-center" }),
-              _vm.typePenjualan === "2"
-                ? _c("div", [
-                    _c("div", { staticClass: "input-group" }, [
-                      _c("span", { staticClass: "input-group-addon" }, [
-                        _vm._v("Term")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.termPenjualan,
-                            expression: "termPenjualan"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { type: "text" },
-                        domProps: { value: _vm.termPenjualan },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.termPenjualan = $event.target.value
-                          }
-                        }
-                      })
-                    ])
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
               _c("input", {
                 staticClass: "form-control",
                 attrs: { type: "hidden", name: _vm.totalPenjualan },
@@ -56695,185 +56340,120 @@ var render = function() {
                 _vm._v("Total " + _vm._s(_vm._f("currency")(_vm.subtotal || 0)))
               ]),
               _vm._v(" "),
-              _c("p", { staticClass: "text-muted text-center" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-primary btn-block",
-                    attrs: { href: "#" },
+              _c("p", { staticClass: "text-muted text-center" }),
+              _c(
+                "form",
+                {
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.loadPiutang($event)
+                    }
+                  }
+                },
+                [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.post.kodePelanggan,
+                        expression: "post.kodePelanggan"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "hidden", placeholder: "No nota" },
+                    domProps: { value: _vm.post.kodePelanggan },
                     on: {
-                      click: function($event) {
-                        _vm.showModalBayar = true
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.post, "kodePelanggan", $event.target.value)
                       }
                     }
-                  },
-                  [_c("b", [_vm._v("Payment")])]
-                )
-              ])
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary btn-block",
+                      attrs: { type: "submit" }
+                    },
+                    [_vm._v("Cari Nota")]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c("br"),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-primary btn-block",
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      _vm.showModalBayar = true
+                    }
+                  }
+                },
+                [_c("b", [_vm._v("Payment")])]
+              )
             ])
           ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "col-md-9" }, [
-          _c("div", { staticClass: "box box-danger" }, [
-            _vm._m(1),
-            _vm._v(" "),
-            _c("div", { staticClass: "box-body" }, [
-              _c(
-                "form",
-                {
-                  attrs: { id: "anyName" },
-                  on: {
-                    submit: function($event) {
-                      $event.preventDefault()
-                      return _vm.PostItemPenjualan($event)
-                    }
-                  }
-                },
-                [
-                  _c("vue-single-select", {
-                    attrs: {
-                      options: _vm.users,
-                      required: true,
-                      optionLabel: "nmBarang",
-                      optionKey: "barcode"
-                    },
-                    model: {
-                      value: _vm.post1,
-                      callback: function($$v) {
-                        _vm.post1 = $$v
-                      },
-                      expression: "post1"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "row" }, [
-                    _c("div", { staticClass: "col-xs-2" }, [
-                      _c("label", [_vm._v("Satuan")]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.post1.satuanBarang,
-                            expression: "post1.satuanBarang"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          placeholder: "Satuan",
-                          disabled: ""
-                        },
-                        domProps: { value: _vm.post1.satuanBarang },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.post1,
-                              "satuanBarang",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-xs-2" }, [
-                      _c("label", [_vm._v("Harga")]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.post1.hrgJual,
-                            expression: "post1.hrgJual"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { type: "text", placeholder: "Harga" },
-                        domProps: { value: _vm.post1.hrgJual },
-                        on: {
-                          keypress: _vm.onlyNumber,
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(_vm.post1, "hrgJual", $event.target.value)
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-xs-2" }, [
-                      _c("label", [_vm._v("Qty")]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.qtyJual,
-                            expression: "qtyJual"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { type: "text", placeholder: "Qty" },
-                        domProps: { value: _vm.qtyJual },
-                        on: {
-                          keypress: _vm.onlyNumber,
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.qtyJual = $event.target.value
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-xs-2" }, [
-                      _c("label", [_vm._v("Total")]),
-                      _vm._v(" "),
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          name: _vm.subTotal,
-                          placeholder: "Total"
-                        },
-                        domProps: {
-                          value: _vm.post1.hrgJual * _vm.qtyJual || 0
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _vm._m(2)
-                  ])
-                ],
-                1
-              )
-            ])
-          ]),
+          _vm._m(1),
           _vm._v(" "),
           _c("table", { staticClass: "table table-hover table-bordered" }, [
-            _vm._m(3),
+            _vm._m(2),
             _vm._v(" "),
             _c(
               "tbody",
-              _vm._l(_vm.pem, function(pe) {
+              _vm._l(_vm.pem, function(pe, index) {
                 return _c("tr", { key: pe.id }, [
-                  _c("td", [_vm._v(_vm._s(pe.nmBarang) + " ")]),
+                  _c(
+                    "td",
+                    {
+                      on: {
+                        click: function($event) {
+                          return _vm.edit(index)
+                        }
+                      }
+                    },
+                    [_vm._v(_vm._s(pe.noNota) + " ")]
+                  ),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(pe.qtyJual))]),
+                  _c(
+                    "td",
+                    {
+                      staticClass: "pointerCursor",
+                      on: {
+                        click: function($event) {
+                          return _vm.edit(index)
+                        }
+                      }
+                    },
+                    [_vm._v(_vm._s(pe.tglNota))]
+                  ),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(_vm._f("currency")(pe.hrgJual)))]),
+                  _c("td", [_vm._v(_vm._s(pe.piutangNota))]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(_vm._f("currency")(pe.totalJual)))]),
+                  _c("td", [
+                    _c("input", {
+                      attrs: { type: "text", name: _vm.bayarpiutang }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      _vm._s(
+                        _vm._f("currency")(pe.piutangNota - _vm.bayarpiutang)
+                      )
+                    )
+                  ]),
                   _vm._v(" "),
                   _c("td", { staticClass: "text-center" }, [
                     _c(
@@ -56897,883 +56477,7 @@ var render = function() {
           ])
         ])
       ])
-    ]),
-    _vm._v(" "),
-    _vm.showModalBayar
-      ? _c(
-          "div",
-          [
-            _c("transition", { attrs: { name: "modal" } }, [
-              _c("div", { staticClass: "modal-mask" }, [
-                _c("div", { staticClass: "modal-wrapper" }, [
-                  _c("div", { staticClass: "modal-dialog" }, [
-                    _c("div", { staticClass: "modal-content" }, [
-                      _c("div", { staticClass: "modal-header" }, [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "close",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                _vm.showModalBayar = false
-                              }
-                            }
-                          },
-                          [
-                            _c("span", { attrs: { "aria-hidden": "true" } }, [
-                              _vm._v("×")
-                            ])
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c("h4", { staticClass: "modal-title" }, [
-                          _vm._v("Add Payment")
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "modal-body" }, [
-                        _c(
-                          "form",
-                          {
-                            on: {
-                              submit: function($event) {
-                                $event.preventDefault()
-                                return _vm.PostTransaksiPenjualan($event)
-                              }
-                            }
-                          },
-                          [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.tglPenjualan,
-                                  expression: "tglPenjualan"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: { type: "hidden" },
-                              domProps: { value: _vm.tglPenjualan },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.tglPenjualan = $event.target.value
-                                }
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.post.kodePelanggan,
-                                  expression: "post.kodePelanggan"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: { type: "text", placeholder: "Customer" },
-                              domProps: { value: _vm.post.kodePelanggan },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    _vm.post,
-                                    "kodePelanggan",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.noNotaPenjualan,
-                                  expression: "noNotaPenjualan"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: { type: "hidden", placeholder: "No nota" },
-                              domProps: { value: _vm.noNotaPenjualan },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.noNotaPenjualan = $event.target.value
-                                }
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.subtotal,
-                                  expression: "subtotal"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: { type: "hidden" },
-                              domProps: { value: _vm.subtotal },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.subtotal = $event.target.value
-                                }
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.liftNo,
-                                  expression: "liftNo"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: { type: "hidden" },
-                              domProps: { value: _vm.liftNo },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.liftNo = $event.target.value
-                                }
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.mekanikNota,
-                                  expression: "mekanikNota"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: { type: "hidden" },
-                              domProps: { value: _vm.mekanikNota },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.mekanikNota = $event.target.value
-                                }
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.typePenjualan,
-                                  expression: "typePenjualan"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: { type: "hidden" },
-                              domProps: { value: _vm.typePenjualan },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.typePenjualan = $event.target.value
-                                }
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.termPenjualan,
-                                  expression: "termPenjualan"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: { type: "hidden" },
-                              domProps: { value: _vm.termPenjualan },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.termPenjualan = $event.target.value
-                                }
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c("input", {
-                              staticClass: "form-control",
-                              attrs: {
-                                type: "hidden",
-                                name: _vm.pitangPenjualan
-                              },
-                              domProps: {
-                                value: Math.abs(
-                                  _vm.totalBayar -
-                                    ((_vm.subtotal * _vm.pajak) / 100 +
-                                      _vm.subtotal -
-                                      (((_vm.subtotal * _vm.pajak) / 100 +
-                                        _vm.subtotal) *
-                                        _vm.diskon) /
-                                        100)
-                                )
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c("p", { staticClass: "text-muted text-center" }, [
-                              _c("input", {
-                                staticClass: "form-control",
-                                attrs: {
-                                  type: "hidden",
-                                  name: _vm.totalTransaksiBayar
-                                },
-                                domProps: {
-                                  value:
-                                    (_vm.subtotal * _vm.pajak) / 100 +
-                                      _vm.subtotal -
-                                      (((_vm.subtotal * _vm.pajak) / 100 +
-                                        _vm.subtotal) *
-                                        _vm.diskon) /
-                                        100 || 0
-                                }
-                              })
-                            ]),
-                            _c("h3", { staticClass: "profile-username " }, [
-                              _vm._v(
-                                "Total " +
-                                  _vm._s(
-                                    _vm._f("currency")(
-                                      (_vm.subtotal * _vm.pajak) / 100 +
-                                        _vm.subtotal -
-                                        (((_vm.subtotal * _vm.pajak) / 100 +
-                                          _vm.subtotal) *
-                                          _vm.diskon) /
-                                          100 || 0
-                                    )
-                                  )
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "row input-group" }, [
-                              _c("div", { staticClass: "col-md-4" }, [
-                                _c(
-                                  "span",
-                                  { staticClass: "input-group-addon" },
-                                  [_vm._v("Tax in %")]
-                                ),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.pajak,
-                                      expression: "pajak"
-                                    }
-                                  ],
-                                  staticClass: "form-control ",
-                                  attrs: { type: "number", placeholder: "Tax" },
-                                  domProps: { value: _vm.pajak },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.pajak = $event.target.value
-                                    }
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("input", {
-                                  staticClass: "form-control",
-                                  attrs: {
-                                    type: "hidden",
-                                    name: _vm.totalTransaksipjk
-                                  },
-                                  domProps: {
-                                    value:
-                                      (_vm.subtotal * _vm.pajak) / 100 +
-                                      _vm.subtotal
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col-md-4" }, [
-                                _c(
-                                  "span",
-                                  { staticClass: "input-group-addon" },
-                                  [_vm._v("Disc in %")]
-                                ),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.diskon,
-                                      expression: "diskon"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: {
-                                    type: "number",
-                                    placeholder: "Diskon"
-                                  },
-                                  domProps: { value: _vm.diskon },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.diskon = $event.target.value
-                                    }
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("input", {
-                                  staticClass: "form-control",
-                                  attrs: { type: "hidden", name: _vm.diskon1 },
-                                  domProps: {
-                                    value:
-                                      (((_vm.subtotal * _vm.pajak) / 100 +
-                                        _vm.subtotal) *
-                                        _vm.diskon) /
-                                      100
-                                  }
-                                })
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("br"),
-                            _vm._v(" "),
-                            _c(
-                              "select",
-                              {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.pembayaran,
-                                    expression: "pembayaran"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                on: {
-                                  change: function($event) {
-                                    var $$selectedVal = Array.prototype.filter
-                                      .call($event.target.options, function(o) {
-                                        return o.selected
-                                      })
-                                      .map(function(o) {
-                                        var val =
-                                          "_value" in o ? o._value : o.value
-                                        return val
-                                      })
-                                    _vm.pembayaran = $event.target.multiple
-                                      ? $$selectedVal
-                                      : $$selectedVal[0]
-                                  }
-                                }
-                              },
-                              [
-                                _c(
-                                  "option",
-                                  { attrs: { value: "1", selected: "" } },
-                                  [_vm._v("Cash")]
-                                ),
-                                _vm._v(" "),
-                                _c("option", { attrs: { value: "2" } }, [
-                                  _vm._v("Debit")
-                                ]),
-                                _vm._v(" "),
-                                _c("option", { attrs: { value: "3" } }, [
-                                  _vm._v("E-Money")
-                                ])
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c("br"),
-                            _vm._v(" "),
-                            _vm.pembayaran === "1"
-                              ? _c("div", [
-                                  _c("div", { staticClass: "input-group" }, [
-                                    _c(
-                                      "span",
-                                      { staticClass: "input-group-addon" },
-                                      [_vm._v("Rp.")]
-                                    ),
-                                    _vm._v(" "),
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.totalBayar,
-                                          expression: "totalBayar"
-                                        }
-                                      ],
-                                      staticClass: "form-control",
-                                      attrs: {
-                                        type: "number",
-                                        placeholder: "Bayar",
-                                        required: ""
-                                      },
-                                      domProps: { value: _vm.totalBayar },
-                                      on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
-                                          }
-                                          _vm.totalBayar = $event.target.value
-                                        }
-                                      }
-                                    })
-                                  ]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "h3",
-                                    { staticClass: "profile-username " },
-                                    [
-                                      _vm._v(
-                                        "Kembali : " +
-                                          _vm._s(
-                                            _vm._f("currency")(
-                                              _vm.totalBayar -
-                                                ((_vm.subtotal * _vm.pajak) /
-                                                  100 +
-                                                  _vm.subtotal -
-                                                  (((_vm.subtotal * _vm.pajak) /
-                                                    100 +
-                                                    _vm.subtotal) *
-                                                    _vm.diskon) /
-                                                    100) || 0
-                                            )
-                                          )
-                                      )
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "p",
-                                    { staticClass: "text-muted text-center" },
-                                    [
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass: "btn btn-md btn-success",
-                                          attrs: { type: "submit" }
-                                        },
-                                        [_vm._v("Bayar")]
-                                      )
-                                    ]
-                                  )
-                                ])
-                              : _vm.pembayaran === "2"
-                              ? _c("div", [
-                                  _c("div", { staticClass: "input-group" }, [
-                                    _c(
-                                      "span",
-                                      { staticClass: "input-group-addon" },
-                                      [_vm._v("Card Carge %")]
-                                    ),
-                                    _vm._v(" "),
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.taxDebit,
-                                          expression: "taxDebit"
-                                        }
-                                      ],
-                                      staticClass: "form-control",
-                                      attrs: {
-                                        type: "number",
-                                        placeholder: "0"
-                                      },
-                                      domProps: { value: _vm.taxDebit },
-                                      on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
-                                          }
-                                          _vm.taxDebit = $event.target.value
-                                        }
-                                      }
-                                    })
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("br"),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "input-group" }, [
-                                    _c(
-                                      "span",
-                                      { staticClass: "input-group-addon" },
-                                      [_vm._v("Card No.")]
-                                    ),
-                                    _vm._v(" "),
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.noDebit,
-                                          expression: "noDebit"
-                                        }
-                                      ],
-                                      staticClass: "form-control",
-                                      attrs: {
-                                        type: "number",
-                                        placeholder: "No Kartu"
-                                      },
-                                      domProps: { value: _vm.noDebit },
-                                      on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
-                                          }
-                                          _vm.noDebit = $event.target.value
-                                        }
-                                      }
-                                    })
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("br"),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "input-group" }, [
-                                    _c(
-                                      "span",
-                                      { staticClass: "input-group-addon" },
-                                      [_vm._v("Rp.")]
-                                    ),
-                                    _vm._v(" "),
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.totalBayar,
-                                          expression: "totalBayar"
-                                        }
-                                      ],
-                                      staticClass: "form-control",
-                                      attrs: {
-                                        type: "number",
-                                        placeholder: "Bayar",
-                                        required: ""
-                                      },
-                                      domProps: { value: _vm.totalBayar },
-                                      on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
-                                          }
-                                          _vm.totalBayar = $event.target.value
-                                        }
-                                      }
-                                    })
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("br"),
-                                  _vm._v(" "),
-                                  _c(
-                                    "p",
-                                    { staticClass: "text-muted text-center" },
-                                    [
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass: "btn btn-md btn-success",
-                                          attrs: { type: "submit" }
-                                        },
-                                        [_vm._v("Bayar")]
-                                      )
-                                    ]
-                                  )
-                                ])
-                              : _vm.pembayaran === "3"
-                              ? _c("div", [
-                                  _vm._v(
-                                    "\n                             Emoney\n                           "
-                                  )
-                                ])
-                              : _vm._e()
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c("div", { attrs: { id: "printMe" } }, [
-                          _c("address", [
-                            _c("strong", [_vm._v("Bengkel Kita.")]),
-                            _c("br"),
-                            _vm._v("\n                   Jimbaran"),
-                            _c("br"),
-                            _vm._v(
-                              "\n\n                   Phone: (804) 123-5432"
-                            ),
-                            _c("br"),
-                            _vm._v(
-                              "\n                   Email: info@almasaeedstudio.com\n                 "
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "row" }, [
-                            _c("div", { staticClass: "col-md-4 invoice-col" }, [
-                              _c("address", [
-                                _c("strong", [_vm._v("Customer :")]),
-                                _vm._v(" " + _vm._s(_vm.pelanggan)),
-                                _c("br"),
-                                _vm._v(" "),
-                                _c("b", [_vm._v(" Tgl : ")]),
-                                _vm._v(_vm._s(_vm.tglNota)),
-                                _c("br"),
-                                _vm._v(" "),
-                                _c("b", [_vm._v(" Lift : ")]),
-                                _vm._v("1"),
-                                _c("br")
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "col-md-4 invoice-col" }, [
-                              _c("address", [
-                                _c("b", [_vm._v("No Inv: ")]),
-                                _vm._v(_vm._s(_vm.noNotaPenjualan)),
-                                _c("br"),
-                                _vm._v(" "),
-                                _c("b", [_vm._v("Kasir : ")]),
-                                _vm._v(
-                                  _vm._s(_vm.$session.get("user")) +
-                                    "\n                 "
-                                )
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "col-md-4 invoice-col" }, [
-                              _c("address", [
-                                _c("b", [_vm._v("Waiter : ")]),
-                                _vm._v(_vm._s(_vm.post.name)),
-                                _c("br"),
-                                _vm._v(" "),
-                                _c("b", [_vm._v("Type : ")]),
-                                _vm._v(" "),
-                                _vm.pembayaran === "1"
-                                  ? _c("div", [
-                                      _vm._v(
-                                        "\n                   Cash\n                 "
-                                      )
-                                    ])
-                                  : _vm.pembayaran === "2"
-                                  ? _c("div", [
-                                      _vm._v(
-                                        "\n                   Debit\n                 "
-                                      )
-                                    ])
-                                  : _vm.pembayaran === "3"
-                                  ? _c("div", [
-                                      _vm._v(
-                                        "\n                   E-Money\n                 "
-                                      )
-                                    ])
-                                  : _vm._e()
-                              ])
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "table",
-                            {
-                              staticStyle: {
-                                border: "1px solid black",
-                                "border-collapse": "collapse"
-                              },
-                              attrs: { width: "90%", border: "1" }
-                            },
-                            [
-                              _c("thead", [
-                                _c("tr", [
-                                  _c("th", [_vm._v("Nama ")]),
-                                  _vm._v(" "),
-                                  _c("th", [_vm._v("Qty")]),
-                                  _vm._v(" "),
-                                  _c("th", [_vm._v("Harga")]),
-                                  _vm._v(" "),
-                                  _c("th", [_vm._v("Total")])
-                                ])
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "tbody",
-                                _vm._l(_vm.pem, function(trx) {
-                                  return _c("tr", { key: trx.id }, [
-                                    _c("td", [
-                                      _vm._v(_vm._s(trx.kdBarang) + " ")
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", [_vm._v(_vm._s(trx.qtyJual))]),
-                                    _vm._v(" "),
-                                    _c("td", [
-                                      _vm._v(
-                                        _vm._s(_vm._f("currency")(trx.hrgJual))
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", [
-                                      _vm._v(
-                                        _vm._s(
-                                          _vm._f("currency")(trx.totalJual)
-                                        )
-                                      )
-                                    ])
-                                  ])
-                                }),
-                                0
-                              ),
-                              _vm._v(" "),
-                              _c("tfoot", [
-                                _c("tr", [
-                                  _c("th", { attrs: { colspan: "3" } }, [
-                                    _vm._v("subTotal :")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("th", [
-                                    _vm._v(
-                                      _vm._s(_vm._f("currency")(_vm.subtotal))
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _c("tr", [
-                                  _c("th", { attrs: { colspan: "3" } }, [
-                                    _vm._v("Tax & Service :")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("th", [
-                                    _vm._v(
-                                      _vm._s(
-                                        _vm._f("currency")(
-                                          (_vm.subtotal * _vm.pajak) / 100
-                                        )
-                                      )
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _c("tr", [
-                                  _c("th", { attrs: { colspan: "3" } }, [
-                                    _vm._v("Discount")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("th", [
-                                    _vm._v(
-                                      _vm._s(
-                                        _vm._f("currency")(
-                                          (((_vm.subtotal * _vm.pajak) / 100 +
-                                            _vm.subtotal) *
-                                            _vm.diskon) /
-                                            100
-                                        )
-                                      )
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _c("tr", [
-                                  _c("th", { attrs: { colspan: "3" } }, [
-                                    _vm._v("subTotal :")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("th", [
-                                    _vm._v(
-                                      _vm._s(
-                                        _vm._f("currency")(
-                                          (_vm.subtotal * _vm.pajak) / 100 +
-                                            _vm.subtotal -
-                                            (((_vm.subtotal * _vm.pajak) / 100 +
-                                              _vm.subtotal) *
-                                              _vm.diskon) /
-                                              100 || 0
-                                        )
-                                      )
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _c("tr", [
-                                  _c("th", { attrs: { colspan: "3" } }, [
-                                    _vm._v("Payment :")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("th", [
-                                    _vm._v(
-                                      _vm._s(_vm._f("currency")(_vm.totalBayar))
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _c("tr", [
-                                  _c("th", { attrs: { colspan: "3" } }, [
-                                    _vm._v("Kembalian :")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("th", [
-                                    _vm._v(
-                                      _vm._s(
-                                        _vm._f("currency")(
-                                          _vm.totalBayar -
-                                            ((_vm.subtotal * _vm.pajak) / 100 +
-                                              _vm.subtotal -
-                                              (((_vm.subtotal * _vm.pajak) /
-                                                100 +
-                                                _vm.subtotal) *
-                                                _vm.diskon) /
-                                                100) || 0
-                                        )
-                                      )
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _c("tr", [
-                                  _c("th", { attrs: { colspan: "5" } }, [
-                                    _vm._v("Terima Kasih Telah Berbelanja")
-                                  ])
-                                ])
-                              ])
-                            ]
-                          )
-                        ])
-                      ])
-                    ])
-                  ])
-                ])
-              ])
-            ])
-          ],
-          1
-        )
-      : _vm._e()
+    ])
   ])
 }
 var staticRenderFns = [
@@ -57789,25 +56493,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "box-header with-border" }, [
-      _c("h3", { staticClass: "box-title" }, [_vm._v("Cari Barang")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-xs-2" }, [
-      _c("label", [_vm._v("Aksi")]),
+    return _c("div", { staticClass: "box box-danger" }, [
+      _c("div", { staticClass: "box-header with-border" }, [
+        _c("h3", { staticClass: "box-title" }, [_vm._v("Cari Invoice")])
+      ]),
       _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-md btn-success form-control",
-          attrs: { type: "submit" }
-        },
-        [_vm._v("Add")]
-      )
+      _c("div", { staticClass: "box-body" })
     ])
   },
   function() {
@@ -57816,13 +56507,15 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Nama ")]),
+        _c("th", [_vm._v("No Nota ")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Qty")]),
+        _c("th", [_vm._v("Tgl Nota")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Harga")]),
+        _c("th", [_vm._v("Total Piutang")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Total")]),
+        _c("th", [_vm._v("Bayar Nota")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Sisa Piutang")]),
         _vm._v(" "),
         _c("th", [_vm._v("AKSI")])
       ])
@@ -63695,9 +62388,9 @@ var render = function() {
           _c("div", { staticClass: "box-header with-border" }, [
             _c("h5", { staticClass: "box-title" }, [
               _vm._v(
-                "\n                  Login As " +
+                "\r\n                  Login As " +
                   _vm._s(this.$session.get("user")) +
-                  "\n                  "
+                  "\r\n                  "
               ),
               _c(
                 "button",
@@ -91746,8 +90439,8 @@ MyPlugin.install = function (Vue, options) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/max/Documents/Web/posBengkel/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/max/Documents/Web/posBengkel/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\WinMax\Documents\GitHub\posBengkel\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\WinMax\Documents\GitHub\posBengkel\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

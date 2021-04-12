@@ -130,6 +130,7 @@ Route::delete('/komposisi/{id?}', 'komposisiController@destroy');
 
 //=====Laporan Penjualan
 Route::get('/penjualan', 'penjualanController@index');
+Route::post('/dataPiutang', 'penjualanController@piutangPelanggan');
 Route::post('/lapPenjualan', 'penjualanController@sorting');
 Route::post('/detailpenjualan/{id}', 'penjualanController@listDetailPenjualan');
 

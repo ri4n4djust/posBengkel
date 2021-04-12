@@ -25,7 +25,8 @@
                             :options="posts"
                             :required="true"
                             optionLabel="namaPelanggan"
-                            onchange="detailPiutang()" 
+                            optionKey="kodePelanggan"
+                            
                 ></vue-single-select>
                   </div>
                
@@ -35,29 +36,18 @@
                 <input type="text" class="form-control" v-model="noNotaPenjualan" placeholder="No nota">
                   </div>
                
-                <p class="text-muted text-center">
-                  <div class="input-group">
-                  <span class="input-group-addon">Type</span>
-                      <select class='form-control' v-model='typePenjualan' required>
-                          <option  value='1'>Cash</option>
-                          <option value='2' >Kredit</option>
-                        </select>
-                  </div>
-                  <p class="text-muted text-center">
-                  <div v-if="typePenjualan === '2'">
-                    <div class="input-group">
-                    <span class="input-group-addon">Term</span>
-                    <input type="text" class="form-control" v-model="termPenjualan" >
-                    </div>
-                  </div>
-                
                 
                 <input type="hidden" class="form-control" :value="subtotal" :name="totalPenjualan" >
                 <h3 class="profile-username text-center">Total {{ subtotal  || 0 | currency }}</h3>
                 
                 <p class="text-muted text-center">
-                <a href="#" @click="showModalBayar = true" class="btn btn-primary btn-block"><b>Payment</b></a>
-                </p>
+                  <form @submit.prevent="loadPiutang">
+                    <input type="hidden" class="form-control" v-model="post.kodePelanggan" placeholder="No nota">
+                   <button type="submit"  class="btn btn-primary btn-block">Cari Nota</button>
+                  </form>
+                  <br>
+                    <a href="#" @click="showModalBayar = true" class="btn btn-primary btn-block"><b>Payment</b></a>
+                
               
             </div>
             <!-- /.box-body -->
@@ -71,45 +61,12 @@
 
                 <div class="box box-danger">
                     <div class="box-header with-border">
-                    <h3 class="box-title">Cari Barang</h3>
+                    <h3 class="box-title">Cari Invoice</h3>
                     </div>
                     <div class="box-body">
 
                  
-                  <form  @submit.prevent="PostItemPenjualan" id="anyName" >
-                    <vue-single-select
-                            v-model="post1"
-                            :options="users"
-                            :required="true"
-                            optionLabel="nmBarang" 
-                            optionKey="barcode"
-                    ></vue-single-select>
-
-                    <div class="row">
-                        <div class="col-xs-2">
-                          <label>Satuan</label>
-                        <input type="text" v-model="post1.satuanBarang" class="form-control" placeholder="Satuan" disabled>
-                        </div>
-                        <div class="col-xs-2">
-                          <label>Harga</label>
-                        <input type="text" v-model="post1.hrgJual" class="form-control" placeholder="Harga" @keypress="onlyNumber">
-                        </div>
-                        <div class="col-xs-2">
-                          <label>Qty</label>
-                        <input type="text" v-model="qtyJual" class="form-control" placeholder="Qty" @keypress="onlyNumber">
-                        </div>
-                        <div class="col-xs-2">
-                          <label>Total</label>
-                        <input type="text" :value="(post1.hrgJual * qtyJual) || 0" :name="subTotal" class="form-control" placeholder="Total">
-                        </div>
-
-                        <div class="col-xs-2">
-                          <label>Aksi</label>
-                          <button type="submit" class="btn btn-md btn-success form-control">Add</button>                        
-                        </div>
-                    </div>
-                    
-                    </form>
+                  
                     </div>
                     
                     <!-- /.box-body -->
@@ -121,19 +78,21 @@
                 <table class="table table-hover table-bordered">
                                 <thead>
                                 <tr>
-                                    <th>Nama </th>
-                                    <th>Qty</th>
-                                    <th>Harga</th>
-                                    <th>Total</th>
+                                    <th>No Nota </th>
+                                    <th>Tgl Nota</th>
+                                    <th>Total Piutang</th>
+                                    <th>Bayar Nota</th>
+                                    <th>Sisa Piutang</th>
                                     <th>AKSI</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="pe in pem" :key="pe.id">
-                                    <td>{{ pe.nmBarang }} </td>
-                                    <td>{{ pe.qtyJual}}</td>
-                                    <td>{{ pe.hrgJual | currency }}</td>
-                                    <td>{{ pe.totalJual | currency }}</td>
+                                <tr v-for="(pe, index) in pem" :key="pe.id">
+                                    <td @click="edit(index)">{{ pe.noNota }} </td>
+                                    <td class="pointerCursor" @click="edit(index)">{{ pe.tglNota}}</td>
+                                    <td>{{ pe.piutangNota}}</td>
+                                    <td><input type="text" :name="bayarpiutang"></td>
+                                    <td>{{ pe.piutangNota - bayarpiutang | currency }}</td>
                                     <td class="text-center">
                                         <button @click.prevent="PostDeleteTrx(pe.id)" class="btn btn-sm btn-danger">HAPUS</button>
                                     </td>
@@ -149,201 +108,7 @@
 
     </section>
 
- <!-- /Modal -->
- <div v-if="showModalBayar">
-    <transition name="modal">
-      <div class="modal-mask">
-        <div class="modal-wrapper">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" @click="showModalBayar=false">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title">Add Payment</h4>
-              </div>
-              <div class="modal-body">
-                <form  @submit.prevent="PostTransaksiPenjualan" >
-                  <input type="hidden" class="form-control" v-model="tglPenjualan" >
-                <input type="text" class="form-control" v-model="post.kodePelanggan" placeholder="Customer">
-                <input type="hidden" class="form-control" v-model="noNotaPenjualan" placeholder="No nota">
-                <input type="hidden" class="form-control" v-model="subtotal">
-                <input type="hidden" class="form-control" v-model="liftNo">
-                <input type="hidden" class="form-control" v-model="mekanikNota">
-                <input type="hidden" class="form-control" v-model="typePenjualan">
-                <input type="hidden" class="form-control" v-model="termPenjualan">
-                <input type="hidden" class="form-control" :name="pitangPenjualan" :value="Math.abs(totalBayar - ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * diskon / 100)))">
-                
-
-                <p class="text-muted text-center">
-                <input type="hidden" class="form-control" :value="((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * diskon / 100))  || 0 " :name="totalTransaksiBayar"  >
-                <h3 class="profile-username ">Total {{ ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * diskon / 100))  || 0 | currency }}</h3>
-
-
-                <div class="row input-group">
-                <div class="col-md-4">
-                  <span class="input-group-addon">Tax in %</span>
-                  <input type="number" class="form-control " v-model="pajak" placeholder="Tax">
-                  <input type="hidden" class="form-control" :value="(subtotal * pajak / 100 + subtotal)" :name="totalTransaksipjk" >
-                </div>
-               
-
-                
-                <div class="col-md-4">
-                  <span class="input-group-addon">Disc in %</span>
-                  <input type="number" class="form-control" v-model="diskon" placeholder="Diskon">
-                  <input type="hidden" class="form-control" :value="((subtotal * pajak / 100 + subtotal) * diskon / 100)" :name="diskon1" >
-                </div>
-              </div>
-              <br>
-                            <select class='form-control' v-model='pembayaran' >
-                                <option value='1' selected>Cash</option>
-                                <option value='2'>Debit</option>
-                                <option value='3'>E-Money</option>
-                            </select>
-                            <br>
-                            <div v-if="pembayaran === '1'">
-                              <div class="input-group">
-                                    <span class="input-group-addon">Rp.</span>
-                                    <input type="number" class="form-control" v-model="totalBayar" placeholder="Bayar" required>
-                                  </div>
-                                  
-                                  <h3 class="profile-username ">Kembali : {{ totalBayar - ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * diskon / 100))  || 0 | currency }}</h3>
-                                  <p class="text-muted text-center">
-                                  <button type="submit"  class="btn btn-md btn-success" >Bayar</button>                
-                                  </p>
-                            </div>
-                            <div v-else-if="pembayaran === '2'">
-                              <div class="input-group">
-                                    <span class="input-group-addon">Card Carge %</span>
-                                    <input type="number" class="form-control" v-model="taxDebit" placeholder="0" >
-                                  </div>
-                                  <br>
-                                  <div class="input-group">
-                                    <span class="input-group-addon">Card No.</span>
-                                    <input type="number" class="form-control" v-model="noDebit" placeholder="No Kartu" >
-                                  </div>
-                                  <br>
-                                  <div class="input-group">
-                                    <span class="input-group-addon">Rp.</span>
-                                    <input type="number" class="form-control" v-model="totalBayar" placeholder="Bayar" required>
-                                  </div>
-                                  <br>
-                                  <p class="text-muted text-center">
-                                  <button type="submit"  class="btn btn-md btn-success" >Bayar</button>                
-                                  </p>
-                            </div>
-                            <div v-else-if="pembayaran === '3'">
-                              Emoney
-                            </div>
-
-               
-              </form>
-
-              <div id="printMe">
-                <!-- info row -->
-               <address>
-                    <strong>Bengkel Kita.</strong><br>
-                    Jimbaran<br>
-
-                    Phone: (804) 123-5432<br>
-                    Email: info@almasaeedstudio.com
-                  </address>
-              <div class="row">
-                <div class="col-md-4 invoice-col">
-                  <address>
-                    <strong>Customer :</strong> {{pelanggan}}<br>
-                    <b> Tgl : </b>{{tglNota}}<br>
-                    <b> Lift : </b>1<br>
-                  </address>
-                </div>
-                <!-- /.col -->
-                <div class="col-md-4 invoice-col">
-                  <address>
-                  <b>No Inv: </b>{{noNotaPenjualan}}<br>
-                  <b>Kasir : </b>{{$session.get('user')}}
-                  </address>
-                </div>
-
-                <div class="col-md-4 invoice-col">
-                  <address>
-                  <b>Waiter : </b>{{post.name}}<br>
-                  <b>Type : </b>
-                  <div v-if="pembayaran === '1'">
-                    Cash
-                  </div>
-                  <div v-else-if="pembayaran === '2'">
-                    Debit
-                  </div>
-                  <div v-else-if="pembayaran === '3'">
-                    E-Money
-                  </div>
-                  </address>
-                </div>
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
-                
-                  <table width="90%" border="1" style="border:1px solid black; border-collapse: collapse;">
-                                <thead>
-                                <tr>
-                                    <th>Nama </th>
-                                    <th>Qty</th>
-                                    <th>Harga</th>
-                                    <th>Total</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr v-for="trx in pem" :key="trx.id">
-                                    <td>{{ trx.kdBarang }} </td>
-                                    <td>{{ trx.qtyJual}}</td>
-                                    <td>{{ trx.hrgJual | currency }}</td>
-                                    <td>{{ trx.totalJual | currency }}</td>
-                                </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th colspan="3">subTotal :</th>
-                                        <th>{{subtotal | currency}}</th>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="3">Tax & Service :</th>
-                                        <th>{{ (subtotal * pajak / 100 ) | currency}}</th>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="3">Discount</th>
-                                        <th>{{ ((subtotal * pajak / 100 + subtotal) * diskon / 100) | currency}}</th>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="3">subTotal :</th>
-                                        <th>{{ ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * diskon / 100))  || 0 | currency }}</th>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="3">Payment :</th>
-                                        <th>{{totalBayar | currency}}</th>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="3">Kembalian :</th>
-                                        <th>{{ totalBayar - ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * diskon / 100))  || 0 | currency }}</th>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="5">Terima Kasih Telah Berbelanja</th>
-
-                                    </tr>
-                                </tfoot>
-                            </table>
-
-    </div>
-              
-
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </transition>
-  </div>
+ 
 
     
     </div>
@@ -375,20 +140,12 @@
                 totalBayar: '',
                 subtotal: '',
                 ntp:'',
-                satuanJual: '',
-                pajak: '',
-                diskon: '',
                 pembayaran: '1',
-                totalTransaksiBayar: '',
-                totalTransaksipjk: '',
-                diskon1: '',
                 pelanggan: 'PL-2021-1',
                 tglNota: new Date().toJSON().slice(0,10).replace(/-/g,'/'),
-                liftNo: '1',
-                mekanikNota: 'mekanik 1',
-                typePenjualan: '1',
-                termPenjualan: '0',
                 piutangPenjualan: '',
+                bayarpiutang: {},
+
                 totalx: '',
                 //noNotaPenjualan: '',
                 totalPenjualan: '',
@@ -397,6 +154,7 @@
                 showModal: false,
                 showModalMenu: false,
                 showModalBayar: false,
+                totalBayar:'',
             }
         },
 
@@ -449,9 +207,15 @@
         },
 
         methods: {
-          detailPiutang(){
-            alert("tess");
-          },
+          edit(index) {
+            alert(this.pems[index]);
+
+            // update using an api that returns the updated data.
+           // var updatedPhone = update(phone.id)
+
+            // how to update with reloading all the phone list?
+            //this.phones.splice(index, 1, updatedPhone)
+        },
           onlyNumber ($event) {
                 //console.log($event.keyCode); //keyCodes value
                 let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
@@ -490,9 +254,11 @@
                 
             });
             },
-            loadTransaksiPenjualan:function(){
-                let uri = '/api/dataPenjualan/'+ this.noNotaPenjualan;
-                this.axios.get(uri).then(response => {
+            loadPiutang:function(){
+                let uri = '/api/dataPiutang';
+                this.axios.post(uri, {
+                  pelanggan: this.post.kodePelanggan,
+                }).then(response => {
                     this.pem = response.data.data;
                    // alert('no nota '+ this.data.noNota);
                 }).catch(error => {
@@ -512,49 +278,7 @@
                 });
               }
             },
-            PostItemPenjualan() {
-                let uri = '/api/addItemPenjualan/store';
-                this.axios.post(uri, 
-                {
-                    noNotaPenjualan: this.noNotaPenjualan,
-                    kdBarang: this.post1.kdBarang,
-                    hrgJual: this.post1.hrgJual,
-                    qtyJual: this.qtyJual,
-                    totalJual: this.post1.hrgJual * this.qtyJual,
-                    tglPenjualan: this.tglPenjualan,
-                    satuanJual: this.post1.satuanBarang,
-                })
-                    .then((response) => {
-                        this.loadTotal()
-                        this.loadTransaksiPenjualan()
-                        alert('sukses donkkkkkkkk');
-                        document.getElementById("anyName").reset();
-                        //this.loadTransaksiPenjualan()
-                        //this.loadTotal()
-                    });
-                
-            },
-            PostJasaPenjualan() {
-                let uri = '/api/addJasaPenjualan/store';
-                this.axios.post(uri, 
-                {
-                    noNotaPenjualan: this.noNotaPenjualan,
-                    kdBarang: this.post1.kdBarang,
-                    hrgJual: this.post1.hrgJual,
-                    qtyJual: this.qtyJual,
-                    totalJual: this.post1.hrgJual * this.qtyJual,
-                    tglNotaPenjualan: this.tglPenjualan,
-                })
-                    .then((response) => {
-                        this.loadTotal()
-                        this.loadTransaksiPenjualan()
-                        alert('sukses donkkkkkkkk');
-                        document.getElementById("anyName").reset();
-                        //this.loadTransaksiPenjualan()
-                        //this.loadTotal()
-                    });
-                
-            },
+            
             PostTransaksiPenjualan() {
                 let uri = '/api/addPenjualan/store';
                 this.axios.post(uri, 
@@ -584,8 +308,7 @@
             }
         },
         mounted(){
-          this.piutangPenjualan = this.subtotal;
-          this.totalx = totalBayar - ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * diskon / 100));
+
         },
         beforeCreate: function () {
             if (!this.$session.exists()) {
@@ -597,7 +320,7 @@
             this.loadNotaPenjualan();
             this.loadBarang();
             this.LoadPelanggan();
-            this.loadTransaksiPenjualan();
+            //this.loadPiutang();
             this.loadTotal();
         },
     }
