@@ -31,9 +31,29 @@
                 <p class="text-muted text-center">
                 <input type="hidden" class="form-control" v-model="post.kdSupplier" placeholder="No nota">
                 </p>
+
                 <p class="text-muted text-center">
+                  <div class="input-group">
+                  <span class="input-group-addon">INV</span>
                 <input type="text" class="form-control" v-model="noNotaPembelian" placeholder="No nota">
-                </p>
+                  </div>
+                
+
+                <p class="text-muted text-center">
+                  <div class="input-group">
+                  <span class="input-group-addon">Type</span>
+                      <select class='form-control' v-model='typePembelian' required>
+                          <option  value='1'>Cash</option>
+                          <option value='2' >Kredit</option>
+                        </select>
+                  </div>
+                  <p class="text-muted text-center">
+                  <div v-if="typePembelian === '2'">
+                    <div class="input-group">
+                    <span class="input-group-addon">Term</span>
+                    <input type="text" class="form-control" v-model="termPembelian" >
+                    </div>
+                  </div>
                 
                 <input type="hidden" class="form-control" :value="subtotal" :name="totalPembelian" >
                 <h3 class="profile-username text-center">Total {{ subtotal  || 0 | currency }}</h3>
@@ -86,10 +106,6 @@
                         <div class="col-xs-2">
                           <label>Total</label>
                         <input type="text" :value="(post1.hrgPokok * qtyBeli) || 0" :name="subTotal" class="form-control" placeholder="Total">
-                        </div>
-                        <div class="col-xs-2">
-                          <label>Qty Satuan</label>
-                        <input type="text" v-model="qtySa" class="form-control" placeholder="Qty Satuan" @keypress="onlyNumber">
                         </div>
 
                         <div class="col-xs-2">
@@ -166,7 +182,10 @@
                 ></vue-single-select>
 
                 <input type="hidden" class="form-control" v-model="post.id" placeholder="Supplier" required>
-                <input type="hidden" class="form-control" v-model="tglPembelian"  >
+                <input type="hidden" class="form-control" v-model="tglPembelian">
+                <input type="text" class="form-control" v-model="typePembelian">
+                <input type="text" class="form-control" v-model="termPembelian">
+                <input type="text" class="form-control" v-model="hutangPembelian"  >
                 </p>
                 <p class="text-muted text-center">
                 <input type="hidden" class="form-control" v-model="noNotaPembelian" placeholder="No nota">
@@ -232,6 +251,8 @@
                 showModal: false,
                 showModalMenu: false,
                 showModalBayar: false,
+                typePembelian: '1',
+                termPembelian: '',
             }
         },
 
@@ -352,17 +373,14 @@
                     kdBarang: this.post1.kdBarang,
                     hrgBeli: this.post1.hrgPokok,
                     qtyBeli: this.qtyBeli,
-                    qtySatuan: this.qtySa,
                     totalBeli: this.post1.hrgPokok * this.qtyBeli,
-                    hrgSatuan: Math.ceil((this.post1.hrgPokok * this.qtyBeli) / this.qtySa),
-                    stkSatuan: Math.ceil(this.qtyBeli / this.qtySa),
                     tglNotaPembelian: this.tglPembelian,
                 })
                     .then((response) => {
                         this.loadTotal()
                         this.loadTransaksiPembelian()
-                        alert('sukses donkkkkkkkk');
-                        document.getElementById("anyName").reset();
+                        alert('sukses ditambah');
+                        //document.getElementById("anyName").reset();
                         //this.loadTransaksiPenjualan()
                         //this.loadTotal()
                     });

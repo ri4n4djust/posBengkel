@@ -85,7 +85,7 @@ class pembelianController extends Controller
                 'hrgPokok'     => $request->input('hrgBeli'),
                 'qtyBeli'     => $request->input('qtyBeli'),
                 'totalBeli'     => $request->input('totalBeli'),
-                'qtySatuan'     => $request->input('qtySatuan'),
+                
             ]);
             
             $barang = DB::table('tblBarang')->where('kdBarang', $request->input('kdBarang'))->first();
@@ -97,16 +97,6 @@ class pembelianController extends Controller
                 'hrgPokok'     => $request->input('hrgBeli'),
             ]);
 
-            //=======Update Tabel Inventori
-            $inven = DB::table('tblInventori')->where('kdBarang', $request->input('kdBarang'))->first();
-            $stokLamaInv = $inven->stkInventori;
-            DB::table('tblInventori')->where('kdBarang', $request->input('kdBarang'))->update([
-                'stkInventori'     => $stokLamaInv + $request->input('qtySatuan'),
-                'hrgSatuan' => $request->input('hrgSatuan'),
-                'stkSatuan' => $request->input('stkSatuan'),
-            ]);
-            //===============================
-
                         
             KartuStok::create([
                 'kdBarang'     => $request->input('kdBarang'),
@@ -116,15 +106,6 @@ class pembelianController extends Controller
                 'noTransaksi'     => $request->input('noNotaPembelian'),
                 'keteranganKartu'     => 'Pembelian',
                 'satuanKartu' => $satuanKartu,
-            ]);
-            KartuStokInventori::create([
-                'kdBarang'     => $request->input('kdBarang'),
-                'tglInv'     => $request->input('tglNotaPembelian'),
-                'qtyMasukInv'     => $request->input('qtySatuan'),
-                'qtyKeluarInv'     => '0',
-                'noTransaksiInv'     => $request->input('noNotaPembelian'),
-                'keteranganKartuInv'     => 'Pembelian',
-                'satuanKartuInv' => $satuanKartu,
             ]);
 
                 return response()->json([
@@ -157,15 +138,7 @@ class pembelianController extends Controller
             'stkBarang'     => $stokLama + $request->input('qtyBeli')
             ]);
             //======================
-            //=======Update Tabel Inventori
-            $inven = DB::table('tblInventori')->where('kdBarang', $request->input('kdBarang'))->first();
-            $stokLamaInv = $inven->stkInventori;
-            DB::table('tblInventori')->where('kdBarang', $request->input('kdBarang'))->update([
-            'stkInventori'     => $stokLamaInv + $request->input('qtySatuan')
-            ]);
-            //===============================
-
-            //=========EndPembelianDetail
+            
             //=========Update Kartu Stok
             $brngstok = DB::table('tblKartuStok')
                 ->where('kdBarang', $request->input('kdBarang'))
@@ -243,6 +216,9 @@ class pembelianController extends Controller
             'tglNotaPembelian'     => $request->input('tglNotaPembelian'),
             'totalNotaPembelian'     => $request->input('totalNotaPembelian'),
             'userPembelian'     => $request->input('userPembelian'),
+            'typePembelian'     => $request->input('typePembelian'),
+            'termPembelian'     => $request->input('termPembelian'),
+            'hutangPembelian'   => $request->input('hutangPembelian'),
         ]);
 
         DB::table('tblKartuStok')
@@ -282,22 +258,12 @@ class pembelianController extends Controller
                 'stkBarang'     => $stokLama - $qtybarang
         ]);
 
-        $inven = DB::table('tblInventori')->where('kdBarang', $kodebarang)->first();
-        $stokLamaInv = $inven->stkInventori;
-        DB::table('tblInventori')->where('kdBarang', $kodebarang)->update([
-                'stkInventori'     => $stokLamaInv - $qtySatuan
-        ]);
 
         DB::table('tblKartuStok')
             ->where('kdBarang', $kodebarang)
             ->where('noTransaksi', $noNotaPembelian)
             ->delete();
         
-        DB::table('tblKartuStokInventori')
-            ->where('kdBarang', $kodebarang)
-            ->where('noTransaksiInv', $noNotaPembelian)
-            ->delete();
-
         $post->delete();
 
         if ($post) {

@@ -125,38 +125,8 @@ CREATE TABLE `tblBarang` (
 
 LOCK TABLES `tblBarang` WRITE;
 /*!40000 ALTER TABLE `tblBarang` DISABLE KEYS */;
-INSERT INTO `tblBarang` VALUES (1,'DB-2021-1','123456','Kampas Kopling',200000,300000,'KT-2021-1','NGK','8',NULL,'2','20','Kamps','2021-03-26 11:23:36','2021-03-26 11:23:36','Box'),(2,'DB-2021-2','12345678','Busi',9000,15000,'KT-2021-1','NGK','10',NULL,'2','4','Busi Ngk','2021-04-06 10:42:47','2021-04-06 10:42:47','PCS');
+INSERT INTO `tblBarang` VALUES (1,'DB-2021-1','123456','Kampas Kopling',200000,300000,'KT-2021-1','NGK','9',NULL,'2','20','Kamps','2021-03-26 11:23:36','2021-03-26 11:23:36','Box'),(2,'DB-2021-2','12345678','Busi',9000,15000,'KT-2021-1','NGK','13',NULL,'2','4','Busi Ngk','2021-04-06 10:42:47','2021-04-06 10:42:47','PCS');
 /*!40000 ALTER TABLE `tblBarang` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tblInventori`
---
-
-DROP TABLE IF EXISTS `tblInventori`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `tblInventori` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `kdBarang` char(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `stkInventori` char(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `hrgSatuan` char(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `satuanInventori` char(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `stkSatuan` char(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tblInventori`
---
-
-LOCK TABLES `tblInventori` WRITE;
-/*!40000 ALTER TABLE `tblInventori` DISABLE KEYS */;
-INSERT INTO `tblInventori` VALUES (1,'DB-2021-1','20','200000',NULL,'1','2021-03-26 11:23:36','2021-03-26 11:23:36'),(2,'DB-2021-2','20','9000',NULL,'1','2021-04-06 10:42:47','2021-04-06 10:42:47');
-/*!40000 ALTER TABLE `tblInventori` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -178,7 +148,7 @@ CREATE TABLE `tblKartuStok` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -187,40 +157,8 @@ CREATE TABLE `tblKartuStok` (
 
 LOCK TABLES `tblKartuStok` WRITE;
 /*!40000 ALTER TABLE `tblKartuStok` DISABLE KEYS */;
-INSERT INTO `tblKartuStok` VALUES (13,'DB-2021-1','2021/04/06','0','1','INV-2021-1','Penjualan','Box','2021-04-06 00:32:12','2021-04-06 00:32:12'),(14,'DB-2021-2','2021/04/06','20','0','PB-2021-1','Pembelian','PCS','2021-04-06 10:43:28','2021-04-06 10:43:28'),(15,'DB-2021-1','2021/04/06','20','0','PB-2021-1','Pembelian','Box','2021-04-06 10:44:35','2021-04-06 10:44:35'),(24,'DB-2021-1','2021/04/06','0','1','INV-2021-3','Penjualan','Box','2021-04-06 23:52:37','2021-04-06 23:52:37'),(25,'DB-2021-2','2021/04/06','0','10','INV-2021-4','Penjualan','PCS','2021-04-06 23:55:38','2021-04-06 23:55:38'),(26,'DB-2021-1','2021/04/06','0','2','INV-2021-5','Penjualan','Box','2021-04-06 23:58:06','2021-04-06 23:58:06');
+INSERT INTO `tblKartuStok` VALUES (13,'DB-2021-1','2021/04/06','0','1','INV-2021-1','Penjualan','Box','2021-04-06 00:32:12','2021-04-06 00:32:12'),(14,'DB-2021-2','2021/04/06','20','0','PB-2021-1','Pembelian','PCS','2021-04-06 10:43:28','2021-04-06 10:43:28'),(15,'DB-2021-1','2021/04/06','20','0','PB-2021-1','Pembelian','Box','2021-04-06 10:44:35','2021-04-06 10:44:35'),(24,'DB-2021-1','2021/04/06','0','1','INV-2021-3','Penjualan','Box','2021-04-06 23:52:37','2021-04-06 23:52:37'),(25,'DB-2021-2','2021/04/06','0','10','INV-2021-4','Penjualan','PCS','2021-04-06 23:55:38','2021-04-06 23:55:38'),(26,'DB-2021-1','2021/04/06','0','2','INV-2021-5','Penjualan','Box','2021-04-06 23:58:06','2021-04-06 23:58:06'),(27,'DB-2021-1','2021/04/09','0','1','INV-2021-6','Penjualan','Box','2021-04-09 00:11:20','2021-04-09 00:11:20'),(28,'DB-2021-1','2021/04/12','2','0','PB-2021-2','Pembelian','Box','2021-04-12 00:06:09','2021-04-12 00:06:09'),(29,'DB-2021-2','2021/04/12','3','0','PB-2021-2','Pembelian','PCS','2021-04-12 00:06:21','2021-04-12 00:06:21');
 /*!40000 ALTER TABLE `tblKartuStok` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tblKartuStokInventori`
---
-
-DROP TABLE IF EXISTS `tblKartuStokInventori`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `tblKartuStokInventori` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `kdBarang` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tglInv` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `qtyMasukInv` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `qtyKeluarInv` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `noTransaksiInv` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `keteranganKartuInv` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `satuanKartuInv` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tblKartuStokInventori`
---
-
-LOCK TABLES `tblKartuStokInventori` WRITE;
-/*!40000 ALTER TABLE `tblKartuStokInventori` DISABLE KEYS */;
-INSERT INTO `tblKartuStokInventori` VALUES (1,'DB-2021-2','2021/04/06','20','0','PB-2021-1','Pembelian','PCS','2021-04-06 10:43:28','2021-04-06 10:43:28'),(2,'DB-2021-1','2021/04/06','20','0','PB-2021-1','Pembelian','Box','2021-04-06 10:44:35','2021-04-06 10:44:35');
-/*!40000 ALTER TABLE `tblKartuStokInventori` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -326,8 +264,11 @@ CREATE TABLE `tblPembelian` (
   `userPembelian` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `typePembelian` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `terPembelian` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `hutangPembelian` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -336,7 +277,7 @@ CREATE TABLE `tblPembelian` (
 
 LOCK TABLES `tblPembelian` WRITE;
 /*!40000 ALTER TABLE `tblPembelian` DISABLE KEYS */;
-INSERT INTO `tblPembelian` VALUES (1,'SP-2021-1','PB-2021-1','2021/04/06','4180000','1','2021-04-06 10:44:51','2021-04-06 10:44:51');
+INSERT INTO `tblPembelian` VALUES (1,'SP-2021-1','PB-2021-1','2021/04/06','4180000','1','2021-04-06 10:44:51','2021-04-06 10:44:51',NULL,NULL,NULL),(2,'SP-2021-1','PB-2021-2','2021/04/12','427000','1','2021-04-12 00:08:19','2021-04-12 00:08:19',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `tblPembelian` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -353,12 +294,11 @@ CREATE TABLE `tblPembelianDetail` (
   `kdBarang` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `hrgPokok` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `qtyBeli` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `qtySatuan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `totalBeli` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -367,7 +307,7 @@ CREATE TABLE `tblPembelianDetail` (
 
 LOCK TABLES `tblPembelianDetail` WRITE;
 /*!40000 ALTER TABLE `tblPembelianDetail` DISABLE KEYS */;
-INSERT INTO `tblPembelianDetail` VALUES (1,'PB-2021-1','DB-2021-2','9000','20','20','180000','2021-04-06 10:43:28','2021-04-06 10:43:28'),(2,'PB-2021-1','DB-2021-1','200000','20','20','4000000','2021-04-06 10:44:35','2021-04-06 10:44:35');
+INSERT INTO `tblPembelianDetail` VALUES (3,'PB-2021-2','DB-2021-1','200000','2','400000','2021-04-12 00:06:09','2021-04-12 00:06:09'),(4,'PB-2021-2','DB-2021-2','9000','3','27000','2021-04-12 00:06:21','2021-04-12 00:06:21');
 /*!40000 ALTER TABLE `tblPembelianDetail` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -397,7 +337,7 @@ CREATE TABLE `tblPenjualan` (
   `termNota` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `piutangNota` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -406,7 +346,7 @@ CREATE TABLE `tblPenjualan` (
 
 LOCK TABLES `tblPenjualan` WRITE;
 /*!40000 ALTER TABLE `tblPenjualan` DISABLE KEYS */;
-INSERT INTO `tblPenjualan` VALUES (1,'INV-2021-1','1','PL-2021-1','2021/04/06','300000','0','0','300000','0','1','2021-04-06 00:32:22','2021-04-06 00:32:22','mekanik 1',NULL,NULL,NULL),(2,'INV-2021-2','1','PL-2021-1','2021/04/06','15000','0','0','15000','0','1','2021-04-06 10:45:53','2021-04-06 10:45:53','mekanik 1',NULL,NULL,NULL),(4,'INV-2021-3','1','PL-2021-2','2021/04/06','300000','0','0','300000','0','1','2021-04-06 23:53:02','2021-04-06 23:53:02','mekanik 1','1','0','0'),(5,'INV-2021-4','1','PL-2021-2','2021/04/06','150000','0','0','0','-150000','1','2021-04-06 23:55:50','2021-04-06 23:55:50','mekanik 1','2','14','150000'),(6,'INV-2021-5','1','PL-2021-2','2021/04/06','600000','0','0','100000','-500000','1','2021-04-06 23:58:27','2021-04-06 23:58:27','mekanik 1','2','30','500000');
+INSERT INTO `tblPenjualan` VALUES (1,'INV-2021-1','1','PL-2021-1','2021/04/06','300000','0','0','300000','0','1','2021-04-06 00:32:22','2021-04-06 00:32:22','mekanik 1',NULL,NULL,NULL),(2,'INV-2021-2','1','PL-2021-1','2021/04/06','15000','0','0','15000','0','1','2021-04-06 10:45:53','2021-04-06 10:45:53','mekanik 1',NULL,NULL,NULL),(4,'INV-2021-3','1','PL-2021-2','2021/04/06','300000','0','0','300000','0','1','2021-04-06 23:53:02','2021-04-06 23:53:02','mekanik 1','1','0','0'),(5,'INV-2021-4','1','PL-2021-2','2021/04/06','150000','0','0','0','-150000','1','2021-04-06 23:55:50','2021-04-06 23:55:50','mekanik 1','2','14','150000'),(6,'INV-2021-5','1','PL-2021-2','2021/04/06','600000','0','0','100000','-500000','1','2021-04-06 23:58:27','2021-04-06 23:58:27','mekanik 1','2','30','500000'),(7,'INV-2021-6','1','PL-2021-2','2021/04/09','300000','0','0','300000','0','1','2021-04-09 00:11:30','2021-04-09 00:11:30','mekanik 1','1','0','0');
 /*!40000 ALTER TABLE `tblPenjualan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -429,7 +369,7 @@ CREATE TABLE `tblPenjualanDetail` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `tglPenjualan` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -438,7 +378,7 @@ CREATE TABLE `tblPenjualanDetail` (
 
 LOCK TABLES `tblPenjualanDetail` WRITE;
 /*!40000 ALTER TABLE `tblPenjualanDetail` DISABLE KEYS */;
-INSERT INTO `tblPenjualanDetail` VALUES (15,'INV-2021-1','DB-2021-1','300000','1','Box','300000','2021-04-06 00:32:12','2021-04-06 00:32:12','2021/04/06'),(24,'INV-2021-3','DB-2021-1','300000','1','Box','300000','2021-04-06 23:52:37','2021-04-06 23:52:37','2021/04/06'),(25,'INV-2021-4','DB-2021-2','15000','10','PCS','150000','2021-04-06 23:55:38','2021-04-06 23:55:38','2021/04/06'),(26,'INV-2021-5','DB-2021-1','300000','2','Box','600000','2021-04-06 23:58:06','2021-04-06 23:58:06','2021/04/06');
+INSERT INTO `tblPenjualanDetail` VALUES (15,'INV-2021-1','DB-2021-1','300000','1','Box','300000','2021-04-06 00:32:12','2021-04-06 00:32:12','2021/04/06'),(24,'INV-2021-3','DB-2021-1','300000','1','Box','300000','2021-04-06 23:52:37','2021-04-06 23:52:37','2021/04/06'),(25,'INV-2021-4','DB-2021-2','15000','10','PCS','150000','2021-04-06 23:55:38','2021-04-06 23:55:38','2021/04/06'),(26,'INV-2021-5','DB-2021-1','300000','2','Box','600000','2021-04-06 23:58:06','2021-04-06 23:58:06','2021/04/06'),(27,'INV-2021-6','DB-2021-1','300000','1','Box','300000','2021-04-09 00:11:20','2021-04-09 00:11:20','2021/04/09');
 /*!40000 ALTER TABLE `tblPenjualanDetail` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -658,4 +598,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-07 21:58:51
+-- Dump completed on 2021-04-12  8:22:29
