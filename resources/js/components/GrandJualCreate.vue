@@ -87,14 +87,14 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="(pe, index) in pem" :key="pe.id">
-                                    <td @click="edit(index)">{{ pe.noNota }} </td>
-                                    <td class="pointerCursor" @click="edit(index)">{{ pe.tglNota}}</td>
+                                <tr v-for="pe in pem" :key="pe.id">
+                                    <td >{{ pe.noNota }} </td>
+                                    <td >{{ pe.tglNota}}</td>
                                     <td>{{ pe.piutangNota}}</td>
-                                    <td><input type="text" :name="bayarpiutang"></td>
+                                    <td><input type="text" @keyup="edit(id= pe.id)" :name="bayarpiutang"></td>
                                     <td>{{ pe.piutangNota - bayarpiutang | currency }}</td>
                                     <td class="text-center">
-                                        <button @click.prevent="PostDeleteTrx(pe.id)" class="btn btn-sm btn-danger">HAPUS</button>
+                                        <button @click.prevent="PostDeleteTrx(id= pe.id)" class="btn btn-sm btn-danger">HAPUS</button>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -207,11 +207,8 @@
         },
 
         methods: {
-          edit(index) {
-            alert(this.pems[index]);
-
-            // update using an api that returns the updated data.
-           // var updatedPhone = update(phone.id)
+          edit(id) {
+            alert("hahaha" + id);
 
             // how to update with reloading all the phone list?
             //this.phones.splice(index, 1, updatedPhone)
@@ -267,7 +264,7 @@
             },
             PostDeleteTrx(id)
             {
-              if(confirm("Do you really want to delete?")){
+              if(confirm("Do you really want to delete?" + id)){
                 this.axios.delete(`/api/penjualanDelete/${id}`)
                     .then(response => {
                         alert('Berhasil Di Hapus');
@@ -279,7 +276,7 @@
               }
             },
             
-            PostTransaksiPenjualan() {
+            PostGrandJual() {
                 let uri = '/api/addPenjualan/store';
                 this.axios.post(uri, 
                 {

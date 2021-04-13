@@ -9,6 +9,7 @@ return array(
     'App\\Barang' => $baseDir . '/app/Barang.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
+    'App\\GrandJual' => $baseDir . '/app/GrandJual.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\CountryStateController' => $baseDir . '/app/Http/Controllers/CountryStateController.php',
     'App\\Http\\Controllers\\kategoriController' => $baseDir . '/app/Http/Controllers/kategoriController.php',

@@ -503,6 +503,7 @@ class ComposerStaticInitc4f97d6204a4d34371f464f9dc423f38
         'App\\Barang' => __DIR__ . '/../..' . '/app/Barang.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\GrandJual' => __DIR__ . '/../..' . '/app/GrandJual.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\CountryStateController' => __DIR__ . '/../..' . '/app/Http/Controllers/CountryStateController.php',
         'App\\Http\\Controllers\\kategoriController' => __DIR__ . '/../..' . '/app/Http/Controllers/kategoriController.php',
