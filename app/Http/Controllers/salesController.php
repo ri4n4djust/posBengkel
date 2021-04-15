@@ -103,13 +103,6 @@ class salesController extends Controller
                 'qtyMax' => $request->input('qtyMax'),
             ]);
             
-            Inventori::create([
-                    'kdBarang' => $request->input('kdBarang'),
-                    'stkInventori' => $request->input('stkInve'),
-                    'hrgSatuan' => $request->input('hrgPokok'),
-                    'stkSatuan' => '1',
-
-            ]);
 
             if ($post) {
                 return response()->json([
@@ -180,7 +173,7 @@ class salesController extends Controller
                 'merek' => $request->input('merek'),
                 'qtyMin' => $request->input('qtyMin'),
                 'qtyMax' => $request->input('qtyMax'),
-                'stsBarang' => $request->input('stsBarang'),
+                'barcode' => $request->input('barcode'),
             ]);
 
 
@@ -204,8 +197,6 @@ class salesController extends Controller
     {
         $post = Barang::findOrFail($id);
         $kodebarang = $post->kdBarang;
-
-        $inven = Inventori::where('kdBarang', $kodebarang)->delete();
 
         $post->delete();
 

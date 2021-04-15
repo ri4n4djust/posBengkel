@@ -55,11 +55,9 @@
                             </div>
 
                             <div class="form-group">
-                            <label>Jenis Barang: </label>
-                            <select class='form-control' v-model='post.stsBarang'>
-                                <option value='1' >Barang Jadi</option>
-                                <option value='2' >Barang Mentah</option>
-                            </select>
+                            <label>Barcode : </label>
+                            <input type="text" class="form-control" v-model="post.barcode">
+                            <barcode v-model="post.barcode" :options="{ displayValue: true }"></barcode>
                             </div>
 
                 </div>

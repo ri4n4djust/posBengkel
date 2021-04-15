@@ -310,11 +310,13 @@ class penjualanController extends Controller
     {
         
 
-        $post = PenjualanDetail::findOrFail($id);
+        $post = Penjualan::findOrFail($id);
 
-        $noNotaPenjualan = $post->noNotaPenjualan;
-        $kodebarang = $post->kdBarang;
-        $qtybarang = $post->qtyJual;
+        $noNotaPenjualan = $post->noNota;
+
+        $post1 = PenjualanDetail::where('noNotaPenjualan', $noNotaPenjualan)->first();
+        $kodebarang = $post1->kdBarang;
+        $qtybarang = $post1->qtyJual;
         //$satuanJual = $post->satuanJual;
 
         $barang = DB::table('tblBarang')->where('kdBarang', $kodebarang)->first();
@@ -322,6 +324,7 @@ class penjualanController extends Controller
         DB::table('tblBarang')->where('kdBarang', $kodebarang)->update([
                 'stkBarang'     => $stokLama + $qtybarang
         ]);
+        PenjualanDetail::where('noNotaPenjualan', $noNotaPenjualan)->delete();
 
 
         DB::table('tblKartuStok')

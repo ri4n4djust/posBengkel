@@ -14066,6 +14066,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ActionButtons",
   data: function data() {
@@ -14080,30 +14091,48 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     this.loadData(); //this.something()
     //this.loadDetailPenjualan()
+
+    this.adminuser = this.$session.get('roleID');
   },
   methods: {
-    something: function something() {
+    rePrint: function rePrint() {
+      window.print(printMe);
+    },
+    DeletePenjualan: function DeletePenjualan(id, index) {
       var _this = this;
 
+      if (confirm("Do you really want to delete?")) {
+        this.axios["delete"]("/api/hapuspenjualan/".concat(id)).then(function (response) {
+          _this.posts.splice(index, 1);
+
+          _this.showModalPenjualan = false;
+        })["catch"](function (error) {
+          alert('system error!');
+        });
+      }
+    },
+    something: function something() {
+      var _this2 = this;
+
       return new Promise(function (resolve) {
-        resolve('np:' + _this.data.noNota);
+        resolve('np:' + _this2.data.noNota);
       });
     },
     loadData: function loadData() {
-      var _this2 = this;
+      var _this3 = this;
 
       var uri = '/api/penjualan';
       this.axios.get(uri).then(function (response) {
-        _this2.posts = response.data.data;
+        _this3.posts = response.data.data;
       });
     },
     loadDetailPenjualan: function loadDetailPenjualan() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.showModalPenjualan = true;
       var uri = '/api/detailpenjualan/' + this.data.noNota;
       this.axios.post(uri).then(function (response) {
-        _this3.pem = response.data.data; // alert('no nota '+ this.data.noNota);
+        _this4.pem = response.data.data; // alert('no nota '+ this.data.noNota);
       });
     }
   },
@@ -15791,8 +15820,6 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component(_chenfengyuan_vue_barcode__
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
 //
 //
 //
@@ -59433,7 +59460,103 @@ var render = function() {
                           ]
                         ),
                         _vm._v(" "),
-                        _c("p", { staticClass: "text-muted text-center" }),
+                        _vm.adminuser === "Admin"
+                          ? _c("div", [
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "btn btn-md btn-success",
+                                  attrs: { href: "#" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.rePrint()
+                                    }
+                                  }
+                                },
+                                [_c("b", [_vm._v("Re-Print")])]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "btn btn-md btn-success",
+                                  attrs: { href: "#" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.showModalMenu = true
+                                    }
+                                  }
+                                },
+                                [_c("b", [_vm._v("Edit")])]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "btn btn-md btn-success",
+                                  attrs: { href: "#" },
+                                  on: {
+                                    click: function($event) {
+                                      $event.preventDefault()
+                                      return _vm.DeletePenjualan(
+                                        _vm.data.id,
+                                        _vm.index
+                                      )
+                                    }
+                                  }
+                                },
+                                [_c("b", [_vm._v("Delete")])]
+                              )
+                            ])
+                          : _vm.adminuser === "Operator"
+                          ? _c("div", [
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "btn btn-md btn-success",
+                                  attrs: { href: "#" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.rePrint()
+                                    }
+                                  }
+                                },
+                                [_c("b", [_vm._v("Re-Print")])]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "btn btn-md btn-success",
+                                  attrs: { href: "#" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.showModalMenu = true
+                                    }
+                                  }
+                                },
+                                [_c("b", [_vm._v("Edit")])]
+                              )
+                            ])
+                          : _vm.adminuser === "Kasir"
+                          ? _c("div", [
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "btn btn-md btn-success",
+                                  attrs: { href: "#" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.rePrint()
+                                    }
+                                  }
+                                },
+                                [_c("b", [_vm._v("Re-Print")])]
+                              )
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("br"),
                         _vm._v(" "),
                         _c(
                           "table",
@@ -62003,52 +62126,47 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", [_vm._v("Jenis Barang: ")]),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
+              _c(
+                "div",
+                { staticClass: "form-group" },
+                [
+                  _c("label", [_vm._v("Barcode : ")]),
+                  _vm._v(" "),
+                  _c("input", {
                     directives: [
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.post.stsBarang,
-                        expression: "post.stsBarang"
+                        value: _vm.post.barcode,
+                        expression: "post.barcode"
                       }
                     ],
                     staticClass: "form-control",
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.post.barcode },
                     on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.$set(
-                          _vm.post,
-                          "stsBarang",
-                          $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        )
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.post, "barcode", $event.target.value)
                       }
                     }
-                  },
-                  [
-                    _c("option", { attrs: { value: "1" } }, [
-                      _vm._v("Barang Jadi")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "2" } }, [
-                      _vm._v("Barang Mentah")
-                    ])
-                  ]
-                )
-              ])
+                  }),
+                  _vm._v(" "),
+                  _c("barcode", {
+                    attrs: { options: { displayValue: true } },
+                    model: {
+                      value: _vm.post.barcode,
+                      callback: function($$v) {
+                        _vm.$set(_vm.post, "barcode", $$v)
+                      },
+                      expression: "post.barcode"
+                    }
+                  })
+                ],
+                1
+              )
             ])
           ]),
           _vm._v(" "),
