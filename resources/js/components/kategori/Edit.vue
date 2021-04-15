@@ -1,51 +1,26 @@
 <template>
     <div class="mt-3">
-                    <div class="card-header">EDIT SUPPLIER</div>
+                    <div class="card-header">EDIT KATEGORI</div>
 
                     <div class="card-body">
 
                         <form @submit.prevent="PostUpdate">
 
                             <div class="form-group">
-                                <label>Nama Spplier</label>
-                                <input type="text" class="form-control" v-model="post.nmSupplier"
-                                       placeholder="Masukkan Nama Supplier">
-                                <div v-if="validation.nmSupplier">
-                                    <div class="alert alert-danger mt-1" role="alert">
-                                        {{ validation.nmSupplier[0] }}
-                                    </div>
-                                </div>
+                                <label>Kode Katergori</label>
+                                <input type="text" class="form-control" v-model="post.kodeKtg" disabled>
                             </div>
                             <div class="form-group">
-                                <label>Alamat Supplier</label>
-                                <input type="text" class="form-control" v-model="post.almtSupplier"
+                                <label>Nama Kategori</label>
+                                <input type="text" class="form-control" v-model="post.namaKtg"
                                        placeholder="Alamat Supplier">
-                                <div v-if="validation.almtSupplier">
+                                <div v-if="validation.namaKtg">
                                     <div class="alert alert-danger mt-1" role="alert">
-                                        {{ validation.almtSupplier[0] }}
+                                        {{ validation.namaKtg[0] }}
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label>No. HP</label>
-                                <input type="text" class="form-control" v-model="post.noHp"
-                                       placeholder="No HP">
-                                <div v-if="validation.noHp">
-                                    <div class="alert alert-danger mt-1" role="alert">
-                                        {{ validation.noHp[0] }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Kontak Person</label>
-                                <input type="text" class="form-control" v-model="post.kontakSupplier"
-                                       placeholder="Kontak Supplier">
-                                <div v-if="validation.kontakSupplier">
-                                    <div class="alert alert-danger mt-1" role="alert">
-                                        {{ validation.kontakSupplier[0] }}
-                                    </div>
-                                </div>
-                            </div>
+                            
 
                             <div class="form-group">
                                 <button type="submit" class="btn btn-md btn-success">UPDATE</button>
@@ -74,17 +49,17 @@
             }
         },
         created() {
-            let uri = `http://localhost:8000/api/supplier/${this.$route.params.id}`;
+            let uri = `/api/kategori/${this.$route.params.id}`;
             this.axios.get(uri).then((response) => {
                 this.post = response.data.data;
             });
         },
         methods: {
             PostUpdate() {
-                let uri = `http://localhost:8000/api/supplier/update/${this.$route.params.id}`;
+                let uri = `/api/kategori/update/${this.$route.params.id}`;
                 this.axios.post(uri, this.post)
                     .then((response) => {
-                        this.$router.push({name: 'supplier'});
+                        this.$router.push({name: 'kategori'});
                     }).catch(error => {
                     this.validation = error.response.data.data;
                 });

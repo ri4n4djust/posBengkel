@@ -21,6 +21,10 @@ class Pembelian extends Migration
             $table->string('tglNotaPembelian');
             $table->string('totalNotaPembelian');
             $table->string('userPembelian');
+            $table->string('bayarNotaPembelian');
+            $table->string('typePembelian');
+            $table->string('termPembelian');
+            $table->string('hutangPembelian');
             $table->timestamps();
         });
     }

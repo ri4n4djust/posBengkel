@@ -92,7 +92,7 @@ class kategoriController extends Controller
             'kodeKtg'     => 'required',
         ],
             [
-                'kodeKtg.required' => 'Masukkan Nama Kategori !',
+                'kodeKtg.required' => 'Masukkan Kode Kategori !',
             ]
         );
 
@@ -107,7 +107,7 @@ class kategoriController extends Controller
         } else {
 
             $post = Kategori::whereId($request->input('id'))->update([
-                'namaKtg'   => $request->input('almtSupplier'),
+                'namaKtg'   => $request->input('namaKtg'),
             ]);
             if ($post) {
                 return response()->json([

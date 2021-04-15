@@ -49,6 +49,15 @@
                     <input type="text" class="form-control" v-model="termPenjualan" >
                     </div>
                   </div>
+                  <div class="input-group">
+                  <span class="input-group-addon">Mekanik</span>
+                      <input type="text" class="form-control" v-model="mekanikNota" >
+                  </div>
+                  <p>
+                  <div class="input-group">
+                  <span class="input-group-addon">Lift :</span>
+                      <input type="text" class="form-control" v-model="liftNo" >
+                  </div>
                 
                 
                 <input type="hidden" class="form-control" :value="subtotal" :name="totalPenjualan" >
@@ -171,7 +180,7 @@
                 <input type="hidden" class="form-control" v-model="mekanikNota">
                 <input type="hidden" class="form-control" v-model="typePenjualan">
                 <input type="hidden" class="form-control" v-model="termPenjualan">
-                <input type="hidden" class="form-control" :name="pitangPenjualan" :value="Math.abs(totalBayar - ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * diskon / 100)))">
+                <input type="hidden" class="form-control" :name="piutangPenjualan" :value="Math.abs(totalBayar - ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * diskon / 100)))">
                 
 
                 <p class="text-muted text-center">
@@ -365,7 +374,7 @@
                 post: {},
                 posts: [],
                 post1: {},
-                users: {},
+                users: [],
                 pem: {},
                 qtyJual: '',
                 qtySa: '',
@@ -389,6 +398,7 @@
                 termPenjualan: '0',
                 piutangPenjualan: '',
                 totalx: '',
+                noNotaPenjualan: '',
                 //noNotaPenjualan: '',
                 totalPenjualan: '',
                 tglPenjualan: new Date().toJSON().slice(0,10).replace(/-/g,'/'),
@@ -587,7 +597,7 @@
             if (!this.$session.exists()) {
             this.$router.push('/')
             };
-            this.loadNotaPenjualan();
+            //this.loadNotaPenjualan();
         },
         created() {
             this.loadNotaPenjualan();

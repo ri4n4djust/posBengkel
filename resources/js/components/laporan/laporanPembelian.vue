@@ -16,8 +16,8 @@
                                 <data-table v-bind="bindings" @actionTriggered="ActionButtons"/>
                                 </div>
                                 
-                               
-                                
+                                      
+
                             </div>
                             <!-- /.tab-pane -->
                             <div class="tab-pane" id="timeline">
@@ -190,6 +190,18 @@ Vue.component("data-table", DataTable);
                         {
                             key: "totalNotaPembelian",
                             title: "Total",
+                            sortable: false,
+                            searchable: false,
+                        },
+                        {
+                            key: "bayarNotaPembelian",
+                            title: "Bayar",
+                            sortable: false,
+                            searchable: false,
+                        },
+                        {
+                            key: "hutangPembelian",
+                            title: "Hutang",
                             sortable: false,
                             searchable: false,
                         },

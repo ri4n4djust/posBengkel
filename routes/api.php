@@ -78,6 +78,7 @@ Route::post('/totalTrx/{id}', 'mejaController@totalTrx');
 //=======penomeran
 Route::post('/noNota/{id}', 'nomorController@noNota');
 Route::get('/kodeBarang', 'nomorController@kodeBarang');
+Route::get('/kodeKategori', 'nomorController@kodeKategori');
 Route::get('/kodeMenu', 'nomorController@kodeMenu');
 Route::get('/kodePembelian', 'nomorController@kodePembelian');
 Route::get('/kodePenjualan', 'nomorController@noNota');
@@ -94,6 +95,7 @@ Route::post('/dataPembelian/{id}', 'pembelianController@listTransaksiPembelian')
 Route::post('/totalTrxPembelian', 'pembelianController@totalTrxPembelian');
 Route::delete('/pembelianDelete/{id?}', 'pembelianController@destroy1');
 Route::post('/addPembelian/store', 'pembelianController@addTransaksiPembelian');
+Route::delete('/hapuspembelian/{id?}', 'pembelianController@hapusPembelian');
 
 //=========Penjualan
 Route::post('/addItemPenjualan/store', 'penjualanController@addItemPenjualan');

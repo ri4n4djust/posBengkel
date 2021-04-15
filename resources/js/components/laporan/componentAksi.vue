@@ -21,7 +21,7 @@
 
                                         <div class="row invoice-info">
                                             <div class="col-sm-4 invoice-col">
-                                            {{data.id}}
+                                           
                                             <address>
                                                 <strong>Customer :</strong> {{data.namaPelanggan}}<br>
                                                 <b> Tgl : </b>{{data.tglNota}}<br>
@@ -31,18 +31,25 @@
                                             <!-- /.col -->
                                             <div class="col-sm-4 invoice-col">
                                             <b>No Invoice : </b>{{data.noNota}}<br>
-                                            <b>Kasir : </b>{{data.name}}
+                                            <b>Kasir : </b>{{data.name}}<br>
+                                            <b>Lift : </b>{{data.liftNo}}
                                             
                                             </div>
                                             <!-- /.col -->
                                             <div class="col-sm-4 invoice-col">
                                                 <b>Pajak : </b>{{data.taxNota | currency}}<br>
-                                                <b>Diskon : </b>{{data.diskonNota | currency}}
+                                                <b>Diskon : </b>{{data.diskonNota | currency}}<br>
+                                                <b>type : </b> <span v-if="data.typeNota === '1'">
+                                                                    Cash
+                                                                </span>
+                                                                <span v-else-if="data.typeNota === '2'">
+                                                                    Kredit<br>
+                                                                    Bayar : {{ data.bayarNota  || 0 | currency }} <br> Sisa Hutang :  {{ data.piutangNota  || 0 | currency }}
+                                                                </span>
                                             </div>
                                         </div>
                                         <h3 class="profile-username text-left">
-                                            <label>Total : </label>
-                                            {{ data.totalNota  || 0 | currency }}</h3>
+                                            Total : {{ data.totalNota  || 0 | currency }} </h3>
                                         
                                         <p class="text-muted text-center">
                                         </p>

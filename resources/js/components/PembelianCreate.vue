@@ -399,6 +399,7 @@
                     typePembelian: this.typePembelian,
                     termPembelian: this.termPembelian,
                     hutangPembelian: this.subtotal - this.totalBayar,
+                    totalBayar: this.totalBayar,
                     
                 })
                     .then((response) => {

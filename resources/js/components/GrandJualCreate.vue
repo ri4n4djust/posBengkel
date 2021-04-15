@@ -87,12 +87,12 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="pe in pem" :key="pe.id">
+                                <tr v-for="(pe, index) in pem" :key="pe.id">
                                     <td >{{ pe.noNota }} </td>
                                     <td >{{ pe.tglNota}}</td>
-                                    <td>{{ pe.piutangNota}}</td>
-                                    <td><input type="text" @keyup="edit(id= pe.id)" :name="bayarpiutang"></td>
-                                    <td>{{ pe.piutangNota - bayarpiutang | currency }}</td>
+                                    <td>{{ pe.piutangNota }}</td>
+                                    <td><input type="text" v-model="bayar[index]" :key="index"></td>
+                                    <td>{{ pe.piutangNota - bayar[index]  }} </td>
                                     <td class="text-center">
                                         <button @click.prevent="PostDeleteTrx(id= pe.id)" class="btn btn-sm btn-danger">HAPUS</button>
                                     </td>
@@ -132,7 +132,7 @@
                 posts: [],
                 post1: {},
                 users: {},
-                pem: {},
+                pem: [],
                 qtyJual: '',
                 qtySa: '',
                 hrgJual: '',
@@ -155,6 +155,7 @@
                 showModalMenu: false,
                 showModalBayar: false,
                 totalBayar:'',
+                bayar: '',
             }
         },
 
@@ -165,6 +166,7 @@
         },
         //props: ['value'],
         props: {
+
           value: { require: true },
           options: {
             type: Array,
@@ -206,6 +208,18 @@
 
         },
 
+        computed: {
+          totalAmount: function () {
+                    var sum = 0;
+                    this.pem.forEach(e => {
+                        sum += e.piutangNota;
+                    });
+                    return sum
+                },
+
+
+        },
+
         methods: {
           edit(id) {
             alert("hahaha" + id);
@@ -213,6 +227,7 @@
             // how to update with reloading all the phone list?
             //this.phones.splice(index, 1, updatedPhone)
         },
+        
           onlyNumber ($event) {
                 //console.log($event.keyCode); //keyCodes value
                 let keyCode = ($event.keyCode ? $event.keyCode : $event.which);

@@ -94,13 +94,6 @@
                                         <div class="col-xs-5">
                                         <input type="text" class="form-control" v-model="post.satuanBarang" placeholder="Satuan">
                                         </div>
-                                        <div class="col-xs-3">
-                                        <input type="text" class="form-control" v-model="input.party" placeholder="Isi">
-                                        </div>
-                                        <span>
-                                        <i class="fa fa-fw fa-remove" @click="remove(k)" v-show="k || ( !k && inputs.length > 1)">del</i>&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <i class="fa fa-fw fa-plus-square" @click="add(k)" v-show="k == inputs.length-1">Tambah</i>
-                                        </span>
                                     </div>
                                     </div>
                                     

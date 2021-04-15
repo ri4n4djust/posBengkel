@@ -1,6 +1,6 @@
 <template>
     <div class="mt-3">
-                    <div class="card-header">TAMBAH SUPPLIER</div>
+                    <div class="card-header">TAMBAH KATEGORI</div>
 
                     <div class="card-body">
 
@@ -14,7 +14,7 @@
                             <div class="form-group">
                                 <label>Nama Kategori</label>
                                 <input type="text" class="form-control" v-model="post.namaKtg"
-                                       placeholder="Alamat Supplier">
+                                       placeholder="Nama Kategori">
                                 <div v-if="validation.namaKtg">
                                     <div class="alert alert-danger mt-1" role="alert">
                                         {{ validation.namaKtg[0] }}
