@@ -191,7 +191,7 @@
                 <input type="hidden" class="form-control" v-model="noNotaPembelian" placeholder="No nota">
                 </p>
                 <p class="text-muted text-center">
-                <input type="text" class="form-control" v-model="subtotal" >
+                <input type="text" class="form-control" v-model="subtotal" min="0" >
                 </p>
                
                 <p class="text-muted text-center">
@@ -199,7 +199,9 @@
                 </p>
                       
                 <h3 class="profile-username ">Total {{ subtotal || 0 | currency }}</h3>
-                <h3 class="profile-username ">Kembali : {{ totalBayar - subtotal  || 0 | currency }}</h3>
+                <h3 class="profile-username ">
+                  <input type="text" class="form-control" :value="totalBayar - subtotal " name="kembal" v-on:change="onlyNumber">
+                Kembali : {{ totalBayar - subtotal  || 0 | currency }}</h3>
                 <p class="text-muted text-center">
                 <button type="submit"  class="btn btn-md btn-success">Bayar</button>                
                 </p>

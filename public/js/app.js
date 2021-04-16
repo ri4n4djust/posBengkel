@@ -12847,6 +12847,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -57409,7 +57411,7 @@ var render = function() {
                                   }
                                 ],
                                 staticClass: "form-control",
-                                attrs: { type: "text" },
+                                attrs: { type: "text", min: "0" },
                                 domProps: { value: _vm.subtotal },
                                 on: {
                                   input: function($event) {
@@ -57459,8 +57461,16 @@ var render = function() {
                             ]),
                             _vm._v(" "),
                             _c("h3", { staticClass: "profile-username " }, [
+                              _c("input", {
+                                staticClass: "form-control",
+                                attrs: { type: "text", name: "kembal" },
+                                domProps: {
+                                  value: _vm.totalBayar - _vm.subtotal
+                                },
+                                on: { change: _vm.onlyNumber }
+                              }),
                               _vm._v(
-                                "Kembali : " +
+                                "\n               Kembali : " +
                                   _vm._s(
                                     _vm._f("currency")(
                                       _vm.totalBayar - _vm.subtotal || 0
