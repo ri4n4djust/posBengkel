@@ -22,6 +22,7 @@ class PenjualanDetail extends Migration
             $table->string('qtyJual');
             $table->string('satuanJual');
             $table->string('totalJual');
+            $table->string('tglPenjualan');
             $table->timestamps();
         });
     }

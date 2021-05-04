@@ -20,7 +20,6 @@ class PembelianDetail extends Migration
             $table->string('kdBarang');
             $table->string('hrgPokok');
             $table->string('qtyBeli');
-            $table->string('qtySatuan');
             $table->string('totalBeli');
             $table->timestamps();
         });
