@@ -102,7 +102,7 @@ Route::post('/addItemPenjualan/store', 'penjualanController@addItemPenjualan');
 Route::post('/addJasaPenjualan/store', 'penjualanController@addJasaPenjualan');
 Route::get('/dataPenjualan/{id}', 'penjualanController@listTransaksiPenjualan');
 Route::post('/totalTrxPenjualan', 'penjualanController@totalTrxPenjualan');
-//Route::delete('/penjualanDelete/{id?}', 'penjualanController@destroy1');
+Route::delete('/penjualanDelete/{id?}', 'penjualanController@destroy1');
 Route::delete('/hapuspenjualan/{id?}', 'penjualanController@destroy1');
 Route::post('/addPenjualan/store', 'penjualanController@addTransaksiPenjualan');
 

@@ -80,6 +80,7 @@
                 <div class="box box-danger">
                     <div class="box-header with-border">
                     <h3 class="box-title">Cari Barang</h3>
+                   
                     </div>
                     <div class="box-body">
 
@@ -89,8 +90,10 @@
                             v-model="post1"
                             :options="users"
                             :required="true"
+                            autocomplete
                             optionLabel="nmBarang" 
                             optionKey="barcode"
+                            @input="PostItemPenjualan()"
                     ></vue-single-select>
 
                     <div class="row">
@@ -143,7 +146,7 @@
                                     <td>{{ pe.hrgJual | currency }}</td>
                                     <td>{{ pe.totalJual | currency }}</td>
                                     <td class="text-center">
-                                        <button @click.prevent="PostDeleteTrx(pe.id)" class="btn btn-sm btn-danger">HAPUS</button>
+                                        <button @click.prevent="PostDeleteTrx(id= pe.id)" class="btn btn-sm btn-danger">HAPUS</button>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -366,6 +369,7 @@
   import DatePicker from 'vue2-datepicker';
   import 'vue2-datepicker/index.css';
   import VueSingleSelect from "vue-single-select";
+  import { StreamBarcodeReader } from "vue-barcode-reader";
   
     export default {
         components: { DatePicker, VueSingleSelect },         
@@ -376,7 +380,7 @@
                 post1: {},
                 users: [],
                 pem: {},
-                qtyJual: '',
+                qtyJual: '1',
                 qtySa: '',
                 hrgJual: '',
                 subTotal: '',
@@ -458,6 +462,9 @@
         },
 
         methods: {
+          tes () {
+            alert('hahaha')
+          },
           onlyNumber ($event) {
                 //console.log($event.keyCode); //keyCodes value
                 let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
@@ -537,7 +544,9 @@
                         document.getElementById("anyName").reset();
                         //this.loadTransaksiPenjualan()
                         //this.loadTotal()
-                    });
+                    }).catch(error => {
+                        alert('Barang tidak ditemukan');
+                });
                 
             },
             PostJasaPenjualan() {
