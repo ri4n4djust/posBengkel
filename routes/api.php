@@ -79,7 +79,7 @@ Route::post('/totalTrx/{id}', 'mejaController@totalTrx');
 Route::post('/noNota/{id}', 'nomorController@noNota');
 Route::get('/kodeBarang', 'nomorController@kodeBarang');
 Route::get('/kodeKategori', 'nomorController@kodeKategori');
-Route::get('/kodeMenu', 'nomorController@kodeMenu');
+Route::get('/notaGrandJual', 'nomorController@noNotaGrandJual');
 Route::get('/kodePembelian', 'nomorController@kodePembelian');
 Route::get('/kodePenjualan', 'nomorController@noNota');
 Route::get('/kodeSupplier', 'nomorController@kodeSupplier');
@@ -102,8 +102,8 @@ Route::post('/addItemPenjualan/store', 'penjualanController@addItemPenjualan');
 Route::post('/addJasaPenjualan/store', 'penjualanController@addJasaPenjualan');
 Route::get('/dataPenjualan/{id}', 'penjualanController@listTransaksiPenjualan');
 Route::post('/totalTrxPenjualan', 'penjualanController@totalTrxPenjualan');
-Route::delete('/penjualanDelete/{id?}', 'penjualanController@destroy1');
-Route::delete('/hapuspenjualan/{id?}', 'penjualanController@destroy1');
+
+Route::delete('/hapusbarang/{id?}', 'penjualanController@deleteBrgTransaksi');
 Route::post('/addPenjualan/store', 'penjualanController@addTransaksiPenjualan');
 
 //=======live Order
@@ -136,6 +136,7 @@ Route::get('/penjualan', 'penjualanController@index');
 Route::post('/dataPiutang', 'penjualanController@piutangPelanggan');
 Route::post('/lapPenjualan', 'penjualanController@sorting');
 Route::post('/detailpenjualan/{id}', 'penjualanController@listDetailPenjualan');
+Route::delete('/hapuspenjualan/{id?}', 'penjualanController@destroy1');
 
 //=====Laporan Pembelian
 Route::get('/pembelian', 'pembelianController@index');

@@ -306,6 +306,45 @@ class penjualanController extends Controller
             }
     }
 
+    public function deleteBrgTransaksi($id)
+    {
+        
+
+        $post = PenjualanDetail::findOrFail($id);
+
+        $kodebarang = $post->kdBarang;
+        $qtybarang = $post->qtyJual;
+        $noNotaPenjualan = $post->noNotaPenjualan;
+        //$satuanJual = $post->satuanJual;
+
+        $barang = DB::table('tblBarang')->where('kdBarang', $kodebarang)->first();
+        $stokLama = $barang->stkBarang;
+        DB::table('tblBarang')->where('kdBarang', $kodebarang)->update([
+                'stkBarang'     => $stokLama + $qtybarang
+        ]);
+
+        DB::table('tblKartuStok')
+            ->where('kdBarang', $kodebarang)
+            ->where('noTransaksi', $noNotaPenjualan)
+            ->delete();
+        
+
+        $post->delete();
+
+        if ($post) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Post Berhasil Dihapus!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Post Gagal Dihapus!',
+            ], 500);
+        }
+    }
+    
+
     public function destroy1($id)
     {
         

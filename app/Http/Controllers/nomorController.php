@@ -15,6 +15,7 @@ use App\Supplier;
 use App\Kategori;
 use App\StokOpname;
 use App\Pelanggan;
+use App\GrandJual;
 use Illuminate\Support\Facades\DB;
 
 class nomorController extends Controller
@@ -34,7 +35,7 @@ class nomorController extends Controller
         }else{
             $no = 0 ;
             $count = Penjualan::all()->last();
-            $terakhir = substr($count->noNota, 9,  20);
+            $terakhir = substr($count->noNota, -1);
             $kodeBaru = $terakhir + 1  ;
 
             $tahun = date('Y');
@@ -55,6 +56,45 @@ class nomorController extends Controller
                     'success' => true,
                     'message' => 'Post Tidak Ditemukan!',
                     'noNota'    => $post
+                ], 200);
+            }
+        }
+    }
+    public function noNotaGrandJual()
+    {
+        $count = GrandJual::all();
+        if($count->isEmpty()){
+            $tahun = date('Y');
+            $post = 'GJ-'.$tahun.'-'.'1';
+            return response()->json([
+                'success' => true,
+                'message' => 'Detail Post!',
+                'noNotaGrandJual'    => $post
+            ], 200);
+        }else{
+            $no = 0 ;
+            $count = GrandJual::all()->last();
+            $terakhir = substr($count->noNota, -1);
+            $kodeBaru = $terakhir + 1  ;
+
+            $tahun = date('Y');
+            $post = 'GJ-'.$tahun.'-'.$kodeBaru;
+
+            
+
+            if (GrandJual::where('noNota', $post)->exists()) {
+                $kodeBarulagi = $kodeBaru + 1 ;
+                $post = 'GJ-'.$tahun.'-'.$kodeBarulagi;
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Detail Post!',
+                    'noNotaGrandJual'    => $post
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Post Tidak Ditemukan!',
+                    'noNotaGrandJual'    => $post
                 ], 200);
             }
         }

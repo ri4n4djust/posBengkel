@@ -54,7 +54,7 @@
                                         <div v-if="adminuser === 'Admin'">
                                             <a href="#"  @click="rePrint()" class="btn btn-md btn-success"><b>Re-Print</b></a>
                                             <a href="#"  @click="showModalMenu = true" class="btn btn-md btn-success"><b>Edit</b></a>
-                                            <a href="#"   @click.prevent="DeletePenjualan(data.id, index)" class="btn btn-md btn-success"><b>Delete</b></a>
+                                            <a href="#"   @click.prevent="DeletePenjualan(id=data.id, index)" class="btn btn-md btn-success"><b>Delete</b></a>
                                         </div>
                                         <div v-else-if="adminuser === 'Operator'">
                                             <a href="#"  @click="rePrint()" class="btn btn-md btn-success"><b>Re-Print</b></a>
@@ -128,6 +128,7 @@ export default {
                 if(confirm("Do you really want to delete?")){
                 this.axios.delete(`/api/hapuspenjualan/${id}`)
                     .then(response => {
+                        alert('penjualan berhasil dihapus');
                         this.posts.splice(index, 1);
                         this.showModalPenjualan = false;
                        

@@ -18,15 +18,15 @@
                 <date-picker v-model="tglPenjualan" value-type="format" format="YYYY/MM/DD"></date-picker>
                 </p>
                 <p class="text-muted text-center">
-                  <div class="input-group">
-                  <span class="input-group-addon">Cust.</span>
-                <vue-single-select
-                            v-model="post"
-                            :options="posts"
-                            :required="true"
-                            optionLabel="namaPelanggan" 
-                ></vue-single-select>
-                  </div>
+                <div class="input-group">
+                  <h4 class="profile-username text-center">Nm Pelanggan / Plat Motor</h4>
+                  <vue-single-select
+                              v-model="post"
+                              :options="posts"
+                              :required="true"
+                              optionLabel="namaPelanggan" 
+                  ></vue-single-select>
+                </div>
                
                 <p class="text-muted text-center">
                   <div class="input-group">
@@ -50,7 +50,7 @@
                     </div>
                   </div>
                   <div class="input-group">
-                  <span class="input-group-addon">Mekanik</span>
+                  <span class="input-group-addon">Mnk</span>
                       <input type="text" class="form-control" v-model="mekanikNota" >
                   </div>
                   <p>
@@ -91,6 +91,7 @@
                             :options="users"
                             :required="true"
                             autocomplete
+                            setFocus
                             optionLabel="nmBarang" 
                             optionKey="barcode"
                             @input="PostItemPenjualan()"
@@ -107,7 +108,7 @@
                         </div>
                         <div class="col-xs-2">
                           <label>Qty</label>
-                        <input type="text" v-model="qtyJual" class="form-control" placeholder="Qty" @keypress="onlyNumber">
+                        <input type="text" v-model="qtyJual" class="form-control" placeholder="Qty">
                         </div>
                         <div class="col-xs-2">
                           <label>Total</label>
@@ -146,7 +147,7 @@
                                     <td>{{ pe.hrgJual | currency }}</td>
                                     <td>{{ pe.totalJual | currency }}</td>
                                     <td class="text-center">
-                                        <button @click.prevent="PostDeleteTrx(id= pe.id)" class="btn btn-sm btn-danger">HAPUS</button>
+                                        <button @click.prevent="PostDeleteBrg(id= pe.id)" class="btn btn-sm btn-danger">HAPUS</button>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -512,10 +513,10 @@
                     console.log(error.response)
                 });
             },
-            PostDeleteTrx(id)
+            PostDeleteBrg(id)
             {
-              if(confirm("Do you really want to delete?")){
-                this.axios.delete(`/api/penjualanDelete/${id}`)
+              if(confirm("Do you really want to delete?" + id)){
+                this.axios.delete(`/api/hapusbarang/${id}`)
                     .then(response => {
                         alert('Berhasil Di Hapus');
                         this.loadTotal()
@@ -540,7 +541,7 @@
                     .then((response) => {
                         this.loadTotal()
                         this.loadTransaksiPenjualan()
-                        alert('sukses donkkkkkkkk');
+                        //alert('sukses donkkkkkkkk');
                         document.getElementById("anyName").reset();
                         //this.loadTransaksiPenjualan()
                         //this.loadTotal()

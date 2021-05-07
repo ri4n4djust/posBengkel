@@ -33,12 +33,11 @@
                 <p class="text-muted text-center">
                   <div class="input-group">
                   <span class="input-group-addon">INV.</span>
-                <input type="text" class="form-control" v-model="noNotaPenjualan" placeholder="No nota">
+                <input type="text" class="form-control" v-model="noNotaGrandJual" placeholder="No">
                   </div>
-               
                 
-                <input type="hidden" class="form-control" :value="subtotal" :name="totalPenjualan" >
-                <h3 class="profile-username text-center">Total {{ subtotal  || 0 | currency }}</h3>
+                <h3 class="profile-username text-center">Total {{ total  || 0 | currency }}</h3>
+                <h3 class="profile-username text-center">Total Bayar {{ totalExpense  || 0 | currency }}</h3>
                 
                 <p class="text-muted text-center">
                   <form @submit.prevent="loadPiutang">
@@ -46,7 +45,7 @@
                    <button type="submit"  class="btn btn-primary btn-block">Cari Nota</button>
                   </form>
                   <br>
-                    <a href="#" @click="showModalBayar = true" class="btn btn-primary btn-block"><b>Payment</b></a>
+                    <a href="#" @click="paymentGrandJual()" class="btn btn-primary btn-block"><b>Payment</b></a>
                 
               
             </div>
@@ -74,7 +73,7 @@
                    
                 <!-- /.box -->
                 
-
+              <form @submit.prevent="BayarPiutang" name="piutang" id="piutang">
                 <table class="table table-hover table-bordered">
                                 <thead>
                                 <tr>
@@ -83,23 +82,19 @@
                                     <th>Total Piutang</th>
                                     <th>Bayar Nota</th>
                                     <th>Sisa Piutang</th>
-                                    <th>AKSI</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr v-for="(pe, index) in pem" :key="pe.id">
                                     <td >{{ pe.noNota }} </td>
                                     <td >{{ pe.tglNota}}</td>
-                                    <td>{{ pe.piutangNota }}</td>
-                                    <td><input type="text" v-model="bayar[index]" :key="index"></td>
-                                    <td>{{ pe.piutangNota - bayar[index]  }} </td>
-                                    <td class="text-center">
-                                        <button @click.prevent="PostDeleteTrx(id= pe.id)" class="btn btn-sm btn-danger">HAPUS</button>
-                                    </td>
+                                    <td>{{ pe.piutangNota | currency }}</td>
+                                    <td><input type="text" v-model="bayar[index]" @keyup="getTotalPay()"></td>
+                                    <td>{{ pe.piutangNota - bayar[index] | currency }} </td>
                                 </tr>
                                 </tbody>
                             </table>
-              
+              </form>
           <!-- /.nav-tabs-custom -->
         </div>
         <!-- /.col -->
@@ -107,6 +102,31 @@
       <!-- /.row -->
 
     </section>
+
+<!-- /Modal -->
+ <div v-if="showModalBayar">
+    <transition name="modal">
+      <div class="modal-mask">
+        <div class="modal-wrapper">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" @click="showModalBayar=false">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Add Payment</h4>
+              </div>
+              <div class="modal-body">
+                
+detail bayar  
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+  </div>
 
  
 
@@ -133,10 +153,6 @@
                 post1: {},
                 users: {},
                 pem: [],
-                qtyJual: '',
-                qtySa: '',
-                hrgJual: '',
-                subTotal: '',
                 totalBayar: '',
                 subtotal: '',
                 ntp:'',
@@ -147,7 +163,7 @@
                 bayarpiutang: {},
 
                 totalx: '',
-                //noNotaPenjualan: '',
+                noNotaGrandJual: '',
                 totalPenjualan: '',
                 tglPenjualan: new Date().toJSON().slice(0,10).replace(/-/g,'/'),
                 validation: [],
@@ -155,14 +171,16 @@
                 showModalMenu: false,
                 showModalBayar: false,
                 totalBayar:'',
-                bayar: '',
+                bayar: [],
+                sum:'',
+                totalExpense: 0,
             }
         },
 
        watch: {
           post: function() {
             this.$emit('input', this.post);
-          }
+          },
         },
         //props: ['value'],
         props: {
@@ -209,23 +227,28 @@
         },
 
         computed: {
-          totalAmount: function () {
-                    var sum = 0;
-                    this.pem.forEach(e => {
-                        sum += e.piutangNota;
-                    });
-                    return sum
-                },
-
-
-        },
+                total: function() {
+                    if (!this.pem) {
+                        return 0;
+                    }
+                    return this.pem.reduce(function (piutangNota, pe) {
+                        return piutangNota + Number(pe.piutangNota);
+                    }, 0);
+                }
+          },
+          
 
         methods: {
-          edit(id) {
-            alert("hahaha" + id);
+           getTotalPay() {
+             this.totalExpense = this.bayar.reduce((sum, val) => {
+                return Number(sum) + Number(val);
+              });
+          },
+          paymentGrandJual() {
+            this.showModalBayar = true;
+            //alert("hahaha" + id);
+            this.getTotalPay();
 
-            // how to update with reloading all the phone list?
-            //this.phones.splice(index, 1, updatedPhone)
         },
         
           onlyNumber ($event) {
@@ -238,7 +261,7 @@
             loadTotal:function(){
                 let uri = '/api/totalTrxPenjualan';
                 this.axios.post(uri, {
-                    ntp: this.noNotaPenjualan,
+                    ntp: this.noNotaGrandJual,
                 }).then(response => {
                   //alert('mount' + this.noNotaPembelian)
                 this.subtotal = response.data.subTotalJual;
@@ -246,10 +269,10 @@
                     console.log(error.response)
                 });
             },
-            loadNotaPenjualan:function(){
-                let uri = `/api/kodePenjualan`;
+            loadNoGrandJual:function(){
+                let uri = `/api/notaGrandJual`;
                 this.axios.get(uri).then(response => {
-                this.noNotaPenjualan = response.data.noNota;
+                this.noNotaGrandJual = response.data.noNotaGrandJual;
                 
             });
             },
@@ -259,19 +282,13 @@
                   this.posts = response.data.data;
               });
             },
-            loadBarang:function(){
-                let uri = '/api/posts';
-                this.axios.get(uri).then(response => {
-                this.users = response.data.data;
-                
-            });
-            },
             loadPiutang:function(){
                 let uri = '/api/dataPiutang';
                 this.axios.post(uri, {
                   pelanggan: this.post.kodePelanggan,
                 }).then(response => {
                     this.pem = response.data.data;
+                    //this.totalAmount();
                    // alert('no nota '+ this.data.noNota);
                 }).catch(error => {
                     console.log(error.response)
@@ -295,7 +312,7 @@
                 let uri = '/api/addPenjualan/store';
                 this.axios.post(uri, 
                 {
-                    noNota: this.noNotaPenjualan,
+                    noNota: this.noNotaGrandJual,
                     liftNo: this.liftNo,
                     pelanggan: this.post.kodePelanggan,
                     tglNota: this.tglPenjualan,
@@ -326,14 +343,14 @@
             if (!this.$session.exists()) {
             this.$router.push('/')
             };
-            this.loadNotaPenjualan();
+            //this.loadNotaPenjualan();
         },
         created() {
-            this.loadNotaPenjualan();
-            this.loadBarang();
+            this.loadNoGrandJual();
+            //this.loadBarang();
             this.LoadPelanggan();
             //this.loadPiutang();
-            this.loadTotal();
+
         },
     }
 </script>
