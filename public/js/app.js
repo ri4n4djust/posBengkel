@@ -13464,7 +13464,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -22784,7 +22783,7 @@ exports = module.exports = __webpack_require__(/*! ../css-loader/lib/css-base.js
 
 
 // module
-exports.push([module.i, ".mx-icon-left:before,.mx-icon-right:before,.mx-icon-double-left:before,.mx-icon-double-right:before,.mx-icon-double-left:after,.mx-icon-double-right:after{content:\"\";position:relative;top:-1px;display:inline-block;width:10px;height:10px;vertical-align:middle;border-style:solid;border-color:currentColor;border-width:2px 0 0 2px;border-radius:1px;-webkit-box-sizing:border-box;box-sizing:border-box;-webkit-transform-origin:center;transform-origin:center;-webkit-transform:rotate(-45deg) scale(0.7);transform:rotate(-45deg) scale(0.7)}.mx-icon-double-left:after{left:-4px}.mx-icon-double-right:before{left:4px}.mx-icon-right:before,.mx-icon-double-right:before,.mx-icon-double-right:after{-webkit-transform:rotate(135deg) scale(0.7);transform:rotate(135deg) scale(0.7)}.mx-btn{-webkit-box-sizing:border-box;box-sizing:border-box;line-height:1;font-size:14px;font-weight:500;padding:7px 15px;margin:0;cursor:pointer;background-color:transparent;outline:none;border:1px solid rgba(0,0,0,.1);border-radius:4px;color:#73879c;white-space:nowrap}.mx-btn:hover{border-color:#1284e7;color:#1284e7}.mx-btn-text{border:0;padding:0 4px;text-align:left;line-height:inherit}.mx-scrollbar{height:100%}.mx-scrollbar:hover .mx-scrollbar-track{opacity:1}.mx-scrollbar-wrap{height:100%;overflow-x:hidden;overflow-y:auto}.mx-scrollbar-track{position:absolute;top:2px;right:2px;bottom:2px;width:6px;z-index:1;border-radius:4px;opacity:0;-webkit-transition:opacity .24s ease-out;transition:opacity .24s ease-out}.mx-scrollbar-track .mx-scrollbar-thumb{position:absolute;width:100%;height:0;cursor:pointer;border-radius:inherit;background-color:rgba(144,147,153,.3);-webkit-transition:background-color .3s;transition:background-color .3s}.mx-zoom-in-down-enter-active,.mx-zoom-in-down-leave-active{opacity:1;-webkit-transform:scaleY(1);transform:scaleY(1);-webkit-transition:opacity .3s cubic-bezier(0.23, 1, 0.32, 1),-webkit-transform .3s cubic-bezier(0.23, 1, 0.32, 1);transition:opacity .3s cubic-bezier(0.23, 1, 0.32, 1),-webkit-transform .3s cubic-bezier(0.23, 1, 0.32, 1);transition:transform .3s cubic-bezier(0.23, 1, 0.32, 1),opacity .3s cubic-bezier(0.23, 1, 0.32, 1);transition:transform .3s cubic-bezier(0.23, 1, 0.32, 1),opacity .3s cubic-bezier(0.23, 1, 0.32, 1),-webkit-transform .3s cubic-bezier(0.23, 1, 0.32, 1);-webkit-transform-origin:center top;transform-origin:center top}.mx-zoom-in-down-enter,.mx-zoom-in-down-leave-to{opacity:0;-webkit-transform:scaleY(0);transform:scaleY(0)}.mx-datepicker{position:relative;display:inline-block;width:210px}.mx-datepicker svg{width:1em;height:1em;vertical-align:-0.15em;fill:currentColor;overflow:hidden}.mx-datepicker-range{width:320px}.mx-datepicker-inline{width:auto}.mx-input-wrapper{position:relative}.mx-input-wrapper .mx-icon-clear{display:none}.mx-input-wrapper:hover .mx-icon-clear{display:block}.mx-input-wrapper:hover .mx-icon-clear+.mx-icon-calendar{display:none}.mx-input{display:inline-block;-webkit-box-sizing:border-box;box-sizing:border-box;width:100%;height:34px;padding:6px 30px;padding-left:10px;font-size:14px;line-height:1.4;color:#555;background-color:#fff;border:1px solid #ccc;border-radius:4px;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);box-shadow:inset 0 1px 1px rgba(0,0,0,.075)}.mx-input:hover,.mx-input:focus{border-color:#409aff}.mx-input:disabled,.mx-input.disabled{color:#ccc;background-color:#f3f3f3;border-color:#ccc;cursor:not-allowed}.mx-input:focus{outline:none}.mx-input::-ms-clear{display:none}.mx-icon-calendar,.mx-icon-clear{position:absolute;top:50%;right:8px;-webkit-transform:translateY(-50%);transform:translateY(-50%);font-size:16px;line-height:1;color:rgba(0,0,0,.5);vertical-align:middle}.mx-icon-clear{cursor:pointer}.mx-icon-clear:hover{color:rgba(0,0,0,.8)}.mx-datepicker-main{font:14px/1.5 \"Helvetica Neue\",Helvetica,Arial,\"Microsoft Yahei\",sans-serif;color:#73879c;background-color:#fff;border:1px solid #e8e8e8}.mx-datepicker-popup{position:absolute;margin-top:1px;margin-bottom:1px;-webkit-box-shadow:0 6px 12px rgba(0,0,0,.175);box-shadow:0 6px 12px rgba(0,0,0,.175);z-index:2001}.mx-datepicker-sidebar{float:left;-webkit-box-sizing:border-box;box-sizing:border-box;width:100px;padding:6px;overflow:auto}.mx-datepicker-sidebar+.mx-datepicker-content{margin-left:100px;border-left:1px solid #e8e8e8}.mx-datepicker-body{position:relative;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.mx-btn-shortcut{display:block;padding:0 6px;line-height:24px}.mx-range-wrapper{display:-webkit-box;display:-ms-flexbox;display:flex}@media(max-width: 750px){.mx-range-wrapper{-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column}}.mx-datepicker-header{padding:6px 8px;border-bottom:1px solid #e8e8e8}.mx-datepicker-footer{padding:6px 8px;text-align:right;border-top:1px solid #e8e8e8}.mx-calendar{-webkit-box-sizing:border-box;box-sizing:border-box;width:248px;padding:6px 12px}.mx-calendar+.mx-calendar{border-left:1px solid #e8e8e8}.mx-calendar-header,.mx-time-header{-webkit-box-sizing:border-box;box-sizing:border-box;height:34px;line-height:34px;text-align:center;overflow:hidden}.mx-btn-icon-left,.mx-btn-icon-double-left{float:left}.mx-btn-icon-right,.mx-btn-icon-double-right{float:right}.mx-calendar-header-label{font-size:14px}.mx-calendar-decade-separator{margin:0 2px}.mx-calendar-decade-separator:after{content:\"~\"}.mx-calendar-content{position:relative;height:224px;-webkit-box-sizing:border-box;box-sizing:border-box}.mx-calendar-content .cell{cursor:pointer}.mx-calendar-content .cell:hover{color:#73879c;background-color:#f3f9fe}.mx-calendar-content .cell.active{color:#fff;background-color:#1284e7}.mx-calendar-content .cell.in-range,.mx-calendar-content .cell.hover-in-range{color:#73879c;background-color:#dbedfb}.mx-calendar-content .cell.disabled{cursor:not-allowed;color:#ccc;background-color:#f3f3f3}.mx-calendar-week-mode .mx-date-row{cursor:pointer}.mx-calendar-week-mode .mx-date-row:hover{background-color:#f3f9fe}.mx-calendar-week-mode .mx-date-row.mx-active-week{background-color:#dbedfb}.mx-calendar-week-mode .mx-date-row .cell:hover{color:inherit;background-color:transparent}.mx-calendar-week-mode .mx-date-row .cell.active{color:inherit;background-color:transparent}.mx-week-number{opacity:.5}.mx-table{table-layout:fixed;border-collapse:separate;border-spacing:0;width:100%;height:100%;-webkit-box-sizing:border-box;box-sizing:border-box;text-align:center;vertical-align:middle}.mx-table th{padding:0;font-weight:500}.mx-table td{padding:0}.mx-table-date td,.mx-table-date th{height:32px;font-size:12px}.mx-table-date .today{color:#2a90e9}.mx-table-date .cell.not-current-month{color:#ccc;background:none}.mx-time{-webkit-box-flex:1;-ms-flex:1;flex:1;width:224px;background:#fff}.mx-time+.mx-time{border-left:1px solid #e8e8e8}.mx-calendar-time{position:absolute;top:0;left:0;width:100%;height:100%}.mx-time-header{border-bottom:1px solid #e8e8e8}.mx-time-content{height:224px;-webkit-box-sizing:border-box;box-sizing:border-box;overflow:hidden}.mx-time-columns{display:-webkit-box;display:-ms-flexbox;display:flex;width:100%;height:100%;overflow:hidden}.mx-time-column{-webkit-box-flex:1;-ms-flex:1;flex:1;position:relative;border-left:1px solid #e8e8e8;text-align:center}.mx-time-column:first-child{border-left:0}.mx-time-column .mx-time-list{margin:0;padding:0;list-style:none}.mx-time-column .mx-time-list::after{content:\"\";display:block;height:192px}.mx-time-column .mx-time-item{cursor:pointer;font-size:12px;height:32px;line-height:32px}.mx-time-column .mx-time-item:hover{color:#73879c;background-color:#f3f9fe}.mx-time-column .mx-time-item.active{color:#1284e7;background-color:transparent;font-weight:700}.mx-time-column .mx-time-item.disabled{cursor:not-allowed;color:#ccc;background-color:#f3f3f3}.mx-time-option{cursor:pointer;padding:8px 10px;font-size:14px;line-height:20px}.mx-time-option:hover{color:#73879c;background-color:#f3f9fe}.mx-time-option.active{color:#1284e7;background-color:transparent;font-weight:700}.mx-time-option.disabled{cursor:not-allowed;color:#ccc;background-color:#f3f3f3}\r\n", ""]);
+exports.push([module.i, ".mx-icon-left:before,.mx-icon-right:before,.mx-icon-double-left:before,.mx-icon-double-right:before,.mx-icon-double-left:after,.mx-icon-double-right:after{content:\"\";position:relative;top:-1px;display:inline-block;width:10px;height:10px;vertical-align:middle;border-style:solid;border-color:currentColor;border-width:2px 0 0 2px;border-radius:1px;-webkit-box-sizing:border-box;box-sizing:border-box;-webkit-transform-origin:center;transform-origin:center;-webkit-transform:rotate(-45deg) scale(0.7);transform:rotate(-45deg) scale(0.7)}.mx-icon-double-left:after{left:-4px}.mx-icon-double-right:before{left:4px}.mx-icon-right:before,.mx-icon-double-right:before,.mx-icon-double-right:after{-webkit-transform:rotate(135deg) scale(0.7);transform:rotate(135deg) scale(0.7)}.mx-btn{-webkit-box-sizing:border-box;box-sizing:border-box;line-height:1;font-size:14px;font-weight:500;padding:7px 15px;margin:0;cursor:pointer;background-color:transparent;outline:none;border:1px solid rgba(0,0,0,.1);border-radius:4px;color:#73879c;white-space:nowrap}.mx-btn:hover{border-color:#1284e7;color:#1284e7}.mx-btn-text{border:0;padding:0 4px;text-align:left;line-height:inherit}.mx-scrollbar{height:100%}.mx-scrollbar:hover .mx-scrollbar-track{opacity:1}.mx-scrollbar-wrap{height:100%;overflow-x:hidden;overflow-y:auto}.mx-scrollbar-track{position:absolute;top:2px;right:2px;bottom:2px;width:6px;z-index:1;border-radius:4px;opacity:0;-webkit-transition:opacity .24s ease-out;transition:opacity .24s ease-out}.mx-scrollbar-track .mx-scrollbar-thumb{position:absolute;width:100%;height:0;cursor:pointer;border-radius:inherit;background-color:rgba(144,147,153,.3);-webkit-transition:background-color .3s;transition:background-color .3s}.mx-zoom-in-down-enter-active,.mx-zoom-in-down-leave-active{opacity:1;-webkit-transform:scaleY(1);transform:scaleY(1);-webkit-transition:opacity .3s cubic-bezier(0.23, 1, 0.32, 1),-webkit-transform .3s cubic-bezier(0.23, 1, 0.32, 1);transition:opacity .3s cubic-bezier(0.23, 1, 0.32, 1),-webkit-transform .3s cubic-bezier(0.23, 1, 0.32, 1);transition:transform .3s cubic-bezier(0.23, 1, 0.32, 1),opacity .3s cubic-bezier(0.23, 1, 0.32, 1);transition:transform .3s cubic-bezier(0.23, 1, 0.32, 1),opacity .3s cubic-bezier(0.23, 1, 0.32, 1),-webkit-transform .3s cubic-bezier(0.23, 1, 0.32, 1);-webkit-transform-origin:center top;transform-origin:center top}.mx-zoom-in-down-enter,.mx-zoom-in-down-leave-to{opacity:0;-webkit-transform:scaleY(0);transform:scaleY(0)}.mx-datepicker{position:relative;display:inline-block;width:210px}.mx-datepicker svg{width:1em;height:1em;vertical-align:-0.15em;fill:currentColor;overflow:hidden}.mx-datepicker-range{width:320px}.mx-datepicker-inline{width:auto}.mx-input-wrapper{position:relative}.mx-input-wrapper .mx-icon-clear{display:none}.mx-input-wrapper:hover .mx-icon-clear{display:block}.mx-input-wrapper:hover .mx-icon-clear+.mx-icon-calendar{display:none}.mx-input{display:inline-block;-webkit-box-sizing:border-box;box-sizing:border-box;width:100%;height:34px;padding:6px 30px;padding-left:10px;font-size:14px;line-height:1.4;color:#555;background-color:#fff;border:1px solid #ccc;border-radius:4px;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);box-shadow:inset 0 1px 1px rgba(0,0,0,.075)}.mx-input:hover,.mx-input:focus{border-color:#409aff}.mx-input:disabled,.mx-input.disabled{color:#ccc;background-color:#f3f3f3;border-color:#ccc;cursor:not-allowed}.mx-input:focus{outline:none}.mx-input::-ms-clear{display:none}.mx-icon-calendar,.mx-icon-clear{position:absolute;top:50%;right:8px;-webkit-transform:translateY(-50%);transform:translateY(-50%);font-size:16px;line-height:1;color:rgba(0,0,0,.5);vertical-align:middle}.mx-icon-clear{cursor:pointer}.mx-icon-clear:hover{color:rgba(0,0,0,.8)}.mx-datepicker-main{font:14px/1.5 \"Helvetica Neue\",Helvetica,Arial,\"Microsoft Yahei\",sans-serif;color:#73879c;background-color:#fff;border:1px solid #e8e8e8}.mx-datepicker-popup{position:absolute;margin-top:1px;margin-bottom:1px;-webkit-box-shadow:0 6px 12px rgba(0,0,0,.175);box-shadow:0 6px 12px rgba(0,0,0,.175);z-index:2001}.mx-datepicker-sidebar{float:left;-webkit-box-sizing:border-box;box-sizing:border-box;width:100px;padding:6px;overflow:auto}.mx-datepicker-sidebar+.mx-datepicker-content{margin-left:100px;border-left:1px solid #e8e8e8}.mx-datepicker-body{position:relative;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.mx-btn-shortcut{display:block;padding:0 6px;line-height:24px}.mx-range-wrapper{display:-webkit-box;display:-ms-flexbox;display:flex}@media(max-width: 750px){.mx-range-wrapper{-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column}}.mx-datepicker-header{padding:6px 8px;border-bottom:1px solid #e8e8e8}.mx-datepicker-footer{padding:6px 8px;text-align:right;border-top:1px solid #e8e8e8}.mx-calendar{-webkit-box-sizing:border-box;box-sizing:border-box;width:248px;padding:6px 12px}.mx-calendar+.mx-calendar{border-left:1px solid #e8e8e8}.mx-calendar-header,.mx-time-header{-webkit-box-sizing:border-box;box-sizing:border-box;height:34px;line-height:34px;text-align:center;overflow:hidden}.mx-btn-icon-left,.mx-btn-icon-double-left{float:left}.mx-btn-icon-right,.mx-btn-icon-double-right{float:right}.mx-calendar-header-label{font-size:14px}.mx-calendar-decade-separator{margin:0 2px}.mx-calendar-decade-separator:after{content:\"~\"}.mx-calendar-content{position:relative;height:224px;-webkit-box-sizing:border-box;box-sizing:border-box}.mx-calendar-content .cell{cursor:pointer}.mx-calendar-content .cell:hover{color:#73879c;background-color:#f3f9fe}.mx-calendar-content .cell.active{color:#fff;background-color:#1284e7}.mx-calendar-content .cell.in-range,.mx-calendar-content .cell.hover-in-range{color:#73879c;background-color:#dbedfb}.mx-calendar-content .cell.disabled{cursor:not-allowed;color:#ccc;background-color:#f3f3f3}.mx-calendar-week-mode .mx-date-row{cursor:pointer}.mx-calendar-week-mode .mx-date-row:hover{background-color:#f3f9fe}.mx-calendar-week-mode .mx-date-row.mx-active-week{background-color:#dbedfb}.mx-calendar-week-mode .mx-date-row .cell:hover{color:inherit;background-color:transparent}.mx-calendar-week-mode .mx-date-row .cell.active{color:inherit;background-color:transparent}.mx-week-number{opacity:.5}.mx-table{table-layout:fixed;border-collapse:separate;border-spacing:0;width:100%;height:100%;-webkit-box-sizing:border-box;box-sizing:border-box;text-align:center;vertical-align:middle}.mx-table th{padding:0;font-weight:500}.mx-table td{padding:0}.mx-table-date td,.mx-table-date th{height:32px;font-size:12px}.mx-table-date .today{color:#2a90e9}.mx-table-date .cell.not-current-month{color:#ccc;background:none}.mx-time{-webkit-box-flex:1;-ms-flex:1;flex:1;width:224px;background:#fff}.mx-time+.mx-time{border-left:1px solid #e8e8e8}.mx-calendar-time{position:absolute;top:0;left:0;width:100%;height:100%}.mx-time-header{border-bottom:1px solid #e8e8e8}.mx-time-content{height:224px;-webkit-box-sizing:border-box;box-sizing:border-box;overflow:hidden}.mx-time-columns{display:-webkit-box;display:-ms-flexbox;display:flex;width:100%;height:100%;overflow:hidden}.mx-time-column{-webkit-box-flex:1;-ms-flex:1;flex:1;position:relative;border-left:1px solid #e8e8e8;text-align:center}.mx-time-column:first-child{border-left:0}.mx-time-column .mx-time-list{margin:0;padding:0;list-style:none}.mx-time-column .mx-time-list::after{content:\"\";display:block;height:192px}.mx-time-column .mx-time-item{cursor:pointer;font-size:12px;height:32px;line-height:32px}.mx-time-column .mx-time-item:hover{color:#73879c;background-color:#f3f9fe}.mx-time-column .mx-time-item.active{color:#1284e7;background-color:transparent;font-weight:700}.mx-time-column .mx-time-item.disabled{cursor:not-allowed;color:#ccc;background-color:#f3f3f3}.mx-time-option{cursor:pointer;padding:8px 10px;font-size:14px;line-height:20px}.mx-time-option:hover{color:#73879c;background-color:#f3f9fe}.mx-time-option.active{color:#1284e7;background-color:transparent;font-weight:700}.mx-time-option.disabled{cursor:not-allowed;color:#ccc;background-color:#f3f3f3}\n", ""]);
 
 // exports
 
@@ -22822,7 +22821,7 @@ exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base
 
 
 // module
-exports.push([module.i, "\n.w-full[data-v-27213e1d] {\r\n  width: 100%;\n}\n.inline-block[data-v-27213e1d] {\r\n  display: inline-block;\n}\n.block[data-v-27213e1d] {\r\n  display: block;\n}\n.flex[data-v-27213e1d] {\r\n  display: flex;\n}\n.border[data-v-27213e1d] {\r\n  border-width: thin;\r\n  border-style: solid;\n}\n.rounded[data-v-27213e1d] {\r\n  border-radius: 0.25em;\n}\n.text-black[data-v-27213e1d] {\r\n  color: #22292f;\n}\n.border-grey-lighter[data-v-27213e1d] {\r\n  border-color: #ced4da;\n}\n.bg-grey-lighter[data-v-27213e1d] {\r\n  background-color: #606f7b;\n}\n.bg-grey-light[data-v-27213e1d] {\r\n  background-color: #dae1e7;\n}\n.bg-grey-dark[data-v-27213e1d] {\r\n  background-color: #8795a1;\n}\n.bg-white[data-v-27213e1d] {\r\n  background-color: #fff;\n}\n.pin-r[data-v-27213e1d] {\r\n  right: 0;\n}\n.pin-y[data-v-27213e1d] {\r\n  top: 0;\r\n  bottom: 0;\n}\n.absolute[data-v-27213e1d] {\r\n  position: absolute;\n}\n.relative[data-v-27213e1d] {\r\n  position: relative;\n}\n.items-center[data-v-27213e1d] {\r\n  align-items: center;\n}\n.p-0[data-v-27213e1d] {\r\n  padding: 0;\n}\n.p-1[data-v-27213e1d] {\r\n  padding: 0.25em;\n}\n.px-1[data-v-27213e1d] {\r\n  padding-left: 0.25em;\r\n  padding-right: 0.25em;\n}\n.py-2[data-v-27213e1d] {\r\n  padding-top: 0.5em;\r\n  padding-bottom: 0.5em;\n}\n.px-2[data-v-27213e1d] {\r\n  padding-left: 0.5em;\r\n  padding-right: 0.5em;\n}\n.mt-px[data-v-27213e1d] {\r\n  margin-top: 1px;\n}\n.leading-tight[data-v-27213e1d] {\r\n  line-height: 1.25;\n}\n.leading-normal[data-v-27213e1d] {\r\n  line-height: 1.5;\n}\n.text-left[data-v-27213e1d] {\r\n  text-align: left;\n}\n.w-full[data-v-27213e1d] {\r\n  width: 100%;\n}\n.shadow[data-v-27213e1d] {\r\n  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);\n}\n.list-reset[data-v-27213e1d] {\r\n  list-style: none;\r\n  padding: 0;\n}\n.overflow-auto[data-v-27213e1d] {\r\n  overflow: auto;\n}\n.appearance-none[data-v-27213e1d] {\r\n  -webkit-appearance: none;\r\n  -moz-appearance: none;\r\n  appearance: none;\n}\n.w-1[data-v-27213e1d] {\r\n  width: 0.25em;\n}\n.w-2[data-v-27213e1d] {\r\n  width: 0.5em;\n}\n.w-3[data-v-27213e1d] {\r\n  width: 0.75em;\n}\n.w-4[data-v-27213e1d] {\r\n  width: 1em;\n}\n.h-4[data-v-27213e1d] {\r\n  height: 1em;\n}\n.h-1[data-v-27213e1d] {\r\n  height: 0.25em;\n}\n.h-2[data-v-27213e1d] {\r\n  height: 0.5em;\n}\n.h-3[data-v-27213e1d] {\r\n  height: 0.75em;\n}\n.fill-current[data-v-27213e1d] {\r\n  fill: currentColor;\n}\n.no-underline[data-v-27213e1d] {\r\n  text-decoration: none;\n}\n.hover\\:no-underline[data-v-27213e1d]:hover {\r\n  text-decoration: none;\n}\n.outline-none[data-v-27213e1d] {\r\n  outline: 0;\n}\n.hover\\:outline-none[data-v-27213e1d] {\r\n  outline: 0;\n}\n.hover\\:bg-grey-light[data-v-27213e1d]:hover {\r\n  background-color: #dae1e7;\n}\n.shadow-md[data-v-27213e1d] {\r\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.08);\n}\n.search-input[data-v-27213e1d] {\r\n  display: block;\r\n  width: 100%;\r\n  padding: 0.375em 0.75em;\r\n  font-size: 1em;\r\n  line-height: 1.5;\r\n  color: #495057;\r\n  background-color: #fff;\r\n  background-clip: padding-box;\r\n  border: 1px solid #ced4da;\r\n  border-radius: 0.25em;\r\n  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;\r\n  box-sizing: border-box;\n}\n.icons[data-v-27213e1d] {\r\n  padding: 0 1em;\r\n  right: 0;\r\n  top: 0;\r\n  bottom: 0;\r\n  fill: #606f7b;\n}\n.icons svg[data-v-27213e1d] {\r\n  width: 0.75em;\r\n  height: 0.75em;\n}\n.single-select-wrapper[data-v-27213e1d] {\r\n  position: relative;\r\n  margin-bottom: 0.5em;\n}\n.required[data-v-27213e1d] {\r\n  _color: #721c24;\r\n  _background-color: #f8d7da;\r\n  border-color: #f5c6cb;\n}\n.cursor-pointer[data-v-27213e1d] {\r\n  cursor: pointer;\n}\n.dropdown[data-v-27213e1d] {\r\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.08);\r\n  background-color: #fff;\r\n  color: #606f7b;\r\n  border-radius: 0.25em;\r\n  line-height: 1.25;\r\n  text-align: left;\n}\n.dropdown > li[data-v-27213e1d] {\r\n  padding: 0.5em 0.75em;\n}\n.active[data-v-27213e1d] {\r\n  background: #dae1e7;\n}\r\n", ""]);
+exports.push([module.i, "\n.w-full[data-v-27213e1d] {\n  width: 100%;\n}\n.inline-block[data-v-27213e1d] {\n  display: inline-block;\n}\n.block[data-v-27213e1d] {\n  display: block;\n}\n.flex[data-v-27213e1d] {\n  display: flex;\n}\n.border[data-v-27213e1d] {\n  border-width: thin;\n  border-style: solid;\n}\n.rounded[data-v-27213e1d] {\n  border-radius: 0.25em;\n}\n.text-black[data-v-27213e1d] {\n  color: #22292f;\n}\n.border-grey-lighter[data-v-27213e1d] {\n  border-color: #ced4da;\n}\n.bg-grey-lighter[data-v-27213e1d] {\n  background-color: #606f7b;\n}\n.bg-grey-light[data-v-27213e1d] {\n  background-color: #dae1e7;\n}\n.bg-grey-dark[data-v-27213e1d] {\n  background-color: #8795a1;\n}\n.bg-white[data-v-27213e1d] {\n  background-color: #fff;\n}\n.pin-r[data-v-27213e1d] {\n  right: 0;\n}\n.pin-y[data-v-27213e1d] {\n  top: 0;\n  bottom: 0;\n}\n.absolute[data-v-27213e1d] {\n  position: absolute;\n}\n.relative[data-v-27213e1d] {\n  position: relative;\n}\n.items-center[data-v-27213e1d] {\n  align-items: center;\n}\n.p-0[data-v-27213e1d] {\n  padding: 0;\n}\n.p-1[data-v-27213e1d] {\n  padding: 0.25em;\n}\n.px-1[data-v-27213e1d] {\n  padding-left: 0.25em;\n  padding-right: 0.25em;\n}\n.py-2[data-v-27213e1d] {\n  padding-top: 0.5em;\n  padding-bottom: 0.5em;\n}\n.px-2[data-v-27213e1d] {\n  padding-left: 0.5em;\n  padding-right: 0.5em;\n}\n.mt-px[data-v-27213e1d] {\n  margin-top: 1px;\n}\n.leading-tight[data-v-27213e1d] {\n  line-height: 1.25;\n}\n.leading-normal[data-v-27213e1d] {\n  line-height: 1.5;\n}\n.text-left[data-v-27213e1d] {\n  text-align: left;\n}\n.w-full[data-v-27213e1d] {\n  width: 100%;\n}\n.shadow[data-v-27213e1d] {\n  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);\n}\n.list-reset[data-v-27213e1d] {\n  list-style: none;\n  padding: 0;\n}\n.overflow-auto[data-v-27213e1d] {\n  overflow: auto;\n}\n.appearance-none[data-v-27213e1d] {\n  -webkit-appearance: none;\n  -moz-appearance: none;\n  appearance: none;\n}\n.w-1[data-v-27213e1d] {\n  width: 0.25em;\n}\n.w-2[data-v-27213e1d] {\n  width: 0.5em;\n}\n.w-3[data-v-27213e1d] {\n  width: 0.75em;\n}\n.w-4[data-v-27213e1d] {\n  width: 1em;\n}\n.h-4[data-v-27213e1d] {\n  height: 1em;\n}\n.h-1[data-v-27213e1d] {\n  height: 0.25em;\n}\n.h-2[data-v-27213e1d] {\n  height: 0.5em;\n}\n.h-3[data-v-27213e1d] {\n  height: 0.75em;\n}\n.fill-current[data-v-27213e1d] {\n  fill: currentColor;\n}\n.no-underline[data-v-27213e1d] {\n  text-decoration: none;\n}\n.hover\\:no-underline[data-v-27213e1d]:hover {\n  text-decoration: none;\n}\n.outline-none[data-v-27213e1d] {\n  outline: 0;\n}\n.hover\\:outline-none[data-v-27213e1d] {\n  outline: 0;\n}\n.hover\\:bg-grey-light[data-v-27213e1d]:hover {\n  background-color: #dae1e7;\n}\n.shadow-md[data-v-27213e1d] {\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.08);\n}\n.search-input[data-v-27213e1d] {\n  display: block;\n  width: 100%;\n  padding: 0.375em 0.75em;\n  font-size: 1em;\n  line-height: 1.5;\n  color: #495057;\n  background-color: #fff;\n  background-clip: padding-box;\n  border: 1px solid #ced4da;\n  border-radius: 0.25em;\n  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;\n  box-sizing: border-box;\n}\n.icons[data-v-27213e1d] {\n  padding: 0 1em;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  fill: #606f7b;\n}\n.icons svg[data-v-27213e1d] {\n  width: 0.75em;\n  height: 0.75em;\n}\n.single-select-wrapper[data-v-27213e1d] {\n  position: relative;\n  margin-bottom: 0.5em;\n}\n.required[data-v-27213e1d] {\n  _color: #721c24;\n  _background-color: #f8d7da;\n  border-color: #f5c6cb;\n}\n.cursor-pointer[data-v-27213e1d] {\n  cursor: pointer;\n}\n.dropdown[data-v-27213e1d] {\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.08);\n  background-color: #fff;\n  color: #606f7b;\n  border-radius: 0.25em;\n  line-height: 1.25;\n  text-align: left;\n}\n.dropdown > li[data-v-27213e1d] {\n  padding: 0.5em 0.75em;\n}\n.active[data-v-27213e1d] {\n  background: #dae1e7;\n}\n", ""]);
 
 // exports
 
@@ -22860,7 +22859,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.data-table {\r\n\tdisplay: grid;\r\n\twidth: 100%;\r\n\theight: 100%;\n}\r\n", ""]);
+exports.push([module.i, "\n.data-table {\n\tdisplay: grid;\n\twidth: 100%;\n\theight: 100%;\n}\n", ""]);
 
 // exports
 
@@ -22879,7 +22878,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.data-table {\r\n\tdisplay: grid;\r\n\twidth: 100%;\r\n\theight: 100%;\n}\r\n", ""]);
+exports.push([module.i, "\n.data-table {\n\tdisplay: grid;\n\twidth: 100%;\n\theight: 100%;\n}\n", ""]);
 
 // exports
 
@@ -22898,7 +22897,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.data-table {\r\n\tdisplay: grid;\r\n\twidth: 100%;\r\n\theight: 100%;\n}\r\n", ""]);
+exports.push([module.i, "\n.data-table {\n\tdisplay: grid;\n\twidth: 100%;\n\theight: 100%;\n}\n", ""]);
 
 // exports
 
@@ -22917,7 +22916,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.data-table {\r\n\tdisplay: grid;\r\n\twidth: 100%;\r\n\theight: 100%;\n}\r\n", ""]);
+exports.push([module.i, "\n.data-table {\n\tdisplay: grid;\n\twidth: 100%;\n\theight: 100%;\n}\n", ""]);
 
 // exports
 
@@ -76315,246 +76314,244 @@ var render = function() {
           _c("div", { staticClass: "box box-primary" }, [
             _vm._m(0),
             _vm._v(" "),
-            _c("div", { staticClass: "box-body" }, [
-              _c(
-                "p",
-                { staticClass: "text-muted text-center" },
-                [
-                  _c("date-picker", {
-                    attrs: { "value-type": "format", format: "YYYY/MM/DD" },
-                    model: {
-                      value: _vm.tglPenjualan,
-                      callback: function($$v) {
-                        _vm.tglPenjualan = $$v
-                      },
-                      expression: "tglPenjualan"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("p", { staticClass: "text-muted text-center" }),
-              _c(
-                "div",
-                { staticClass: "input-group" },
-                [
-                  _c("h4", { staticClass: "profile-username text-center" }, [
-                    _vm._v("Nm Pelanggan / Plat Motor")
-                  ]),
-                  _vm._v(" "),
-                  _c("vue-single-select", {
-                    attrs: {
-                      options: _vm.posts,
-                      required: true,
-                      optionLabel: "namaPelanggan"
+            _c(
+              "div",
+              { staticClass: "box-body" },
+              [
+                _c("date-picker", {
+                  attrs: { "value-type": "format", format: "YYYY/MM/DD" },
+                  model: {
+                    value: _vm.tglPenjualan,
+                    callback: function($$v) {
+                      _vm.tglPenjualan = $$v
                     },
-                    model: {
-                      value: _vm.post,
-                      callback: function($$v) {
-                        _vm.post = $$v
-                      },
-                      expression: "post"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("p", { staticClass: "text-muted text-center" }),
-              _c("div", { staticClass: "input-group" }, [
-                _c("span", { staticClass: "input-group-addon" }, [
-                  _vm._v("INV.")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.noNotaPenjualan,
-                      expression: "noNotaPenjualan"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "No nota" },
-                  domProps: { value: _vm.noNotaPenjualan },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.noNotaPenjualan = $event.target.value
-                    }
+                    expression: "tglPenjualan"
                   }
-                })
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "text-muted text-center" }),
-              _c("div", { staticClass: "input-group" }, [
-                _c("span", { staticClass: "input-group-addon" }, [
-                  _vm._v("Type")
-                ]),
+                }),
+                _vm._v(" "),
+                _vm._m(1),
                 _vm._v(" "),
                 _c(
-                  "select",
-                  {
+                  "div",
+                  { staticClass: "input-group" },
+                  [
+                    _c("vue-single-select", {
+                      attrs: {
+                        options: _vm.posts,
+                        required: true,
+                        optionLabel: "namaPelanggan"
+                      },
+                      model: {
+                        value: _vm.post,
+                        callback: function($$v) {
+                          _vm.post = $$v
+                        },
+                        expression: "post"
+                      }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("p", { staticClass: "text-muted text-center" }),
+                _c("div", { staticClass: "input-group" }, [
+                  _c("span", { staticClass: "input-group-addon" }, [
+                    _vm._v("INV.")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
                     directives: [
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.typePenjualan,
-                        expression: "typePenjualan"
+                        value: _vm.noNotaPenjualan,
+                        expression: "noNotaPenjualan"
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { required: "" },
+                    attrs: { type: "text", placeholder: "No nota" },
+                    domProps: { value: _vm.noNotaPenjualan },
                     on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.typePenjualan = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { value: "1" } }, [_vm._v("Cash")]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "2" } }, [_vm._v("Kredit")])
-                  ]
-                )
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "text-muted text-center" }),
-              _vm.typePenjualan === "2"
-                ? _c("div", [
-                    _c("div", { staticClass: "input-group" }, [
-                      _c("span", { staticClass: "input-group-addon" }, [
-                        _vm._v("Term")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.termPenjualan,
-                            expression: "termPenjualan"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { type: "text" },
-                        domProps: { value: _vm.termPenjualan },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.termPenjualan = $event.target.value
-                          }
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
                         }
-                      })
+                        _vm.noNotaPenjualan = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "text-muted text-center" }),
+                _c("div", { staticClass: "input-group" }, [
+                  _c("span", { staticClass: "input-group-addon" }, [
+                    _vm._v("Type")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.typePenjualan,
+                          expression: "typePenjualan"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { required: "" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.typePenjualan = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "1" } }, [_vm._v("Cash")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "2" } }, [
+                        _vm._v("Kredit")
+                      ])
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "text-muted text-center" }),
+                _vm.typePenjualan === "2"
+                  ? _c("div", [
+                      _c("div", { staticClass: "input-group" }, [
+                        _c("span", { staticClass: "input-group-addon" }, [
+                          _vm._v("Term")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.termPenjualan,
+                              expression: "termPenjualan"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text" },
+                          domProps: { value: _vm.termPenjualan },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.termPenjualan = $event.target.value
+                            }
+                          }
+                        })
+                      ])
                     ])
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _c("div", { staticClass: "input-group" }, [
-                _c("span", { staticClass: "input-group-addon" }, [
-                  _vm._v("Mnk")
-                ]),
+                  : _vm._e(),
                 _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.mekanikNota,
-                      expression: "mekanikNota"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text" },
-                  domProps: { value: _vm.mekanikNota },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
+                _c("div", { staticClass: "form-group has-success" }, [
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.mekanikNota,
+                        expression: "mekanikNota"
                       }
-                      _vm.mekanikNota = $event.target.value
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("p"),
-              _c("div", { staticClass: "input-group" }, [
-                _c("span", { staticClass: "input-group-addon" }, [
-                  _vm._v("Lift :")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.liftNo,
-                      expression: "liftNo"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text" },
-                  domProps: { value: _vm.liftNo },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.liftNo = $event.target.value
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                staticClass: "form-control",
-                attrs: { type: "hidden", name: _vm.totalPenjualan },
-                domProps: { value: _vm.subtotal }
-              }),
-              _vm._v(" "),
-              _c("h3", { staticClass: "profile-username text-center" }, [
-                _vm._v("Total " + _vm._s(_vm._f("currency")(_vm.subtotal || 0)))
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "text-muted text-center" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-primary btn-block",
-                    attrs: { href: "#" },
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", placeholder: "Enter ..." },
+                    domProps: { value: _vm.mekanikNota },
                     on: {
-                      click: function($event) {
-                        _vm.showModalBayar = true
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.mekanikNota = $event.target.value
                       }
                     }
-                  },
-                  [_c("b", [_vm._v("Payment")])]
-                )
-              ])
-            ])
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group has-success" }, [
+                  _vm._m(3),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.lift,
+                        expression: "lift"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", placeholder: "Enter ..." },
+                    domProps: { value: _vm.lift },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.lift = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  staticClass: "form-control",
+                  attrs: { type: "hidden", name: _vm.totalPenjualan },
+                  domProps: { value: _vm.subtotal }
+                }),
+                _vm._v(" "),
+                _c("h3", { staticClass: "profile-username text-center" }, [
+                  _vm._v(
+                    "Total " + _vm._s(_vm._f("currency")(_vm.subtotal || 0))
+                  )
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "text-muted text-center" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-primary btn-block",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          _vm.showModalBayar = true
+                        }
+                      }
+                    },
+                    [_c("b", [_vm._v("Payment")])]
+                  )
+                ])
+              ],
+              1
+            )
           ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "col-md-9" }, [
           _c("div", { staticClass: "box box-danger" }, [
-            _vm._m(1),
+            _vm._m(4),
+            _vm._v(" "),
+            _c("div", { staticClass: "box-body" }, [
+              _vm._v("\n                     detail\n                   ")
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "box-body" }, [
               _c(
@@ -76569,90 +76566,38 @@ var render = function() {
                   }
                 },
                 [
-                  _c("vue-single-select", {
-                    attrs: {
-                      options: _vm.users,
-                      required: true,
-                      autocomplete: "",
-                      setFocus: "",
-                      optionLabel: "nmBarang",
-                      optionKey: "barcode"
-                    },
-                    on: {
-                      input: function($event) {
-                        return _vm.PostItemPenjualan()
-                      }
-                    },
-                    model: {
-                      value: _vm.post1,
-                      callback: function($$v) {
-                        _vm.post1 = $$v
-                      },
-                      expression: "post1"
-                    }
-                  }),
-                  _vm._v(" "),
                   _c("div", { staticClass: "row" }, [
-                    _c("div", { staticClass: "col-xs-2" }, [
-                      _c("label", [_vm._v("Satuan")]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.post1.satuanBarang,
-                            expression: "post1.satuanBarang"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          placeholder: "Satuan",
-                          disabled: ""
-                        },
-                        domProps: { value: _vm.post1.satuanBarang },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                    _c(
+                      "div",
+                      { staticClass: "col-xs-4" },
+                      [
+                        _c("label", [_vm._v("Nama / Barcode Barang")]),
+                        _vm._v(" "),
+                        _c("vue-single-select", {
+                          attrs: {
+                            options: _vm.users,
+                            required: true,
+                            autocomplete: "",
+                            setFocus: "",
+                            optionLabel: "nmBarang",
+                            optionKey: "barcode"
+                          },
+                          on: {
+                            input: function($event) {
+                              return _vm.PostItemPenjualan()
                             }
-                            _vm.$set(
-                              _vm.post1,
-                              "satuanBarang",
-                              $event.target.value
-                            )
+                          },
+                          model: {
+                            value: _vm.post1,
+                            callback: function($$v) {
+                              _vm.post1 = $$v
+                            },
+                            expression: "post1"
                           }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-xs-2" }, [
-                      _c("label", [_vm._v("Harga")]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.post1.hrgJual,
-                            expression: "post1.hrgJual"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { type: "text", placeholder: "Harga" },
-                        domProps: { value: _vm.post1.hrgJual },
-                        on: {
-                          keypress: _vm.onlyNumber,
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(_vm.post1, "hrgJual", $event.target.value)
-                          }
-                        }
-                      })
-                    ]),
+                        })
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-xs-2" }, [
                       _c("label", [_vm._v("Qty")]),
@@ -76666,7 +76611,7 @@ var render = function() {
                             expression: "qtyJual"
                           }
                         ],
-                        staticClass: "form-control",
+                        staticClass: "form-control input-sm",
                         attrs: { type: "text", placeholder: "Qty" },
                         domProps: { value: _vm.qtyJual },
                         on: {
@@ -76684,7 +76629,7 @@ var render = function() {
                       _c("label", [_vm._v("Total")]),
                       _vm._v(" "),
                       _c("input", {
-                        staticClass: "form-control",
+                        staticClass: "form-control input-sm",
                         attrs: {
                           type: "text",
                           name: _vm.subTotal,
@@ -76696,16 +76641,15 @@ var render = function() {
                       })
                     ]),
                     _vm._v(" "),
-                    _vm._m(2)
+                    _vm._m(5)
                   ])
-                ],
-                1
+                ]
               )
             ])
           ]),
           _vm._v(" "),
           _c("table", { staticClass: "table table-hover table-bordered" }, [
-            _vm._m(3),
+            _vm._m(6),
             _vm._v(" "),
             _c(
               "tbody",
@@ -77633,8 +77577,34 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box-header" }, [
+      _c("h5", [_vm._v("Pelanggan / Plat Motor")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "control-label" }, [
+      _c("i", { staticClass: "fa fa-check" }),
+      _vm._v("Mekanik")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "control-label" }, [
+      _c("i", { staticClass: "fa fa-check" }),
+      _vm._v("Lift")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "box-header with-border" }, [
-      _c("h3", { staticClass: "box-title" }, [_vm._v("Cari Barang")])
+      _c("h3", { staticClass: "box-title" }, [_vm._v("Detail Penjualan")])
     ])
   },
   function() {
@@ -77647,7 +77617,7 @@ var staticRenderFns = [
       _c(
         "button",
         {
-          staticClass: "btn btn-md btn-success form-control",
+          staticClass: "btn btn-sm btn-success form-control",
           attrs: { type: "submit" }
         },
         [_vm._v("Add")]
@@ -81267,11 +81237,11 @@ var render = function() {
           _c("div", { staticClass: "box-header with-border" }, [
             _c("h5", { staticClass: "box-title" }, [
               _vm._v(
-                "\r\n                  Login As " +
+                "\n                  Login As " +
                   _vm._s(this.$session.get("user")) +
                   " | Role : " +
                   _vm._s(this.$session.get("roleID")) +
-                  " \r\n                  "
+                  " \n                  "
               ),
               _c(
                 "button",
@@ -109320,8 +109290,8 @@ MyPlugin.install = function (Vue, options) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\WinMax\Documents\GitHub\posBengkel\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\WinMax\Documents\GitHub\posBengkel\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/max/Documents/Web/posBengkel/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/max/Documents/Web/posBengkel/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

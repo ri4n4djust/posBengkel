@@ -14,12 +14,12 @@
             <!-- /.box-header -->
             <div class="box-body">
 
-                <p class="text-muted text-center">
+                
                 <date-picker v-model="tglPenjualan" value-type="format" format="YYYY/MM/DD"></date-picker>
-                </p>
-                <p class="text-muted text-center">
+                <div class="box-header">
+                  <h5 >Pelanggan / Plat Motor</h5>
+                </div>
                 <div class="input-group">
-                  <h4 class="profile-username text-center">Nm Pelanggan / Plat Motor</h4>
                   <vue-single-select
                               v-model="post"
                               :options="posts"
@@ -49,16 +49,14 @@
                     <input type="text" class="form-control" v-model="termPenjualan" >
                     </div>
                   </div>
-                  <div class="input-group">
-                  <span class="input-group-addon">Mnk</span>
-                      <input type="text" class="form-control" v-model="mekanikNota" >
-                  </div>
-                  <p>
-                  <div class="input-group">
-                  <span class="input-group-addon">Lift :</span>
-                      <input type="text" class="form-control" v-model="liftNo" >
-                  </div>
-                
+                  <div class="form-group has-success">
+                  <label class="control-label" ><i class="fa fa-check"></i>Mekanik</label>
+                  <input type="text" class="form-control" v-model="mekanikNota" placeholder="Enter ...">
+                </div>
+                  <div class="form-group has-success">
+                  <label class="control-label" ><i class="fa fa-check"></i>Lift</label>
+                  <input type="text" class="form-control" v-model="lift" placeholder="Enter ...">
+                </div>
                 
                 <input type="hidden" class="form-control" :value="subtotal" :name="totalPenjualan" >
                 <h3 class="profile-username text-center">Total {{ subtotal  || 0 | currency }}</h3>
@@ -79,45 +77,46 @@
 
                 <div class="box box-danger">
                     <div class="box-header with-border">
-                    <h3 class="box-title">Cari Barang</h3>
+                    <h3 class="box-title">Detail Penjualan</h3>
                    
                     </div>
                     <div class="box-body">
+                      detail
+                    </div>
 
+                  
+
+                    <div class="box-body">
                  
                   <form  @submit.prevent="PostItemPenjualan" id="anyName" >
-                    <vue-single-select
-                            v-model="post1"
-                            :options="users"
-                            :required="true"
-                            autocomplete
-                            setFocus
-                            optionLabel="nmBarang" 
-                            optionKey="barcode"
-                            @input="PostItemPenjualan()"
-                    ></vue-single-select>
+                    
 
                     <div class="row">
-                        <div class="col-xs-2">
-                          <label>Satuan</label>
-                        <input type="text" v-model="post1.satuanBarang" class="form-control" placeholder="Satuan" disabled>
-                        </div>
-                        <div class="col-xs-2">
-                          <label>Harga</label>
-                        <input type="text" v-model="post1.hrgJual" class="form-control" placeholder="Harga" @keypress="onlyNumber">
-                        </div>
+                        <div class="col-xs-4">
+                          <label>Nama / Barcode Barang</label>
+                          <vue-single-select
+                                  v-model="post1"
+                                  :options="users"
+                                  :required="true"
+                                  autocomplete
+                                  setFocus
+                                  optionLabel="nmBarang" 
+                                  optionKey="barcode"
+                                  @input="PostItemPenjualan()"
+                          ></vue-single-select>                        
+                          </div>
                         <div class="col-xs-2">
                           <label>Qty</label>
-                        <input type="text" v-model="qtyJual" class="form-control" placeholder="Qty">
+                        <input type="text" v-model="qtyJual" class="form-control input-sm" placeholder="Qty">
                         </div>
                         <div class="col-xs-2">
                           <label>Total</label>
-                        <input type="text" :value="(post1.hrgJual * qtyJual) || 0" :name="subTotal" class="form-control" placeholder="Total">
+                        <input type="text" :value="(post1.hrgJual * qtyJual) || 0" :name="subTotal" class="form-control input-sm" placeholder="Total">
                         </div>
 
                         <div class="col-xs-2">
                           <label>Aksi</label>
-                          <button type="submit" class="btn btn-md btn-success form-control">Add</button>                        
+                          <button type="submit" class="btn btn-sm btn-success form-control">Add</button>                        
                         </div>
                     </div>
                     
