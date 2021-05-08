@@ -316,7 +316,7 @@ class nomorController extends Controller
             $tahun = date('Y');
             $post = 'MT-'.$tahun.'-'.$kodeBaru;
 
-            if (Motor::where('kodeKtg', $post)->exists()) {
+            if (Motor::where('kdMotor', $post)->exists()) {
                 $kodeBarulagi = $kodeBaru + 1 ;
                 $post = 'MT-'.$tahun.'-'.$kodeBarulagi;
                 return response()->json([

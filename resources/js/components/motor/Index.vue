@@ -2,22 +2,26 @@
 
                     <div class="card-body">
                         <h3>
-                        <router-link :to="{ name: 'createKategori' }" class="btn btn-md btn-success">TAMBAH KATEGORI</router-link>
+                        <router-link :to="{ name: 'createMotor' }" class="btn btn-md btn-success">TAMBAH MOTOR</router-link>
                         </h3>
                             <table class="table table-hover table-bordered">
                                 <thead>
                                 <tr>
                                     <th>Kode </th>
-                                    <th>Nama Kategori</th>
+                                    <th>Plat Motor</th>
+                                    <th>Kenis Motor</th>
+                                    <th>Pemilik</th>
                                     <th>AKSI</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr v-for="(post, index) in posts" :key="post.id">
-                                    <td>{{ post.kodeKtg }}</td>
-                                    <td>{{ post.namaKtg }}</td>
+                                    <td>{{ post.kdMotor }}</td>
+                                    <td>{{ post.platMotor }}</td>
+                                    <td>{{ post.namaMotor }}</td>
+                                    <td>{{ post.namaPelanggan }}</td>
                                     <td class="text-center">
-                                        <router-link :to="{name: 'editKategori', params: { id: post.id }}" class="btn btn-sm btn-primary">EDIT</router-link>
+                                        <router-link :to="{name: 'editMotor', params: { id: post.id }}" class="btn btn-sm btn-primary">EDIT</router-link>
                                         <button @click.prevent="PostDelete(post.id, index)" class="btn btn-sm btn-danger">HAPUS</button>
                                         
                                     </td>
@@ -43,7 +47,7 @@
             }
         },
         created() {
-            let uri = '/api/kategori';
+            let uri = '/api/motor';
             this.axios.get(uri).then(response => {
                 this.posts = response.data.data;
             });
@@ -52,7 +56,7 @@
             PostDelete(id, index)
             {
                 if(confirm("Do you really want to delete?")){
-                this.axios.delete(`/api/kategori/${id}`)
+                this.axios.delete(`/api/motor/${id}`)
                     .then(response => {
                         this.posts.splice(index, 1);
                     }).catch(error => {

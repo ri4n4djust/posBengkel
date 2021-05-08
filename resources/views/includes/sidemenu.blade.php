@@ -42,6 +42,7 @@
           <ul class="treeview-menu">
             <li><a href="{{url('/supplier')}}"><i class="fa fa-circle-o"></i>Supplier</a></li>
             <li><a href="{{url('/pelanggan')}}"><i class="fa fa-circle-o"></i>Customer</a></li>
+            <li><a href="{{url('/motor')}}"><i class="fa fa-circle-o"></i>Motor</a></li>
             <li><a href="{{url('/user')}}"><i class="fa fa-circle-o"></i>User</a></li>
           </ul>
         </li>

@@ -254,19 +254,13 @@ class penjualanController extends Controller
             ->where('noNotaPenjualan', '=', $request->input('ntp'))
             ->sum('totalJual');
 
-        if ($totalNota) {
+       
             return response()->json([
                 'success' => true,
                 'message' => 'Detail Post!',
                 'subTotalJual'    => $totalNota
             ], 200);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Post Tidak Ditemukan!',
-                'subTotalJual'    => ''
-            ], 404);
-        }
+       
     }
 
     public function addTransaksiPenjualan(Request $request)

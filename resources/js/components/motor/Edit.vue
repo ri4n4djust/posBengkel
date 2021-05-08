@@ -49,17 +49,17 @@
             }
         },
         created() {
-            let uri = `/api/kategori/${this.$route.params.id}`;
+            let uri = `/api/motor/${this.$route.params.id}`;
             this.axios.get(uri).then((response) => {
                 this.post = response.data.data;
             });
         },
         methods: {
             PostUpdate() {
-                let uri = `/api/kategori/update/${this.$route.params.id}`;
+                let uri = `/api/motor/update/${this.$route.params.id}`;
                 this.axios.post(uri, this.post)
                     .then((response) => {
-                        this.$router.push({name: 'kategori'});
+                        this.$router.push({name: 'motor'});
                     }).catch(error => {
                     this.validation = error.response.data.data;
                 });

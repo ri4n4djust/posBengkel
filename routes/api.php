@@ -36,6 +36,13 @@ Route::get('/kategori/{id?}', 'kategoriController@show');
 Route::post('/kategori/update/{id?}', 'kategoriController@update');
 Route::delete('/kategori/{id?}', 'kategoriController@destroy');
 
+//=======Motor
+Route::get('/motor', 'motorController@index');
+Route::post('/motor/store', 'motorController@store');
+Route::get('/motor/{id?}', 'motorController@show');
+Route::post('/motor/update/{id?}', 'motorController@update');
+Route::delete('/motor/{id?}', 'motorController@destroy');
+
 //========supplier
 Route::get('/supplier', 'supplierController@index');
 Route::post('/supplier/store', 'supplierController@store');

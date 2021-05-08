@@ -24,7 +24,8 @@
                               v-model="post"
                               :options="posts"
                               :required="true"
-                              optionLabel="namaPelanggan" 
+                              optionLabel="platMotor"
+                              optionKey="namaPelanggan" 
                   ></vue-single-select>
                 </div>
                
@@ -49,14 +50,7 @@
                     <input type="text" class="form-control" v-model="termPenjualan" >
                     </div>
                   </div>
-                  <div class="form-group has-success">
-                  <label class="control-label" ><i class="fa fa-check"></i>Mekanik</label>
-                  <input type="text" class="form-control" v-model="mekanikNota" placeholder="Enter ...">
-                </div>
-                  <div class="form-group has-success">
-                  <label class="control-label" ><i class="fa fa-check"></i>Lift</label>
-                  <input type="text" class="form-control" v-model="lift" placeholder="Enter ...">
-                </div>
+                  
                 
                 <input type="hidden" class="form-control" :value="subtotal" :name="totalPenjualan" >
                 <h3 class="profile-username text-center">Total {{ subtotal  || 0 | currency }}</h3>
@@ -81,7 +75,20 @@
                    
                     </div>
                     <div class="box-body">
-                      detail
+                      <div class="row">
+                        <div class="col-xs-2">
+                        <label class="control-label" ><i class="fa fa-check"></i>Mekanik</label>
+                        <input type="text" class="form-control" v-model="mekanikNota" placeholder="Enter ...">
+                        </div>
+                        <div class="col-xs-2">
+                        <label class="control-label" ><i class="fa fa-check"></i>Lift</label>
+                        <input type="text" class="form-control" v-model="liftNo" placeholder="Enter ...">
+                        </div>
+                        <div class="col-xs-2">
+                        <label class="control-label" ><i class="fa fa-check"></i>Jenis Motor</label>
+                        <input type="text" class="form-control" v-model="post.namaMotor" disabled>
+                        </div>
+                      </div>
                     </div>
 
                   
@@ -369,7 +376,7 @@
   import DatePicker from 'vue2-datepicker';
   import 'vue2-datepicker/index.css';
   import VueSingleSelect from "vue-single-select";
-  import { StreamBarcodeReader } from "vue-barcode-reader";
+ 
   
     export default {
         components: { DatePicker, VueSingleSelect },         
@@ -377,7 +384,7 @@
             return {
                 post: {},
                 posts: [],
-                post1: {},
+                post1: [],
                 users: [],
                 pem: {},
                 qtyJual: '1',
@@ -491,7 +498,7 @@
             });
             },
             LoadPelanggan() {
-              let uri = '/api/pelanggan';
+              let uri = '/api/motor';
               this.axios.get(uri).then(response => {
                   this.posts = response.data.data;
               });
@@ -600,7 +607,7 @@
         },
         mounted(){
           this.piutangPenjualan = this.subtotal;
-          this.totalx = totalBayar - ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * diskon / 100));
+          this.totalx = this.totalBayar - ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.diskon / 100));
         },
         beforeCreate: function () {
             if (!this.$session.exists()) {

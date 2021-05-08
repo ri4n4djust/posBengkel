@@ -8,7 +8,7 @@
 
                             <div class="form-group">
                                 <label>Kode Motor</label>
-                                <input type="text" class="form-control" v-model="post.kodeMtr" disabled>
+                                <input type="text" class="form-control" v-model="post.kdMotor" disabled>
                             </div>
 
                             <div class="form-group">
@@ -18,13 +18,18 @@
                             </div>
                             <div class="form-group">
                                 <label>Jenis Motor</label>
-                                <input type="text" class="form-control" v-model="post.namaMotor"
+                                <input type="text" class="form-control" v-model="post.jenisMotor"
                                        placeholder="Jenis Motor">
+                                <input type="text" class="form-control" v-model="post1.kodePelanggan">
                             </div>
                             <div class="form-group">
                                 <label>Pemilik Motor</label>
-                                <input type="text" class="form-control" v-model="post.pemilikMotor"
-                                       placeholder="Pemilik Motor">
+                                <vue-single-select
+                                            v-model="post1"
+                                            :options="posts"
+                                            :required="true"
+                                            optionLabel="namaPelanggan"
+                                ></vue-single-select>
                             </div>
 
                             
@@ -47,12 +52,16 @@
 
 
 <script>
+ import VueSingleSelect from "vue-single-select";
     export default {
+        components: {  VueSingleSelect },  
         data() {
             return {
-                post: {},
+                post: [],
+                post1: [],
+                posts: [],
                 validation: [],
-                kodeMtr: '',
+                kdMotor: '',
             }
         },
         beforeCreate: function () {
@@ -61,12 +70,18 @@
             }
         },
         created: function(){
-            this.loadKodeKtg()
+            this.loadKodeMtr()
+            this.LoadPelanggan()
         },
         methods: {
             PostStore() {
                 let uri = '/api/motor/store';
-                this.axios.post(uri, this.post)
+                this.axios.post(uri, {
+                    kdMotor: this.post.kdMotor,
+                    platMotor: this.post.platMotor,
+                    namaMotor: this.post.jenisMotor,
+                    pemilikMotor: this.post1.kodePelanggan,
+                })
                     .then((response) => {
                         this.$router.push({
                             name: 'motor'
@@ -78,9 +93,15 @@
             loadKodeMtr:function(){
                 let uri = '/api/kodeMotor/';
                 this.axios.get(uri).then(response => {
-                this.post.kodeMtr = response.data.kodeMtr;
+                this.post.kdMotor = response.data.kodeMtr;
                 
             });
+            },
+            LoadPelanggan() {
+              let uri = '/api/pelanggan';
+              this.axios.get(uri).then(response => {
+                  this.posts = response.data.data;
+              });
             },
         }
     }
