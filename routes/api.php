@@ -86,6 +86,7 @@ Route::get('/kodeSupplier', 'nomorController@kodeSupplier');
 Route::get('/kodeSupplier', 'nomorController@kodeSupplier');
 Route::get('/kodePelanggan', 'nomorController@kodePelanggan');
 Route::get('/kodeStokOpname', 'nomorController@kodeStokOpname');
+Route::get('/kodeMotor', 'nomorController@kodeMotor');
 Route::get('/username', 'nomorController@kodeUsername');
 
 

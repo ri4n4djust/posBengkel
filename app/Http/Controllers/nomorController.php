@@ -16,6 +16,7 @@ use App\Kategori;
 use App\StokOpname;
 use App\Pelanggan;
 use App\GrandJual;
+use App\Motor;
 use Illuminate\Support\Facades\DB;
 
 class nomorController extends Controller
@@ -140,43 +141,7 @@ class nomorController extends Controller
             }
         }
     }
-    public function kodeMenu()
-    {
-        $count = Menu::all();
-        if($count->isEmpty()){
-            $tahun = date('Y');
-            $post = 'MN-'.$tahun.'-'.'1';
-            return response()->json([
-                'success' => true,
-                'message' => 'Detail Post!',
-                'kdMenu'    => $post
-            ], 200);
-        }else{
-            $no = 0 ;
-            $count = Menu::all()->last();
-            $terakhir = substr($count->kdMenu, 8,  20);
-            $kodeBaru = $terakhir + 1  ;
-
-            $tahun = date('Y');
-            $post = 'MN-'.$tahun.'-'.$kodeBaru;
-
-            if (Menu::where('kdMenu', $post)->exists()) {
-                $kodeBarulagi = $kodeBaru + 1 ;
-                $post = 'DB-'.$tahun.'-'.$kodeBarulagi;
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Detail Post!',
-                    'kdMenu'    => $post
-                ], 200);
-            } else {
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Detail Post!',
-                    'kdMenu'    => $post
-                ], 202);
-            }
-        }
-    }
+    
 
     public function kodePembelian()
     {
@@ -326,6 +291,44 @@ class nomorController extends Controller
                     'success' => true,
                     'message' => 'Detail Post!',
                     'kodeKtg'    => $post
+                ], 200);
+            }
+        }
+    }
+
+    public function kodeMotor()
+    {
+        $count = Motor::all();
+        if($count->isEmpty()){
+            $tahun = date('Y');
+            $post = 'MT-'.$tahun.'-'.'1';
+            return response()->json([
+                'success' => true,
+                'message' => 'Detail Post!',
+                'kodeMtr'    => $post
+            ], 200);
+        }else{
+            $no = 0 ;
+            $count = Motor::all()->last();
+            $terakhir = substr($count->kdMotor, -1);
+            $kodeBaru = $terakhir + 1  ;
+
+            $tahun = date('Y');
+            $post = 'MT-'.$tahun.'-'.$kodeBaru;
+
+            if (Motor::where('kodeKtg', $post)->exists()) {
+                $kodeBarulagi = $kodeBaru + 1 ;
+                $post = 'MT-'.$tahun.'-'.$kodeBarulagi;
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Detail Post!',
+                    'kodeMtr'    => $post
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Detail Post!',
+                    'kodeMtr'    => $post
                 ], 200);
             }
         }

@@ -35,26 +35,6 @@ Vue.use(VueSession);
 import vmodal from 'vue-js-modal';
     Vue.use(vmodal);
 
-import Print from 'vue-print-plugin';
-import './plugins/print';
-Vue.use(Print);
-
-
-import VueHtmlToPaper from 'vue-html-to-paper';
-const options = {
-  name: '_blank',
-  specs: [
-    'fullscreen=yes',
-    'titlebar=yes',
-    'scrollbars=yes'
-  ],
-  styles: [
-    'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
-    'https://unpkg.com/kidlat-css/css/kidlat.css'
-  ]
-}
-Vue.use(VueHtmlToPaper, options);
-
 
 import IndexComponent from './components/posts/Index.vue';
 import CreateComponent from './components/posts/Create.vue';
@@ -67,6 +47,10 @@ import EditSupComponent from './components/supplier/Edit.vue';
 import IndexKatComponent from './components/kategori/Index.vue';
 import CreateKatComponent from './components/kategori/Create.vue';
 import EditKatComponent from './components/kategori/Edit.vue';
+
+import IndexMotorComponent from './components/motor/Index.vue';
+import CreateMotorComponent from './components/motor/Create.vue';
+import EditMotorComponent from './components/motor/Edit.vue';
 
 import homeComponent from './components/Home.vue';
 
@@ -106,155 +90,48 @@ Vue.use(VueCurrencyFilter,
     })
 
 const routes = [
-    {
-        name: 'posts',
-        path: '/barang',
-        component: IndexComponent
-    },
-    {
-        name: 'create',
-        path: '/barang/create',
-        component: CreateComponent
-    },
-    {
-        name: 'edit',
-        path: '/barang/edit/:id',
-        component: EditComponent
-    },
+    { name: 'posts', path: '/barang', component: IndexComponent },
+    { name: 'create', path: '/barang/create', component: CreateComponent },
+    { name: 'edit', path: '/barang/edit/:id', component: EditComponent },
     //supplier
-    {
-        name: 'supplier',
-        path: '/supplier',
-        component: IndexSupComponent
-    },
-    {
-        name: 'createSupplier',
-        path: '/supplier/create',
-        component: CreateSupComponent
-    },
-    {
-        name: 'editSupplier',
-        path: '/supplier/edit/:id',
-        component: EditSupComponent
-    },
+    { name: 'supplier', path: '/supplier', component: IndexSupComponent },
+    { name: 'createSupplier', path: '/supplier/create', component: CreateSupComponent },
+    { name: 'editSupplier', path: '/supplier/edit/:id', component: EditSupComponent },
     //Kategori
-    {
-        name: 'kategori',
-        path: '/kategori',
-        component: IndexKatComponent
-    },
-    {
-        name: 'createKategori',
-        path: '/kategori/create',
-        component: CreateKatComponent
-    },
-    {
-        name: 'editKategori',
-        path: '/kategori/edit/:id',
-        component: EditKatComponent
-    },
-    
+    { name: 'kategori', path: '/kategori', component: IndexKatComponent },
+    { name: 'createKategori', path: '/kategori/create', component: CreateKatComponent },
+    { name: 'editKategori', path: '/kategori/edit/:id', component: EditKatComponent },
+    //======Motor
+    { name: 'motor', path: '/motor', component: IndexMotorComponent },
+    { name: 'createMotor', path: '/motor/create', component: CreateMotorComponent },
+    { name: 'editMotor', path: '/motor/edit/:id', component: EditMotorComponent },
     //=============User
-    {
-        name: 'user',
-        path: '/user',
-        component: IndexUserComponent
-    },
-    {
-        name: 'createUser',
-        path: '/user/create',
-        component: CreateUserComponent
-    },
-    {
-        name: 'editUser',
-        path: '/user/edit/:id',
-        component: EditUserComponent
-    },
-
+    { name: 'user', path: '/user', component: IndexUserComponent },
+    { name: 'createUser', path: '/user/create', component: CreateUserComponent },
+    { name: 'editUser', path: '/user/edit/:id', component: EditUserComponent },
     //=============Pelanggan
-    {
-        name: 'pelanggan',
-        path: '/pelanggan',
-        component: IndexCustComponent
-    },
-    {
-        name: 'createPelanggan',
-        path: '/pelanggan/create',
-        component: CreateCustComponent
-    },
-    {
-        name: 'editPelanggan',
-        path: '/pelanggan/edit/:id',
-        component: EditCustComponent
-    },
+    { name: 'pelanggan', path: '/pelanggan', component: IndexCustComponent },
+    { name: 'createPelanggan', path: '/pelanggan/create', component: CreateCustComponent },
+    { name: 'editPelanggan', path: '/pelanggan/edit/:id', component: EditCustComponent },
     //=======Pembelian
-    {
-        name: 'pembelian',
-        path: '/pembelian',
-        component: CreatePembelian
-    },
+    { name: 'pembelian', path: '/pembelian', component: CreatePembelian },
     //=======Penjualan
-    {
-        name: 'penjualan',
-        path: '/penjualan',
-        component: CreatePenjualan
-    },
-    {
-        name: 'grandjual',
-        path: '/grandjual',
-        component: CreateGrandJual
-    },
+    { name: 'penjualan', path: '/penjualan', component: CreatePenjualan },
+    { name: 'grandjual', path: '/grandjual', component: CreateGrandJual },
     //=======Live Order
-    {
-        name: 'liveorder',
-        path: '/liveorder',
-        component: liveorder
-    },
-
+    { name: 'liveorder', path: '/liveorder', component: liveorder },
     //=======Laporan
-    {
-        name: 'laporanpenjualan',
-        path: '/laporanpenjualan',
-        component: LaporanPenjualanComponent
-    },
-    {
-        name: 'laporanpembelian',
-        path: '/laporanpembelian',
-        component: LaporanPembelianComponent
-    },
-    {
-        name: 'laporanstokopname',
-        path: '/laporanstokopname',
-        component: StokOpnameComponent
-    },
+    { name: 'laporanpenjualan', path: '/laporanpenjualan', component: LaporanPenjualanComponent },
+    { name: 'laporanpembelian', path: '/laporanpembelian', component: LaporanPembelianComponent },
+    { name: 'laporanstokopname', path: '/laporanstokopname', component: StokOpnameComponent },
 
     //=========Stok Opname
-    {
-        name: 'stokopname',
-        path: '/stokopname',
-        component: ViewStokOpnameComponent
-    },
-    {
-        name: 'stokopnamecreate',
-        path: '/stokopnamecreate',
-        component: InputStokOpnameComponent
-    },
-    {
-        name: 'stokinventori',
-        path: '/stokinventori',
-        component: InventoriComponent
-    },
-    {
-        name: 'stokinventoricreate',
-        path: '/stokinventoricreate',
-        component: InputInventoriComponent
-    },
+    { name: 'stokopname', path: '/stokopname', component: ViewStokOpnameComponent },
+    { name: 'stokopnamecreate', path: '/stokopnamecreate', component: InputStokOpnameComponent },
+    { name: 'stokinventori', path: '/stokinventori', component: InventoriComponent },
+    { name: 'stokinventoricreate', path: '/stokinventoricreate', component: InputInventoriComponent },
     //=========Home
-    {
-        name: 'home',
-        path: '/',
-        component: homeComponent
-    }
+    { name: 'home', path: '/', component: homeComponent }
 ];
 
 
