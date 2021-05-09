@@ -12726,21 +12726,76 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       posts: [],
+      insert: {},
+      edit: {},
       modalTambah: false,
       modalEdit: false
     };
   },
   created: function created() {
-    var _this = this;
-
-    var uri = '/api/pelanggan';
-    this.axios.get(uri).then(function (response) {
-      _this.posts = response.data.data;
-    });
+    this.loadMekanik();
+    this.loadKdMekanik();
   },
   beforeCreate: function beforeCreate() {
     if (!this.$session.exists()) {
@@ -12748,12 +12803,65 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    PostDelete: function PostDelete(id, index) {
+    PostUpdate: function PostUpdate() {
+      var _this = this;
+
+      var uri = '/api/mekanik/update/' + this.edit.kdMekanik;
+      this.axios.post(uri, this.edit).then(function (response) {
+        //this.$router.push({name: 'pelanggan'});
+        _this.modalEdit = false;
+
+        _this.loadMekanik();
+      })["catch"](function (error) {
+        _this.validation = error.response.data.data;
+      });
+    },
+    detailMekanik: function detailMekanik(id) {
       var _this2 = this;
+
+      this.modalEdit = true;
+      var uri = '/api/mekanik/' + id;
+      this.axios.get(uri).then(function (response) {
+        _this2.edit = response.data.data;
+      });
+    },
+    loadKdMekanik: function loadKdMekanik() {
+      var _this3 = this;
+
+      var uri = "/api/kodeMekanik/";
+      this.axios.get(uri).then(function (response) {
+        _this3.insert.kdMekanik = response.data.kodeMekanik;
+      });
+    },
+    loadMekanik: function loadMekanik() {
+      var _this4 = this;
+
+      var uri = '/api/mekanik';
+      this.axios.get(uri).then(function (response) {
+        _this4.posts = response.data.data;
+      });
+    },
+    PostStore: function PostStore() {
+      var _this5 = this;
+
+      var uri = '/api/mekanik/store';
+      this.axios.post(uri, this.insert).then(function (response) {
+        //this.$router.push({ name: 'pelanggan' });
+        _this5.loadMekanik();
+
+        _this5.loadKdMekanik();
+
+        _this5.modalTambah = false;
+      })["catch"](function (error) {
+        _this5.validation = error.response.data.data;
+      });
+    },
+    PostDelete: function PostDelete(id, index) {
+      var _this6 = this;
 
       if (confirm("Do you really want to delete?")) {
         this.axios["delete"]("/api/pelanggan/".concat(id)).then(function (response) {
-          _this2.posts.splice(index, 1);
+          _this6.posts.splice(index, 1);
         })["catch"](function (error) {
           alert('system error!');
         });
@@ -13611,6 +13719,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -13625,6 +13735,7 @@ __webpack_require__.r(__webpack_exports__);
       posts: [],
       post1: [],
       users: [],
+      mekaniks: [],
       pem: {},
       qtyJual: '1',
       qtySa: '',
@@ -13757,39 +13868,47 @@ __webpack_require__.r(__webpack_exports__);
         _this3.posts = response.data.data;
       });
     },
-    loadBarang: function loadBarang() {
+    LoadMekanik: function LoadMekanik() {
       var _this4 = this;
+
+      var uri = '/api/mekanik';
+      this.axios.get(uri).then(function (response) {
+        _this4.mekaniks = response.data.data;
+      });
+    },
+    loadBarang: function loadBarang() {
+      var _this5 = this;
 
       var uri = '/api/posts';
       this.axios.get(uri).then(function (response) {
-        _this4.users = response.data.data;
+        _this5.users = response.data.data;
       });
     },
     loadTransaksiPenjualan: function loadTransaksiPenjualan() {
-      var _this5 = this;
+      var _this6 = this;
 
       var uri = '/api/dataPenjualan/' + this.noNotaPenjualan;
       this.axios.get(uri).then(function (response) {
-        _this5.pem = response.data.data; // alert('no nota '+ this.data.noNota);
+        _this6.pem = response.data.data; // alert('no nota '+ this.data.noNota);
       })["catch"](function (error) {
         console.log(error.response);
       });
     },
     PostDeleteBrg: function PostDeleteBrg(id) {
-      var _this6 = this;
+      var _this7 = this;
 
       if (confirm("Do you really want to delete?" + id)) {
         this.axios["delete"]("/api/hapusbarang/".concat(id)).then(function (response) {
           alert('Berhasil Di Hapus');
 
-          _this6.loadTotal();
+          _this7.loadTotal();
 
-          _this6.loadTransaksiPenjualan();
+          _this7.loadTransaksiPenjualan();
         })["catch"](function (error) {});
       }
     },
     PostItemPenjualan: function PostItemPenjualan() {
-      var _this7 = this;
+      var _this8 = this;
 
       var uri = '/api/addItemPenjualan/store';
       this.axios.post(uri, {
@@ -13801,9 +13920,9 @@ __webpack_require__.r(__webpack_exports__);
         tglPenjualan: this.tglPenjualan,
         satuanJual: this.post1.satuanBarang
       }).then(function (response) {
-        _this7.loadTotal();
+        _this8.loadTotal();
 
-        _this7.loadTransaksiPenjualan(); //alert('sukses donkkkkkkkk');
+        _this8.loadTransaksiPenjualan(); //alert('sukses donkkkkkkkk');
 
 
         document.getElementById("anyName").reset(); //this.loadTransaksiPenjualan()
@@ -13813,7 +13932,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     PostJasaPenjualan: function PostJasaPenjualan() {
-      var _this8 = this;
+      var _this9 = this;
 
       var uri = '/api/addJasaPenjualan/store';
       this.axios.post(uri, {
@@ -13824,9 +13943,9 @@ __webpack_require__.r(__webpack_exports__);
         totalJual: this.post1.hrgJual * this.qtyJual,
         tglNotaPenjualan: this.tglPenjualan
       }).then(function (response) {
-        _this8.loadTotal();
+        _this9.loadTotal();
 
-        _this8.loadTransaksiPenjualan();
+        _this9.loadTransaksiPenjualan();
 
         alert('sukses donkkkkkkkk');
         document.getElementById("anyName").reset(); //this.loadTransaksiPenjualan()
@@ -13834,7 +13953,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     PostTransaksiPenjualan: function PostTransaksiPenjualan() {
-      var _this9 = this;
+      var _this10 = this;
 
       var uri = '/api/addPenjualan/store';
       this.axios.post(uri, {
@@ -13855,7 +13974,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         alert('Transaksi Selesai');
 
-        _this9.$router.go(0); //this.$router.push({name: 'pembelian'});
+        _this10.$router.go(0); //this.$router.push({name: 'pembelian'});
 
       });
     }
@@ -13875,6 +13994,7 @@ __webpack_require__.r(__webpack_exports__);
     this.loadNotaPenjualan();
     this.loadBarang();
     this.LoadPelanggan();
+    this.LoadMekanik();
     this.loadTransaksiPenjualan();
     this.loadTotal();
   }
@@ -57391,46 +57511,41 @@ var render = function() {
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(post.namaMekanik))]),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(post.alamatAlamt))]),
+            _c("td", [_vm._v(_vm._s(post.alamatMekanik))]),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(post.jabatanMekani))]),
+            _c("td", [_vm._v(_vm._s(post.jabatanMekanik))]),
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(post.noTlpMekanik))]),
             _vm._v(" "),
-            _c(
-              "td",
-              { staticClass: "text-center" },
-              [
-                _c(
-                  "router-link",
-                  {
-                    staticClass: "btn btn-sm btn-primary",
-                    attrs: {
-                      to: {
-                        name: "editPelanggan",
-                        params: { id: post.kodePelanggan }
-                      }
+            _c("td", { staticClass: "text-center" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-sm btn-primary",
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      return _vm.detailMekanik((_vm.id = post.id))
                     }
-                  },
-                  [_vm._v("EDIT")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-sm btn-danger",
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.PostDelete(post.id, index)
-                      }
+                  }
+                },
+                [_vm._v("Edit")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-sm btn-danger",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.PostDelete(post.id, index)
                     }
-                  },
-                  [_vm._v("HAPUS")]
-                )
-              ],
-              1
-            )
+                  }
+                },
+                [_vm._v("HAPUS")]
+              )
+            ])
           ])
         }),
         0
@@ -57470,7 +57585,197 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "modal-body" })
+                      _c("div", { staticClass: "modal-body" }, [
+                        _c(
+                          "form",
+                          {
+                            on: {
+                              submit: function($event) {
+                                $event.preventDefault()
+                                return _vm.PostStore($event)
+                              }
+                            }
+                          },
+                          [
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", [_vm._v("Kode ")]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.insert.kdMekanik,
+                                    expression: "insert.kdMekanik"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: { type: "text", disabled: "" },
+                                domProps: { value: _vm.insert.kdMekanik },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.insert,
+                                      "kdMekanik",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", [_vm._v("Nama Mekanik")]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.insert.namaMekanik,
+                                    expression: "insert.namaMekanik"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Masukkan Nama",
+                                  required: ""
+                                },
+                                domProps: { value: _vm.insert.namaMekanik },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.insert,
+                                      "namaMekanik",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", [_vm._v("Alamat")]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.insert.alamatMekanik,
+                                    expression: "insert.alamatMekanik"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Alamat",
+                                  required: ""
+                                },
+                                domProps: { value: _vm.insert.alamatMekanik },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.insert,
+                                      "alamatMekanik",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", [_vm._v("Jabatan")]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.insert.jabatanMekanik,
+                                    expression: "insert.jabatanMekanik"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Jabatan",
+                                  required: ""
+                                },
+                                domProps: { value: _vm.insert.jabatanMekanik },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.insert,
+                                      "jabatanMekanik",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", [_vm._v("No. Tlp")]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.insert.noTlpMekanik,
+                                    expression: "insert.noTlpMekanik"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "No Tlp",
+                                  required: ""
+                                },
+                                domProps: { value: _vm.insert.noTlpMekanik },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.insert,
+                                      "noTlpMekanik",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-md btn-success",
+                                  attrs: { type: "submit" }
+                                },
+                                [_vm._v("SIMPAN")]
+                              )
+                            ])
+                          ]
+                        )
+                      ])
                     ])
                   ])
                 ])
@@ -57514,7 +57819,197 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "modal-body" })
+                      _c("div", { staticClass: "modal-body" }, [
+                        _c(
+                          "form",
+                          {
+                            on: {
+                              submit: function($event) {
+                                $event.preventDefault()
+                                return _vm.PostUpdate($event)
+                              }
+                            }
+                          },
+                          [
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", [_vm._v("Kode ")]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.edit.kdMekanik,
+                                    expression: "edit.kdMekanik"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: { type: "text", disabled: "" },
+                                domProps: { value: _vm.edit.kdMekanik },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.edit,
+                                      "kdMekanik",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", [_vm._v("Nama Mekanik")]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.edit.namaMekanik,
+                                    expression: "edit.namaMekanik"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Masukkan Nama",
+                                  required: ""
+                                },
+                                domProps: { value: _vm.edit.namaMekanik },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.edit,
+                                      "namaMekanik",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", [_vm._v("Alamat")]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.edit.alamatMekanik,
+                                    expression: "edit.alamatMekanik"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Alamat",
+                                  required: ""
+                                },
+                                domProps: { value: _vm.edit.alamatMekanik },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.edit,
+                                      "alamatMekanik",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", [_vm._v("Jabatan")]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.edit.jabatanMekanik,
+                                    expression: "edit.jabatanMekanik"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Jabatan",
+                                  required: ""
+                                },
+                                domProps: { value: _vm.edit.jabatanMekanik },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.edit,
+                                      "jabatanMekanik",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", [_vm._v("No. Tlp")]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.edit.noTlpMekanik,
+                                    expression: "edit.noTlpMekanik"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "No Tlp",
+                                  required: ""
+                                },
+                                domProps: { value: _vm.edit.noTlpMekanik },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.edit,
+                                      "noTlpMekanik",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-md btn-success",
+                                  attrs: { type: "submit" }
+                                },
+                                [_vm._v("SIMPAN")]
+                              )
+                            ])
+                          ]
+                        )
+                      ])
                     ])
                   ])
                 ])
@@ -58547,27 +59042,44 @@ var render = function() {
                 _c("div", { staticClass: "col-xs-2" }, [
                   _vm._m(3),
                   _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.mekanikNota,
-                        expression: "mekanikNota"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text", placeholder: "Enter ..." },
-                    domProps: { value: _vm.mekanikNota },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.mekanikNota,
+                          expression: "mekanikNota"
                         }
-                        _vm.mekanikNota = $event.target.value
+                      ],
+                      staticClass: "form-control",
+                      attrs: { required: "" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.mekanikNota = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
                       }
-                    }
-                  })
+                    },
+                    _vm._l(_vm.mekaniks, function(mk) {
+                      return _c(
+                        "option",
+                        { key: mk.id, domProps: { value: mk.kdMekanik } },
+                        [_vm._v(_vm._s(mk.namaMekanik))]
+                      )
+                    }),
+                    0
+                  )
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "col-xs-2" }, [

@@ -42,7 +42,7 @@ class mekanikController extends Controller
     }
     public function show($id)
     {
-        $post = Mekanik::where('kdMekanik', $id)->first();
+        $post = Mekanik::where('id', $id)->first();
 
         if ($post) {
             return response()->json([

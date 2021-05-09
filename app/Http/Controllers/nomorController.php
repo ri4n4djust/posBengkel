@@ -17,6 +17,7 @@ use App\StokOpname;
 use App\Pelanggan;
 use App\GrandJual;
 use App\Motor;
+use App\Mekanik;
 use Illuminate\Support\Facades\DB;
 
 class nomorController extends Controller
@@ -329,6 +330,44 @@ class nomorController extends Controller
                     'success' => true,
                     'message' => 'Detail Post!',
                     'kodeMtr'    => $post
+                ], 200);
+            }
+        }
+    }
+
+    public function kodeMekanik()
+    {
+        $count = Mekanik::all();
+        if($count->isEmpty()){
+            $tahun = date('Y');
+            $post = 'MK-'.$tahun.'-'.'1';
+            return response()->json([
+                'success' => true,
+                'message' => 'Detail Post!',
+                'kodeMekanik'    => $post
+            ], 200);
+        }else{
+            $no = 0 ;
+            $count = Mekanik::all()->last();
+            $terakhir = substr($count->kdMekanik, -1);
+            $kodeBaru = $terakhir + 1  ;
+
+            $tahun = date('Y');
+            $post = 'MK-'.$tahun.'-'.$kodeBaru;
+
+            if (Mekanik::where('kdMekanik', $post)->exists()) {
+                $kodeBarulagi = $kodeBaru + 1 ;
+                $post = 'MK-'.$tahun.'-'.$kodeBarulagi;
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Detail Post!',
+                    'kodeMekanik'    => $post
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Detail Post!',
+                    'kodeMekanik'    => $post
                 ], 200);
             }
         }

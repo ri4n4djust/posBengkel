@@ -78,7 +78,9 @@
                       <div class="row">
                         <div class="col-xs-2">
                         <label class="control-label" ><i class="fa fa-check"></i>Mekanik</label>
-                        <input type="text" class="form-control" v-model="mekanikNota" placeholder="Enter ...">
+                        <select class='form-control' v-model='mekanikNota' required>
+                          <option v-for='mk in mekaniks' :value='mk.kdMekanik' :key='mk.id'>{{ mk.namaMekanik }}</option>
+                        </select>
                         </div>
                         <div class="col-xs-2">
                         <label class="control-label" ><i class="fa fa-check"></i>Lift</label>
@@ -386,6 +388,7 @@
                 posts: [],
                 post1: [],
                 users: [],
+                mekaniks:[],
                 pem: {},
                 qtyJual: '1',
                 qtySa: '',
@@ -501,6 +504,12 @@
               let uri = '/api/motor';
               this.axios.get(uri).then(response => {
                   this.posts = response.data.data;
+              });
+            },
+            LoadMekanik() {
+              let uri = '/api/mekanik';
+              this.axios.get(uri).then(response => {
+                  this.mekaniks = response.data.data;
               });
             },
             loadBarang:function(){
@@ -619,6 +628,7 @@
             this.loadNotaPenjualan();
             this.loadBarang();
             this.LoadPelanggan();
+            this.LoadMekanik();
             this.loadTransaksiPenjualan();
             this.loadTotal();
         },
