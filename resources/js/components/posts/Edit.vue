@@ -1,141 +1,120 @@
 <template>
     <div class="mt-3">
-                    <div class="card-header">EDIT POST</div>
-
-                    <div class="card-body">
-
-                        <form @submit.prevent="PostUpdate">
-
-                            <div class="col-md-6">
+        <div class="card-header"><h3>EDIT BARANG</h3></div>
+            <div class="card-body">
+                <form @submit.prevent="PostUpdate" class="form-horizontal">
+                    <div class="col-md-6">
           <!-- general form elements -->
-                <div class="box box-primary">
+                    <div class="box box-body">
+                    
                             
                              <div class="form-group">
+                                 <label class="col-sm-3 control-label">Kode Barang</label>
+                                <div class="col-sm-8">
                                 <input type="text" class="form-control" v-model="post.kdBarang" disabled >
+                                </div>
                              </div>
+
                             <div class="form-group">
-                                <label>TITLE</label>
-                                <input type="text" class="form-control" v-model="post.nmBarang"
-                                       placeholder="Masukkan Title">
-                                <div v-if="validation.nmBarang">
-                                    <div class="alert alert-danger mt-1" role="alert">
-                                        {{ validation.nmBarang[0] }}
-                                    </div>
+                                <label class="col-sm-3 control-label">Nama Barang</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" v-model="post.nmBarang"
+                                        placeholder="Masukkan Title" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label>Harga Pokok</label>
-                                <input type="text" class="form-control" v-model="post.hrgPokok"
-                                       placeholder="Harga Pokok">
-                                <div v-if="validation.hrgPokok">
-                                    <div class="alert alert-danger mt-1" role="alert">
-                                        {{ validation.hrgPokok[0] }}
-                                    </div>
+                                <label class="col-sm-3 control-label">Harga Pokok</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" v-model="post.hrgPokok"
+                                        placeholder="Harga Pokok" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label>Harga Jual</label>
-                                <input type="text" class="form-control" v-model="post.hrgJual"
-                                       placeholder="Harga Jual">
-                                <div v-if="validation.hrgJual">
-                                    <div class="alert alert-danger mt-1" role="alert">
-                                        {{ validation.hrgJual[0] }}
-                                    </div>
+                                <label class="col-sm-3 control-label">Harga Jual</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" v-model="post.hrgJual"
+                                        placeholder="Harga Jual" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                            <label>Select Kategori:</label>
-                            <select class='form-control' v-model='post.ktgBarang'>
-                                <option value='0' >Select Kategori</option>
-                                <option v-for='data in countries' :value='data.kodeKtg' :key='data.id'>{{ data.namaKtg }}</option>
-                            </select>
+                            <label class="col-sm-3 control-label">Select Kategori:</label>
+                            <div class="col-sm-8">
+                                <select class='form-control' v-model='post.ktgBarang'>
+                                    <option value='0' >Select Kategori</option>
+                                    <option v-for='data in countries' :value='data.kodeKtg' :key='data.id'>{{ data.namaKtg }}</option>
+                                </select>
+                            </div>
                             </div>
 
                             <div class="form-group">
-                            <label>Barcode : </label>
-                            <input type="text" class="form-control" v-model="post.barcode">
-                            <barcode v-model="post.barcode" :options="{ displayValue: true }"></barcode>
+                            <label class="col-sm-3 control-label">Barcode : </label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" v-model="post.barcode">
+                                <barcode v-model="post.barcode" :options="{ displayValue: true }"></barcode>
+                            </div>
                             </div>
 
-                </div>
-            </div>
+                    </div>
+                    </div>
     
 
       
-        <!-- left column -->
-            <div class="col-md-6">
-          <!-- general form elements -->
-                <div class="box box-info">
+                <!-- left column -->
+                    <div class="col-md-6">
+            <!-- general form elements -->
+                    <div class="box box-body">
 
                             <div class="form-group">
-                                <label>Stok</label>
+                                <label class="col-sm-3 control-label">Stok</label>
+                                <div class="col-sm-8">
                                 <input type="text" class="form-control" v-model="post.stkBarang"
                                        placeholder="Stok Barang" disabled>
-                                <div v-if="validation.stkBarang">
-                                    <div class="alert alert-danger mt-1" role="alert">
-                                        {{ validation.stkBarang[0] }}
-                                    </div>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label>Satuan</label>
-                                <input type="text" class="form-control" v-model="post.satuanBarang">
-                                <div v-if="validation.satuanBarang">
-                                    <div class="alert alert-danger mt-1" role="alert">
-                                        {{ validation.satuanBarang[0] }}
-                                    </div>
+                                <label class="col-sm-3 control-label">Satuan</label>
+                                <div class="col-sm-8">
+                                <input type="text" class="form-control" v-model="post.satuanBarang" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label>QTY Min</label>
-                                <input type="text" class="form-control" v-model="post.qtyMin">
-                                <div v-if="validation.qtyMin">
-                                    <div class="alert alert-danger mt-1" role="alert">
-                                        {{ validation.qtyMin[0] }}
-                                    </div>
+                                <label class="col-sm-3 control-label">QTY Min</label>
+                                <div class="col-sm-8">
+                                <input type="text" class="form-control" v-model="post.qtyMin" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>QTY Max</label>
-                                <input type="text" class="form-control" v-model="post.qtyMax">
-                                <div v-if="validation.qtyMax">
-                                    <div class="alert alert-danger mt-1" role="alert">
-                                        {{ validation.qtyMax[0] }}
-                                    </div>
+                                <label class="col-sm-3 control-label">QTY Max</label>
+                                <div class="col-sm-8">
+                                <input type="text" class="form-control" v-model="post.qtyMax" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label>Merek</label>
-                                <input type="text" class="form-control" v-model="post.merek">
-                                <div v-if="validation.merek">
-                                    <div class="alert alert-danger mt-1" role="alert">
-                                        {{ validation.merek[0] }}
-                                    </div>
+                                <label class="col-sm-3 control-label">Merek</label>
+                                <div class="col-sm-8">
+                                <input type="text" class="form-control" v-model="post.merek" required>
                                 </div>
                             </div>
 
 
                             <div class="form-group">
-                                <label>KONTEN</label>
+                                <label class="col-sm-3 control-label">KONTEN</label>
+                                <div class="col-sm-8">
                                 <textarea class="form-control" v-model="post.deskripsi" rows="5"
-                                          placeholder="Masukkan Konten"></textarea>
-                                <div v-if="validation.deskripsi">
-                                    <div class="alert alert-danger mt-1" role="alert">
-                                        {{ validation.deskripsi[0] }}
-                                    </div>
+                                          placeholder="Masukkan Konten" required></textarea>
                                 </div>
                             </div>
                         
                                          
                     
-                </div>
-            </div>
+                    </div>
+                    </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-md btn-success">UPDATE </button>
                                 <button @click.prevent="PostDeleteTrx(post.id)" class="btn btn-md btn-danger">HAPUS</button>
@@ -143,10 +122,10 @@
                             
                             </div>
 
-                        </form>
+                    </form>
 
-                    </div>
-                </div>
+            </div>
+    </div>
 
 </template>
 

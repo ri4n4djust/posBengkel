@@ -10,14 +10,14 @@
                 <div class="box-body">
                             
                              <div class="form-group">
-                                 <label class="col-sm-2 control-label">Kode</label>
-                                 <div class="col-sm-10">
+                                 <label class="col-sm-3 control-label">Kode Barang</label>
+                                 <div class="col-sm-8">
                                 <input type="text" class="form-control" :value="post.kdBarang" :name="kdBarang" disabled >
                                  </div>
                              </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Nama</label>
-                                <div class="col-sm-10">
+                                <label class="col-sm-3 control-label">Nama Barang</label>
+                                <div class="col-sm-6">
                                 <input type="text" class="form-control" v-model="post.nmBarang"
                                        placeholder="Masukkan Title">
                                 <div v-if="validation.nmBarang">
@@ -29,8 +29,8 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">H. Beli</label>
-                                <div class="col-sm-10">
+                                <label class="col-sm-3 control-label">Harga. Beli</label>
+                                <div class="col-sm-8">
                                 <input type="text" class="form-control" v-model="post.hrgPokok"
                                        placeholder="Harga Pokok" @keypress="onlyNumber">
                                 <div v-if="validation.hrgPokok">
@@ -42,8 +42,8 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">H. Jual</label>
-                                <div class="col-sm-10">
+                                <label class="col-sm-3 control-label">Harga. Jual</label>
+                                <div class="col-sm-8">
                                 <input type="text" class="form-control" v-model="post.hrgJual"
                                        placeholder="Harga Jual" @keypress="onlyNumber">
                                 <div v-if="validation.hrgJual">
@@ -55,8 +55,8 @@
                             </div>
 
                             <div class="form-group">
-                            <label class="col-sm-2 control-label">Kategori:</label>
-                            <div class="col-sm-10">
+                            <label class="col-sm-3 control-label">Kategori:</label>
+                            <div class="col-sm-8">
                             <select class='form-control' v-model='post.ktgBarang' required>
                                 <option v-for='data in countries' :value='data.kodeKtg' :key='data.id'>{{ data.namaKtg }}</option>
                             </select>
@@ -64,8 +64,8 @@
                             </div> 
 
                             <div class="form-group">   
-                                <label class="col-sm-2 control-label">Bacode</label>
-                                <div class="col-sm-10"> 
+                                <label class="col-sm-3 control-label">Bacode</label>
+                                <div class="col-sm-8"> 
                                 <input type="text" class="form-control" v-model="post.barcode">
                                 <barcode v-model="post.barcode" :options="{ displayValue: true }"></barcode> 
                                  </div>
@@ -85,29 +85,17 @@
 
 
                                 <div class="form-group" >
-                                    <label class="col-sm-2 control-label">Satuan</label>
-                                    
-                                    <div class="col-sm-10">
-
-                                    <div class="box-body">
-                                    <div class="row" v-for="(input,k) in inputs" :key="k">
-                                        <div class="col-xs-5">
+                                    <label class="col-sm-3 control-label">Satuan</label>
+                                    <div class="col-sm-8">
                                         <input type="text" class="form-control" v-model="post.satuanBarang" placeholder="Satuan">
-                                        </div>
                                     </div>
-                                    </div>
-                                    
-                                    </div>
-                                    
-                                    
-                                    
                                 </div>
                                 
             
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">QTY Min</label>
-                                <div class="col-sm-10">
+                                <label class="col-sm-3 control-label">QTY Min</label>
+                                <div class="col-sm-8">
                                 <input type="text" class="form-control" v-model="post.qtyMin">
                                 <div v-if="validation.qtyMin" @keypress="onlyNumber">
                                     <div class="alert alert-danger mt-1" role="alert">
@@ -117,8 +105,8 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">QTY Max</label>
-                                <div class="col-sm-10">
+                                <label class="col-sm-3 control-label">QTY Max</label>
+                                <div class="col-sm-8">
                                 <input type="text" class="form-control" v-model="post.qtyMax">
                                 <div v-if="validation.qtyMax" @keypress="onlyNumber">
                                     <div class="alert alert-danger mt-1" role="alert">
@@ -129,8 +117,8 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Merek</label>
-                                <div class="col-sm-10">
+                                <label class="col-sm-3 control-label">Merek</label>
+                                <div class="col-sm-8">
                                 <input type="text" class="form-control" v-model="post.merek">
                                 <div v-if="validation.merek">
                                     <div class="alert alert-danger mt-1" role="alert">
@@ -142,8 +130,8 @@
 
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">KONTEN</label>
-                                <div class="col-sm-10">
+                                <label class="col-sm-3 control-label">KONTEN</label>
+                                <div class="col-sm-8">
                                 <textarea class="form-control" v-model="post.deskripsi" rows="5"
                                           placeholder="Masukkan Konten"></textarea>
                                 <div v-if="validation.deskripsi">

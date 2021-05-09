@@ -407,7 +407,7 @@
                 pelanggan: 'PL-2021-1',
                 tglNota: new Date().toJSON().slice(0,10).replace(/-/g,'/'),
                 liftNo: '1',
-                mekanikNota: 'mekanik 1',
+                mekanikNota: 'MK-2021-1',
                 typePenjualan: '1',
                 termPenjualan: '0',
                 piutangPenjualan: '',

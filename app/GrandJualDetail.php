@@ -11,6 +11,5 @@ class GrandJualDetail extends Model
     protected $fillable = [
         'kdGrandJual', 'tglGrandJual', 'notaPenjualan', 'totalGrandJual', 'pembayaranGrandJual',
         'userGrandJual'
-        
     ];
 }
