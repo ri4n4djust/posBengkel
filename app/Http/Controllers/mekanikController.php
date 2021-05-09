@@ -3,16 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Pelanggan;
+use \App\Mekanik;
 
-use Illuminate\Support\Facades\Validator;
-
-class pelangganController extends Controller
+class mekanikController extends Controller
 {
     //
     public function index()
     {
-        $posts = Pelanggan::latest()->get();
+        $posts = Mekanik::latest()->get();
         return response([
             'success' => true,
             'message' => 'List Semua Pelanggan',
@@ -22,16 +20,13 @@ class pelangganController extends Controller
 
     public function store(Request $request)
     {
-
-            $post = Pelanggan::create([
-                'kodePelanggan'     => $request->input('kodePelanggan'),
-                'namaPelanggan'     => $request->input('namaPelanggan'),
-                'alamatPelanggan'   => $request->input('alamatPelanggan'),
-                'diskonPelanggan'   => $request->input('diskonPelanggan'),
-                'noTlp'   => $request->input('noTlp'),
+            $post = Mekanik::create([
+                'kdMekanik'     => $request->input('kdMekanik'),
+                'namaMekanik'     => $request->input('namaMekanik'),
+                'alamatMekanik'   => $request->input('alamatMekanik'),
+                'jabatanMekanik'   => $request->input('jabatanMekanik'),
+                'noTlpMekanik'   => $request->input('noTlpMekanik'),
             ]);
-
-
             if ($post) {
                 return response()->json([
                     'success' => true,
@@ -47,7 +42,7 @@ class pelangganController extends Controller
     }
     public function show($id)
     {
-        $post = Pelanggan::where('kodePelanggan', $id)->first();
+        $post = Mekanik::where('kdMekanik', $id)->first();
 
         if ($post) {
             return response()->json([
@@ -67,31 +62,11 @@ class pelangganController extends Controller
     public function update(Request $request)
     {
         //validate data
-        $validator = Validator::make($request->all(), [
-            'namaPelanggan'     => 'required',
-            'noTlp'   => 'required',
-        ],
-            [
-                'namaPelanggan.required' => 'Masukkan Nama Pelanggan !',
-                'noTlp.required' => 'Masukkan No Hp Pelanggan !',
-            ]
-        );
-
-        if($validator->fails()) {
-
-            return response()->json([
-                'success' => false,
-                'message' => 'Silahkan Isi Bidang Yang Kosong',
-                'data'    => $validator->errors()
-            ],400);
-
-        } else {
-
-            $post = Pelanggan::where('kodePelanggan', $request->input('kodePelanggan'))->update([
-                'namaPelanggan'     => $request->input('namaPelanggan'),
-                'alamatPelanggan'   => $request->input('alamatPelanggan'),
-                'diskonPelanggan'   => $request->input('diskonPelanggan'),
-                'noTlp'   => $request->input('noTlp'),
+            $post = Mekanik::where('kdMekanik', $request->input('kdMekanik'))->update([
+                'namaMekanik'     => $request->input('namaMekanik'),
+                'alamatMekanik'   => $request->input('alamatMekanik'),
+                'jabatanMekanik'   => $request->input('jabatanMekanik'),
+                'noTlpMekanik'   => $request->input('noTlpMekanik'),
             ]);
 
 
@@ -107,13 +82,13 @@ class pelangganController extends Controller
                 ], 500);
             }
 
-        }
+        
 
     }
 
     public function destroy($id)
     {
-        $post = Pelanggan::findOrFail($id);
+        $post = Mekanik::findOrFail($id);
         $post->delete();
 
         if ($post) {

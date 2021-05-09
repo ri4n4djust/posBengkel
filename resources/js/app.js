@@ -53,6 +53,7 @@ import CreateMotorComponent from './components/motor/Create.vue';
 import EditMotorComponent from './components/motor/Edit.vue';
 
 import homeComponent from './components/Home.vue';
+import mekanikComponent from './components/Mekanik.vue';
 
 import IndexUserComponent from './components/user/Index.vue';
 import CreateUserComponent from './components/user/Create.vue';
@@ -113,6 +114,8 @@ const routes = [
     { name: 'pelanggan', path: '/pelanggan', component: IndexCustComponent },
     { name: 'createPelanggan', path: '/pelanggan/create', component: CreateCustComponent },
     { name: 'editPelanggan', path: '/pelanggan/edit/:id', component: EditCustComponent },
+    //=============Mekanik
+    { name: 'mekanik', path: '/mekanik', component: mekanikComponent },
     //=======Pembelian
     { name: 'pembelian', path: '/pembelian', component: CreatePembelian },
     //=======Penjualan

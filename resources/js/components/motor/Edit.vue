@@ -7,24 +7,31 @@
                         <form @submit.prevent="PostUpdate">
 
                             <div class="form-group">
-                                <label>Kode Katergori</label>
-                                <input type="text" class="form-control" v-model="post.kodeKtg" disabled>
+                                <label>Kode Motor</label>
+                                <input type="text" class="form-control" v-model="post.kdMotor" disabled>
                             </div>
                             <div class="form-group">
-                                <label>Nama Kategori</label>
-                                <input type="text" class="form-control" v-model="post.namaKtg"
-                                       placeholder="Alamat Supplier">
-                                <div v-if="validation.namaKtg">
-                                    <div class="alert alert-danger mt-1" role="alert">
-                                        {{ validation.namaKtg[0] }}
-                                    </div>
-                                </div>
+                                <label>Plat Motor</label>
+                                <input type="text" class="form-control" v-model="post.platMotor"
+                                       placeholder="Plat Motor">
                             </div>
-                            
+                            <div class="form-group">
+                                <label>Jenis Motor </label>
+                                <input type="text" class="form-control" v-model="post.namaMotor"
+                                       placeholder="Jenis Motor">
+                            </div>
+                            <div class="form-group">
+                                <label>Pemilik</label>
+                                {{post.namaPelanggan}}
+                                <select class='form-control' v-model='post.pemilikMotor' required>
+                                <option v-for='data in posts' :value='data.kodePelanggan' :key='data.id'>{{ data.namaPelanggan }}</option>
+                                </select>
+                            </div>
 
                             <div class="form-group">
                                 <button type="submit" class="btn btn-md btn-success">UPDATE</button>
-                                <button type="reset" class="btn btn-md btn-danger">RESET</button>
+                                <router-link :to="{name: 'motor' }" class="btn btn-sm btn-primary">KEMBALI</router-link>
+                                <button @click.prevent="PostDelete(post.id, index)" class="btn btn-sm btn-danger">HAPUS</button>
                             </div>
 
                         </form>
@@ -35,11 +42,14 @@
 </template>
 
 <script>
+import VueSingleSelect from "vue-single-select";
     export default {
-
+components: {  VueSingleSelect }, 
         data() {
             return {
                 post: {},
+                posts:{},
+                post1: '',
                 validation: []
             }
         },
@@ -53,8 +63,15 @@
             this.axios.get(uri).then((response) => {
                 this.post = response.data.data;
             });
+            this.loadPelanggan();
         },
         methods: {
+            loadPelanggan(){
+                let uri = '/api/pelanggan/';
+                this.axios.get(uri).then((response) => {
+                this.posts = response.data.data;
+            });
+            },
             PostUpdate() {
                 let uri = `/api/motor/update/${this.$route.params.id}`;
                 this.axios.post(uri, this.post)
@@ -63,6 +80,17 @@
                     }).catch(error => {
                     this.validation = error.response.data.data;
                 });
+            },
+            PostDelete(id, index)
+            {
+                if(confirm("Do you really want to delete?")){
+                this.axios.delete(`/api/motor/${id}`)
+                    .then(response => {
+                        this.posts.splice(index, 1);
+                    }).catch(error => {
+                    alert('system error!');
+                });
+                }f
             }
         }
     }

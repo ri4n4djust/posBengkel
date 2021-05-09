@@ -34,6 +34,12 @@
                             </div>
 
                             <div class="form-group">
+                                <label>Alamat</label>
+                                <input type="text" class="form-control" v-model="post.diskonPelanggan"
+                                       placeholder="Alamat">
+                            </div>
+
+                            <div class="form-group">
                                 <label>No. Tlp</label>
                                 <input type="text" class="form-control" v-model="post.noTlp"
                                        placeholder="No Tlp">

@@ -190,12 +190,12 @@
                 <input type="hidden" class="form-control" v-model="mekanikNota">
                 <input type="hidden" class="form-control" v-model="typePenjualan">
                 <input type="hidden" class="form-control" v-model="termPenjualan">
-                <input type="hidden" class="form-control" :name="piutangPenjualan" :value="Math.abs(totalBayar - ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * diskon / 100)))">
+                <input type="hidden" class="form-control" :name="piutangPenjualan" :value="Math.abs(totalBayar - ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * post.diskonPelanggan / 100)))">
                 
 
                 <p class="text-muted text-center">
-                <input type="hidden" class="form-control" :value="((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * diskon / 100))  || 0 " :name="totalTransaksiBayar"  >
-                <h3 class="profile-username ">Total {{ ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * diskon / 100))  || 0 | currency }}</h3>
+                <input type="hidden" class="form-control" :value="((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * post.diskonPelanggan / 100))  || 0 " :name="totalTransaksiBayar"  >
+                <h3 class="profile-username ">Total {{ ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * post.diskonPelanggan / 100))  || 0 | currency }}</h3>
 
 
                 <div class="row input-group">
@@ -209,8 +209,8 @@
                 
                 <div class="col-md-4">
                   <span class="input-group-addon">Disc in %</span>
-                  <input type="number" class="form-control" v-model="diskon" placeholder="Diskon">
-                  <input type="hidden" class="form-control" :value="((subtotal * pajak / 100 + subtotal) * diskon / 100)" :name="diskon1" >
+                  <input type="number" class="form-control" v-model="post.diskonPelanggan" placeholder="Diskon">
+                  <input type="hidden" class="form-control" :value="((subtotal * pajak / 100 + subtotal) * post.diskonPelanggan / 100)" :name="diskon1" >
                 </div>
               </div>
               <br>
@@ -226,7 +226,7 @@
                                     <input type="number" class="form-control" v-model="totalBayar" placeholder="Bayar" required>
                                   </div>
                                   
-                                  <h3 class="profile-username ">Kembali : {{ totalBayar - ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * diskon / 100))  || 0 | currency }}</h3>
+                                  <h3 class="profile-username ">Kembali : {{ totalBayar - ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * post.diskonPelanggan / 100))  || 0 | currency }}</h3>
                                   <p class="text-muted text-center">
                                   <button type="submit"  class="btn btn-md btn-success" >Bayar</button>                
                                   </p>
@@ -330,11 +330,11 @@
                                     </tr>
                                     <tr>
                                         <th colspan="3">Discount</th>
-                                        <th>{{ ((subtotal * pajak / 100 + subtotal) * diskon / 100) | currency}}</th>
+                                        <th>{{ ((subtotal * pajak / 100 + subtotal) * post.diskonPelanggan / 100) | currency}}</th>
                                     </tr>
                                     <tr>
                                         <th colspan="3">subTotal :</th>
-                                        <th>{{ ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * diskon / 100))  || 0 | currency }}</th>
+                                        <th>{{ ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * post.diskonPelanggan / 100))  || 0 | currency }}</th>
                                     </tr>
                                     <tr>
                                         <th colspan="3">Payment :</th>
@@ -395,8 +395,8 @@
                 subtotal: '',
                 ntp:'',
                 satuanJual: '',
-                pajak: '',
-                diskon: '',
+                pajak: '0',
+                //diskon: '',
                 pembayaran: '1',
                 totalTransaksiBayar: '',
                 totalTransaksipjk: '',
@@ -586,15 +586,15 @@
                     pelanggan: this.post.kodePelanggan,
                     tglNota: this.tglPenjualan,
                     taxNota: (this.subtotal * this.pajak / 100),
-                    diskonNota: ((this.subtotal * this.pajak / 100 + this.subtotal) * this.diskon / 100),
-                    totalNota: ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.diskon / 100)),
+                    diskonNota: ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100),
+                    totalNota: ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100)),
                     bayarNota: this.totalBayar,
                     userNota: this.$session.get('userId'),
                     mekanikNota: this.mekanikNota,
-                    kembalianNota: this.totalBayar - ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.diskon / 100)),
+                    kembalianNota: this.totalBayar - ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100)),
                     typeNota: this.typePenjualan,
                     termNota: this.termPenjualan,
-                    piutangNota: Math.abs(this.totalBayar - ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.diskon / 100))), 
+                    piutangNota: Math.abs(this.totalBayar - ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100))), 
                     
                 })
                     .then((response) => {
@@ -607,7 +607,7 @@
         },
         mounted(){
           this.piutangPenjualan = this.subtotal;
-          this.totalx = this.totalBayar - ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.diskon / 100));
+          this.totalx = this.totalBayar - ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100));
         },
         beforeCreate: function () {
             if (!this.$session.exists()) {

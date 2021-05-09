@@ -57,6 +57,14 @@ Route::get('/pelanggan/{id?}', 'pelangganController@show');
 Route::post('/pelanggan/update/{id?}', 'pelangganController@update');
 Route::delete('/pelanggan/{id?}', 'pelangganController@destroy');
 
+//========Mekanik
+Route::get('/mekanik', 'mekanikController@index');
+Route::post('/mekanik/store', 'mekanikController@store');
+Route::get('/mekanik/{id?}', 'mekanikController@show');
+Route::post('/mekanik/update/{id?}', 'mekanikController@update');
+Route::delete('/mekanik/{id?}', 'mekanikController@destroy');
+
+
 //========meja
 Route::get('/meja', 'mejaController@index');
 Route::get('/mejakosong', 'mejaController@mejakosong');

@@ -13,7 +13,7 @@ class motorController extends Controller
   public function index()
   {
       $data = Motor::join('tblPelanggan', 'tblMotor.pemilikMotor', 'tblPelanggan.kodePelanggan')
-                    ->select('tblMotor.*', 'tblPelanggan.namaPelanggan', 'tblPelanggan.kodePelanggan')
+                    ->select('tblMotor.*', 'tblPelanggan.namaPelanggan', 'tblPelanggan.kodePelanggan', 'tblPelanggan.diskonPelanggan')
                     ->get();
       return response([
           'success' => true,
@@ -51,7 +51,10 @@ class motorController extends Controller
 
   public function show($id)
   {
-      $post = Motor::whereId($id)->first();
+      $post = Motor::join('tblPelanggan', 'tblMotor.pemilikMotor', 'tblPelanggan.kodePelanggan')
+                    ->where('tblMotor.id', $id)
+                    ->select('tblMotor.*', 'tblPelanggan.namaPelanggan', 'tblPelanggan.kodePelanggan')
+                    ->first();
 
       if ($post) {
           return response()->json([
@@ -73,7 +76,7 @@ class motorController extends Controller
 
           $post = Motor::whereId($request->input('id'))->update([
               'platMotor'   => $request->input('platMotor'),
-              'namaMotor'   => $request->input('jenisMotor'),
+              'namaMotor'   => $request->input('namaMotor'),
               'pemilikMotor'   => $request->input('pemilikMotor'),
           ]);
           if ($post) {
