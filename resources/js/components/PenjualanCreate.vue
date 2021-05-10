@@ -84,7 +84,9 @@
                         </div>
                         <div class="col-xs-2">
                         <label class="control-label" ><i class="fa fa-check"></i>Lift</label>
-                        <input type="text" class="form-control" v-model="liftNo" placeholder="Enter ...">
+                        <select class='form-control' v-model='liftNo' required>
+                          <option v-for='lf in lifts' :value='lf.kdLift' :key='lf.id'>{{ lf.noLift }}</option>
+                        </select>
                         </div>
                         <div class="col-xs-2">
                         <label class="control-label" ><i class="fa fa-check"></i>Jenis Motor</label>
@@ -344,7 +346,7 @@
                                     </tr>
                                     <tr>
                                         <th colspan="3">Kembalian :</th>
-                                        <th>{{ totalBayar - ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * diskon / 100))  || 0 | currency }}</th>
+                                        <th>{{ totalBayar - ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * post.diskonPelanggan / 100))  || 0 | currency }}</th>
                                     </tr>
                                     <tr>
                                         <th colspan="5">Terima Kasih Telah Berbelanja</th>
@@ -389,6 +391,7 @@
                 post1: [],
                 users: [],
                 mekaniks:[],
+                lifts:[],
                 pem: {},
                 qtyJual: '1',
                 qtySa: '',
@@ -406,7 +409,7 @@
                 diskon1: '',
                 pelanggan: 'PL-2021-1',
                 tglNota: new Date().toJSON().slice(0,10).replace(/-/g,'/'),
-                liftNo: '1',
+                liftNo: 'LF-2021-1',
                 mekanikNota: 'MK-2021-1',
                 typePenjualan: '1',
                 termPenjualan: '0',
@@ -472,9 +475,6 @@
         },
 
         methods: {
-          tes () {
-            alert('hahaha')
-          },
           onlyNumber ($event) {
                 //console.log($event.keyCode); //keyCodes value
                 let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
@@ -510,6 +510,12 @@
               let uri = '/api/mekanik';
               this.axios.get(uri).then(response => {
                   this.mekaniks = response.data.data;
+              });
+            },
+            LoadLift() {
+              let uri = '/api/lift';
+              this.axios.get(uri).then(response => {
+                  this.lifts = response.data.data;
               });
             },
             loadBarang:function(){
@@ -629,6 +635,7 @@
             this.loadBarang();
             this.LoadPelanggan();
             this.LoadMekanik();
+            this.LoadLift();
             this.loadTransaksiPenjualan();
             this.loadTotal();
         },

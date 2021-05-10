@@ -64,6 +64,13 @@ Route::get('/mekanik/{id?}', 'mekanikController@show');
 Route::post('/mekanik/update/{id?}', 'mekanikController@update');
 Route::delete('/mekanik/{id?}', 'mekanikController@destroy');
 
+//========Lift
+Route::get('/lift', 'liftController@index');
+Route::post('/lift/store', 'liftController@store');
+Route::get('/lift/{id?}', 'liftController@show');
+Route::post('/lift/update/{id?}', 'liftController@update');
+Route::delete('/lift/{id?}', 'liftController@destroy');
+
 
 //========meja
 Route::get('/meja', 'mejaController@index');
@@ -103,6 +110,7 @@ Route::get('/kodePelanggan', 'nomorController@kodePelanggan');
 Route::get('/kodeStokOpname', 'nomorController@kodeStokOpname');
 Route::get('/kodeMotor', 'nomorController@kodeMotor');
 Route::get('/kodeMekanik', 'nomorController@kodeMekanik');
+Route::get('/kodeLift', 'nomorController@kodeLift');
 Route::get('/username', 'nomorController@kodeUsername');
 
 

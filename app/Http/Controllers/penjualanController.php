@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Penjualan;
 use App\PenjualanDetail;
 use App\KartuStok;
+use Carbon\Carbon;
 //use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -285,6 +286,7 @@ class penjualanController extends Controller
             'typeNota'      =>$request->input('typeNota'),
             'termNota'      =>$request->input('termNota'),
             'piutangNota'   =>$sisaPiutang,
+            'jthTempoNota'     => $request->input('tglNota')->addDays($request->input('termNota')),
         ]);
 
             if ($post) {

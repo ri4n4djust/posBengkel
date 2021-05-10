@@ -16,7 +16,7 @@ class CreateLiftsTable extends Migration
         Schema::create('tblLift', function (Blueprint $table) {
             $table->id();
             $table->string('kdLift');
-            $table->string('noLif');
+            $table->string('noLift');
             $table->string('mekanikLift');
             $table->string('statusLift');
             $table->timestamps();

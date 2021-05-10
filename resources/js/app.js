@@ -53,7 +53,9 @@ import CreateMotorComponent from './components/motor/Create.vue';
 import EditMotorComponent from './components/motor/Edit.vue';
 
 import homeComponent from './components/Home.vue';
+import liveorder from './components/LiveOrder.vue'
 import mekanikComponent from './components/Mekanik.vue';
+import liftComponent from './components/Lift.vue';
 
 import IndexUserComponent from './components/user/Index.vue';
 import CreateUserComponent from './components/user/Create.vue';
@@ -66,7 +68,7 @@ import EditCustComponent from './components/pelanggan/Edit.vue';
 import CreatePembelian from './components/PembelianCreate.vue';
 import CreatePenjualan from './components/PenjualanCreate.vue';
 import CreateGrandJual from './components/GrandJualCreate.vue';
-import liveorder from './components/LiveOrder.vue';
+
 
 
 import LaporanPenjualanComponent from './components/laporan/laporanPenjualan.vue';
@@ -116,6 +118,8 @@ const routes = [
     { name: 'editPelanggan', path: '/pelanggan/edit/:id', component: EditCustComponent },
     //=============Mekanik
     { name: 'mekanik', path: '/mekanik', component: mekanikComponent },
+    //=============Lift
+    { name: 'lift', path: '/lift', component: liftComponent },
     //=======Pembelian
     { name: 'pembelian', path: '/pembelian', component: CreatePembelian },
     //=======Penjualan

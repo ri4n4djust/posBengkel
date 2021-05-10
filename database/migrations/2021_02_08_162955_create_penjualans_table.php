@@ -29,6 +29,7 @@ class CreatePenjualansTable extends Migration
             $table->string('typeNota')->nullable();
             $table->string('termNota')->nullable();
             $table->string('piutangNota')->nullable();
+            $table->string('jthTempoNota')->nullable();
             $table->timestamps();
         });
     }
