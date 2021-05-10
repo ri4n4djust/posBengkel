@@ -11,6 +11,6 @@ class Penjualan extends Model
 
     protected $fillable = [
         'noNota','userNota', 'liftNo', 'tglNota', 'totalNota', 'bayarNota', 'kembalianNota', 'pelangganNota', 'taxNota', 'diskonNota', 'mekanikNota', 
-        'piutangNota', 'typeNota', 'termNota', 'jthTempoNota'
+        'piutangNota', 'typeNota', 'termNota', 'jthTempoNota', 'chargeNota'
     ];
 }

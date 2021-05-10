@@ -23,12 +23,13 @@ class CreatePenjualansTable extends Migration
             $table->string('taxNota');
             $table->string('diskonNota');
             $table->string('bayarNota');
+            $table->string('chargeNota');
             $table->string('kembalianNota');
             $table->string('userNota');
             $table->string('mekanikNota')->nullable();
             $table->string('typeNota')->nullable();
             $table->string('termNota')->nullable();
-            $table->string('piutangNota')->nullable();
+            $table->integer('piutangNota')->nullable();
             $table->string('jthTempoNota')->nullable();
             $table->timestamps();
         });

@@ -12,7 +12,7 @@ class Pembelian extends Model
     protected $fillable = [
         'noNotaPembelian', 'tglNotaPembelian', 'totalNotaPembelian', 'idSupplier',
          'userPembelian', 'typePembelian', 'termPembelian', 'hutangPembelian',
-         'bayarNotaPembelian'
+         'bayarNotaPembelian', 'jthTempoPembelian'
     ];
 
 

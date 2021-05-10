@@ -500,6 +500,7 @@ class ComposerStaticInitc4f97d6204a4d34371f464f9dc423f38
     );
 
     public static $classMap = array (
+        'App\\Bank' => __DIR__ . '/../..' . '/app/Bank.php',
         'App\\Barang' => __DIR__ . '/../..' . '/app/Barang.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
@@ -509,9 +510,12 @@ class ComposerStaticInitc4f97d6204a4d34371f464f9dc423f38
         'App\\Http\\Controllers\\CountryStateController' => __DIR__ . '/../..' . '/app/Http/Controllers/CountryStateController.php',
         'App\\Http\\Controllers\\kategoriController' => __DIR__ . '/../..' . '/app/Http/Controllers/kategoriController.php',
         'App\\Http\\Controllers\\komposisiController' => __DIR__ . '/../..' . '/app/Http/Controllers/komposisiController.php',
+        'App\\Http\\Controllers\\liftController' => __DIR__ . '/../..' . '/app/Http/Controllers/liftController.php',
         'App\\Http\\Controllers\\loginController' => __DIR__ . '/../..' . '/app/Http/Controllers/loginController.php',
         'App\\Http\\Controllers\\mejaController' => __DIR__ . '/../..' . '/app/Http/Controllers/mejaController.php',
+        'App\\Http\\Controllers\\mekanikController' => __DIR__ . '/../..' . '/app/Http/Controllers/mekanikController.php',
         'App\\Http\\Controllers\\menuController' => __DIR__ . '/../..' . '/app/Http/Controllers/menuController.php',
+        'App\\Http\\Controllers\\motorController' => __DIR__ . '/../..' . '/app/Http/Controllers/motorController.php',
         'App\\Http\\Controllers\\nomorController' => __DIR__ . '/../..' . '/app/Http/Controllers/nomorController.php',
         'App\\Http\\Controllers\\paymentController' => __DIR__ . '/../..' . '/app/Http/Controllers/paymentController.php',
         'App\\Http\\Controllers\\pelangganController' => __DIR__ . '/../..' . '/app/Http/Controllers/pelangganController.php',

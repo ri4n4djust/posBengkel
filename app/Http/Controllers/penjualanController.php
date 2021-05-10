@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Penjualan;
 use App\PenjualanDetail;
 use App\KartuStok;
+use App\Pembayara;
 use Carbon\Carbon;
 //use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -64,6 +65,49 @@ class penjualanController extends Controller
             'data' => $posts
         ], 200);
 
+    }
+    public function laporanBulanan()
+    {
+
+        $bulan = DB::table('tblPenjualan as w')
+                ->select(array(DB::Raw('sum(w.totalNota) as total'),DB::Raw('sum(w.taxNota) as ppn'),DB::Raw('sum(w.diskonNota) as diskon'),DB::Raw('sum(w.chargeNota) as charge'),DB::Raw('w.tglNota')))
+                ->groupBy('w.tglNota')
+                ->orderBy('w.tglNota')
+                ->get();
+        return response([
+                    'success' => true,
+                    'message' => 'List Semua SPenjualan',
+                    'data' => $bulan
+                ], 200);
+    }
+    public function laporanBulananSorting(Request $request)
+    {
+
+        $startDate = $request->input('startDate');
+        $endDate = $request->input('endDate');
+
+        $bulan = DB::table('tblPenjualan as w')
+                ->select(array(DB::Raw('sum(w.totalNota) as total'),DB::Raw('sum(w.taxNota) as ppn'),DB::Raw('sum(w.diskonNota) as diskon'),DB::Raw('sum(w.chargeNota) as charge'),DB::Raw('w.tglNota')))
+                ->groupBy('w.tglNota')
+                ->orderBy('w.tglNota')
+                ->whereBetween('w.tglNota', [$startDate, $endDate])
+                ->get();
+                $NotalTOtal = Penjualan::whereBetween('tglNota', [$startDate, $endDate])->sum('totalNota');
+                $pajakSum = Penjualan::whereBetween('tglNota', [$startDate, $endDate])->sum('taxNota');
+                $diskonSum = Penjualan::whereBetween('tglNota', [$startDate, $endDate])->sum('diskonNota');
+                $chargeSum = Penjualan::whereBetween('tglNota', [$startDate, $endDate])->sum('chargeNota');
+
+        return response([
+                    'success' => true,
+                    'message' => 'List Semua SPenjualan',
+                    'startDate' => $startDate,
+                    'endDate' => $endDate,
+                    'notaSum' => $NotalTOtal,
+                    'pajakSum' => $pajakSum,
+                    'diskonSum' => $diskonSum,
+                    'chargeSum' => $chargeSum,
+                    'data' => $bulan
+                ], 200);
     }
     public function listDetailPenjualan($id)
     {
@@ -266,7 +310,7 @@ class penjualanController extends Controller
 
     public function addTransaksiPenjualan(Request $request)
     {
-        if($request->input('typeNota') == '2'){
+        if($request->input('typeNota') == '2' && $request->input('piutangNota') > 0 ){
             $sisaPiutang = $request->input('piutangNota');
         }else{
             $sisaPiutang = '0';
@@ -278,6 +322,7 @@ class penjualanController extends Controller
             'totalNota'     => $request->input('totalNota'),
             'taxNota'     => $request->input('taxNota'),
             'diskonNota'     => $request->input('diskonNota'),
+            'chargeNota'     => $request->input('chargeNota'),
             'bayarNota'     => $request->input('bayarNota'),
             'kembalianNota'     => $request->input('kembalianNota'),
             'pelangganNota'     => $request->input('pelanggan'),
@@ -286,7 +331,16 @@ class penjualanController extends Controller
             'typeNota'      =>$request->input('typeNota'),
             'termNota'      =>$request->input('termNota'),
             'piutangNota'   =>$sisaPiutang,
-            'jthTempoNota'     => $request->input('tglNota')->addDays($request->input('termNota')),
+            'jthTempoNota'     => Carbon::parse($request->input('tglNota'))->addDays($request->input('termNota'))->format('Y/m/d'),
+        ]);
+
+        Pembayara::insert([
+            'notaPembayaran'     => $request->input('noNota'),
+            'diskonPembayaran'     => $request->input('diskonPembayaran'),
+            'pajakPembayaran'     => $request->input('pajakPembayaran'),
+            'typePembayaran'     => $request->input('typeNota'),
+            'chargePembayaran'     => $request->input('chargePembayaran'),
+            'noKartuPembayaran'     => $request->input('noKartuPembayaran'),
         ]);
 
             if ($post) {

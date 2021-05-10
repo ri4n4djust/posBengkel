@@ -6,8 +6,8 @@
                         <div class="box box-primary">
                             <div class="box-header">
                             <i class="ion ion-clipboard"></i>
-
                             <h3 class="box-title">To Do List</h3>
+                            <h3 class="box-title">Daftar</h3>
 
                            
                             </div>

@@ -199,7 +199,7 @@
 
                 <p class="text-muted text-center">
                 <input type="hidden" class="form-control" :value="((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * post.diskonPelanggan / 100))  || 0 " :name="totalTransaksiBayar"  >
-                <h3 class="profile-username ">Total {{ ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * post.diskonPelanggan / 100))  || 0 | currency }}</h3>
+                <h3 class="profile-username ">Total {{ Math.floor(((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * post.diskonPelanggan / 100)) + ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * post.diskonPelanggan / 100)) * taxDebit / 100)  || 0 | currency }}</h3>
 
 
                 <div class="row input-group">
@@ -230,29 +230,32 @@
                                     <input type="number" class="form-control" v-model="totalBayar" placeholder="Bayar" required>
                                   </div>
                                   
-                                  <h3 class="profile-username ">Kembali : {{ totalBayar - ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * post.diskonPelanggan / 100))  || 0 | currency }}</h3>
+                                  <h3 class="profile-username ">Kembali : {{ Math.floor(totalBayar - ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * post.diskonPelanggan / 100)))  || 0 | currency  }}</h3>
                                   <p class="text-muted text-center">
-                                  <button type="submit"  class="btn btn-md btn-success" >Bayar</button>                
+                                  <button type="submit"  class="btn btn-md btn-success" >Bayar</button> 
+                                  <a href="#"  @click="printBill(printMe)" class="btn btn-md btn-success" >Print Bill</a>               
                                   </p>
                             </div>
                             <div v-else-if="pembayaran === '2'">
                               <div class="input-group">
                                     <span class="input-group-addon">Card Carge %</span>
-                                    <input type="number" class="form-control" v-model="taxDebit" placeholder="0" >
+                                    <input type="number" step=".01" class="form-control" v-model="taxDebit" placeholder="0" >
+                                    <input type="hidden" class="form-control" :value="((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * post.diskonPelanggan / 100)) * taxDebit / 100 " :name="pajakKartu" >
                                   </div>
-                                  <br>
+                                  <p>
                                   <div class="input-group">
                                     <span class="input-group-addon">Card No.</span>
                                     <input type="number" class="form-control" v-model="noDebit" placeholder="No Kartu" >
                                   </div>
-                                  <br>
+                                  <p>
                                   <div class="input-group">
                                     <span class="input-group-addon">Rp.</span>
                                     <input type="number" class="form-control" v-model="totalBayar" placeholder="Bayar" required>
                                   </div>
                                   <br>
                                   <p class="text-muted text-center">
-                                  <button type="submit"  class="btn btn-md btn-success" >Bayar</button>                
+                                  <button type="submit"  class="btn btn-md btn-success" >Bayar</button>       
+                                  <a href="#"  @click="printBill(printMe)" class="btn btn-md btn-success" >Print Bill</a>         
                                   </p>
                             </div>
                             <div v-else-if="pembayaran === '3'">
@@ -394,6 +397,7 @@
                 lifts:[],
                 pem: {},
                 qtyJual: '1',
+                //kodePelanggan: 'PL-2021-1',
                 qtySa: '',
                 hrgJual: '',
                 subTotal: '',
@@ -402,6 +406,10 @@
                 ntp:'',
                 satuanJual: '',
                 pajak: '0',
+                taxDebit: '0',
+                noDebit: '0',
+                chargeNota: '0',
+                pajakKartu:'',
                 //diskon: '',
                 pembayaran: '1',
                 totalTransaksiBayar: '',
@@ -609,7 +617,14 @@
                     kembalianNota: this.totalBayar - ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100)),
                     typeNota: this.typePenjualan,
                     termNota: this.termPenjualan,
-                    piutangNota: Math.abs(this.totalBayar - ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100))), 
+                    piutangNota: Math.ceil(this.totalBayar - ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100))) - Math.ceil((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100)) * this.taxDebit / 100, 
+
+                    typeNota: this.pembayaran,
+                    chargeNota: Math.floor((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100)) * this.taxDebit / 100,
+                    pajakPembayaran: this.pajak,
+                    diskonPembayaran: this.post.diskonPelanggan,
+                    chargePembayaran: this.taxDebit,
+                    noKartuPembayaran: this.noDebit,
                     
                 })
                     .then((response) => {

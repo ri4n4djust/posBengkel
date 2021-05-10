@@ -79,6 +79,7 @@
                                 <tr>
                                     <th>No Nota </th>
                                     <th>Tgl Nota</th>
+                                    <th>Jth Tempo</th>
                                     <th>Total Piutang</th>
                                     <th>Bayar Nota</th>
                                     <th>Sisa Piutang</th>
@@ -88,6 +89,7 @@
                                 <tr v-for="(pe, index) in pem" :key="pe.id">
                                     <td >{{ pe.noNota }} </td>
                                     <td >{{ pe.tglNota}}</td>
+                                    <td >{{ pe.jthTempoNota }} </td>
                                     <td>{{ pe.piutangNota | currency }}</td>
                                     <td><input type="text" v-model="bayar[index]" @keyup="getTotalPay()"></td>
                                     <td>{{ pe.piutangNota - bayar[index] | currency }} </td>

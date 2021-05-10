@@ -8,6 +8,7 @@ use App\Pembelian;
 use App\KartuStok;
 use App\KartuStokInventori;
 use App\Inventori;
+use Carbon\Carbon;
 
 use Illuminate\Support\Facades\DB;
 
@@ -221,6 +222,7 @@ class pembelianController extends Controller
             'termPembelian'     => $request->input('termPembelian'),
             'hutangPembelian'   => $request->input('hutangPembelian'),
             'bayarNotaPembelian'       => $request->input('totalBayar'),
+            'jthTempoPembelian'     => Carbon::parse($request->input('tglNotaPembelian'))->addDays($request->input('termPembelian'))->format('Y/m/d'),
         ]);
 
         DB::table('tblKartuStok')

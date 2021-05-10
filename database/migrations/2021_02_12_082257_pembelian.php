@@ -25,6 +25,7 @@ class Pembelian extends Migration
             $table->string('typePembelian');
             $table->string('termPembelian');
             $table->string('hutangPembelian');
+            $table->string('jthTempoPembelian');
             $table->timestamps();
         });
     }

@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Bank' => $baseDir . '/app/Bank.php',
     'App\\Barang' => $baseDir . '/app/Barang.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
@@ -15,9 +16,12 @@ return array(
     'App\\Http\\Controllers\\CountryStateController' => $baseDir . '/app/Http/Controllers/CountryStateController.php',
     'App\\Http\\Controllers\\kategoriController' => $baseDir . '/app/Http/Controllers/kategoriController.php',
     'App\\Http\\Controllers\\komposisiController' => $baseDir . '/app/Http/Controllers/komposisiController.php',
+    'App\\Http\\Controllers\\liftController' => $baseDir . '/app/Http/Controllers/liftController.php',
     'App\\Http\\Controllers\\loginController' => $baseDir . '/app/Http/Controllers/loginController.php',
     'App\\Http\\Controllers\\mejaController' => $baseDir . '/app/Http/Controllers/mejaController.php',
+    'App\\Http\\Controllers\\mekanikController' => $baseDir . '/app/Http/Controllers/mekanikController.php',
     'App\\Http\\Controllers\\menuController' => $baseDir . '/app/Http/Controllers/menuController.php',
+    'App\\Http\\Controllers\\motorController' => $baseDir . '/app/Http/Controllers/motorController.php',
     'App\\Http\\Controllers\\nomorController' => $baseDir . '/app/Http/Controllers/nomorController.php',
     'App\\Http\\Controllers\\paymentController' => $baseDir . '/app/Http/Controllers/paymentController.php',
     'App\\Http\\Controllers\\pelangganController' => $baseDir . '/app/Http/Controllers/pelangganController.php',
