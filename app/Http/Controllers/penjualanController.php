@@ -48,23 +48,114 @@ class penjualanController extends Controller
         //$to = date('2021/02/02');
         $startDate = $request->input('startDate');
         $endDate = $request->input('endDate');
+        
+        $typeNota = $request->input('typeNota');
+        $typeBayarNota = $request->input('typeBayarNota');
 
-        $posts = Penjualan::whereBetween('tglNota', [$startDate, $endDate])->get();
-        $NotalTOtal = Penjualan::whereBetween('tglNota', [$startDate, $endDate])->sum('totalNota');
-        $pajakSum = Penjualan::whereBetween('tglNota', [$startDate, $endDate])->sum('taxNota');
-        $diskonSum = Penjualan::whereBetween('tglNota', [$startDate, $endDate])->sum('diskonNota');
+        if($typeNota == 0 && $typeBayarNota == 0){
 
-        //$posts = Penjualan::latest()->get();
-        return response([
-            'success' => true,
-            'message' => 'List Semua SPenjualan',
-            'startDate' => $startDate,
-            'endDate' => $endDate,
-            'notaSum' => $NotalTOtal,
-            'pajakSum' => $pajakSum,
-            'diskonSum' => $diskonSum,
-            'data' => $posts
-        ], 200);
+            $posts = Penjualan::whereBetween('tglNota', [$startDate, $endDate])->get();
+            $NotalTOtal = Penjualan::whereBetween('tglNota', [$startDate, $endDate])->sum('totalNota');
+            $pajakSum = Penjualan::whereBetween('tglNota', [$startDate, $endDate])->sum('taxNota');
+            $diskonSum = Penjualan::whereBetween('tglNota', [$startDate, $endDate])->sum('diskonNota');
+
+            //$posts = Penjualan::latest()->get();
+            return response([
+                'success' => true,
+                'message' => 'List Semua SPenjualan',
+                'startDate' => $startDate,
+                'endDate' => $endDate,
+                'notaSum' => $NotalTOtal,
+                'pajakSum' => $pajakSum,
+                'diskonSum' => $diskonSum,
+                'data' => $posts
+            ], 200);
+        
+        }elseif($typeNota != 0 && $typeBayarNota == 0){
+            $posts = Penjualan::where('typeNota', $typeNota)
+                            ->whereBetween('tglNota', [$startDate, $endDate])
+                            ->get();
+            $NotalTOtal = Penjualan::whereBetween('tglNota', [$startDate, $endDate])
+                                ->where('typeNota', $typeBayarNota)
+                                ->sum('totalNota');
+            $pajakSum = Penjualan::whereBetween('tglNota', [$startDate, $endDate])
+                                ->where('typeNota', $typeBayarNota)
+                                ->sum('taxNota');
+            $diskonSum = Penjualan::whereBetween('tglNota', [$startDate, $endDate])
+                                ->where('typeNota', $typeBayarNota)    
+                                ->sum('diskonNota');
+        
+            //$posts = Penjualan::latest()->get();
+            return response([
+                'success' => true,
+                'message' => 'List Semua SPenjualan',
+                'startDate' => $startDate,
+                'endDate' => $endDate,
+                'notaSum' => $NotalTOtal,
+                'pajakSum' => $pajakSum,
+                'diskonSum' => $diskonSum,
+                'data' => $posts
+            ], 200);
+        }elseif($typeBayarNota != 0 && $typeNota == 0){
+
+            $posts = Penjualan::where('typeBayarNota', $typeBayarNota)
+                            ->whereBetween('tglNota', [$startDate, $endDate])
+                            ->get();
+            $NotalTOtal = Penjualan::whereBetween('tglNota', [$startDate, $endDate])
+                                ->where('typeBayarNota', $typeBayarNota)
+                                ->sum('totalNota');
+            $pajakSum = Penjualan::whereBetween('tglNota', [$startDate, $endDate])
+                                ->where('typeBayarNota', $typeBayarNota)
+                                ->sum('taxNota');
+            $diskonSum = Penjualan::whereBetween('tglNota', [$startDate, $endDate])
+                                ->where('typeBayarNota', $typeBayarNota)    
+                                ->sum('diskonNota');
+        
+            //$posts = Penjualan::latest()->get();
+            return response([
+                'success' => true,
+                'message' => 'List Semua SPenjualan',
+                'startDate' => $startDate,
+                'endDate' => $endDate,
+                'notaSum' => $NotalTOtal,
+                'pajakSum' => $pajakSum,
+                'diskonSum' => $diskonSum,
+                'data' => $posts
+            ], 200);
+        }elseif($typeBayarNota != 0 && $typeNota != 0){
+            $posts = Penjualan::whereBetween('tglNota', [$startDate, $endDate])
+                            ->where('typeNota', $typeNota)
+                            ->where('typeBayarNota', $typeBayarNota)
+                            ->get();
+            $NotalTOtal = Penjualan::whereBetween('tglNota', [$startDate, $endDate])
+                                ->where('typeNota', $typeNota)
+                                ->where('typeBayarNota', $typeBayarNota)
+                                ->sum('totalNota');
+            $pajakSum = Penjualan::whereBetween('tglNota', [$startDate, $endDate])
+                                ->where('typeNota', $typeNota)
+                                ->where('typeBayarNota', $typeBayarNota)
+                                ->sum('taxNota');
+            $diskonSum = Penjualan::whereBetween('tglNota', [$startDate, $endDate])
+                                ->where('typeNota', $typeNota)
+                                ->where('typeBayarNota', $typeBayarNota)    
+                                ->sum('diskonNota');
+        
+            //$posts = Penjualan::latest()->get();
+            return response([
+                'success' => true,
+                'message' => 'List Semua SPenjualan',
+                'startDate' => $startDate,
+                'endDate' => $endDate,
+                'notaSum' => $NotalTOtal,
+                'pajakSum' => $pajakSum,
+                'diskonSum' => $diskonSum,
+                'data' => $posts
+            ], 200);
+        }
+
+        
+
+        
 
     }
     public function laporanBulanan()

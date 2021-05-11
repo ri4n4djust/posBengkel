@@ -22,6 +22,8 @@
                             <!-- /.tab-pane -->
                             <div class="tab-pane" id="timeline">
                                 <!-- The timeline -->
+                                <div class="col-md-9">
+                                </div>
                                 <form  @submit.prevent="lapPenjualan" >
                                     
                                         <p class="text-muted text-left">
@@ -31,6 +33,22 @@
                                         <p class="text-muted text-left">
                                         <label>End Date</label>
                                     <date-picker v-model="endDate" value-type="format" format="YYYY/MM/DD" :required="true"></date-picker>
+                                        </p>
+                                        <p class="text-muted text-left">
+                                        <label>Jenis Nota</label>
+                                            <select class='form-control' v-model='typeNota' >
+                                            <option  value='0'>Semua</option>
+                                            <option value='1' >Cash</option>
+                                            <option value='2' >Kredit</option>
+                                            </select>
+                                        </p>
+                                        <p class="text-muted text-left">
+                                        <label>Jenis Pembayaran</label>
+                                            <select class='form-control' v-model='typeBayarNota' >
+                                            <option  value='0'>Semua</option>
+                                            <option value='1' >Cash</option>
+                                            <option value='2' >Debit / Credit Card</option>
+                                            </select>
                                         </p>
                                         <p class="text-muted text-left">
                                     <button type="submit" class="btn btn-md btn-success">View Data</button> 
@@ -185,6 +203,8 @@ Vue.component("data-table", DataTable);
                 totalS: [],
                 pajakS: [],
                 diskonS: [],
+                typeNota: '0',
+                typeBayarNota: '0',
                 //totalSum: '',
             }
 
@@ -290,6 +310,8 @@ Vue.component("data-table", DataTable);
                 {
                     startDate: this.startDate,
                     endDate: this.endDate,
+                    typeNota: this.typeNota,
+                    typeBayarNota: this.typeBayarNota,
                 })
                     .then((response) => {
                         this.posts1 = response.data.data;
