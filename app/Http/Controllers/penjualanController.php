@@ -20,6 +20,7 @@ class penjualanController extends Controller
         $posts = Penjualan::join('tblPelanggan', 'tblPenjualan.pelangganNota', 'tblPelanggan.kodePelanggan')
                 ->join('users', 'tblPenjualan.userNota', 'users.id')
                 ->select('tblPenjualan.*', 'tblPelanggan.namaPelanggan', 'users.name')
+                ->orderBy('tblPenjualan.id', 'DESC')
                 ->get();
         return response([
             'success' => true,
@@ -138,7 +139,8 @@ class penjualanController extends Controller
         $post = DB::table('tblPenjualanDetail')
                     ->join('tblBarang', 'tblBarang.kdBarang', '=', 'tblPenjualanDetail.kdBarang')
                     ->select('tblPenjualanDetail.*', 'tblBarang.nmBarang')
-                    ->where('noNotaPenjualan', $id)->get();
+                    ->where('noNotaPenjualan', $id)
+                    ->get();
 
         if ($post) {
             return response()->json([
@@ -310,8 +312,8 @@ class penjualanController extends Controller
 
     public function addTransaksiPenjualan(Request $request)
     {
-        if($request->input('typeNota') == '2' && $request->input('piutangNota') > 0 ){
-            $sisaPiutang = $request->input('piutangNota');
+        if($request->input('typeNota') == '2' && $request->input('piutangNota') < 0 ){
+            $sisaPiutang = abs($request->input('piutangNota'));
         }else{
             $sisaPiutang = '0';
         }
@@ -329,6 +331,7 @@ class penjualanController extends Controller
             'userNota'     => $request->input('userNota'),
             'mekanikNota'     => $request->input('mekanikNota'),
             'typeNota'      =>$request->input('typeNota'),
+            'typeBayarNota'      =>$request->input('typeBayarNota'),
             'termNota'      =>$request->input('termNota'),
             'piutangNota'   =>$sisaPiutang,
             'jthTempoNota'     => Carbon::parse($request->input('tglNota'))->addDays($request->input('termNota'))->format('Y/m/d'),

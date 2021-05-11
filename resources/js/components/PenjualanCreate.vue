@@ -187,7 +187,7 @@
               <div class="modal-body">
                 <form  @submit.prevent="PostTransaksiPenjualan" >
                   <input type="hidden" class="form-control" v-model="tglPenjualan" >
-                <input type="text" class="form-control" v-model="post.kodePelanggan" placeholder="Customer">
+                <input type="hidden" class="form-control" v-model="post.kodePelanggan" placeholder="Customer">
                 <input type="hidden" class="form-control" v-model="noNotaPenjualan" placeholder="No nota">
                 <input type="hidden" class="form-control" v-model="subtotal">
                 <input type="hidden" class="form-control" v-model="liftNo">
@@ -198,7 +198,7 @@
                 
 
                 <p class="text-muted text-center">
-                <input type="hidden" class="form-control" :value="((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * post.diskonPelanggan / 100))  || 0 " :name="totalTransaksiBayar"  >
+                <input type="text" class="form-control" :value="Math.floor(((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * post.diskonPelanggan / 100)) + ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * post.diskonPelanggan / 100)) * taxDebit / 100) || 0 " :name="totalTransaksiBayar"  >
                 <h3 class="profile-username ">Total {{ Math.floor(((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * post.diskonPelanggan / 100)) + ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * post.diskonPelanggan / 100)) * taxDebit / 100)  || 0 | currency }}</h3>
 
 
@@ -254,6 +254,7 @@
                                   </div>
                                   <br>
                                   <p class="text-muted text-center">
+{{ totalBayar - ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * post.diskonPelanggan / 100)) - (subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * post.diskonPelanggan / 100) * taxDebit / 100 }}
                                   <button type="submit"  class="btn btn-md btn-success" >Bayar</button>       
                                   <a href="#"  @click="printBill(printMe)" class="btn btn-md btn-success" >Print Bill</a>         
                                   </p>
@@ -610,16 +611,16 @@
                     tglNota: this.tglPenjualan,
                     taxNota: (this.subtotal * this.pajak / 100),
                     diskonNota: ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100),
-                    totalNota: ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100)),
+                    totalNota: Math.floor(((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100)) + ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100)) * this.taxDebit / 100),
                     bayarNota: this.totalBayar,
                     userNota: this.$session.get('userId'),
                     mekanikNota: this.mekanikNota,
                     kembalianNota: this.totalBayar - ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100)),
-                    typeNota: this.typePenjualan,
+                    typeBayarNota: this.pembayaran,
                     termNota: this.termPenjualan,
                     piutangNota: Math.ceil(this.totalBayar - ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100))) - Math.ceil((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100)) * this.taxDebit / 100, 
 
-                    typeNota: this.pembayaran,
+                    typeNota: this.typePenjualan,
                     chargeNota: Math.floor((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100)) * this.taxDebit / 100,
                     pajakPembayaran: this.pajak,
                     diskonPembayaran: this.post.diskonPelanggan,

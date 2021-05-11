@@ -26,6 +26,7 @@ class CreatePenjualansTable extends Migration
             $table->string('chargeNota');
             $table->string('kembalianNota');
             $table->string('userNota');
+            $table->string('typeBayarNota');
             $table->string('mekanikNota')->nullable();
             $table->string('typeNota')->nullable();
             $table->string('termNota')->nullable();

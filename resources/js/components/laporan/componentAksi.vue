@@ -26,6 +26,12 @@
                                                 <strong>Customer :</strong> {{data.namaPelanggan}}<br>
                                                 <b> Tgl : </b>{{data.tglNota}}<br>
                                                 <b> Mekanik : </b>{{data.mekanikNota}}<br>
+                                                <b>Type Bayar: </b> <span v-if="data.typeBayarNota === '1'">
+                                                                    Cash
+                                                                </span>
+                                                                <span v-else-if="data.typeBayarNota === '2'">
+                                                                    Debit / Credit<br>
+                                                                </span>
                                             </address>
                                             </div>
                                             <!-- /.col -->
@@ -39,12 +45,13 @@
                                             <div class="col-sm-4 invoice-col">
                                                 <b>Pajak : </b>{{data.taxNota | currency}}<br>
                                                 <b>Diskon : </b>{{data.diskonNota | currency}}<br>
-                                                <b>type : </b> <span v-if="data.typeNota === '1'">
+                                                <b>Type Nota: </b> <span v-if="data.typeNota === '1'">
                                                                     Cash
                                                                 </span>
                                                                 <span v-else-if="data.typeNota === '2'">
                                                                     Kredit<br>
-                                                                    Bayar : {{ data.bayarNota  || 0 | currency }} <br> Sisa Hutang :  {{ data.piutangNota  || 0 | currency }}
+                                                                    Bayar : {{ data.bayarNota  || 0 | currency }} <br> 
+                                                                    Sisa Hutang :  {{ data.piutangNota  || 0 | currency }}
                                                                 </span>
                                             </div>
                                         </div>
