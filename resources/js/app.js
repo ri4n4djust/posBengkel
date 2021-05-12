@@ -55,6 +55,7 @@ import EditMotorComponent from './components/motor/Edit.vue';
 import homeComponent from './components/Home.vue';
 import liveorder from './components/LiveOrder.vue'
 import mekanikComponent from './components/Mekanik.vue';
+import jasaComponent from './components/Jasa.vue';
 import liftComponent from './components/Lift.vue';
 
 import IndexUserComponent from './components/user/Index.vue';
@@ -119,6 +120,8 @@ const routes = [
     { name: 'editPelanggan', path: '/pelanggan/edit/:id', component: EditCustComponent },
     //=============Mekanik
     { name: 'mekanik', path: '/mekanik', component: mekanikComponent },
+    //=============Jasa
+    { name: 'jasa', path: '/jasa', component: jasaComponent },
     //=============Lift
     { name: 'lift', path: '/lift', component: liftComponent },
     //=======Pembelian

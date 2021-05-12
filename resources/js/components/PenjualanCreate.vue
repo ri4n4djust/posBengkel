@@ -118,6 +118,7 @@
                           </div>
                         <div class="col-xs-2">
                           <label>Qty</label>
+                        <input type="hidden" v-model="post1.nmBarang" class="form-control input-sm" >
                         <input type="text" v-model="qtyJual" class="form-control input-sm" placeholder="Qty">
                         </div>
                         <div class="col-xs-2">
@@ -567,6 +568,7 @@
                     totalJual: this.post1.hrgJual * this.qtyJual,
                     tglPenjualan: this.tglPenjualan,
                     satuanJual: this.post1.satuanBarang,
+                    nmBarangJual: this.post1.nmBarang
                 })
                     .then((response) => {
                         this.loadTotal()

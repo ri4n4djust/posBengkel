@@ -64,6 +64,13 @@ Route::get('/mekanik/{id?}', 'mekanikController@show');
 Route::post('/mekanik/update/{id?}', 'mekanikController@update');
 Route::delete('/mekanik/{id?}', 'mekanikController@destroy');
 
+//========Jasa
+Route::get('/jasa', 'jasaController@index');
+Route::post('/jasa/store', 'jasaController@store');
+Route::get('/jasa/{id?}', 'jasaController@show');
+Route::post('/jasa/update/{id?}', 'jasaController@update');
+Route::delete('/jasa/{id?}', 'jasaController@destroy');
+
 //========Lift
 Route::get('/lift', 'liftController@index');
 Route::post('/lift/store', 'liftController@store');
@@ -72,22 +79,7 @@ Route::post('/lift/update/{id?}', 'liftController@update');
 Route::delete('/lift/{id?}', 'liftController@destroy');
 
 
-//========meja
-Route::get('/meja', 'mejaController@index');
-Route::get('/mejakosong', 'mejaController@mejakosong');
-Route::post('/meja/pindah', 'mejaController@pindah');
-Route::post('/meja/store', 'mejaController@store');
-Route::post('/meja/duduk', 'mejaController@duduk');
-Route::get('/meja/{id?}', 'mejaController@show');
-Route::get('/detail/{id?}', 'mejaController@detail');
-Route::post('/meja/update/{id?}', 'mejaController@update');
-Route::post('/meja/cekin/{id?}', 'mejaController@cekin');
-Route::post('/meja/cancelcekin/{id?}', 'mejaController@cancelcekin');
-Route::delete('/meja/{id?}', 'mejaController@destroy');
-
 //===========transaksi
-Route::post('/addItem/store', 'mejaController@addItem');
-Route::post('/addMenu/store', 'mejaController@addMenu');
 Route::post('/transaksi/{id}', 'mejaController@listTransaksi');
 Route::delete('/orderDelete/{id?}', 'mejaController@destroy1');
 Route::post('/addTransaksi/store', 'mejaController@addTransaksi');
@@ -110,6 +102,7 @@ Route::get('/kodePelanggan', 'nomorController@kodePelanggan');
 Route::get('/kodeStokOpname', 'nomorController@kodeStokOpname');
 Route::get('/kodeMotor', 'nomorController@kodeMotor');
 Route::get('/kodeMekanik', 'nomorController@kodeMekanik');
+Route::get('/kodeJasa', 'nomorController@kodeJasa');
 Route::get('/kodeLift', 'nomorController@kodeLift');
 Route::get('/username', 'nomorController@kodeUsername');
 

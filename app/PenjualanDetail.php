@@ -10,6 +10,7 @@ class PenjualanDetail extends Model
     protected $table = 'tblPenjualanDetail';
 
     protected $fillable = [
-        'noNotaPenjualan', 'kdBarang', 'hrgJual', 'qtyJual', 'totalJual', 'satuanJual', 'tglPenjualan'
+        'noNotaPenjualan', 'kdBarang', 'hrgJual', 'qtyJual', 'totalJual', 'satuanJual', 
+        'tglPenjualan', 'nmBarangJual'
     ];
 }

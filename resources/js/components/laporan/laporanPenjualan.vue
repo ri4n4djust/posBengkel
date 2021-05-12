@@ -62,7 +62,9 @@
                                         <th>No Nota</th>
                                         <th>Customer</th>
                                         <th>Tgl</th>
-                                        <th>PPn</th>
+                                        
+                                        <th>Type Nota</th>
+                                        <th>Type Bayar</th>
                                         <th>Diskon</th>
                                         <th>Total</th>
                                     </tr>
@@ -70,9 +72,24 @@
                                     <tbody>
                                     <tr v-for="post1 in posts1" :key="post1.id">
                                         <td>{{ post1.noNota }}</td>
-                                        <td>{{ post1.pelangganNota }}</td>
+                                        <td>{{ post1.namaPelanggan }}</td>
                                         <td>{{ post1.tglNota }}</td>
-                                        <td>{{ post1.taxNota | currency }}</td>
+                                        <td>
+                                            <span v-if="post1.typeNota === '1'">
+                                                Cash
+                                            </span>
+                                            <span v-else-if="post1.typeNota === '2'">
+                                                Kredit
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span v-if="post1.typeBayarNota === '1'">
+                                                Cash
+                                            </span>
+                                            <span v-else-if="post1.typeBayarNota === '2'">
+                                                Debit / Credit Card
+                                            </span>
+                                        </td>
                                         <td>{{ post1.diskonNota | currency }}</td>
                                         <td>{{ post1.totalNota | currency}}</td>
                                     </tr>
@@ -82,7 +99,9 @@
                                             <th></th>
                                             <th></th>
                                             <th></th>
-                                            <th>{{pajakS | currency}}</th>
+                                            
+                                            <th></th>
+                                            <th></th>
                                             <th>{{diskonS | currency}}</th>
                                             <th>{{totalS | currency}}</th>
                                         </tr>
@@ -96,7 +115,9 @@
                                         <th>No Nota</th>
                                         <th>Customer</th>
                                         <th>Tgl</th>
-                                        <th>Pajak</th>
+                                        
+                                        <th>Type Nota</th>
+                                        <th>Type Bayar</th>
                                         <th>Diskon</th>
                                         <th>Total</th>
                                     </tr>
@@ -104,18 +125,36 @@
                                     <tbody >
                                     <tr v-for="post1 in posts1" :key="post1.id">
                                         <td>{{ post1.noNota }}</td>
-                                        <td>{{ post1.pelangganNota }}</td>
+                                        <td>{{ post1.namaPelanggan }}</td>
                                         <td>{{ post1.tglNota }}</td>
-                                        <td>{{ post1.taxNota | currency }}</td>
+                                        <td>
+                                            <span v-if="post1.typeNota === '1'">
+                                                Cash
+                                            </span>
+                                            <span v-else-if="post1.typeNota === '2'">
+                                                Kredit
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span v-if="post1.typeBayarNota === '1'">
+                                                Cash
+                                            </span>
+                                            <span v-else-if="post1.typeBayarNota === '2'">
+                                                Debit / Credit Card
+                                            </span>
+                                        </td>
                                         <td>{{ post1.diskonNota | currency }}</td>
                                         <td>{{ post1.totalNota | currency}}</td>
+                                        
                                     </tr>
                                     <tfoot>
                                         <tr>
                                             <th></th>
                                             <th></th>
                                             <th></th>
-                                            <th>{{pajakS | currency}}</th>
+                                            
+                                            <th></th>
+                                            <th></th>
                                             <th>{{diskonS | currency}}</th>
                                             <th>{{totalS | currency}}</th>
                                         </tr>

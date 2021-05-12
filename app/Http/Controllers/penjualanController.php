@@ -54,7 +54,9 @@ class penjualanController extends Controller
 
         if($typeNota == 0 && $typeBayarNota == 0){
 
-            $posts = Penjualan::whereBetween('tglNota', [$startDate, $endDate])->get();
+            $posts = Penjualan::join('tblPelanggan', 'tblPenjualan.pelangganNota', 'tblPelanggan.kodePelanggan')
+                                ->select('tblPenjualan.*', 'tblPelanggan.namaPelanggan')
+                                ->whereBetween('tblPenjualan.tglNota', [$startDate, $endDate])->get();
             $NotalTOtal = Penjualan::whereBetween('tglNota', [$startDate, $endDate])->sum('totalNota');
             $pajakSum = Penjualan::whereBetween('tglNota', [$startDate, $endDate])->sum('taxNota');
             $diskonSum = Penjualan::whereBetween('tglNota', [$startDate, $endDate])->sum('diskonNota');
@@ -72,8 +74,10 @@ class penjualanController extends Controller
             ], 200);
         
         }elseif($typeNota != 0 && $typeBayarNota == 0){
-            $posts = Penjualan::where('typeNota', $typeNota)
-                            ->whereBetween('tglNota', [$startDate, $endDate])
+            $posts = Penjualan::join('tblPelanggan', 'tblPenjualan.pelangganNota', 'tblPelanggan.kodePelanggan')
+                            ->where('tblPenjualan.typeNota', $typeNota)
+                            ->whereBetween('tblPenjualan.tglNota', [$startDate, $endDate])
+                            ->select('tblPenjualan.*', 'tblPelanggan.namaPelanggan')
                             ->get();
             $NotalTOtal = Penjualan::whereBetween('tglNota', [$startDate, $endDate])
                                 ->where('typeNota', $typeBayarNota)
@@ -98,8 +102,10 @@ class penjualanController extends Controller
             ], 200);
         }elseif($typeBayarNota != 0 && $typeNota == 0){
 
-            $posts = Penjualan::where('typeBayarNota', $typeBayarNota)
-                            ->whereBetween('tglNota', [$startDate, $endDate])
+            $posts = Penjualan::join('tblPelanggan', 'tblPenjualan.pelangganNota', 'tblPelanggan.kodePelanggan')
+                            ->where('tblPenjualan.typeBayarNota', $typeBayarNota)
+                            ->whereBetween('tblPenjualan.tglNota', [$startDate, $endDate])
+                            ->select('tblPenjualan.*', 'tblPelanggan.namaPelanggan')
                             ->get();
             $NotalTOtal = Penjualan::whereBetween('tglNota', [$startDate, $endDate])
                                 ->where('typeBayarNota', $typeBayarNota)
@@ -123,9 +129,11 @@ class penjualanController extends Controller
                 'data' => $posts
             ], 200);
         }elseif($typeBayarNota != 0 && $typeNota != 0){
-            $posts = Penjualan::whereBetween('tglNota', [$startDate, $endDate])
-                            ->where('typeNota', $typeNota)
-                            ->where('typeBayarNota', $typeBayarNota)
+            $posts = Penjualan::join('tblPelanggan', 'tblPenjualan.pelangganNota', 'tblPelanggan.kodePelanggan')
+                            ->whereBetween('tblPenjualan.tglNota', [$startDate, $endDate])
+                            ->where('tblPenjualan.typeNota', $typeNota)
+                            ->where('tblPenjualan.typeBayarNota', $typeBayarNota)
+                            ->select('tblPenjualan.*', 'tblPelanggan.namaPelanggan')
                             ->get();
             $NotalTOtal = Penjualan::whereBetween('tglNota', [$startDate, $endDate])
                                 ->where('typeNota', $typeNota)
@@ -264,6 +272,7 @@ class penjualanController extends Controller
                 'totalJual'     => $request->input('totalJual'),
                 'satuanJual'  => $request->input('satuanJual'),
                 'tglPenjualan' => $request->input('tglPenjualan'),
+                'nmBarangJual'  => $request->input('nmBarangJual'),
             ]);
             
             $barang = DB::table('tblBarang')->where('kdBarang', $request->input('kdBarang'))->first();

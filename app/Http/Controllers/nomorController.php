@@ -19,6 +19,7 @@ use App\GrandJual;
 use App\Motor;
 use App\Mekanik;
 use App\Lift;
+use App\Jasa;
 use Illuminate\Support\Facades\DB;
 
 class nomorController extends Controller
@@ -369,6 +370,44 @@ class nomorController extends Controller
                     'success' => true,
                     'message' => 'Detail Post!',
                     'kodeMekanik'    => $post
+                ], 200);
+            }
+        }
+    }
+
+    public function kodeJasa()
+    {
+        $count = Jasa::all();
+        if($count->isEmpty()){
+            $tahun = date('Y');
+            $post = 'JS-'.$tahun.'-'.'1';
+            return response()->json([
+                'success' => true,
+                'message' => 'Detail Post!',
+                'kodeJasa'    => $post
+            ], 200);
+        }else{
+            $no = 0 ;
+            $count = Jasa::all()->last();
+            $terakhir = substr($count->kdJasa, -1);
+            $kodeBaru = $terakhir + 1  ;
+
+            $tahun = date('Y');
+            $post = 'JS-'.$tahun.'-'.$kodeBaru;
+
+            if (Jasa::where('kdJasa', $post)->exists()) {
+                $kodeBarulagi = $kodeBaru + 1 ;
+                $post = 'JS-'.$tahun.'-'.$kodeBarulagi;
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Detail Post!',
+                    'kodeJasa'    => $post
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Detail Post!',
+                    'kodeJasa'    => $post
                 ], 200);
             }
         }
