@@ -233,6 +233,29 @@ class penjualanController extends Controller
         }
     }
 
+    public function listDetailPenjualanJasa($id)
+    {
+        //$post = TransaksiDetail::whereId($id)->first();
+        $post = DB::table('tblDetailJasaJual')
+                    ->join('tblJasa', 'tblDetailJasaJual.kdJasa', 'tblJasa.kdJasa' )
+                    ->select('tblDetailJasaJual.*', 'tblJasa.namaJasa')
+                    ->where('tblDetailJasaJual.noNotaPenjualan', $id)->get();
+
+        if ($post) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Detail Post!',
+                'data'    => $post
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Post Tidak Ditemukan!',
+                'data'    => ''
+            ], 404);
+        }
+    }
+
     public function listTransaksiPenjualan($id)
     {
         //$post = TransaksiDetail::whereId($id)->first();

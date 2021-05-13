@@ -31,13 +31,13 @@
                
                 <p class="text-muted text-center">
                   <div class="input-group">
-                  <span class="input-group-addon">INV.</span>
-                <input type="text" class="form-control" v-model="noNotaPenjualan" placeholder="No nota">
+                    <span class="input-group-addon">INV.&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>
+                    <input type="text" class="form-control" v-model="noNotaPenjualan" placeholder="No nota">
                   </div>
                
                 <p class="text-muted text-center">
                   <div class="input-group">
-                  <span class="input-group-addon">Type</span>
+                  <span class="input-group-addon">Type&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>
                       <select class='form-control' v-model='typePenjualan' required>
                           <option  value='1'>Cash</option>
                           <option value='2' >Kredit</option>
@@ -46,17 +46,24 @@
                   <p class="text-muted text-center">
                   <div v-if="typePenjualan === '2'">
                     <div class="input-group">
-                    <span class="input-group-addon">Term</span>
+                    <span class="input-group-addon">Term&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>
                     <input type="text" class="form-control" v-model="termPenjualan" >
                     </div>
                   </div>
-                  
+                  <p>
+                  <div class="input-group">
+                    <span class="input-group-addon">Total Barang.</span>
+                    <input type="text" class="form-control" :value="subtotals" >
+                  </div>
+                  <p>
+                  <div class="input-group">
+                    <span class="input-group-addon">Total Jasa.&nbsp; &nbsp; &nbsp; </span>
+                    <input type="text" class="form-control" :value="subtotalJasa" :name="subtotalJasa" >
+                  </div>                  
                 
                 <input type="hidden" class="form-control" :value="subtotal" :name="totalPenjualan" >
-                <h3 class="profile-username text-center">Total Barang {{ subtotal  || 0 | currency }}</h3>
-                <h3 class="profile-username text-center">Total Jasa {{ subtotalJasa  || 0 | currency }}</h3>
                 <h3 class="profile-username text-center">Total Nota {{ subtotal + subtotalJasa || 0 | currency }}</h3>
-                {{totalPenjualan}}
+               
                 <p class="text-muted text-center">
                 <a href="#" @click="showModalBayar = true" class="btn btn-primary btn-block"><b>Payment</b></a>
                 </p>
@@ -457,8 +464,9 @@
                 hrgJual: '',
                 subTotal: '',
                 totalBayar: '',
-                subtotal: '',
-                subtotalJasa: '',
+                //subtotal: '',
+                subtotals: '',
+                subtotalJasa: '0',
                 ntp:'',
                 satuanJual: '',
                 pajak: '0',
@@ -551,7 +559,7 @@
                 this.axios.post(uri, {
                     ntp: this.noNotaPenjualan,
                 }).then(response => {
-                this.subtotal = response.data.subTotalJual;
+                this.subtotals = response.data.subTotalJual;
                 }).catch(error => {
                     console.log(error.response)
                 });
@@ -739,6 +747,13 @@
         mounted(){
           this.piutangPenjualan = this.subtotal;
           this.totalx = this.totalBayar - ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100));
+        },
+        computed: {
+          // a computed getter
+          subtotal: function () {
+            // `this` mengarah ke instance vm
+            return this.subtotals + this.subtotalJasa ;
+          }
         },
         beforeCreate: function () {
             if (!this.$session.exists()) {

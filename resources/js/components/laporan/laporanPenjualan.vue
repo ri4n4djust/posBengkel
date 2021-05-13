@@ -211,20 +211,6 @@ import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import VueSingleSelect from "vue-single-select";
 
-import VueHtmlToPaper from 'vue-html-to-paper';
-
-import Print from 'vue-print-plugin';
-
-const options = {
-  name: '_blank',
-  specs: [
-    'fullscreen=yes',
-    'titlebar=yes',
-    'scrollbars=yes'
-  ],
-}
-
-Vue.use(VueHtmlToPaper, options, Print);
 
 import ActionButtons from './componentAksi.vue';
 Vue.component("data-table", DataTable);
@@ -330,8 +316,8 @@ Vue.component("data-table", DataTable);
         },
         methods: {
 
-            print (ref) {
-                this.$print(this.$refs[ref])
+            print () {
+                window.print(printMe)
             },
             
             PostDelete(id, index)

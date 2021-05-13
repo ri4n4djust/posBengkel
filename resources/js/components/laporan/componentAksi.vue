@@ -71,7 +71,11 @@
                                             <a href="#"  @click="rePrint()" class="btn btn-md btn-success"><b>Re-Print</b></a>
                                         </div>
                                         <br>
-
+                                        <div class="box box-danger">
+                                            <div class="box-header with-border">
+                                            <h3 class="box-title">Detail Barang</h3>
+                                        
+                                            </div>
                                                     <table class="table table-hover table-bordered">
                                                         <thead>
                                                         <tr>
@@ -91,7 +95,30 @@
                                                         </tr>
                                                         </tbody>
                                                     </table>
-      
+                                        </div>
+                                        <div class="box box-danger">
+                                            <div class="box-header with-border">
+                                            <h3 class="box-title">Detail Jasa</h3>
+                                        
+                                            </div>
+                                                    <table class="table table-hover table-bordered">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>No </th>
+                                                            <th>Jasa</th>
+                                                            <th>Harga</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr v-for="(pe, no) in jas" :key="pe.id">
+                                                            <td>{{ no+1 }} </td>
+                                                            <td>{{ pe.namaJasa}}</td>
+                                                            <td>{{ pe.biayaJasa | currency }}</td>
+
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                        </div>
                                         
 
                                     </div>
@@ -111,6 +138,7 @@ export default {
             return {
                 posts: [],
                 pem: [],
+                jas: [],
                 showModalPenjualan: false,
                 np: this.data.noNota,
                 sukses: '',
@@ -159,12 +187,22 @@ export default {
             },
             loadDetailPenjualan:function(){
                 this.showModalPenjualan = true;
+                this.loadDetailPenjualanJasa();
                 let uri = '/api/detailpenjualan/'+ this.data.noNota;
                 this.axios.post(uri).then(response => {
                     this.pem = response.data.data;
                    // alert('no nota '+ this.data.noNota);
-            });
+                });
             },
+            loadDetailPenjualanJasa:function(){
+                //this.showModalPenjualan = true;
+                let uri = '/api/detailpenjualanjasa/'+ this.data.noNota;
+                this.axios.post(uri).then(response => {
+                    this.jas = response.data.data;
+                   // alert('no nota '+ this.data.noNota);
+                });
+            },
+
                       
         },
     props: {

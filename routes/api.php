@@ -150,6 +150,7 @@ Route::post('/lapPenjualanBulanan', 'penjualanController@laporanBulananSorting')
 Route::post('/dataPiutang', 'penjualanController@piutangPelanggan');
 Route::post('/lapPenjualan', 'penjualanController@sorting');
 Route::post('/detailpenjualan/{id}', 'penjualanController@listDetailPenjualan');
+Route::post('/detailpenjualanjasa/{id}', 'penjualanController@listDetailPenjualanJasa');
 Route::delete('/hapuspenjualan/{id?}', 'penjualanController@destroy1');
 
 //=====Laporan Pembelian
