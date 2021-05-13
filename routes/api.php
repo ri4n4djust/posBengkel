@@ -121,20 +121,13 @@ Route::post('/addJasaPenjualan/store', 'penjualanController@addJasaPenjualan');
 Route::get('/dataPenjualan/{id}', 'penjualanController@listTransaksiPenjualan');
 Route::get('/dataJasaPenjualan/{id}', 'penjualanController@listTransaksiJasaPenjualan');
 Route::post('/totalTrxPenjualan', 'penjualanController@totalTrxPenjualan');
-
+Route::post('/totalTrxJasaPenjualan', 'penjualanController@totalTrxJasaPenjualan');
+Route::delete('/hapusjasa/{id?}', 'penjualanController@deleteTransaksiJasa');
 Route::delete('/hapusbarang/{id?}', 'penjualanController@deleteBrgTransaksi');
 Route::post('/addPenjualan/store', 'penjualanController@addTransaksiPenjualan');
 
 //=======live Order
 Route::get('/orderlist', 'mejaController@listOrder');
-
-//========menu
-Route::get('/menu', 'menuController@index');
-Route::post('/menu/store', 'menuController@store');
-Route::get('/menu/{id?}', 'menuController@show');
-Route::get('/detailMenu/{id?}', 'menuController@detail');
-Route::post('/menu/update/{id?}', 'menuController@update');
-Route::delete('/menu/{id?}', 'menuController@destroy');
 
 //========User
 Route::get('/user', 'loginController@index');

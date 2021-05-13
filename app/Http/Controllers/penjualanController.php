@@ -403,14 +403,19 @@ class penjualanController extends Controller
                 ], 200);
 
         } else {
-            
+            $jasa = DB::table('tblDetailJasaJual')
+                ->where('kdJasa', $request->input('kdJasa'))
+                ->where('noNotaPenjualan', $request->input('noNotaPenjualan'))
+                ->first();
+            $qtyJ = $jasa->qtyJasa ;
+            $totalJ = $jasa->totalJasa ;
             
             DB::table('tblDetailJasaJual')
                 ->where('kdJasa', $request->input('kdJasa'))
                 ->where('noNotaPenjualan', $request->input('noNotaPenjualan'))
                 ->update([
-                    'qtyJasa' => $qtyB + $request->input('qtyJualJasa'),
-                    'totalJasa' => $totalB + $request->input('totalJasa'),
+                    'qtyJasa' => $qtyJ + $request->input('qtyJualJasa'),
+                    'totalJasa' => $totalJ + $request->input('totalJasa'),
                     ]);
             //======================
             
@@ -428,9 +433,19 @@ class penjualanController extends Controller
     {
         $totalNota = DB::table('tblPenjualanDetail')
             ->where('noNotaPenjualan', '=', $request->input('ntp'))
-            ->sum('totalJual');
-
+            ->sum('totalJual');      
+            return response()->json([
+                'success' => true,
+                'message' => 'Detail Post!',
+                'subTotalJual'    => $totalNota
+            ], 200);
        
+    }
+    public function totalTrxJasaPenjualan(Request $request)
+    {
+        $totalNota = DB::table('tblDetailJasaJual')
+            ->where('noNotaPenjualan', '=', $request->input('ntp'))
+            ->sum('totalJasa');      
             return response()->json([
                 'success' => true,
                 'message' => 'Detail Post!',
@@ -554,6 +569,24 @@ class penjualanController extends Controller
             ->delete();
         
 
+        $post->delete();
+
+        if ($post) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Post Berhasil Dihapus!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Post Gagal Dihapus!',
+            ], 500);
+        }
+    }
+
+    public function deleteTransaksiJasa($id)
+    {
+        $post = JasaJual::findOrFail($id);
         $post->delete();
 
         if ($post) {

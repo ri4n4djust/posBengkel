@@ -53,7 +53,9 @@
                   
                 
                 <input type="hidden" class="form-control" :value="subtotal" :name="totalPenjualan" >
-                <h3 class="profile-username text-center">Total {{ subtotal  || 0 | currency }}</h3>
+                <h3 class="profile-username text-center">Total Barang {{ subtotal  || 0 | currency }}</h3>
+                <h3 class="profile-username text-center">Total Jasa {{ subtotalJasa  || 0 | currency }}</h3>
+                <h3 class="profile-username text-center">Total Nota {{ subtotal + subtotalJasa || 0 | currency }}</h3>
                 
                 <p class="text-muted text-center">
                 <a href="#" @click="showModalBayar = true" class="btn btn-primary btn-block"><b>Payment</b></a>
@@ -548,8 +550,17 @@
                 this.axios.post(uri, {
                     ntp: this.noNotaPenjualan,
                 }).then(response => {
-                  //alert('mount' + this.noNotaPembelian)
                 this.subtotal = response.data.subTotalJual;
+                }).catch(error => {
+                    console.log(error.response)
+                });
+            },
+            loadTotalJasa:function(){
+                let uri = '/api/totalTrxJasaPenjualan';
+                this.axios.post(uri, {
+                    ntp: this.noNotaPenjualan,
+                }).then(response => {
+                this.subtotalJasa = response.data.subTotalJual;
                 }).catch(error => {
                     console.log(error.response)
                 });
@@ -617,6 +628,22 @@
                     .then(response => {
                         alert('Berhasil Di Hapus');
                         this.loadTotal()
+                        this.loadTotalJasa()
+                        this.loadTransaksiPenjualan()
+                        this.loadTransaksiJasaPenjualan()
+                    }).catch(error => {
+                    
+                });
+              }
+            },
+            PostDeleteJasa(id)
+            {
+              if(confirm("Do you really want to delete?" + id)){
+                this.axios.delete(`/api/hapusjasa/${id}`)
+                    .then(response => {
+                        alert('Berhasil Di Hapus');
+                        this.loadTotal()
+                        this.loadTotalJasa()
                         this.loadTransaksiPenjualan()
                         this.loadTransaksiJasaPenjualan()
                     }).catch(error => {
@@ -663,6 +690,7 @@
                 })
                     .then((response) => {
                         this.loadTotal()
+                        this.loadTotalJasa()
                         this.loadTransaksiPenjualan()
                         this.loadTransaksiJasaPenjualan()
                         alert('sukses donkkkkkkkk');
