@@ -56,7 +56,7 @@
                 <h3 class="profile-username text-center">Total Barang {{ subtotal  || 0 | currency }}</h3>
                 <h3 class="profile-username text-center">Total Jasa {{ subtotalJasa  || 0 | currency }}</h3>
                 <h3 class="profile-username text-center">Total Nota {{ subtotal + subtotalJasa || 0 | currency }}</h3>
-                
+                {{totalPenjualan}}
                 <p class="text-muted text-center">
                 <a href="#" @click="showModalBayar = true" class="btn btn-primary btn-block"><b>Payment</b></a>
                 </p>
@@ -458,6 +458,7 @@
                 subTotal: '',
                 totalBayar: '',
                 subtotal: '',
+                subtotalJasa: '',
                 ntp:'',
                 satuanJual: '',
                 pajak: '0',

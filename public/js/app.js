@@ -14257,6 +14257,7 @@ __webpack_require__.r(__webpack_exports__);
       subTotal: '',
       totalBayar: '',
       subtotal: '',
+      subtotalJasa: '',
       ntp: '',
       satuanJual: '',
       pajak: '0',
@@ -61150,7 +61151,11 @@ var render = function() {
                       )
                   )
                 ]),
-                _vm._v(" "),
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.totalPenjualan) +
+                    "\n                "
+                ),
                 _c("p", { staticClass: "text-muted text-center" }, [
                   _c(
                     "a",
