@@ -119,6 +119,7 @@ Route::delete('/hapuspembelian/{id?}', 'pembelianController@hapusPembelian');
 Route::post('/addItemPenjualan/store', 'penjualanController@addItemPenjualan');
 Route::post('/addJasaPenjualan/store', 'penjualanController@addJasaPenjualan');
 Route::get('/dataPenjualan/{id}', 'penjualanController@listTransaksiPenjualan');
+Route::get('/dataJasaPenjualan/{id}', 'penjualanController@listTransaksiJasaPenjualan');
 Route::post('/totalTrxPenjualan', 'penjualanController@totalTrxPenjualan');
 
 Route::delete('/hapusbarang/{id?}', 'penjualanController@deleteBrgTransaksi');

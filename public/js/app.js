@@ -14180,6 +14180,53 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -14192,12 +14239,16 @@ __webpack_require__.r(__webpack_exports__);
     return {
       post: {},
       posts: [],
+      post2: [],
       post1: [],
       users: [],
+      jasas: [],
       mekaniks: [],
       lifts: [],
       pem: {},
+      jas: {},
       qtyJual: '1',
+      qtyJualJasa: '1',
       //kodePelanggan: 'PL-2021-1',
       qtySa: '',
       hrgJual: '',
@@ -14354,31 +14405,51 @@ __webpack_require__.r(__webpack_exports__);
         _this6.users = response.data.data;
       });
     },
-    loadTransaksiPenjualan: function loadTransaksiPenjualan() {
+    loadJasa: function loadJasa() {
       var _this7 = this;
+
+      var uri = '/api/jasa';
+      this.axios.get(uri).then(function (response) {
+        _this7.jasas = response.data.data;
+      });
+    },
+    loadTransaksiJasaPenjualan: function loadTransaksiJasaPenjualan() {
+      var _this8 = this;
+
+      var uri = '/api/dataJasaPenjualan/' + this.noNotaPenjualan;
+      this.axios.get(uri).then(function (response) {
+        _this8.jas = response.data.data;
+      })["catch"](function (error) {
+        console.log(error.response);
+      });
+    },
+    loadTransaksiPenjualan: function loadTransaksiPenjualan() {
+      var _this9 = this;
 
       var uri = '/api/dataPenjualan/' + this.noNotaPenjualan;
       this.axios.get(uri).then(function (response) {
-        _this7.pem = response.data.data; // alert('no nota '+ this.data.noNota);
+        _this9.pem = response.data.data; // alert('no nota '+ this.data.noNota);
       })["catch"](function (error) {
         console.log(error.response);
       });
     },
     PostDeleteBrg: function PostDeleteBrg(id) {
-      var _this8 = this;
+      var _this10 = this;
 
       if (confirm("Do you really want to delete?" + id)) {
         this.axios["delete"]("/api/hapusbarang/".concat(id)).then(function (response) {
           alert('Berhasil Di Hapus');
 
-          _this8.loadTotal();
+          _this10.loadTotal();
 
-          _this8.loadTransaksiPenjualan();
+          _this10.loadTransaksiPenjualan();
+
+          _this10.loadTransaksiJasaPenjualan();
         })["catch"](function (error) {});
       }
     },
     PostItemPenjualan: function PostItemPenjualan() {
-      var _this9 = this;
+      var _this11 = this;
 
       var uri = '/api/addItemPenjualan/store';
       this.axios.post(uri, {
@@ -14391,10 +14462,11 @@ __webpack_require__.r(__webpack_exports__);
         satuanJual: this.post1.satuanBarang,
         nmBarangJual: this.post1.nmBarang
       }).then(function (response) {
-        _this9.loadTotal();
+        _this11.loadTotal();
 
-        _this9.loadTransaksiPenjualan(); //alert('sukses donkkkkkkkk');
+        _this11.loadTransaksiPenjualan();
 
+        _this11.loadTransaksiJasaPenjualan();
 
         document.getElementById("anyName").reset(); //this.loadTransaksiPenjualan()
         //this.loadTotal()
@@ -14403,20 +14475,23 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     PostJasaPenjualan: function PostJasaPenjualan() {
-      var _this10 = this;
+      var _this12 = this;
 
       var uri = '/api/addJasaPenjualan/store';
       this.axios.post(uri, {
         noNotaPenjualan: this.noNotaPenjualan,
-        kdBarang: this.post1.kdBarang,
-        hrgJual: this.post1.hrgJual,
-        qtyJual: this.qtyJual,
-        totalJual: this.post1.hrgJual * this.qtyJual,
-        tglNotaPenjualan: this.tglPenjualan
+        kdJasa: this.post2.kdJasa,
+        namaJasa: this.post2.namaJasa,
+        biayaJasa: this.post2.biayaJasa,
+        qtyJasa: this.qtyJualJasa,
+        totalJasa: this.post2.biayaJasa * this.qtyJualJasa,
+        tglPenjualan: this.tglPenjualan
       }).then(function (response) {
-        _this10.loadTotal();
+        _this12.loadTotal();
 
-        _this10.loadTransaksiPenjualan();
+        _this12.loadTransaksiPenjualan();
+
+        _this12.loadTransaksiJasaPenjualan();
 
         alert('sukses donkkkkkkkk');
         document.getElementById("anyName").reset(); //this.loadTransaksiPenjualan()
@@ -14424,7 +14499,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     PostTransaksiPenjualan: function PostTransaksiPenjualan() {
-      var _this11 = this;
+      var _this13 = this;
 
       var uri = '/api/addPenjualan/store';
       this.axios.post(uri, {
@@ -14451,7 +14526,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         alert('Transaksi Selesai');
 
-        _this11.$router.go(0); //this.$router.push({name: 'pembelian'});
+        _this13.$router.go(0); //this.$router.push({name: 'pembelian'});
 
       });
     }
@@ -14470,10 +14545,12 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     this.loadNotaPenjualan();
     this.loadBarang();
+    this.loadJasa();
     this.LoadPelanggan();
     this.LoadMekanik();
     this.LoadLift();
     this.loadTransaksiPenjualan();
+    this.loadTransaksiJasaPenjualan();
     this.loadTotal();
   }
 });
@@ -61272,7 +61349,82 @@ var render = function() {
                           value: _vm.post1.hrgJual * _vm.qtyJual || 0
                         }
                       })
-                    ]),
+                    ])
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "form",
+                {
+                  attrs: { id: "anyName" },
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.PostJasaPenjualan($event)
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "row" }, [
+                    _c(
+                      "div",
+                      { staticClass: "col-xs-4" },
+                      [
+                        _c("label", [_vm._v("Jasa")]),
+                        _vm._v(" "),
+                        _c("vue-single-select", {
+                          attrs: {
+                            options: _vm.jasas,
+                            required: true,
+                            autocomplete: "",
+                            optionLabel: "namaJasa"
+                          },
+                          model: {
+                            value: _vm.post2,
+                            callback: function($$v) {
+                              _vm.post2 = $$v
+                            },
+                            expression: "post2"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.qtyJualJasa,
+                              expression: "qtyJualJasa"
+                            }
+                          ],
+                          staticClass: "form-control input-sm",
+                          attrs: { type: "hidden", placeholder: "Qty" },
+                          domProps: { value: _vm.qtyJualJasa },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.qtyJualJasa = $event.target.value
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("input", {
+                          staticClass: "form-control input-sm",
+                          attrs: {
+                            type: "hidden",
+                            name: _vm.subTotal,
+                            placeholder: "Total"
+                          },
+                          domProps: {
+                            value: _vm.post2.biayaJasa * _vm.qtyJualJasa || 0
+                          }
+                        })
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
                     _vm._m(6)
                   ])
@@ -61281,13 +61433,53 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
+          _vm._m(7),
+          _vm._v(" "),
           _c("table", { staticClass: "table table-hover table-bordered" }, [
-            _vm._m(7),
+            _vm._m(8),
             _vm._v(" "),
             _c(
               "tbody",
-              _vm._l(_vm.pem, function(pe) {
+              _vm._l(_vm.jas, function(pe, no) {
                 return _c("tr", { key: pe.id }, [
+                  _c("td", [_vm._v(_vm._s(no + 1))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(pe.namaJasa) + " ")]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(_vm._f("currency")(pe.totalJasa)))]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-center" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-sm btn-danger",
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.PostDeleteJasa((_vm.id = pe.id))
+                          }
+                        }
+                      },
+                      [_vm._v("HAPUS")]
+                    )
+                  ])
+                ])
+              }),
+              0
+            )
+          ]),
+          _vm._v(" "),
+          _vm._m(9),
+          _vm._v(" "),
+          _c("table", { staticClass: "table table-hover table-bordered" }, [
+            _vm._m(10),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.pem, function(pe, no) {
+                return _c("tr", { key: pe.id }, [
+                  _c("td", [_vm._v(_vm._s(no + 1))]),
+                  _vm._v(" "),
                   _c("td", [_vm._v(_vm._s(pe.nmBarang) + " ")]),
                   _vm._v(" "),
                   _c("td", [_vm._v(_vm._s(pe.qtyJual))]),
@@ -62372,8 +62564,42 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box-header with-border" }, [
+      _c("h3", { staticClass: "box-title" }, [_vm._v("Detail Jasa")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
+        _c("th", [_vm._v("No.")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Nama Jasa ")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Harga")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("AKSI")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box-header with-border" }, [
+      _c("h3", { staticClass: "box-title" }, [_vm._v("Detail Barang")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("No.")]),
+        _vm._v(" "),
         _c("th", [_vm._v("Nama ")]),
         _vm._v(" "),
         _c("th", [_vm._v("Qty")]),

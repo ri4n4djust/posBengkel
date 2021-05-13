@@ -125,25 +125,71 @@
                           <label>Total</label>
                         <input type="text" :value="(post1.hrgJual * qtyJual) || 0" :name="subTotal" class="form-control input-sm" placeholder="Total">
                         </div>
+                    </div>
+                    </form>
+
+                    <form  @submit.prevent="PostJasaPenjualan" id="anyName" >
+                    <div class="row">
+                        <div class="col-xs-4">
+                          <label>Jasa</label>
+                          <vue-single-select
+                                  v-model="post2"
+                                  :options="jasas"
+                                  :required="true"
+                                  autocomplete
+                                  optionLabel="namaJasa" 
+                          ></vue-single-select>     
+                          <input type="hidden" v-model="qtyJualJasa" class="form-control input-sm" placeholder="Qty"> 
+                          <input type="hidden" :value="(post2.biayaJasa * qtyJualJasa) || 0" :name="subTotal" class="form-control input-sm" placeholder="Total">                  
+                          </div>
 
                         <div class="col-xs-2">
                           <label>Aksi</label>
                           <button type="submit" class="btn btn-sm btn-success form-control">Add</button>                        
                         </div>
                     </div>
-                    
                     </form>
+
                     </div>
+
+                    
+                    
                     
                     <!-- /.box-body -->
                    </div>
                    
                 <!-- /.box -->
-                
-
-                <table class="table table-hover table-bordered">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Detail Jasa</h3>
+                                </div>
+                            <table class="table table-hover table-bordered">
                                 <thead>
                                 <tr>
+                                    <th>No.</th>
+                                    <th>Nama Jasa </th>
+                                    <th>Harga</th>
+                                    <th>AKSI</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="(pe, no) in jas" :key="pe.id">
+                                    <td>{{ no+1 }}</td>
+                                    <td>{{ pe.namaJasa }} </td>
+                                    <td>{{ pe.totalJasa | currency }}</td>
+                                    <td class="text-center">
+                                        <button @click.prevent="PostDeleteJasa(id= pe.id)" class="btn btn-sm btn-danger">HAPUS</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Detail Barang</h3>
+                                </div>
+                            <table class="table table-hover table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>No.</th>
                                     <th>Nama </th>
                                     <th>Qty</th>
                                     <th>Harga</th>
@@ -152,7 +198,8 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="pe in pem" :key="pe.id">
+                                <tr v-for="(pe, no) in pem" :key="pe.id">
+                                    <td>{{ no+1 }}</td>
                                     <td>{{ pe.nmBarang }} </td>
                                     <td>{{ pe.qtyJual}}</td>
                                     <td>{{ pe.hrgJual | currency }}</td>
@@ -393,12 +440,16 @@
             return {
                 post: {},
                 posts: [],
+                post2:[],
                 post1: [],
                 users: [],
+                jasas: [],
                 mekaniks:[],
                 lifts:[],
                 pem: {},
+                jas: {},
                 qtyJual: '1',
+                qtyJualJasa: '1',
                 //kodePelanggan: 'PL-2021-1',
                 qtySa: '',
                 hrgJual: '',
@@ -535,6 +586,21 @@
                 
             });
             },
+            loadJasa:function(){
+                let uri = '/api/jasa';
+                this.axios.get(uri).then(response => {
+                this.jasas = response.data.data;
+                
+            });
+            },
+            loadTransaksiJasaPenjualan:function(){
+                let uri = '/api/dataJasaPenjualan/'+ this.noNotaPenjualan;
+                this.axios.get(uri).then(response => {
+                    this.jas = response.data.data;
+                }).catch(error => {
+                    console.log(error.response)
+                });
+            },
             loadTransaksiPenjualan:function(){
                 let uri = '/api/dataPenjualan/'+ this.noNotaPenjualan;
                 this.axios.get(uri).then(response => {
@@ -552,6 +618,7 @@
                         alert('Berhasil Di Hapus');
                         this.loadTotal()
                         this.loadTransaksiPenjualan()
+                        this.loadTransaksiJasaPenjualan()
                     }).catch(error => {
                     
                 });
@@ -573,7 +640,7 @@
                     .then((response) => {
                         this.loadTotal()
                         this.loadTransaksiPenjualan()
-                        //alert('sukses donkkkkkkkk');
+                        this.loadTransaksiJasaPenjualan()
                         document.getElementById("anyName").reset();
                         //this.loadTransaksiPenjualan()
                         //this.loadTotal()
@@ -587,15 +654,17 @@
                 this.axios.post(uri, 
                 {
                     noNotaPenjualan: this.noNotaPenjualan,
-                    kdBarang: this.post1.kdBarang,
-                    hrgJual: this.post1.hrgJual,
-                    qtyJual: this.qtyJual,
-                    totalJual: this.post1.hrgJual * this.qtyJual,
-                    tglNotaPenjualan: this.tglPenjualan,
+                    kdJasa: this.post2.kdJasa,
+                    namaJasa: this.post2.namaJasa,
+                    biayaJasa: this.post2.biayaJasa,
+                    qtyJasa: this.qtyJualJasa,
+                    totalJasa: this.post2.biayaJasa * this.qtyJualJasa,
+                    tglPenjualan: this.tglPenjualan,
                 })
                     .then((response) => {
                         this.loadTotal()
                         this.loadTransaksiPenjualan()
+                        this.loadTransaksiJasaPenjualan()
                         alert('sukses donkkkkkkkk');
                         document.getElementById("anyName").reset();
                         //this.loadTransaksiPenjualan()
@@ -651,10 +720,12 @@
         created() {
             this.loadNotaPenjualan();
             this.loadBarang();
+            this.loadJasa();
             this.LoadPelanggan();
             this.LoadMekanik();
             this.LoadLift();
             this.loadTransaksiPenjualan();
+            this.loadTransaksiJasaPenjualan();
             this.loadTotal();
         },
     }

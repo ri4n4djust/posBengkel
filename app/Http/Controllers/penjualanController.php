@@ -7,6 +7,7 @@ use App\Penjualan;
 use App\PenjualanDetail;
 use App\KartuStok;
 use App\Pembayara;
+use App\Jasajual;
 use Carbon\Carbon;
 //use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -256,6 +257,30 @@ class penjualanController extends Controller
         }
     }
 
+    public function listTransaksiJasaPenjualan($id)
+    {
+        //$post = TransaksiDetail::whereId($id)->first();
+        $post = DB::table('tblDetailJasaJual')
+                    ->join('tblJasa', 'tblJasa.kdJasa', '=', 'tblDetailJasaJual.kdJasa')
+                    ->select('tblDetailJasaJual.*', 'tblJasa.namaJasa')
+                    ->where('noNotaPenjualan', $id)
+                    ->get();
+
+        if ($post) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Detail Post!',
+                'data'    => $post
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Post Tidak Ditemukan!',
+                'data'    => ''
+            ], 404);
+        }
+    }
+
     public function addItemPenjualan(Request $request)
     {
         $brg = DB::table('tblPenjualanDetail')
@@ -353,18 +378,22 @@ class penjualanController extends Controller
 
     public function addJasaPenjualan(Request $request)
     {
-        $brg = DB::table('tblPenjualanDetail')
-                ->where('kdBarang', $request->input('kdBarang'))
+        $brg = DB::table('tblDetailJasaJual')
+                ->where('kdJasa', $request->input('kdJasa'))
                 ->where('noNotaPenjualan', $request->input('noNotaPenjualan'))
                 ->first();
+            //$qtyB = $brg->qtyJasa;
+            //$totalB = $brg->totalJasa;
         if ($brg == null ){
 
-            $post = PenjualanDetail::create([
+            $post = Jasajual::create([
                 'noNotaPenjualan'     => $request->input('noNotaPenjualan'),
-                'kdBarang'     => $request->input('kdBarang'),
-                'hrgJual'     => $request->input('hrgJual'),
-                'qtyJual'     => $request->input('qtyJual'),
-                'totalJual'     => $request->input('totalJual'),
+                'kdJasa'     => $request->input('kdJasa'),
+                'namaJasa'  => $request->input('namaJasa'),
+                'biayaJasa'     => $request->input('biayaJasa'),
+                'qtyJasa'     => $request->input('qtyJasa'),
+                'totalJasa'     => $request->input('totalJasa'),
+                'tglPenjualan'  => $request->input('tglPenjualan'),
             ]);
             
 
@@ -376,12 +405,12 @@ class penjualanController extends Controller
         } else {
             
             
-            DB::table('tblPenjualanDetail')
-                ->where('kdBarang', $request->input('kdBarang'))
-                ->where('noNotaPembelian', $request->input('noNotaPembelian'))
+            DB::table('tblDetailJasaJual')
+                ->where('kdJasa', $request->input('kdJasa'))
+                ->where('noNotaPenjualan', $request->input('noNotaPenjualan'))
                 ->update([
-                    'qtyBeli' => $qtyB + $request->input('qtyBeli'),
-                    'totalBeli' => $totalB + $request->input('totalBeli'),
+                    'qtyJasa' => $qtyB + $request->input('qtyJualJasa'),
+                    'totalJasa' => $totalB + $request->input('totalJasa'),
                     ]);
             //======================
             
