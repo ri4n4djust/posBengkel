@@ -62,7 +62,7 @@
                   </div>                  
                 
                 <input type="hidden" class="form-control" :value="subtotal" :name="totalPenjualan" >
-                <h3 class="profile-username text-center">Total Nota {{ subtotal + subtotalJasa || 0 | currency }}</h3>
+                <h3 class="profile-username text-center">Total Nota {{ subtotal || 0 | currency }}</h3>
                
                 <p class="text-muted text-center">
                 <a href="#" @click="showModalBayar = true" class="btn btn-primary btn-block"><b>Payment</b></a>

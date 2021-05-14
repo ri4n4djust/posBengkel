@@ -61200,9 +61200,7 @@ var render = function() {
                 _c("h3", { staticClass: "profile-username text-center" }, [
                   _vm._v(
                     "Total Nota " +
-                      _vm._s(
-                        _vm._f("currency")(_vm.subtotal + _vm.subtotalJasa || 0)
-                      )
+                      _vm._s(_vm._f("currency")(_vm.subtotal || 0))
                   )
                 ]),
                 _vm._v(" "),
