@@ -24,6 +24,7 @@
                               v-model="post"
                               :options="posts"
                               :required="true"
+                              selected="0000"
                               optionLabel="platMotor"
                               optionKey="namaPelanggan" 
                   ></vue-single-select>
@@ -284,11 +285,12 @@
                             <div v-if="pembayaran === '1'">
                               <div class="input-group">
                                     <span class="input-group-addon">Rp.</span>
-                                    <input type="number" class="form-control" v-model="totalBayar" placeholder="Bayar" required>
+                                    <input type="number" class="form-control" v-model="totalBayar" @change="bayar()" placeholder="Bayar" required>
                                   </div>
                                   
                                   <h3 class="profile-username ">Kembali : {{ Math.floor(totalBayar - ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * post.diskonPelanggan / 100)))  || 0 | currency  }}</h3>
                                   <p class="text-muted text-center">
+                                   
                                   <button type="submit"  class="btn btn-md btn-success" >Bayar</button> 
                                   <a href="#"  @click="printBill(printMe)" class="btn btn-md btn-success" >Print Bill</a>               
                                   </p>
@@ -307,11 +309,11 @@
                                   <p>
                                   <div class="input-group">
                                     <span class="input-group-addon">Rp.</span>
-                                    <input type="number" class="form-control" v-model="totalBayar" placeholder="Bayar" required>
+                                    <input type="number" class="form-control" v-model="totalBayar" @keyup="bayar()" placeholder="Bayar" required>
                                   </div>
                                   <br>
                                   <p class="text-muted text-center">
-{{ totalBayar - ((subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * post.diskonPelanggan / 100)) - (subtotal * pajak / 100 + subtotal) - ((subtotal * pajak / 100 + subtotal) * post.diskonPelanggan / 100) * taxDebit / 100 }}
+                                  
                                   <button type="submit"  class="btn btn-md btn-success" >Bayar</button>       
                                   <a href="#"  @click="printBill(printMe)" class="btn btn-md btn-success" >Print Bill</a>         
                                   </p>
@@ -447,7 +449,7 @@
         components: { DatePicker, VueSingleSelect },         
         data() {
             return {
-                post: {},
+                post: [],
                 posts: [],
                 post2:[],
                 post1: [],
@@ -474,7 +476,7 @@
                 noDebit: '0',
                 chargeNota: '0',
                 pajakKartu:'',
-                //diskon: '',
+                rbayar: '0',
                 pembayaran: '1',
                 totalTransaksiBayar: '',
                 totalTransaksipjk: '',
@@ -547,6 +549,13 @@
         },
 
         methods: {
+          bayar(){
+            if(this.totalBayar > this.totalNota){
+              return this.rbayar = this.totalNota;
+            }else{
+              return this.rbayar = this.totalBayar;
+            }
+          },
           onlyNumber ($event) {
                 //console.log($event.keyCode); //keyCodes value
                 let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
@@ -720,7 +729,7 @@
                     taxNota: (this.subtotal * this.pajak / 100),
                     diskonNota: ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100),
                     totalNota: Math.floor(((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100)) + ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100)) * this.taxDebit / 100),
-                    bayarNota: this.totalBayar,
+                    bayarNota: this.rbayar,
                     userNota: this.$session.get('userId'),
                     mekanikNota: this.mekanikNota,
                     kembalianNota: this.totalBayar - ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100)),
@@ -753,7 +762,11 @@
           subtotal: function () {
             // `this` mengarah ke instance vm
             return this.subtotals + this.subtotalJasa ;
-          }
+          },
+          totalNota: function(){
+            return Math.floor(((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100)) + ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100)) * this.taxDebit / 100);
+          },
+         
         },
         beforeCreate: function () {
             if (!this.$session.exists()) {

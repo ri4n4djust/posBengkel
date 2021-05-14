@@ -65,6 +65,7 @@
                                         
                                         <th>Type Nota</th>
                                         <th>Type Bayar</th>
+                                        <th>Bayar Nota</th>
                                         <th>Diskon</th>
                                         <th>Total</th>
                                     </tr>
@@ -90,6 +91,7 @@
                                                 Debit / Credit Card
                                             </span>
                                         </td>
+                                        <td>{{ post1.bayarNota | currency }}</td>
                                         <td>{{ post1.diskonNota | currency }}</td>
                                         <td>{{ post1.totalNota | currency}}</td>
                                     </tr>
@@ -102,14 +104,15 @@
                                             
                                             <th></th>
                                             <th></th>
+                                            <th>{{bayarS | currency}}</th>
                                             <th>{{diskonS | currency}}</th>
                                             <th>{{totalS | currency}}</th>
                                         </tr>
                                     </tfoot>
                                 </table>
 
-                                <div id="printMe" ref="printMu" >
-                                <table width="90%" border="1" style="border:1px solid black; border-collapse: collapse;">
+                                <div id="printMe" >
+                                <table class="table table-hover table-bordered">
                                     <thead>
                                     <tr>
                                         <th>No Nota</th>
@@ -118,11 +121,12 @@
                                         
                                         <th>Type Nota</th>
                                         <th>Type Bayar</th>
+                                        <th>Bayar Nota</th>
                                         <th>Diskon</th>
                                         <th>Total</th>
                                     </tr>
                                     </thead>
-                                    <tbody >
+                                    <tbody>
                                     <tr v-for="post1 in posts1" :key="post1.id">
                                         <td>{{ post1.noNota }}</td>
                                         <td>{{ post1.namaPelanggan }}</td>
@@ -143,10 +147,11 @@
                                                 Debit / Credit Card
                                             </span>
                                         </td>
+                                        <td>{{ post1.bayarNota | currency }}</td>
                                         <td>{{ post1.diskonNota | currency }}</td>
                                         <td>{{ post1.totalNota | currency}}</td>
-                                        
                                     </tr>
+                                    </tbody>
                                     <tfoot>
                                         <tr>
                                             <th></th>
@@ -155,12 +160,11 @@
                                             
                                             <th></th>
                                             <th></th>
+                                            <th>{{bayarS | currency}}</th>
                                             <th>{{diskonS | currency}}</th>
                                             <th>{{totalS | currency}}</th>
                                         </tr>
                                     </tfoot>
-                                    </tbody>
-                                    
                                 </table>
                                 </div>
                                 <!-- OUTPUT -->
@@ -197,9 +201,20 @@
 
     @media print
     {
-        #non-printable { display: none; }
-        #printMe { display: block; }
-    }
+  body * {
+    visibility: hidden;
+  }
+  #printMe, #printMe * {
+    visibility: visible;
+  }
+  #printMe {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 8px;
+    width: 100%;
+  }
+}
     </style>
 
 <script>
@@ -228,6 +243,7 @@ Vue.component("data-table", DataTable);
                 totalS: [],
                 pajakS: [],
                 diskonS: [],
+                bayarS: [],
                 typeNota: '0',
                 typeBayarNota: '0',
                 //totalSum: '',
@@ -343,6 +359,7 @@ Vue.component("data-table", DataTable);
                         this.totalS = response.data.notaSum;
                         this.pajakS = response.data.pajakSum;
                         this.diskonS = response.data.diskonSum;
+                        this.bayarS = response.data.bayarSum;
                         //alert('Data Ditampilkan');
                         //this.loadDataSorting()
                         //this.loadTotal()

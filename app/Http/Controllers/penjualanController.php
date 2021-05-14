@@ -61,6 +61,7 @@ class penjualanController extends Controller
             $NotalTOtal = Penjualan::whereBetween('tglNota', [$startDate, $endDate])->sum('totalNota');
             $pajakSum = Penjualan::whereBetween('tglNota', [$startDate, $endDate])->sum('taxNota');
             $diskonSum = Penjualan::whereBetween('tglNota', [$startDate, $endDate])->sum('diskonNota');
+            $bayarSum = Penjualan::whereBetween('tglNota', [$startDate, $endDate])->sum('bayarNota');
 
             //$posts = Penjualan::latest()->get();
             return response([
@@ -71,6 +72,7 @@ class penjualanController extends Controller
                 'notaSum' => $NotalTOtal,
                 'pajakSum' => $pajakSum,
                 'diskonSum' => $diskonSum,
+                'bayarSum' => $bayarSum,
                 'data' => $posts
             ], 200);
         
@@ -81,14 +83,17 @@ class penjualanController extends Controller
                             ->select('tblPenjualan.*', 'tblPelanggan.namaPelanggan')
                             ->get();
             $NotalTOtal = Penjualan::whereBetween('tglNota', [$startDate, $endDate])
-                                ->where('typeNota', $typeBayarNota)
+                                ->where('typeNota', $typeNota)
                                 ->sum('totalNota');
             $pajakSum = Penjualan::whereBetween('tglNota', [$startDate, $endDate])
-                                ->where('typeNota', $typeBayarNota)
+                                ->where('typeNota', $typeNota)
                                 ->sum('taxNota');
             $diskonSum = Penjualan::whereBetween('tglNota', [$startDate, $endDate])
-                                ->where('typeNota', $typeBayarNota)    
+                                ->where('typeNota', $typeNota)    
                                 ->sum('diskonNota');
+            $bayarSum = Penjualan::whereBetween('tglNota', [$startDate, $endDate])
+                                ->where('typeNota', $typeNota)    
+                                ->sum('bayarNota');
         
             //$posts = Penjualan::latest()->get();
             return response([
@@ -99,6 +104,7 @@ class penjualanController extends Controller
                 'notaSum' => $NotalTOtal,
                 'pajakSum' => $pajakSum,
                 'diskonSum' => $diskonSum,
+                'bayarSum' => $bayarSum,
                 'data' => $posts
             ], 200);
         }elseif($typeBayarNota != 0 && $typeNota == 0){
@@ -117,6 +123,9 @@ class penjualanController extends Controller
             $diskonSum = Penjualan::whereBetween('tglNota', [$startDate, $endDate])
                                 ->where('typeBayarNota', $typeBayarNota)    
                                 ->sum('diskonNota');
+            $bayarSum = Penjualan::whereBetween('tglNota', [$startDate, $endDate])
+                                ->where('typeBayarNota', $typeBayarNota)    
+                                ->sum('bayarNota');
         
             //$posts = Penjualan::latest()->get();
             return response([
@@ -127,6 +136,7 @@ class penjualanController extends Controller
                 'notaSum' => $NotalTOtal,
                 'pajakSum' => $pajakSum,
                 'diskonSum' => $diskonSum,
+                'bayarSum' => $bayarSum,
                 'data' => $posts
             ], 200);
         }elseif($typeBayarNota != 0 && $typeNota != 0){
@@ -148,6 +158,10 @@ class penjualanController extends Controller
                                 ->where('typeNota', $typeNota)
                                 ->where('typeBayarNota', $typeBayarNota)    
                                 ->sum('diskonNota');
+            $bayarSum = Penjualan::whereBetween('tglNota', [$startDate, $endDate])
+                                ->where('typeNota', $typeNota)
+                                ->where('typeBayarNota', $typeBayarNota)    
+                                ->sum('bayarNota');
         
             //$posts = Penjualan::latest()->get();
             return response([
@@ -158,6 +172,7 @@ class penjualanController extends Controller
                 'notaSum' => $NotalTOtal,
                 'pajakSum' => $pajakSum,
                 'diskonSum' => $diskonSum,
+                'bayarSum' => $bayarSum,
                 'data' => $posts
             ], 200);
         }
@@ -584,6 +599,7 @@ class penjualanController extends Controller
                 'stkBarang'     => $stokLama + $qtybarang
         ]);
         PenjualanDetail::where('noNotaPenjualan', $noNotaPenjualan)->delete();
+        Jasajual::where('noNotaPenjualan', $noNotaPenjualan)->delete();
 
 
         DB::table('tblKartuStok')
