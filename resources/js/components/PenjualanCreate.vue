@@ -145,10 +145,12 @@
                           <vue-single-select
                                   v-model="post2"
                                   :options="jasas"
-                                  :required="true"
                                   autocomplete
                                   optionLabel="namaJasa" 
-                          ></vue-single-select>     
+                          ></vue-single-select>
+                          <select class='form-control' v-model='post2.kdJasa' required>
+                            <option v-for='mk in jasas' :value='mk.kdJasa' :key='mk.id'>{{ mk.namaJasa }}</option>
+                          </select>     
                           <input type="hidden" v-model="qtyJualJasa" class="form-control input-sm" placeholder="Qty"> 
                           <input type="hidden" :value="(post2.biayaJasa * qtyJualJasa) || 0" :name="subTotal" class="form-control input-sm" placeholder="Total">                  
                           </div>
@@ -451,7 +453,7 @@
             return {
                 post: [],
                 posts: [],
-                post2:[],
+                post2:'Bongkar Mesin',
                 post1: [],
                 users: [],
                 jasas: [],
@@ -468,7 +470,7 @@
                 totalBayar: '',
                 //subtotal: '',
                 subtotals: '',
-                subtotalJasa: '0',
+                subtotalJasa: 0,
                 ntp:'',
                 satuanJual: '',
                 pajak: '0',
@@ -766,12 +768,13 @@
           totalNota: function(){
             return Math.floor(((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100)) + ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100)) * this.taxDebit / 100);
           },
-         
+          
         },
         beforeCreate: function () {
             if (!this.$session.exists()) {
             this.$router.push('/')
             };
+            //this.post2 = 'JS-2021-1'
             //this.loadNotaPenjualan();
         },
         created() {

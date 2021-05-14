@@ -14238,6 +14238,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -14250,7 +14252,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       post: [],
       posts: [],
-      post2: [],
+      post2: 'Bongkar Mesin',
       post1: [],
       users: [],
       jasas: [],
@@ -14267,7 +14269,7 @@ __webpack_require__.r(__webpack_exports__);
       totalBayar: '',
       //subtotal: '',
       subtotals: '',
-      subtotalJasa: '0',
+      subtotalJasa: 0,
       ntp: '',
       satuanJual: '',
       pajak: '0',
@@ -14602,7 +14604,8 @@ __webpack_require__.r(__webpack_exports__);
       this.$router.push('/');
     }
 
-    ; //this.loadNotaPenjualan();
+    ; //this.post2 = 'JS-2021-1'
+    //this.loadNotaPenjualan();
   },
   created: function created() {
     this.loadNotaPenjualan();
@@ -16181,6 +16184,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var vue_single_select__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-single-select */ "./node_modules/vue-single-select/dist/index.js");
 /* harmony import */ var _componentAksi_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./componentAksi.vue */ "./resources/js/components/laporan/componentAksi.vue");
+//
 //
 //
 //
@@ -24674,7 +24678,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n#printMe { display: none;\n}\n@media print\n    {\nbody * {\n    visibility: hidden;\n}\n#printMe, #printMe * {\n    visibility: visible;\n}\n#printMe {\n    position: absolute;\n    left: 0;\n    top: 0;\n    font-size: 8px;\n    width: 100%;\n}\n}\n    ", ""]);
+exports.push([module.i, "\n#printMe { display: none;\n}\n@media print\n    {\nbody * {\n    visibility: hidden;\n}\n#printMe, #printMe * {\n    visibility: visible;\n    font-size: 11px;\n}\n#printMe {\n    position: absolute;\n    left: 0;\n    top: 0;\n    font-size: 8px;\n    width: 100%;\n}\n}\n    ", ""]);
 
 // exports
 
@@ -61510,7 +61514,6 @@ var render = function() {
                         _c("vue-single-select", {
                           attrs: {
                             options: _vm.jasas,
-                            required: true,
                             autocomplete: "",
                             optionLabel: "namaJasa"
                           },
@@ -61522,6 +61525,49 @@ var render = function() {
                             expression: "post2"
                           }
                         }),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.post2.kdJasa,
+                                expression: "post2.kdJasa"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { required: "" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.post2,
+                                  "kdJasa",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          _vm._l(_vm.jasas, function(mk) {
+                            return _c(
+                              "option",
+                              { key: mk.id, domProps: { value: mk.kdJasa } },
+                              [_vm._v(_vm._s(mk.namaJasa))]
+                            )
+                          }),
+                          0
+                        ),
                         _vm._v(" "),
                         _c("input", {
                           directives: [

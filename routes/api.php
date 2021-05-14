@@ -145,6 +145,7 @@ Route::delete('/komposisi/{id?}', 'komposisiController@destroy');
 
 //=====Laporan Penjualan
 Route::get('/penjualan', 'penjualanController@index');
+Route::get('/penjualanjasa', 'penjualanController@LaporanJasa');
 Route::get('/penjualanbulanan', 'penjualanController@laporanBulanan');
 Route::post('/lapPenjualanBulanan', 'penjualanController@laporanBulananSorting');
 Route::post('/dataPiutang', 'penjualanController@piutangPelanggan');

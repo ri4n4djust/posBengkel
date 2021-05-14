@@ -29,6 +29,19 @@ class penjualanController extends Controller
             'data' => $posts
         ], 200);
     }
+
+    public function LaporanJasa()
+    {
+        $posts = Jasajual::select(array(DB::Raw('sum(tblDetailJasaJual.totalJasa) as totalJasa')),DB::Raw('tblDetailJasaJual.*') )
+                ->groupBy('noNotaPenjualan')
+                ->get();
+        return response([
+            'success' => true,
+            'message' => 'List Semua SPenjualan',
+            'data' => $posts
+        ], 200);
+    }
+
     public function piutangPelanggan(Request $request)
     {
         $posts = Penjualan::join('tblPelanggan', 'tblPenjualan.pelangganNota', 'tblPelanggan.kodePelanggan')
