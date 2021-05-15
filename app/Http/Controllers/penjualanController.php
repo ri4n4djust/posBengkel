@@ -32,12 +32,14 @@ class penjualanController extends Controller
 
     public function LaporanJasa()
     {
-        $posts = Jasajual::select(array(DB::Raw('sum(tblDetailJasaJual.totalJasa) as totalJasa')),DB::Raw('tblDetailJasaJual.*') )
-                ->groupBy('noNotaPenjualan')
+        $posts = DB::table('tblDetailJasaJual as j')
+                ->select(array(DB::Raw('sum(j.totalJasa) as totalJasa'),DB::Raw('j.tglPenjualan')) )
+                ->groupBy('j.tglPenjualan')
+                ->orderBy('j.tglPenjualan')
                 ->get();
         return response([
             'success' => true,
-            'message' => 'List Semua SPenjualan',
+            'message' => 'List Semua jual jasa',
             'data' => $posts
         ], 200);
     }

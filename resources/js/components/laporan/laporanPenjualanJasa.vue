@@ -1,7 +1,7 @@
 <template>
 
                     <div class="card-body">
-                         <h3>Laporan Penjualan</h3>
+                         <h3>Laporan Penjualan Jasa</h3>
                         <div class="col-md-12">
                         <div class="nav-tabs-custom">
                             <ul class="nav nav-tabs">
@@ -228,7 +228,7 @@ import 'vue2-datepicker/index.css';
 import VueSingleSelect from "vue-single-select";
 
 
-import ActionButtons from './componentAksi.vue';
+import ActionButtons from './componentAksiJasa.vue';
 Vue.component("data-table", DataTable);
     export default {
         components: { DatePicker, VueSingleSelect,  },
@@ -258,49 +258,14 @@ Vue.component("data-table", DataTable);
                     //name: "ActionButtons",
                     columns: [
                         {
-                            key: "noNota",
-                            title: "No Nota",
+                            key: "tglPenjualan",
+                            title: "Tanggal Penjualan",
                             sortable: false,
                         },
                         {
-                            key: "namaPelanggan",
-                            title: "Pelanggan",
+                            key: "totalJasa",
+                            title: "Total Jasa",
                             sortable: false,
-                        },
-                        {
-                            key: "tglNota",
-                            title: "Tgl Nota",
-                            sortable: false,
-                        },
-                        {
-                            key: "taxNota",
-                            title: "PPn",
-                            sortable: false,
-                            searchable: false,
-                        },
-                        {
-                            key: "diskonNota",
-                            title: "Diskon",
-                            sortable: false,
-                            searchable: false,
-                        },
-                        {
-                            key: "totalNota",
-                            title: "Total",
-                            sortable: false,
-                            searchable: false,
-                        },
-                        {
-                            key: "bayarNota",
-                            title: "Bayar",
-                            sortable: false,
-                            searchable: false,
-                        },
-                        {
-                            key: "piutangNota",
-                            title: "Piutang",
-                            sortable: false,
-                            searchable: false,
                         },
                         {
                             title: "Action",
@@ -326,7 +291,7 @@ Vue.component("data-table", DataTable);
             }
         },
         created() {
-            let uri = '/api/penjualan';
+            let uri = '/api/penjualanjasa';
             this.axios.get(uri).then(response => {
                 this.posts = response.data.data;
             });

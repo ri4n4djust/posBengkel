@@ -22,8 +22,7 @@
                             <!-- /.tab-pane -->
                             <div class="tab-pane" id="timeline">
                                 <!-- The timeline -->
-                                <div class="col-md-9">
-                                </div>
+                                
                                 <form  @submit.prevent="lapPenjualan" >
                                     
                                         <p class="text-muted text-left">
