@@ -73,7 +73,8 @@
                    
                 <!-- /.box -->
                 
-              <form @submit.prevent="BayarPiutang" name="piutang" id="piutang">
+              
+                
                 <table class="table table-hover table-bordered">
                                 <thead>
                                 <tr>
@@ -86,17 +87,31 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="(pe, index) in pem" :key="pe.id">
-                                    <td >{{ pe.noNota }} </td>
-                                    <td >{{ pe.tglNota}}</td>
-                                    <td >{{ pe.jthTempoNota }} </td>
+                                <tr v-for="(pe, index) in pem" :key="pe.index">
+                                  
+                                    <td ><input type="text" class="form-control xs-3" v-model="pem[index].noNota" disabled /> </td>
+                                    <td ><input type="text" class="form-control xs-3" v-model="pem[index].tglNota" disabled /></td>
+                                    <td ><input type="text" class="form-control xs-3" v-model="pem[index].jthTempoNota" disabled /></td>
                                     <td>{{ pe.piutangNota | currency }}</td>
                                     <td><input type="text" v-model="bayar[index]" @keyup="getTotalPay()"></td>
                                     <td>{{ pe.piutangNota - bayar[index] | currency }} </td>
                                 </tr>
                                 </tbody>
                             </table>
-              </form>
+                
+                      <div v-for="(pe, index) in pem" :key="pe.index">
+                        <form id="form1" @submit.prevent="updateData(index)" >
+                          <input type="text" class="form-control xs-3" v-model="pem[index].noNota" disabled /> <br>
+                          <input type="text" class="form-control xs-3" v-model="pem[index].tglNota" disabled /><br>
+                          <input type="text" class="form-control xs-3" v-model="pem[index].jthTempoNota" disabled /><br>
+                          <input type="text" v-model="bayar[index]" @keyup="getTotalPay()">
+                          <input type="text" class="form-control xs-3" :value="pem[index].piutangNota - bayar[index]" :name="sisaPiu[index]" disabled /><br>
+                        
+
+                        </form>
+                      </div>
+                  <button type="submit" form="form1"  class="btn btn-md btn-success" >Bayar</button>
+
           <!-- /.nav-tabs-custom -->
         </div>
         <!-- /.col -->
@@ -201,6 +216,8 @@
                 post1: {},
                 users: {},
                 pem: [],
+                sisaPiu: [],
+                hasilJson: [],
                 totalBayar: '',
                 subtotal: '',
                 ntp:'',
@@ -286,6 +303,20 @@
           
 
         methods: {
+          updateData: function(index) {
+                var datas = [];
+                for (var index of Object.keys(this.pem)) {
+                    datas = JSON.stringify({id: this.pem[index].id, noNota: this.pem[index].noNota, tglNota: this.pem[index].tglNota, bayar: this.pem[index].tglNota});
+                    console.log(datas);
+                    //console.log("id" + " : " + this.pem[index].id);
+                    //console.log("noNota" + " : " + this.pem[index].noNota);
+                    //console.log("tglNota" + " : " + this.pem[index].tglNota);
+                    //console.log("jumlahBayar" + " : " + this.bayar[index]);
+                    //console.log("sisaPiu" + " : " + this.pem[index].piutangNota - this.bayar[index]);
+                }
+              
+
+          },
            getTotalPay() {
              this.totalExpense = this.bayar.reduce((sum, val) => {
                 return Number(sum) + Number(val);
