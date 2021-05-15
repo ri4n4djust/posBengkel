@@ -12208,6 +12208,52 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -12230,13 +12276,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       ntp: '',
       pembayaran: '1',
       pelanggan: 'PL-2021-1',
-      tglNota: new Date().toJSON().slice(0, 10).replace(/-/g, '/'),
       piutangPenjualan: '',
       bayarpiutang: {},
       totalx: '',
       noNotaGrandJual: '',
       totalPenjualan: '',
-      tglPenjualan: new Date().toJSON().slice(0, 10).replace(/-/g, '/'),
+      tglGrandJual: new Date().toJSON().slice(0, 10).replace(/-/g, '/'),
       validation: [],
       showModal: false,
       showModalMenu: false,
@@ -58787,11 +58832,11 @@ var render = function() {
                   _c("date-picker", {
                     attrs: { "value-type": "format", format: "YYYY/MM/DD" },
                     model: {
-                      value: _vm.tglPenjualan,
+                      value: _vm.tglGrandJual,
                       callback: function($$v) {
-                        _vm.tglPenjualan = $$v
+                        _vm.tglGrandJual = $$v
                       },
-                      expression: "tglPenjualan"
+                      expression: "tglGrandJual"
                     }
                   })
                 ],
@@ -59042,8 +59087,294 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "modal-body" }, [
-                        _vm._v(
-                          "\n                \ndetail bayar  \n\n              "
+                        _c(
+                          "form",
+                          {
+                            on: {
+                              submit: function($event) {
+                                $event.preventDefault()
+                                return _vm.PostGrandPenjualan($event)
+                              }
+                            }
+                          },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.tglGrandJual,
+                                  expression: "tglGrandJual"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { type: "hidden" },
+                              domProps: { value: _vm.tglGrandJual },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.tglGrandJual = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.post.kodePelanggan,
+                                  expression: "post.kodePelanggan"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { type: "text", placeholder: "Customer" },
+                              domProps: { value: _vm.post.kodePelanggan },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.post,
+                                    "kodePelanggan",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.totalExpense,
+                                  expression: "totalExpense"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { type: "hidden" },
+                              domProps: { value: _vm.totalExpense },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.totalExpense = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("p", { staticClass: "text-muted text-center" }),
+                            _c("h3", { staticClass: "profile-username " }, [
+                              _vm._v("Total ")
+                            ]),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.pembayaran,
+                                    expression: "pembayaran"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                on: {
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.pembayaran = $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  }
+                                }
+                              },
+                              [
+                                _c(
+                                  "option",
+                                  { attrs: { value: "1", selected: "" } },
+                                  [_vm._v("Cash")]
+                                ),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "2" } }, [
+                                  _vm._v("Debit / Bank Transfer")
+                                ]),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "3" } }, [
+                                  _vm._v("E-Money")
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(" "),
+                            _vm.pembayaran === "1"
+                              ? _c("div", [
+                                  _c("div", { staticClass: "input-group" }, [
+                                    _c(
+                                      "span",
+                                      { staticClass: "input-group-addon" },
+                                      [_vm._v("Rp.")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.totalBayar,
+                                          expression: "totalBayar"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "number",
+                                        placeholder: "Bayar",
+                                        required: ""
+                                      },
+                                      domProps: { value: _vm.totalBayar },
+                                      on: {
+                                        change: function($event) {
+                                          return _vm.bayar()
+                                        },
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.totalBayar = $event.target.value
+                                        }
+                                      }
+                                    })
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "p",
+                                    { staticClass: "text-muted text-center" },
+                                    [
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass: "btn btn-md btn-success",
+                                          attrs: { type: "submit" }
+                                        },
+                                        [_vm._v("Bayar")]
+                                      )
+                                    ]
+                                  )
+                                ])
+                              : _vm.pembayaran === "2"
+                              ? _c("div", [
+                                  _c("div", { staticClass: "input-group" }, [
+                                    _c(
+                                      "span",
+                                      { staticClass: "input-group-addon" },
+                                      [_vm._v("Card No.")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.noDebit,
+                                          expression: "noDebit"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "number",
+                                        placeholder: "No Kartu"
+                                      },
+                                      domProps: { value: _vm.noDebit },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.noDebit = $event.target.value
+                                        }
+                                      }
+                                    })
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("p"),
+                                  _c("div", { staticClass: "input-group" }, [
+                                    _c(
+                                      "span",
+                                      { staticClass: "input-group-addon" },
+                                      [_vm._v("Rp.")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.totalBayar,
+                                          expression: "totalBayar"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "number",
+                                        placeholder: "Bayar",
+                                        required: ""
+                                      },
+                                      domProps: { value: _vm.totalBayar },
+                                      on: {
+                                        keyup: function($event) {
+                                          return _vm.bayar()
+                                        },
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.totalBayar = $event.target.value
+                                        }
+                                      }
+                                    })
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("br"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "p",
+                                    { staticClass: "text-muted text-center" },
+                                    [
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass: "btn btn-md btn-success",
+                                          attrs: { type: "submit" }
+                                        },
+                                        [_vm._v("Bayar")]
+                                      )
+                                    ]
+                                  )
+                                ])
+                              : _vm.pembayaran === "3"
+                              ? _c("div", [
+                                  _vm._v(
+                                    "\n                              Emoney\n                            "
+                                  )
+                                ])
+                              : _vm._e()
+                          ]
                         )
                       ])
                     ])

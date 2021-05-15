@@ -15,7 +15,7 @@
             <div class="box-body">
 
                 <p class="text-muted text-center">
-                <date-picker v-model="tglPenjualan" value-type="format" format="YYYY/MM/DD"></date-picker>
+                <date-picker v-model="tglGrandJual" value-type="format" format="YYYY/MM/DD"></date-picker>
                 </p>
                 <p class="text-muted text-center">
                   <div class="input-group">
@@ -120,7 +120,53 @@
               </div>
               <div class="modal-body">
                 
-detail bayar  
+                <form  @submit.prevent="PostGrandPenjualan" >
+                  <input type="hidden" class="form-control" v-model="tglGrandJual" >
+                <input type="text" class="form-control" v-model="post.kodePelanggan" placeholder="Customer">
+                <input type="hidden" class="form-control" v-model="totalExpense">
+                
+
+                <p class="text-muted text-center">
+                <h3 class="profile-username ">Total </h3>
+              <br>
+                            <select class='form-control' v-model='pembayaran' >
+                                <option value='1' selected>Cash</option>
+                                <option value='2'>Debit / Bank Transfer</option>
+                                <option value='3'>E-Money</option>
+                            </select>
+                            <br>
+                            <div v-if="pembayaran === '1'">
+                              <div class="input-group">
+                                    <span class="input-group-addon">Rp.</span>
+                                    <input type="number" class="form-control" v-model="totalBayar" @change="bayar()" placeholder="Bayar" required>
+                                  </div>
+                                  
+                                  <p class="text-muted text-center">
+                                  <button type="submit"  class="btn btn-md btn-success" >Bayar</button> 
+                                  </p>
+                            </div>
+                            <div v-else-if="pembayaran === '2'">
+                                  <div class="input-group">
+                                    <span class="input-group-addon">Card No.</span>
+                                    <input type="number" class="form-control" v-model="noDebit" placeholder="No Kartu" >
+                                  </div>
+                                  <p>
+                                  <div class="input-group">
+                                    <span class="input-group-addon">Rp.</span>
+                                    <input type="number" class="form-control" v-model="totalBayar" @keyup="bayar()" placeholder="Bayar" required>
+                                  </div>
+                                  <br>
+                                  <p class="text-muted text-center">
+                                  
+                                  <button type="submit"  class="btn btn-md btn-success" >Bayar</button>       
+                                  </p>
+                            </div>
+                            <div v-else-if="pembayaran === '3'">
+                              Emoney
+                            </div>
+
+               
+              </form>
 
               </div>
             </div>
@@ -160,14 +206,13 @@ detail bayar
                 ntp:'',
                 pembayaran: '1',
                 pelanggan: 'PL-2021-1',
-                tglNota: new Date().toJSON().slice(0,10).replace(/-/g,'/'),
                 piutangPenjualan: '',
                 bayarpiutang: {},
 
                 totalx: '',
                 noNotaGrandJual: '',
                 totalPenjualan: '',
-                tglPenjualan: new Date().toJSON().slice(0,10).replace(/-/g,'/'),
+                tglGrandJual: new Date().toJSON().slice(0,10).replace(/-/g,'/'),
                 validation: [],
                 showModal: false,
                 showModalMenu: false,
