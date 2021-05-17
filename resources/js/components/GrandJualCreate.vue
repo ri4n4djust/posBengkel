@@ -308,6 +308,14 @@
                 for (var index of Object.keys(this.pem)) {
                     datas = JSON.stringify({id: this.pem[index].id, noNota: this.pem[index].noNota, tglNota: this.pem[index].tglNota, bayar: this.pem[index].tglNota});
                     console.log(datas);
+
+                    let uri = '/api/insertgrandjual';
+                    this.axios.post(uri, datas).then(response => {
+                      alert('grand jual berhasil di input')
+                    //this.subtotal = response.data.subTotalJual;
+                    }).catch(error => {
+                        console.log(error.response)
+                    });
                     //console.log("id" + " : " + this.pem[index].id);
                     //console.log("noNota" + " : " + this.pem[index].noNota);
                     //console.log("tglNota" + " : " + this.pem[index].tglNota);

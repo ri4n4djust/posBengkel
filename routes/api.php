@@ -126,6 +126,9 @@ Route::delete('/hapusjasa/{id?}', 'penjualanController@deleteTransaksiJasa');
 Route::delete('/hapusbarang/{id?}', 'penjualanController@deleteBrgTransaksi');
 Route::post('/addPenjualan/store', 'penjualanController@addTransaksiPenjualan');
 
+//=========GrandJual
+Route::post('/insertgrandjual', 'GrandJualController@insert');
+
 //=======live Order
 Route::get('/orderlist', 'mejaController@listOrder');
 
@@ -136,12 +139,6 @@ Route::get('/user/{id?}', 'loginController@show');
 Route::post('/user/update/{id?}', 'loginController@update');
 Route::delete('/user/{id?}', 'loginController@destroy');
 
-//========komposisi
-Route::get('/komposisi', 'komposisiController@index');
-Route::get('/itemKomposisi', 'komposisiController@allInventori');
-Route::post('/komposisi/detail/{id}', 'komposisiController@detail');
-Route::post('/komposisi/store', 'komposisiController@store');
-Route::delete('/komposisi/{id?}', 'komposisiController@destroy');
 
 //=====Laporan Penjualan
 Route::get('/penjualan', 'penjualanController@index');
