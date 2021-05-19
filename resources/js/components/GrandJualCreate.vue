@@ -98,19 +98,19 @@
                                 </tr>
                                 </tbody>
                             </table>
-                
+                  <button type="submit" form="form1"  class="btn btn-md btn-success" >Bayar</button>
                       <div v-for="(pe, index) in pem" :key="pe.index">
                         <form id="form1" @submit.prevent="updateData(index)" >
-                          <input type="text" class="form-control xs-3" v-model="pem[index].noNota" disabled /> <br>
-                          <input type="text" class="form-control xs-3" v-model="pem[index].tglNota" disabled /><br>
-                          <input type="text" class="form-control xs-3" v-model="pem[index].jthTempoNota" disabled /><br>
-                          <input type="text" v-model="bayar[index]" @keyup="getTotalPay()">
-                          <input type="text" class="form-control xs-3" :value="pem[index].piutangNota - bayar[index]" :name="sisaPiu[index]" disabled /><br>
+                          <input type="hidden" class="form-control xs-3" v-model="pem[index].noNota" disabled /> <br>
+                          <input type="hidden" class="form-control xs-3" v-model="pem[index].tglNota" disabled /><br>
+                          <input type="hidden" class="form-control xs-3" v-model="pem[index].jthTempoNota" disabled /><br>
+                          <input type="hidden" v-model="bayar[index]" @keyup="getTotalPay()">
+                          <input type="hidden" class="form-control xs-3" :value="pem[index].piutangNota - bayar[index]" :name="sisaPiu[index]" disabled /><br>
                         
 
                         </form>
                       </div>
-                  <button type="submit" form="form1"  class="btn btn-md btn-success" >Bayar</button>
+                  
 
           <!-- /.nav-tabs-custom -->
         </div>
@@ -135,10 +135,10 @@
               </div>
               <div class="modal-body">
                 
-                <form  @submit.prevent="PostGrandPenjualan" >
+                <form  @submit.prevent="PostGrandJual" >
                   <input type="hidden" class="form-control" v-model="tglGrandJual" >
                 <input type="text" class="form-control" v-model="post.kodePelanggan" placeholder="Customer">
-                <input type="hidden" class="form-control" v-model="totalExpense">
+                <input type="text" class="form-control" v-model="totalExpense">
                 
 
                 <p class="text-muted text-center">
@@ -225,7 +225,7 @@
                 pelanggan: 'PL-2021-1',
                 piutangPenjualan: '',
                 bayarpiutang: {},
-
+                noDebit: '',
                 totalx: '',
                 noNotaGrandJual: '',
                 totalPenjualan: '',
@@ -304,33 +304,21 @@
 
         methods: {
           updateData: function(index) {
-                var datas = [];
+                
                 for (var index of Object.keys(this.pem)) {
-                    datas = JSON.stringify({
-                      kdGrandJual: this.noNotaGrandJual, 
-                      noNota: this.pem[index].noNota, 
-                      tglNota: this.pem[index].tglNota, 
-                      bayar: this.bayar[index],
-                      });
-                    //console.log(datas);
-
                     let uri = '/api/insertgrandjual';
                     this.axios.post(uri, {
                       kdGrandJual: this.noNotaGrandJual, 
                       noNota: this.pem[index].noNota, 
                       tglNota: this.pem[index].tglNota, 
                       bayar: this.bayar[index],
+                      typeBayarGrandJual: this.pembayaran,
+                      user: this.$session.get('userId'),
                       }).then(response => {
-                      
                     //this.subtotal = response.data.subTotalJual;
                     }).catch(error => {
                         console.log(error.response)
                     });
-                    //console.log("id" + " : " + this.pem[index].id);
-                    //console.log("noNota" + " : " + this.pem[index].noNota);
-                    //console.log("tglNota" + " : " + this.pem[index].tglNota);
-                    //console.log("jumlahBayar" + " : " + this.bayar[index]);
-                    //console.log("sisaPiu" + " : " + this.pem[index].piutangNota - this.bayar[index]);
                 }
               alert('grand jual berhasil di input')
 
@@ -405,26 +393,19 @@
             },
             
             PostGrandJual() {
-                let uri = '/api/addPenjualan/store';
+                let uri = '/api/grandJual/store';
                 this.axios.post(uri, 
                 {
-                    noNota: this.noNotaGrandJual,
-                    liftNo: this.liftNo,
-                    pelanggan: this.post.kodePelanggan,
-                    tglNota: this.tglPenjualan,
-                    taxNota: (this.subtotal * this.pajak / 100),
-                    diskonNota: ((this.subtotal * this.pajak / 100 + this.subtotal) * this.diskon / 100),
-                    totalNota: ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.diskon / 100)),
-                    bayarNota: this.totalBayar,
-                    userNota: this.$session.get('userId'),
-                    mekanikNota: this.mekanikNota,
-                    kembalianNota: this.totalBayar - ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.diskon / 100)),
-                    typeNota: this.typePenjualan,
-                    termNota: this.termPenjualan,
-                    piutangNota: Math.abs(this.totalBayar - ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.diskon / 100))), 
+                    kdGrandJual: this.noNotaGrandJual,
+                    tglGrandJual: this.tglGrandJual,
+                    kodePelanggan: this.post.kodePelanggan,
+                    typeBayarGrandJual : this.pembayaran,
+                    totalGrandJual: this.totalExpense,
+                    user: this.$session.get('userId'),
                     
                 })
                     .then((response) => {
+                        this.updateData();
                         alert('Transaksi Selesai');
                         this.$router.go(0);
                         //this.$router.push({name: 'pembelian'});

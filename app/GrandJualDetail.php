@@ -9,7 +9,7 @@ class GrandJualDetail extends Model
     //
     protected $table = 'tblGrandJualDetail';
     protected $fillable = [
-        'kdGrandJual', 'tglGrandJual', 'notaPenjualan', 'totalGrandJual', 'pembayaranGrandJual',
+        'kdGrandJual', 'tglGrandJual', 'noNotaPenjualan', 'totalGrandJual', 'pembayaranGrandJual',
         'userGrandJual'
     ];
 }

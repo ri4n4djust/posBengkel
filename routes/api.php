@@ -128,6 +128,7 @@ Route::post('/addPenjualan/store', 'penjualanController@addTransaksiPenjualan');
 
 //=========GrandJual
 Route::post('/insertgrandjual', 'GrandJualController@insert');
+Route::post('/grandJual/store', 'GrandJualController@saveGrandJual');
 
 //=======live Order
 Route::get('/orderlist', 'mejaController@listOrder');
