@@ -81,6 +81,7 @@
             <li><a href="{{url('/laporanpenjualan')}}"><i class="fa fa-circle-o"></i>Lap. Penjualan</a></li>
             <li><a href="{{url('/laporanpenjualanjasa')}}"><i class="fa fa-circle-o"></i>Lap. Penjualan Jasa</a></li>
             <li><a href="{{url('/laporanpenjualanbulanan')}}"><i class="fa fa-circle-o"></i>Lap. Penjualan Bulanan</a></li>
+            <li><a href="{{url('/laporangrandjual')}}"><i class="fa fa-circle-o"></i>Lap. Grand Jual</a></li>
             <li><a href="{{url('/laporanpembelian')}}"><i class="fa fa-circle-o"></i>Lap. Pembelian</a></li>
             <li><a href="{{url('/laporanpiutang')}}"><i class="fa fa-circle-o"></i>Lap. Piutang</a></li>
             <li><a href="{{url('/laporanhutang')}}"><i class="fa fa-circle-o"></i>Lap. Hutang</a></li>

@@ -76,6 +76,7 @@ import LaporanPenjualanComponent from './components/laporan/laporanPenjualan.vue
 import LaporanPiutangComponent from './components/laporan/laporanPiutang.vue';
 import LaporanPenjualanJasaComponent from './components/laporan/laporanPenjualanJasa.vue';
 import LaporanPenjualanBulanan from './components/laporan/LaporanPenjualanBulanan.vue';
+import LaporanGrandJual from './components/laporan/LaporanGrandJual.vue';
 import LaporanPembelianComponent from './components/laporan/laporanPembelian.vue';
 import StokOpnameComponent from './components/laporan/laporanStokOpname.vue';
 
@@ -138,6 +139,7 @@ const routes = [
     { name: 'laporanpiutang', path: '/laporanpiutang', component: LaporanPiutangComponent },
     { name: 'laporanpenjualanjasa', path: '/laporanpenjualanjasa', component: LaporanPenjualanJasaComponent },
     { name: 'laporanpenjualanbulanan', path: '/laporanpenjualanbulanan', component: LaporanPenjualanBulanan },
+    { name: 'laporangrandjual', path: '/laporangrandjual', component: LaporanGrandJual },
     { name: 'laporanpembelian', path: '/laporanpembelian', component: LaporanPembelianComponent },
     { name: 'laporanstokopname', path: '/laporanstokopname', component: StokOpnameComponent },
 
