@@ -57,7 +57,7 @@ export default {
     data() {
             return {
                 posts: [],
-                //pem: [],
+                pem: [],
                 showModalDetail: false,
                 //np: this.posts,
             }

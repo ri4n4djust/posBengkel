@@ -130,6 +130,7 @@ Route::post('/addPenjualan/store', 'penjualanController@addTransaksiPenjualan');
 Route::post('/insertgrandjual', 'GrandJualController@insert');
 Route::post('/grandJual/store', 'GrandJualController@saveGrandJual');
 Route::delete('/hapusgrandjual/{id?}', 'GrandJualController@destroy1');
+Route::post('/detailgrandjual/{id}', 'GrandJualController@detailGrandJual');
 
 //======LaporanGrandJual
 Route::get('/laporangrandjual', 'GrandJualController@laporanGrandJual');

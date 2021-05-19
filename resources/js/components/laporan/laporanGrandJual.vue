@@ -227,7 +227,7 @@ import 'vue2-datepicker/index.css';
 import VueSingleSelect from "vue-single-select";
 
 
-import ActionButtons from './componentAksi.vue';
+import ActionButtons from './componentAksiGrandJual.vue';
 Vue.component("data-table", DataTable);
     export default {
         components: { DatePicker, VueSingleSelect,  },

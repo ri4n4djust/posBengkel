@@ -55,6 +55,27 @@ class GrandJualController extends Controller
         ], 200);
     }
 
+    public function detailGrandJual($id)
+    {
+        //$post = TransaksiDetail::whereId($id)->first();
+        $post = GrandJualDetail::where('kdGrandJual', $id)
+                    ->get();
+
+        if ($post) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Detail Post!',
+                'data'    => $post
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Post Tidak Ditemukan!',
+                'data'    => ''
+            ], 404);
+        }
+    }
+
 
     public function destroy1($id)
     {
