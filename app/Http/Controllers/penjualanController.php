@@ -30,6 +30,22 @@ class penjualanController extends Controller
         ], 200);
     }
 
+    public function laporanPiutang()
+    {
+        $posts = Penjualan::join('tblPelanggan', 'tblPenjualan.pelangganNota', 'tblPelanggan.kodePelanggan')
+                ->join('users', 'tblPenjualan.userNota', 'users.id')
+                ->where('tblPenjualan.piutangNota', '!=', '0' )
+                ->select('tblPenjualan.*', 'tblPelanggan.namaPelanggan', 'users.name')
+                ->orderBy('tblPenjualan.id', 'DESC')
+                ->get();
+        return response([
+            'success' => true,
+            'message' => 'List Semua SPenjualan',
+            'data' => $posts
+        ], 200);
+    }
+
+
     public function LaporanJasa()
     {
         $posts = DB::table('tblDetailJasaJual as j')

@@ -98,7 +98,6 @@
                                 </tr>
                                 </tbody>
                             </table>
-                  <button type="submit" form="form1"  class="btn btn-md btn-success" >Bayar</button>
                       <div v-for="(pe, index) in pem" :key="pe.index">
                         <form id="form1" @submit.prevent="updateData(index)" >
                           <input type="hidden" class="form-control xs-3" v-model="pem[index].noNota" disabled /> <br>
@@ -320,7 +319,7 @@
                         console.log(error.response)
                     });
                 }
-              alert('grand jual berhasil di input')
+              //alert('grand jual berhasil di input')
 
           },
            getTotalPay() {
