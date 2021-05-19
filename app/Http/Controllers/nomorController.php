@@ -71,7 +71,8 @@ class nomorController extends Controller
         $count = GrandJual::all();
         if($count->isEmpty()){
             $tahun = date('Y');
-            $post = 'GJ-'.$tahun.'-'.'1';
+            $bulan = date('m');
+            $post = 'GJ'.$tahun.$bulan.'1';
             return response()->json([
                 'success' => true,
                 'message' => 'Detail Post!',
@@ -80,17 +81,17 @@ class nomorController extends Controller
         }else{
             $no = 0 ;
             $count = GrandJual::all()->last();
-            $terakhir = substr($count->noNota, -1);
+            $terakhir = substr($count->kdGrandJual, 8);
             $kodeBaru = $terakhir + 1  ;
-
+            $bulan = date('m');
             $tahun = date('Y');
-            $post = 'GJ-'.$tahun.'-'.$kodeBaru;
+            $post = 'GJ'.$tahun.$bulan.$kodeBaru;
 
             
 
-            if (GrandJual::where('noNota', $post)->exists()) {
+            if (GrandJual::where('kdGrandJual', $post)->exists()) {
                 $kodeBarulagi = $kodeBaru + 1 ;
-                $post = 'GJ-'.$tahun.'-'.$kodeBarulagi;
+                $post = 'GJ'.$tahun.$bulan.$kodeBarulagi;
                 return response()->json([
                     'success' => true,
                     'message' => 'Detail Post!',
