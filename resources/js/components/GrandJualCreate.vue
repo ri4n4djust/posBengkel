@@ -306,12 +306,22 @@
           updateData: function(index) {
                 var datas = [];
                 for (var index of Object.keys(this.pem)) {
-                    datas = JSON.stringify({id: this.pem[index].id, noNota: this.pem[index].noNota, tglNota: this.pem[index].tglNota, bayar: this.pem[index].tglNota});
-                    console.log(datas);
+                    datas = JSON.stringify({
+                      kdGrandJual: this.noNotaGrandJual, 
+                      noNota: this.pem[index].noNota, 
+                      tglNota: this.pem[index].tglNota, 
+                      bayar: this.bayar[index],
+                      });
+                    //console.log(datas);
 
                     let uri = '/api/insertgrandjual';
-                    this.axios.post(uri, datas).then(response => {
-                      alert('grand jual berhasil di input')
+                    this.axios.post(uri, {
+                      kdGrandJual: this.noNotaGrandJual, 
+                      noNota: this.pem[index].noNota, 
+                      tglNota: this.pem[index].tglNota, 
+                      bayar: this.bayar[index],
+                      }).then(response => {
+                      
                     //this.subtotal = response.data.subTotalJual;
                     }).catch(error => {
                         console.log(error.response)
@@ -322,7 +332,7 @@
                     //console.log("jumlahBayar" + " : " + this.bayar[index]);
                     //console.log("sisaPiu" + " : " + this.pem[index].piutangNota - this.bayar[index]);
                 }
-              
+              alert('grand jual berhasil di input')
 
           },
            getTotalPay() {

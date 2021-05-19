@@ -12380,15 +12380,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       for (var _i = 0, _Object$keys = Object.keys(this.pem); _i < _Object$keys.length; _i++) {
         var index = _Object$keys[_i];
         datas = JSON.stringify({
-          id: this.pem[index].id,
+          kdGrandJual: this.noNotaGrandJual,
           noNota: this.pem[index].noNota,
           tglNota: this.pem[index].tglNota,
-          bayar: this.pem[index].tglNota
-        });
-        console.log(datas);
+          bayar: this.bayar[index]
+        }); //console.log(datas);
+
         var uri = '/api/insertgrandjual';
-        this.axios.post(uri, datas).then(function (response) {
-          alert('grand jual berhasil di input'); //this.subtotal = response.data.subTotalJual;
+        this.axios.post(uri, {
+          kdGrandJual: this.noNotaGrandJual,
+          noNota: this.pem[index].noNota,
+          tglNota: this.pem[index].tglNota,
+          bayar: this.bayar[index]
+        }).then(function (response) {//this.subtotal = response.data.subTotalJual;
         })["catch"](function (error) {
           console.log(error.response);
         }); //console.log("id" + " : " + this.pem[index].id);
@@ -12397,6 +12401,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         //console.log("jumlahBayar" + " : " + this.bayar[index]);
         //console.log("sisaPiu" + " : " + this.pem[index].piutangNota - this.bayar[index]);
       }
+
+      alert('grand jual berhasil di input');
     },
     getTotalPay: function getTotalPay() {
       this.totalExpense = this.bayar.reduce(function (sum, val) {
