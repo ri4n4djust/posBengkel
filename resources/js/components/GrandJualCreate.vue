@@ -220,6 +220,7 @@
                 totalBayar: '',
                 subtotal: '',
                 ntp:'',
+                
                 pembayaran: '1',
                 pelanggan: 'PL-2021-1',
                 piutangPenjualan: '',
