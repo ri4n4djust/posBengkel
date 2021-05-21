@@ -22,7 +22,7 @@ class salesController extends Controller
     {
         $posts = Barang::join('tblKategori', 'tblBarang.ktgBarang', '=', 'tblKategori.kodeKtg')
                 //->where('tblBarang.stsBarang', '1')
-                ->take(5)
+                //->take(5)
                 ->get(['tblBarang.*', 'tblKategori.namaKtg']);
         //$posts = Barang::latest()->get();
         $count = Barang::count();
