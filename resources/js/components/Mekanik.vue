@@ -216,7 +216,7 @@
             PostDelete(id, index)
             {
             if(confirm("Do you really want to delete?")){
-                this.axios.delete(`/api/pelanggan/${id}`)
+                this.axios.delete(`/api/mekanik/${id}`)
                     .then(response => {
                         this.posts.splice(index, 1);
                     }).catch(error => {

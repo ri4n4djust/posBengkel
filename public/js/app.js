@@ -13386,7 +13386,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this6 = this;
 
       if (confirm("Do you really want to delete?")) {
-        this.axios["delete"]("/api/pelanggan/".concat(id)).then(function (response) {
+        this.axios["delete"]("/api/mekanik/".concat(id)).then(function (response) {
           _this6.posts.splice(index, 1);
         })["catch"](function (error) {
           alert('system error!');
