@@ -24,7 +24,7 @@
                                     <td>{{ post.noTlpMekanik  }}</td>
                                     <td class="text-center">
                                         <a href="#" @click="detailMekanik(id= post.id)" class="btn btn-sm btn-primary">Edit</a>
-                                        <button @click.prevent="PostDelete(post.id, index)" class="btn btn-sm btn-danger">HAPUS</button>
+                                        <button @click.prevent="PostDelete(id= post.id, index)" class="btn btn-sm btn-danger">HAPUS</button>
                                     </td>
                                 </tr>
                                 </tbody>
