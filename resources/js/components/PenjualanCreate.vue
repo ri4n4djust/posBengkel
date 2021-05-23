@@ -565,6 +565,9 @@
                     $event.preventDefault();
                 }   
             },
+            printBill:function(){
+              window.print(printMe);
+            },
             loadTotal:function(){
                 let uri = '/api/totalTrxPenjualan';
                 this.axios.post(uri, {
