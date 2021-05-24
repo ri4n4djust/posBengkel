@@ -1,7 +1,7 @@
 <template>
 
                     <div class="card-body">
-                         <h3>Laporan Hutang Pembelian</h3>
+                         <h3>Laporan Grand Beli</h3>
                         <div class="col-md-12">
                         <div class="nav-tabs-custom">
                             <ul class="nav nav-tabs">
@@ -227,7 +227,7 @@ import 'vue2-datepicker/index.css';
 import VueSingleSelect from "vue-single-select";
 
 
-import ActionButtons from './componentAksi.vue';
+import ActionButtons from './componentAksiGrandJual.vue';
 Vue.component("data-table", DataTable);
     export default {
         components: { DatePicker, VueSingleSelect,  },
@@ -257,36 +257,24 @@ Vue.component("data-table", DataTable);
                     //name: "ActionButtons",
                     columns: [
                         {
-                            key: "noNotaPembelian",
+                            key: "kdGrandJual",
                             title: "No Nota",
                             sortable: false,
                         },
                         {
-                            key: "nmSupplier",
-                            title: "Supplier",
+                            key: "namaPelanggan",
+                            title: "Pelanggan",
                             sortable: false,
                         },
                         {
-                            key: "tglNotaPembelian",
-                            title: "Tgl Nota",
+                            key: "tglGrandJual",
+                            title: "Tgl Transaksi",
                             sortable: false,
                         },
                         
                         {
-                            key: "totalNotaPembelian",
+                            key: "totalGrandJual",
                             title: "Total",
-                            sortable: false,
-                            searchable: false,
-                        },
-                        {
-                            key: "bayarNotaPembelian",
-                            title: "Bayar",
-                            sortable: false,
-                            searchable: false,
-                        },
-                        {
-                            key: "hutangPembelian",
-                            title: "Hutang",
                             sortable: false,
                             searchable: false,
                         },
@@ -315,7 +303,7 @@ Vue.component("data-table", DataTable);
             }
         },
         created() {
-            let uri = '/api/laporanhutang';
+            let uri = '/api/laporangrandjual';
             this.axios.get(uri).then(response => {
                 this.posts = response.data.data;
             });

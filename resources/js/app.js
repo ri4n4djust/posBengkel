@@ -76,9 +76,11 @@ import CreateGrandJual from './components/GrandJualCreate.vue';
 
 import LaporanPenjualanComponent from './components/laporan/laporanPenjualan.vue';
 import LaporanPiutangComponent from './components/laporan/laporanPiutang.vue';
+import LaporanHutangComponent from './components/laporan/laporanHutang.vue';
 import LaporanPenjualanJasaComponent from './components/laporan/laporanPenjualanJasa.vue';
 import LaporanPenjualanBulanan from './components/laporan/LaporanPenjualanBulanan.vue';
 import LaporanGrandJual from './components/laporan/LaporanGrandJual.vue';
+
 import LaporanPembelianComponent from './components/laporan/laporanPembelian.vue';
 import StokOpnameComponent from './components/laporan/laporanStokOpname.vue';
 
@@ -140,6 +142,7 @@ const routes = [
     //=======Laporan
     { name: 'laporanpenjualan', path: '/laporanpenjualan', component: LaporanPenjualanComponent },
     { name: 'laporanpiutang', path: '/laporanpiutang', component: LaporanPiutangComponent },
+    { name: 'laporanhutang', path: '/laporanhutang', component: LaporanHutangComponent },
     { name: 'laporanpenjualanjasa', path: '/laporanpenjualanjasa', component: LaporanPenjualanJasaComponent },
     { name: 'laporanpenjualanbulanan', path: '/laporanpenjualanbulanan', component: LaporanPenjualanBulanan },
     { name: 'laporangrandjual', path: '/laporangrandjual', component: LaporanGrandJual },

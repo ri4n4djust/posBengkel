@@ -22,9 +22,11 @@ class GrandBeliController extends Controller
         ]);
         $DPembelian = Pembelian::where('noNotaPembelian', $request->input('noNotaPembelian'))->first();
         $hutang = $DPembelian->hutangPembelian;
+        $bayarNotaPembelian = $DPembelian->bayarNotaPembelian;
 
         Pembelian::where('noNotaPembelian', $request->input('noNotaPembelian'))->update([
             'hutangPembelian'     => $hutang - $request->input('bayar'),
+            'bayarNotaPembelian'    => $bayarNotaPembelian + $request->input('bayar'),
         ]);
 
     

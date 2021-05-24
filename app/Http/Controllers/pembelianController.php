@@ -27,6 +27,20 @@ class pembelianController extends Controller
         ], 200);
     }
 
+    public function laporanHutang()
+    {
+        $posts = Pembelian::join('tblSupplier', 'tblPembelian.idSupplier', 'tblSupplier.kdSupplier')
+                ->join('users', 'tblPembelian.userPembelian', 'users.id')
+                ->where('tblPembelian.hutangPembelian', '!=', '0' )
+                ->select('tblPembelian.*', 'tblSupplier.nmSupplier', 'users.name')
+                ->get();
+        return response([
+            'success' => true,
+            'message' => 'List Semua SPenjualan',
+            'data' => $posts
+        ], 200);
+    }
+
     public function hutangSupplier(Request $request)
     {
         $posts = Pembelian::join('tblSupplier', 'tblPembelian.idSupplier', 'tblSupplier.kdSupplier')

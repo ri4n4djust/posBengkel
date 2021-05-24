@@ -158,6 +158,7 @@ Route::delete('/user/{id?}', 'loginController@destroy');
 Route::get('/penjualan', 'penjualanController@index');
 Route::get('/penjualanjasa', 'penjualanController@LaporanJasa');
 Route::get('/laporanpiutang', 'penjualanController@laporanPiutang');
+
 Route::get('/penjualanbulanan', 'penjualanController@laporanBulanan');
 Route::post('/lapPenjualanBulanan', 'penjualanController@laporanBulananSorting');
 Route::post('/dataPiutang', 'penjualanController@piutangPelanggan');
@@ -170,6 +171,7 @@ Route::delete('/hapuspenjualan/{id?}', 'penjualanController@destroy1');
 Route::get('/pembelian', 'pembelianController@index');
 Route::post('/lapPembelian', 'pembelianController@sorting');
 Route::post('/detailpembelian/{id}', 'pembelianController@listDetailPembelian');
+Route::get('/laporanhutang', 'pembelianController@laporanHutang');
 
 //=========Stok
 Route::post('/detailstok/{id}', 'stokController@DetailStok');
