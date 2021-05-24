@@ -67,6 +67,8 @@ import CreateCustComponent from './components/pelanggan/Create.vue';
 import EditCustComponent from './components/pelanggan/Edit.vue';
 
 import CreatePembelian from './components/PembelianCreate.vue';
+import CreateGrandBeli from './components/GrandBeliCreate.vue';
+
 import CreatePenjualan from './components/PenjualanCreate.vue';
 import CreateGrandJual from './components/GrandJualCreate.vue';
 
@@ -129,6 +131,7 @@ const routes = [
     { name: 'lift', path: '/lift', component: liftComponent },
     //=======Pembelian
     { name: 'pembelian', path: '/pembelian', component: CreatePembelian },
+    { name: 'grandbeli', path: '/grandbeli', component: CreateGrandBeli },
     //=======Penjualan
     { name: 'penjualan', path: '/penjualan', component: CreatePenjualan },
     { name: 'grandjual', path: '/grandjual', component: CreateGrandJual },

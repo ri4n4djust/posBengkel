@@ -94,6 +94,7 @@ Route::post('/noNota/{id}', 'nomorController@noNota');
 Route::get('/kodeBarang', 'nomorController@kodeBarang');
 Route::get('/kodeKategori', 'nomorController@kodeKategori');
 Route::get('/notaGrandJual', 'nomorController@noNotaGrandJual');
+Route::get('/notaGrandBeli', 'nomorController@noNotaGrandBeli');
 Route::get('/kodePembelian', 'nomorController@kodePembelian');
 Route::get('/kodePenjualan', 'nomorController@noNota');
 Route::get('/kodeSupplier', 'nomorController@kodeSupplier');
@@ -110,10 +111,17 @@ Route::get('/username', 'nomorController@kodeUsername');
 //=========Pembelian
 Route::post('/addItemPembelian/store', 'pembelianController@addItemPembelian');
 Route::post('/dataPembelian/{id}', 'pembelianController@listTransaksiPembelian');
+Route::post('/dataHutang', 'pembelianController@hutangSupplier');
 Route::post('/totalTrxPembelian', 'pembelianController@totalTrxPembelian');
 Route::delete('/pembelianDelete/{id?}', 'pembelianController@destroy1');
 Route::post('/addPembelian/store', 'pembelianController@addTransaksiPembelian');
 Route::delete('/hapuspembelian/{id?}', 'pembelianController@hapusPembelian');
+
+//=========GrandBeli
+Route::post('/insertgrandbeli', 'GrandBeliController@insert');
+Route::post('/grandBeli/store', 'GrandBeliController@saveGrandBeli');
+Route::delete('/hapusgrandbeli/{id?}', 'GrandJualController@destroy1');
+Route::post('/detailgrandbeli/{id}', 'GrandJualController@detailGrandJual');
 
 //=========Penjualan
 Route::post('/addItemPenjualan/store', 'penjualanController@addItemPenjualan');

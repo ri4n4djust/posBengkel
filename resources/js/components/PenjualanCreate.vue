@@ -138,7 +138,7 @@
                     </div>
                     </form>
 
-                    <form  @submit.prevent="PostJasaPenjualan" id="anyName" >
+                    <form  @submit.prevent="PostJasaPenjualan" >
                     <div class="row">
                         <div class="col-xs-4">
                           <label>Jasa</label>

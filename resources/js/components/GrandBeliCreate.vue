@@ -1,0 +1,432 @@
+<template>
+    <div class="mt-3">
+
+        <section class="content">
+
+      <div class="row">
+        <div class="col-md-3">
+
+          <!-- About Me Box -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Grand Beli</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+
+                <p class="text-muted text-center">
+                <date-picker v-model="tglGrandBeli" value-type="format" format="YYYY/MM/DD"></date-picker>
+                </p>
+                <p class="text-muted text-center">
+                  <div class="input-group">
+                  <span class="input-group-addon">Supplier</span>
+                <vue-single-select
+                            v-model="post"
+                            :options="posts"
+                            :required="true"
+                            optionLabel="nmSupplier"
+                            
+                ></vue-single-select>
+                  </div>
+               
+                <p class="text-muted text-center">
+                  <div class="input-group">
+                  <span class="input-group-addon">INV.</span>
+                <input type="text" class="form-control" v-model="noNotaGrandBeli" placeholder="No">
+                  </div>
+                
+                <h3 class="profile-username text-center">Total {{ total  || 0 | currency }}</h3>
+                <h3 class="profile-username text-center">Total Bayar {{ totalExpense  || 0 | currency }}</h3>
+                
+                <p class="text-muted text-center">
+                  <form @submit.prevent="loadHutang">
+                    <input type="hidden" class="form-control" v-model="post.kodePelanggan" placeholder="No nota">
+                   <button type="submit"  class="btn btn-primary btn-block">Cari Nota</button>
+                  </form>
+                  <br>
+                    <a href="#" @click="paymentGrandJual()" class="btn btn-primary btn-block"><b>Payment</b></a>
+                
+              
+            </div>
+            <!-- /.box-body -->
+
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-9">
+          
+
+                <div class="box box-danger">
+                    <div class="box-header with-border">
+                    <h3 class="box-title">Cari Invoice</h3>
+                    </div>
+                    <div class="box-body">
+
+                 
+                  
+                    </div>
+                    
+                    <!-- /.box-body -->
+                   </div>
+                   
+                <!-- /.box -->
+                
+              
+                
+                <table class="table table-hover table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>No Nota </th>
+                                    <th>Tgl Nota</th>
+                                    <th>Jth Tempo</th>
+                                    <th>Total Piutang</th>
+                                    <th>Bayar Nota</th>
+                                    <th>Sisa Piutang</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="(pe, index) in pem" :key="pe.index">
+                                  
+                                    <td ><input type="text" class="form-control xs-3" v-model="pem[index].noNotaPembelian" disabled /> </td>
+                                    <td ><input type="text" class="form-control xs-3" v-model="pem[index].tglNotaPembelian" disabled /></td>
+                                    <td ><input type="text" class="form-control xs-3" v-model="pem[index].jthTempoPembelian" disabled /></td>
+                                    <td>{{ pe.hutangPembelian | currency }}</td>
+                                    <td><input type="text" v-model="bayar[index]" @keyup="getTotalPay()"></td>
+                                    <td>{{ pe.hutangPembelian - bayar[index] | currency }} </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                      <div v-for="(pe, index) in pem" :key="pe.index">
+                        <form id="form1" @submit.prevent="updateData(index)" >
+                          <input type="hidden" class="form-control xs-3" v-model="pem[index].noNotaPembelian" disabled /> <br>
+                          <input type="hidden" class="form-control xs-3" v-model="pem[index].tglNotaPembelian" disabled /><br>
+                          <input type="hidden" class="form-control xs-3" v-model="pem[index].jthTempoPembelian" disabled /><br>
+                          <input type="hidden" v-model="bayar[index]" @keyup="getTotalPay()">
+                          <input type="hidden" class="form-control xs-3" :value="pem[index].hutangPembelian - bayar[index]" :name="sisaHutang[index]" disabled /><br>
+                        
+
+                        </form>
+                      </div>
+                  
+
+          <!-- /.nav-tabs-custom -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+    </section>
+
+<!-- /Modal -->
+ <div v-if="showModalBayar">
+    <transition name="modal">
+      <div class="modal-mask">
+        <div class="modal-wrapper">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" @click="showModalBayar=false">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Add Payment</h4>
+              </div>
+              <div class="modal-body">
+                
+                <form  @submit.prevent="PostGrandBeli" >
+                  <input type="hidden" class="form-control" v-model="tglGrandBeli" >
+                <input type="text" class="form-control" v-model="post.kdSupplier" placeholder="Customer">
+                <input type="text" class="form-control" v-model="totalExpense">
+                
+
+                <p class="text-muted text-center">
+                <h3 class="profile-username ">Total </h3>
+              <br>
+                            <select class='form-control' v-model='pembayaran' >
+                                <option value='1' selected>Cash</option>
+                                <option value='2'>Debit / Bank Transfer</option>
+                                <option value='3'>E-Money</option>
+                            </select>
+                            <br>
+                            <div v-if="pembayaran === '1'">
+                              <div class="input-group">
+                                    <span class="input-group-addon">Rp.</span>
+                                    <input type="number" class="form-control" v-model="totalBayar" @change="bayar()" placeholder="Bayar" required>
+                                  </div>
+                                  
+                                  <p class="text-muted text-center">
+                                  <button type="submit"  class="btn btn-md btn-success" >Bayar</button> 
+                                  </p>
+                            </div>
+                            <div v-else-if="pembayaran === '2'">
+                                  <div class="input-group">
+                                    <span class="input-group-addon">Card No.</span>
+                                    <input type="number" class="form-control" v-model="noDebit" placeholder="No Kartu" >
+                                  </div>
+                                  <p>
+                                  <div class="input-group">
+                                    <span class="input-group-addon">Rp.</span>
+                                    <input type="number" class="form-control" v-model="totalBayar" @keyup="bayar()" placeholder="Bayar" required>
+                                  </div>
+                                  <br>
+                                  <p class="text-muted text-center">
+                                  
+                                  <button type="submit"  class="btn btn-md btn-success" >Bayar</button>       
+                                  </p>
+                            </div>
+                            <div v-else-if="pembayaran === '3'">
+                              Emoney
+                            </div>
+
+               
+              </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+  </div>
+
+ 
+
+    
+    </div>
+
+      
+  
+  
+</template>
+
+
+<script>
+  import DatePicker from 'vue2-datepicker';
+  import 'vue2-datepicker/index.css';
+  import VueSingleSelect from "vue-single-select";
+  
+    export default {
+        components: { DatePicker, VueSingleSelect },         
+        data() {
+            return {
+                post: {},
+                posts: [],
+                post1: {},
+                users: {},
+                pem: [],
+                sisaHutang: [],
+                hasilJson: [],
+                totalBayar: '',
+                subtotal: '',
+                ntp:'',
+                
+                pembayaran: '1',
+                pelanggan: 'PL-2021-1',
+                piutangPenjualan: '',
+                bayarpiutang: {},
+                noDebit: '',
+                totalx: '',
+                noNotaGrandBeli: '',
+                totalPenjualan: '',
+                tglGrandBeli: new Date().toJSON().slice(0,10).replace(/-/g,'/'),
+                validation: [],
+                showModal: false,
+                showModalMenu: false,
+                showModalBayar: false,
+                totalBayar:'',
+                bayar: [],
+                sum:'',
+                totalExpense: 0,
+            }
+        },
+
+       watch: {
+          post: function() {
+            this.$emit('input', this.post);
+          },
+        },
+        //props: ['value'],
+        props: {
+
+          value: { require: true },
+          options: {
+            type: Array,
+            required: false,
+            default: () => []
+          },
+          optionLabel: {
+            type: String,
+            required: false,
+            default: () => null
+          },
+          optionKey: {
+            type: String,
+            required: false,
+            default: () => null
+          },
+          placeholder: {
+            type: String,
+            required: false,
+            default: () => "Cari Barang"
+          },
+          getOptionDescription: {
+            type: Function,
+            default(option) {
+              if (this.optionKey && this.optionLabel) {
+                return option[this.optionKey] + " - " + option[this.optionLabel];
+              }
+              if (this.optionLabel) {
+                return option[this.optionLabel];
+              }
+              if (this.optionKey) {
+                return option[this.optionKey];
+              }
+                  return option;
+            }
+          },
+          
+          
+
+        },
+
+        computed: {
+                total: function() {
+                    if (!this.pem) {
+                        return 0;
+                    }
+                    return this.pem.reduce(function (piutangNota, pe) {
+                        return piutangNota + Number(pe.piutangNota);
+                    }, 0);
+                }
+          },
+          
+
+        methods: {
+          updateData: function(index) {
+                
+                for (var index of Object.keys(this.pem)) {
+                    let uri = '/api/insertgrandbeli';
+                    this.axios.post(uri, {
+                      kdGrandBeli: this.noNotaGrandBeli, 
+                      noNotaPembelian: this.pem[index].noNotaPembelian, 
+                      tglNotaPembelian: this.pem[index].tglNotaPembelian, 
+                      bayar: this.bayar[index],
+                      typeBayarGrandBeli: this.pembayaran,
+                      user: this.$session.get('userId'),
+                      }).then(response => {
+                    //this.subtotal = response.data.subTotalJual;
+                    }).catch(error => {
+                        console.log(error.response)
+                    });
+                }
+              //alert('grand jual berhasil di input')
+
+          },
+           getTotalPay() {
+             this.totalExpense = this.bayar.reduce((sum, val) => {
+                return Number(sum) + Number(val);
+              });
+          },
+          paymentGrandJual() {
+            this.showModalBayar = true;
+            //alert("hahaha" + id);
+            this.getTotalPay();
+
+        },
+        
+          onlyNumber ($event) {
+                //console.log($event.keyCode); //keyCodes value
+                let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
+                if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) { // 46 is dot
+                    $event.preventDefault();
+                }   
+            },
+            loadNoGrandBeli:function(){
+                let uri = `/api/notaGrandBeli`;
+                this.axios.get(uri).then(response => {
+                this.noNotaGrandBeli = response.data.noNotaGrandBeli;
+                
+            });
+            },
+            LoadSupplier() {
+              let uri = '/api/supplier';
+              this.axios.get(uri).then(response => {
+                  this.posts = response.data.data;
+              });
+            },
+            loadTotal:function(){
+                let uri = '/api/totalTrxPenjualan';
+                this.axios.post(uri, {
+                    ntp: this.noNotaGrandJual,
+                }).then(response => {
+                  //alert('mount' + this.noNotaPembelian)
+                this.subtotal = response.data.subTotalJual;
+                }).catch(error => {
+                    console.log(error.response)
+                });
+            },
+            loadHutang:function(){
+                let uri = '/api/dataHutang';
+                this.axios.post(uri, {
+                  supplier: this.post.kdSupplier,
+                }).then(response => {
+                    this.pem = response.data.data;
+                    //this.totalAmount();
+                   // alert('no nota '+ this.data.noNota);
+                }).catch(error => {
+                    console.log(error.response)
+                });
+            },
+            PostDeleteTrx(id)
+            {
+              if(confirm("Do you really want to delete?" + id)){
+                this.axios.delete(`/api/penjualanDelete/${id}`)
+                    .then(response => {
+                        alert('Berhasil Di Hapus');
+                        this.loadTotal()
+                        this.loadTransaksiPenjualan()
+                    }).catch(error => {
+                    
+                });
+              }
+            },
+            
+            PostGrandBeli() {
+                let uri = '/api/grandBeli/store';
+                this.axios.post(uri, 
+                {
+                    kdGrandBeli: this.noNotaGrandBeli,
+                    tglGrandBeli: this.tglGrandBeli,
+                    kdSupplier: this.post.kdSupplier,
+                    typeBayarGrandBeli : this.pembayaran,
+                    totalGrandBeli: this.totalExpense,
+                    user: this.$session.get('userId'),
+                    
+                })
+                    .then((response) => {
+                        this.updateData();
+                        alert('Transaksi Selesai');
+                        this.$router.go(0);
+                        //this.$router.push({name: 'pembelian'});
+                    });
+                
+            }
+        },
+        mounted(){
+
+        },
+        beforeCreate: function () {
+            if (!this.$session.exists()) {
+            this.$router.push('/')
+            };
+            //this.loadNotaPenjualan();
+        },
+        created() {
+            this.loadNoGrandBeli();
+            //this.loadBarang();
+            this.LoadSupplier();
+            //this.loadPiutang();
+
+        },
+    }
+</script>

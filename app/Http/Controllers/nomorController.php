@@ -16,6 +16,7 @@ use App\Kategori;
 use App\StokOpname;
 use App\Pelanggan;
 use App\GrandJual;
+use App\GrandBeli;
 use App\Motor;
 use App\Mekanik;
 use App\Lift;
@@ -106,6 +107,49 @@ class nomorController extends Controller
             }
         }
     }
+
+    public function noNotaGrandBeli()
+    {
+        $count = GrandBeli::all();
+        if($count->isEmpty()){
+            $tahun = date('Y');
+            $bulan = date('m');
+            $post = 'GB'.$tahun.$bulan.'1';
+            return response()->json([
+                'success' => true,
+                'message' => 'Detail Post!',
+                'noNotaGrandBeli'    => $post
+            ], 200);
+        }else{
+            $no = 0 ;
+            $count = GrandBeli::all()->last();
+            $terakhir = substr($count->kdGrandBeli, 8);
+            $kodeBaru = $terakhir + 1  ;
+            $bulan = date('m');
+            $tahun = date('Y');
+            $post = 'GB'.$tahun.$bulan.$kodeBaru;
+
+            
+
+            if (GrandBeli::where('kdGrandBeli', $post)->exists()) {
+                $kodeBarulagi = $kodeBaru + 1 ;
+                $post = 'GB'.$tahun.$bulan.$kodeBarulagi;
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Detail Post!',
+                    'noNotaGrandBeli'    => $post
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Post Tidak Ditemukan!',
+                    'noNotaGrandBeli'    => $post
+                ], 200);
+            }
+        }
+    }
+
+
     public function kodeBarang()
     {
         $count = Barang::all();
