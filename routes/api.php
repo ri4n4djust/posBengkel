@@ -120,8 +120,8 @@ Route::delete('/hapuspembelian/{id?}', 'pembelianController@hapusPembelian');
 //=========GrandBeli
 Route::post('/insertgrandbeli', 'GrandBeliController@insert');
 Route::post('/grandBeli/store', 'GrandBeliController@saveGrandBeli');
-Route::delete('/hapusgrandbeli/{id?}', 'GrandJualController@destroy1');
-Route::post('/detailgrandbeli/{id}', 'GrandJualController@detailGrandJual');
+Route::delete('/hapusgrandbeli/{id?}', 'GrandBeliController@destroy1');
+Route::post('/detailgrandbeli/{id}', 'GrandBeliController@detailGrandBeli');
 
 //=========Penjualan
 Route::post('/addItemPenjualan/store', 'penjualanController@addItemPenjualan');
@@ -142,6 +142,9 @@ Route::post('/detailgrandjual/{id}', 'GrandJualController@detailGrandJual');
 
 //======LaporanGrandJual
 Route::get('/laporangrandjual', 'GrandJualController@laporanGrandJual');
+
+//======LaporanGrandBeli
+Route::get('/laporangrandbeli', 'GrandBeliController@laporanGrandBeli');
 
 //=======live Order
 Route::get('/orderlist', 'mejaController@listOrder');

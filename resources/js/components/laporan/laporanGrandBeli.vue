@@ -227,7 +227,7 @@ import 'vue2-datepicker/index.css';
 import VueSingleSelect from "vue-single-select";
 
 
-import ActionButtons from './componentAksiGrandJual.vue';
+import ActionButtons from './componentAksiGrandBeli.vue';
 Vue.component("data-table", DataTable);
     export default {
         components: { DatePicker, VueSingleSelect,  },
@@ -257,23 +257,23 @@ Vue.component("data-table", DataTable);
                     //name: "ActionButtons",
                     columns: [
                         {
-                            key: "kdGrandJual",
-                            title: "No Nota",
+                            key: "kdGrandBeli",
+                            title: "No Grand Beli",
                             sortable: false,
                         },
                         {
-                            key: "namaPelanggan",
-                            title: "Pelanggan",
+                            key: "nmSupplier",
+                            title: "Supplier",
                             sortable: false,
                         },
                         {
-                            key: "tglGrandJual",
+                            key: "tglGrandBeli",
                             title: "Tgl Transaksi",
                             sortable: false,
                         },
                         
                         {
-                            key: "totalGrandJual",
+                            key: "totalGrandBeli",
                             title: "Total",
                             sortable: false,
                             searchable: false,
@@ -303,7 +303,7 @@ Vue.component("data-table", DataTable);
             }
         },
         created() {
-            let uri = '/api/laporangrandjual';
+            let uri = '/api/laporangrandbeli';
             this.axios.get(uri).then(response => {
                 this.posts = response.data.data;
             });
@@ -316,7 +316,7 @@ Vue.component("data-table", DataTable);
             
             PostDelete(id, index)
             {
-                this.axios.delete(`/api/penjualan/${id}`)
+                this.axios.delete(`/api/pembelian/${id}`)
                     .then(response => {
                         this.posts.splice(index, 1);
                     }).catch(error => {
@@ -324,7 +324,7 @@ Vue.component("data-table", DataTable);
                 });
             },
             lapPenjualan() {
-                let uri = '/api/lapPenjualan';
+                let uri = '/api/lapPembelian';
                 this.axios.post(uri, 
                 {
                     startDate: this.startDate,

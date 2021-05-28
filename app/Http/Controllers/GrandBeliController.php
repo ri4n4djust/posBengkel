@@ -47,9 +47,9 @@ class GrandBeliController extends Controller
     
     }
 
-    public function laporanGrandJual(){
-        $post = GrandJual::join('tblPelanggan', 'tblGrandJual.kodePelanggan', 'tblPelanggan.kodePelanggan')
-                            ->select('tblGrandJual.*', 'tblPelanggan.namaPelanggan')
+    public function laporanGrandBeli(){
+        $post = GrandBeli::join('tblSupplier', 'tblGrandBeli.kdSupplier', 'tblSupplier.kdSupplier')
+                            ->select('tblGrandBeli.*', 'tblSupplier.nmSupplier')
                             ->get();
         return response()->json([
             'success' => true,
@@ -58,10 +58,10 @@ class GrandBeliController extends Controller
         ], 200);
     }
 
-    public function detailGrandJual($id)
+    public function detailGrandBeli($id)
     {
         //$post = TransaksiDetail::whereId($id)->first();
-        $post = GrandJualDetail::where('kdGrandJual', $id)
+        $post = GrandBeliDetail::where('kdGrandBeli', $id)
                     ->get();
 
         if ($post) {
@@ -83,21 +83,21 @@ class GrandBeliController extends Controller
     public function destroy1($id)
     {
         
-        $post = GrandJual::findOrFail($id);
+        $post = GrandBeli::findOrFail($id);
 
-        $noGrandJual = $post->kdGrandJual;
+        $noGrandBeli = $post->kdGrandJual;
 
-        $post1 = GrandJualDetail::where('kdGrandJual', $noGrandJual)->first();
-        $noGJ = $post1->kdGrandJual;
-        $totalGJ = $post1->totalGrandJual;
+        $post1 = GrandBeliDetail::where('kdGrandBeli', $noGrandBeli)->first();
+        $noGB = $post1->kdGrandBeli;
+        $totalGB = $post1->totalGrandBeli;
         //$satuanJual = $post->satuanJual;
 
-        $pjl = DB::table('tblPenjualan')->where('noNota', $noGJ)->first();
-        $PiutangLama = $pjl->piutangNota;
-        DB::table('tblPenjualan')->where('noNota', $noGJ)->update([
-                'piutangNota'     => $piutangLama + $totalGJ
+        $pjl = DB::table('tblPembelian')->where('noNotaPembelian', $noGB)->first();
+        $HutangLama = $pjl->hutangPembelian;
+        DB::table('tblPembelian')->where('noNotaPembelian', $noGB)->update([
+                'hutangPembelian'     => $HutangLama + $totalGB
         ]);
-        GrandJualDetail::where('kdGrandJual', $noGJ)->delete();
+        GrandBeliDetail::where('kdGrandBeli', $noGB)->delete();
         //Jasajual::where('noNotaPenjualan', $noNotaPenjualan)->delete();        
 
         $post->delete();
