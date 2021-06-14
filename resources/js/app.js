@@ -72,7 +72,7 @@ import CreateGrandBeli from './components/GrandBeliCreate.vue';
 import CreatePenjualan from './components/PenjualanCreate.vue';
 import CreateGrandJual from './components/GrandJualCreate.vue';
 
-
+import MasterSPComponent from './components/MasterSparepart.vue';
 
 import LaporanPenjualanComponent from './components/laporan/laporanPenjualan.vue';
 import LaporanPiutangComponent from './components/laporan/laporanPiutang.vue';
@@ -128,6 +128,8 @@ const routes = [
     { name: 'editPelanggan', path: '/pelanggan/edit/:id', component: EditCustComponent },
     //=============Mekanik
     { name: 'mekanik', path: '/mekanik', component: mekanikComponent },
+    //=============Master SP
+    { name: 'mastersparepart', path: '/mastersparepart', component: MasterSPComponent },
     //=============Jasa
     { name: 'jasa', path: '/jasa', component: jasaComponent },
     //=============Lift
