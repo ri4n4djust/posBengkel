@@ -29,6 +29,7 @@
           <ul class="treeview-menu">
             <li><a href="{{url('/barang')}}"><i class="fa fa-circle-o"></i>Daftar Barang</a></li>
             <li><a href="{{url('/jasa')}}"><i class="fa fa-circle-o"></i>Daftar Jasa</a></li>
+            <li><a href="{{url('/mastersparepart')}}"><i class="fa fa-circle-o"></i>Master Spare Part</a></li>
             <li><a href="{{url('/kategori')}}"><i class="fa fa-circle-o"></i>Kategori Barang</a></li>
             <li><a href="{{url('/stokopname')}}"><i class="fa fa-circle-o"></i>Stok Opname</a></li>
           </ul>
