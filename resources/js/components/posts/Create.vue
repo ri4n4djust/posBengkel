@@ -28,6 +28,7 @@
                                 </div>
                             </div>
 
+                            <span v-if="adminuser === 'Admin'">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Harga. Beli</label>
                                 <div class="col-sm-8">
@@ -53,6 +54,10 @@
                                 </div>
                                 </div>
                             </div>
+                            </span>
+                            <span v-else>
+                                Harga
+                            </span>
 
                             <div class="form-group">
                             <label class="col-sm-3 control-label">Kategori:</label>
@@ -190,7 +195,7 @@ Vue.component(VueBarcode.name, VueBarcode);
         created: function(){
             this.loadKdBarang()
             this.getCountries()
-            
+            this.adminuser = this.$session.get('roleID');
             
         },
         beforeCreate: function () {

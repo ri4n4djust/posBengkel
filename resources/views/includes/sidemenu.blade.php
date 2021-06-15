@@ -48,6 +48,7 @@
             <li><a href="{{url('/lift')}}"><i class="fa fa-circle-o"></i>Lift</a></li>
             <li><a href="{{url('/motor')}}"><i class="fa fa-circle-o"></i>Motor</a></li>
             <li><a href="{{url('/user')}}"><i class="fa fa-circle-o"></i>User</a></li>
+            <li><a href="{{url('/setting')}}"><i class="fa fa-circle-o"></i>Setting</a></li>
           </ul>
         </li>
         <li class="treeview">

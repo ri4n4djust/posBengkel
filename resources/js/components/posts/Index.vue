@@ -12,11 +12,8 @@
                   Login As {{ this.$session.get('user') }} | Role : {{ this.$session.get('roleID') }} 
                   <button type="button" class="btn-sm btn-success" @click="logout()">Log Out</button>
               </h5>
-
-              
             </div>
             <!-- /.box-header -->
-
           </div>
           <!-- /.box -->
         </div>
@@ -86,18 +83,7 @@ Vue.component("data-table", DataTable, VueBarcode);
                             title: "Nama Barang",
                             sortable: false,
                         },
-                        {
-                            key: 'hrgPokok',
-                            title: "Harga Pokok",
-                            sortable: false,
-                            searchable: false,
-                        },
-                        {
-                            key: "hrgJual",
-                            title: "Harga Jual",
-                            sortable: false,
-                            searchable: false,
-                        },
+                        
                         {
                             key: "stkBarang",
                             title: "Stok",
@@ -113,18 +99,6 @@ Vue.component("data-table", DataTable, VueBarcode);
                         {
                             key: "namaKtg",
                             title: "Kategori",
-                            sortable: false,
-                            searchable: false,
-                        },
-                        {
-                            key: "qtyMin",
-                            title: "Qty Min",
-                            sortable: false,
-                            searchable: false,
-                        },
-                        {
-                            key: "qtyMax",
-                            title: "Qty Max",
                             sortable: false,
                             searchable: false,
                         },

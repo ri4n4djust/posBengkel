@@ -73,6 +73,7 @@ import CreatePenjualan from './components/PenjualanCreate.vue';
 import CreateGrandJual from './components/GrandJualCreate.vue';
 
 import MasterSPComponent from './components/MasterSparepart.vue';
+import SettingComponent from './components/MasterHarga.vue';
 
 import LaporanPenjualanComponent from './components/laporan/laporanPenjualan.vue';
 import LaporanPiutangComponent from './components/laporan/laporanPiutang.vue';
@@ -130,6 +131,8 @@ const routes = [
     { name: 'mekanik', path: '/mekanik', component: mekanikComponent },
     //=============Master SP
     { name: 'mastersparepart', path: '/mastersparepart', component: MasterSPComponent },
+    //=============Setting Harga
+    { name: 'setting', path: '/setting', component: SettingComponent },
     //=============Jasa
     { name: 'jasa', path: '/jasa', component: jasaComponent },
     //=============Lift

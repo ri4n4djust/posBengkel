@@ -16,7 +16,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/tesprint', function () {
     return view('welcome');
 });
-
+Route::get('/sparepart', function () {
+    return view('pages.sparepart');
+});
+Route::get('/master', function () {
+    return view('pages.master');
+});
 
 Route::get('{any}', function () { 
     return view('pages.bengkel'); 
