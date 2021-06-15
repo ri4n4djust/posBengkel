@@ -26,8 +26,9 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Harga Pokok</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" v-model="post.hrgPokok"
+                                    <input type="text" @keyup="letterValue()" class="form-control" v-model="post.hrgPokok"
                                         placeholder="Harga Pokok" required>
+                                    <input type="text" class="form-control" v-model="str">
                                 </div>
                             </div>
 
@@ -139,6 +140,10 @@
                 selected : '',
                 country: 0,
                 countries: {},
+                hbeli: '',
+                hjual: '',
+                str: '',
+
                 
             }
         },
@@ -155,6 +160,11 @@
             });
         },
         methods: {
+            letterValue(){
+                var hr = this.post.hrgPokok;
+               console.log(hr);
+               return this.str = "A" ;
+            },
             PostUpdate() {
                 let uri = `/api/posts/update/${this.$route.params.id}`;
                 this.axios.post(uri, this.post)

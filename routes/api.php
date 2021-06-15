@@ -148,6 +148,9 @@ Route::get('/laporangrandbeli', 'GrandBeliController@laporanGrandBeli');
 
 //=======live Order
 Route::get('/orderlist', 'mejaController@listOrder');
+//=======Setup
+Route::get('/setup', 'setupController@index');
+Route::post('/updatesetup', 'setupController@Update');
 
 //========User
 Route::get('/user', 'loginController@index');

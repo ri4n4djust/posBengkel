@@ -13,52 +13,25 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-
-                <div class="input-group">
-                    <span class="input-group-addon">1</span>
-                    <input type="text" class="form-control" placeholder="Username">
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-addon">2</span>
-                    <input type="text" class="form-control" placeholder="Username">
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-addon">3</span>
-                    <input type="text" class="form-control" placeholder="Username">
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-addon">4</span>
-                    <input type="text" class="form-control" placeholder="Username">
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-addon">5</span>
-                    <input type="text" class="form-control" placeholder="Username">
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-addon">6</span>
-                    <input type="text" class="form-control" placeholder="Username">
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-addon">7</span>
-                    <input type="text" class="form-control" placeholder="Username">
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-addon">8</span>
-                    <input type="text" class="form-control" placeholder="Username">
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-addon">9</span>
-                    <input type="text" class="form-control" placeholder="Username">
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-addon">0</span>
-                    <input type="text" class="form-control" placeholder="Username">
-                  </div>
-                
-                <p class="text-muted text-center">
-                <a href="#" @click="showModalBayar = true" class="btn btn-primary btn-block"><b>Payment</b></a>
-                </p>
               
+              <div v-for="(post, index) in posts" :key="post.id">
+                <form id="form1" @submit.prevent="updateData(index)" >
+              <div class="row">
+                <div class="col-xs-6">
+                  <input type="hidden" class="form-control" v-model="posts[index].id" placeholder="Value">
+                  <input type="text" class="form-control" v-model="posts[index].noHrg" placeholder="Value" required>
+                </div>
+                <div class="col-xs-6">
+                  <input type="text" class="form-control" v-model="posts[index].codeHrg"  placeholder="Code" required>
+                </div>
+              </div>
+              </form>
+              </div>
+                <br>
+                <p class="text-muted text-center">
+                <button type="submit" @click="updateData()" class="btn btn-primary btn-block">Simpan</button>
+                </p>
+                
             </div>
             <!-- /.box-body -->
 
@@ -120,15 +93,42 @@
   export default {
         data() {
             return {
-               
+               posts: [],
+               post: [],
+               index: '',
             }
         },
 
        created() {
           //this.get();
+          this.loadKdHarga();
         },
 
         methods: {
+          loadKdHarga(){
+                let uri = '/api/setup';
+                this.axios.get(uri).then(response => {
+                this.posts = response.data.data;
+                });
+            },
+          updateData: function(index) {
+                
+                for (var index of Object.keys(this.posts)) {
+                    let uri = '/api/updatesetup';
+                    this.axios.post(uri, {
+                      id: this.posts[index].id,
+                      noHrg: this.posts[index].noHrg, 
+                      codeHrg: this.posts[index].codeHrg, 
+                      }).then(response => {
+                        
+                    }).catch(error => {
+                        console.log(error.response)
+                    });
+                }
+                this.loadKdHarga();
+              alert('Setup Complete')
+
+          },
             
         },
         
