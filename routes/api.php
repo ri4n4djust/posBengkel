@@ -150,6 +150,7 @@ Route::get('/laporangrandbeli', 'GrandBeliController@laporanGrandBeli');
 Route::get('/orderlist', 'mejaController@listOrder');
 //=======Setup
 Route::get('/setup', 'setupController@index');
+Route::get('/setup/{id}', 'setupController@codeharga');
 Route::post('/updatesetup', 'setupController@Update');
 
 //========User

@@ -18,6 +18,16 @@ class setupController extends Controller
         ], 200);
     }
 
+    public function codeharga($id)
+    {
+        $posts = Setup::where('noHrg', $id)->first();
+        return response([
+            'success' => true,
+            'message' => 'List Semua Supplier',
+            'data' => $posts
+        ], 200);
+    }
+
     public function Update(Request $request){
         Setup::whereId($request->input('id'))->update([
                     'noHrg'      => $request->input('noHrg'),

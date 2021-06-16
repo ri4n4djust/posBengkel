@@ -26,8 +26,10 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Harga Pokok</label>
                                 <div class="col-sm-8">
-                                    <input type="text" @keyup="letterValue()" class="form-control" v-model="post.hrgPokok"
+                                    <input type="text" class="form-control" v-model="post.hrgPokok"
                                         placeholder="Harga Pokok" required>
+                                      {{kdh}}
+                                      <a href="#" @click="letterValue()">klikkkk</a>
                                     <input type="text" class="form-control" v-model="str">
                                 </div>
                             </div>
@@ -140,9 +142,10 @@
                 selected : '',
                 country: 0,
                 countries: {},
-                hbeli: '',
-                hjual: '',
-                str: '',
+                kdh: [],
+                str: [],
+                hrg: [],
+                codeHrg: [],
 
                 
             }
@@ -157,13 +160,38 @@
             this.axios.get(uri).then((response) => {
                 this.post = response.data.data;
                 this.getCountries()
+                this.loadKdHarga()
             });
+            
         },
         methods: {
             letterValue(){
-                var hr = this.post.hrgPokok;
-               console.log(hr);
-               return this.str = "A" ;
+                //var hr = this.post.hrgPokok;
+                var convert = this.post.hrgPokok.split(" ");
+                var kdh = [];
+                var str = [];
+                for (convert of this.post.hrgPokok) {
+                    let uri = '/api/setup/'+ convert;
+                    this.axios.get(uri).then(response => {
+                    this.kdh = response.data.data.codeHrg;
+                     
+                       //this.str =  kdh;
+                        //const cars = new Array("Saab", "Volvo", "BMW");
+                        
+                        this.str = kdh ;
+                        //return this.kdh;
+                    });
+                    console.log(this.kdh)
+                }
+                
+                
+                
+            },
+            loadKdHarga(){
+                let uri = '/api/setup';
+                this.axios.get(uri).then(response => {
+                this.hrg = response.data.data;
+                });
             },
             PostUpdate() {
                 let uri = `/api/posts/update/${this.$route.params.id}`;
