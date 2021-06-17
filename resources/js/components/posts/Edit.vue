@@ -166,23 +166,29 @@
         },
         methods: {
             letterValue(){
-                //var hr = this.post.hrgPokok;
-                var convert = this.post.hrgPokok.split(" ");
-                var kdh = [];
-                var str = [];
-                for (convert of this.post.hrgPokok) {
-                    let uri = '/api/setup/'+ convert;
+                var hr = this.post.hrgPokok.length;
+                
+                for (var i=1;i<=hr;i++) {
+                var convert = this.post.hrgPokok.split("");
+                var kdh = '';
+                //var str = [];
+                for (convert of convert) {
+                    
+                    
+                    var str = '';
+                    let uri = '/api/setup/'+ convert++;
                     this.axios.get(uri).then(response => {
-                    this.kdh = response.data.data.codeHrg;
+                    kdh = response.data.data.codeHrg;
                     
-                        console.log(this.kdh)
+                    [i += kdh]
+                        console.log(i += kdh)
                         //this.str = kdh ;
-                        //return this.kdh;
                     });
-                    
+                    //str = i += kdh
+                    //console.log(kdh)
                 }
-                
-                
+                console.log(hr)
+                }
                 
             },
             loadKdHarga(){
