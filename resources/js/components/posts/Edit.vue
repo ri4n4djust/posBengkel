@@ -174,14 +174,12 @@
                     let uri = '/api/setup/'+ convert;
                     this.axios.get(uri).then(response => {
                     this.kdh = response.data.data.codeHrg;
-                     
-                       //this.str =  kdh;
-                        //const cars = new Array("Saab", "Volvo", "BMW");
-                        
-                        this.str = kdh ;
+                    
+                        console.log(this.kdh)
+                        //this.str = kdh ;
                         //return this.kdh;
                     });
-                    console.log(this.kdh)
+                    
                 }
                 
                 
