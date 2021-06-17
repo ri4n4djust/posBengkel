@@ -29,7 +29,7 @@
                                     <input type="text" class="form-control" v-model="post.hrgPokok"
                                         placeholder="Harga Pokok" required>
                                       {{kdh}}
-                                      <a href="#" @click="letterValue()">klikkkk</a>
+                                      <a href="#" @click="letterValue()">RUBAH LAGI</a>
                                     <input type="text" class="form-control" v-model="str">
                                 </div>
                             </div>
