@@ -89,6 +89,7 @@
             <li><a href="{{url('/laporanpiutang')}}"><i class="fa fa-circle-o"></i>Lap. Piutang</a></li>
             <li><a href="{{url('/laporanhutang')}}"><i class="fa fa-circle-o"></i>Lap. Hutang</a></li>
             <li><a href="{{url('/laporanstokopname')}}"><i class="fa fa-circle-o"></i>Lap. Stok Opname</a></li>
+            <li><a href="{{url('/laporanlaba')}}"><i class="fa fa-circle-o"></i>Lap. Laba</a></li>
           </ul>
         </li>
         

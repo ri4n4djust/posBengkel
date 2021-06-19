@@ -26,14 +26,13 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Harga Pokok</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" v-model="post.hrgPokok"
+                                    <input type="text" class="form-control" @keyup="letterValue()" v-model="post.hrgPokok"
                                         placeholder="Harga Pokok" required>
-                                      {{kdh}}
-                                      <a href="#" @click="letterValue()">RUBAH LAGI</a>
+                                     
                                     <input type="text" class="form-control" v-model="str">
                                 </div>
                             </div>
-                            {{hrg}}
+                            
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Harga Jual</label>
                                 <div class="col-sm-8">
@@ -56,7 +55,9 @@
                             <label class="col-sm-3 control-label">Barcode : </label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" v-model="post.barcode">
-                                <barcode v-model="post.barcode" :options="{ displayValue: true }"></barcode>
+                                <label class="col-sm-3 text-center">Barcode</label>
+                                <barcode v-model="post.barcode" :options="{ displayValue: true, text: Bacode }"></barcode>
+                                
                             </div>
                             </div>
 
@@ -121,6 +122,7 @@
                             <div class="form-group">
                                 <button type="submit" class="btn btn-md btn-success">UPDATE </button>
                                 <button @click.prevent="PostDeleteTrx(post.id)" class="btn btn-md btn-danger">HAPUS</button>
+                                <a href="#"  class="btn btn-primary btn-success">Print Barcode</a>
                                 <router-link :to="{ name: 'posts' }" class="btn btn-primary btn-success">KEMBALI</router-link>
                             
                             </div>
@@ -166,9 +168,9 @@
         },
         methods: {
             letterValue(){
-                var hr = this.hrg;
+                var hr = this.post.hrgPokok.length;
                 var a = [];
-                //for (var i=1;i<=hr;i++) {
+                //for (var a=1;a<=hr;a++) {
                     var convert = this.post.hrgPokok.split("");
                     var kdh = '';
                 //var str = [];
@@ -183,6 +185,7 @@
                     //console.log(a.split('').reverse().join(''));
                         console.log(a)
                         //this.str = kdh ;
+                        return this.str = a;
                     });
                     //str = i += kdh
                     
