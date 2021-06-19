@@ -33,7 +33,7 @@
                                     <input type="text" class="form-control" v-model="str">
                                 </div>
                             </div>
-
+                            {{hrg}}
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Harga Jual</label>
                                 <div class="col-sm-8">
@@ -166,29 +166,30 @@
         },
         methods: {
             letterValue(){
-                var hr = this.post.hrgPokok.length;
-                
-                for (var i=1;i<=hr;i++) {
-                var convert = this.post.hrgPokok.split("");
-                var kdh = '';
+                var hr = this.hrg;
+                var a = [];
+                //for (var i=1;i<=hr;i++) {
+                    var convert = this.post.hrgPokok.split("");
+                    var kdh = '';
                 //var str = [];
-                for (convert of convert) {
+                for (convert of this.post.hrgPokok.split("")) {
                     
-                    
-                    var str = '';
-                    let uri = '/api/setup/'+ convert++;
+                    //var str = '';
+                    let uri = '/api/setup/'+ convert;
                     this.axios.get(uri).then(response => {
                     kdh = response.data.data.codeHrg;
                     
-                    [i += kdh]
-                        console.log(i += kdh)
+                    a = a += kdh
+                    //console.log(a.split('').reverse().join(''));
+                        console.log(a)
                         //this.str = kdh ;
                     });
                     //str = i += kdh
-                    //console.log(kdh)
+                    
                 }
-                console.log(hr)
-                }
+                //console.log(this.hr)
+                //}
+
                 
             },
             loadKdHarga(){
