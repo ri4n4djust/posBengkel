@@ -114,6 +114,14 @@
                                           placeholder="Masukkan Konten" required></textarea>
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Gambar</label>
+                                <div class="col-sm-8">
+                                <input type="file" class="form-control" @change="avatarChange">
+                                <img :src="avatar" class="user-image">
+                                </div>
+                            </div>
                         
                                          
                     
@@ -130,6 +138,10 @@
                     </form>
 
             </div>
+
+            <div v-for="x in qtys" :key="x">
+
+            </div>
     </div>
 
 </template>
@@ -140,6 +152,7 @@
         data() {
             return {
                 post: {},
+                qtys: '',
                 validation: [],
                 selected : '',
                 country: 0,
@@ -148,6 +161,7 @@
                 str: [],
                 hrg: [],
                 codeHrg: [],
+                avatar: '',
 
                 
             }
@@ -195,6 +209,16 @@
 
                 
             },
+            avatarChange(e) {
+            //console.log(e.target.files[0])
+            var fileReader = new FileReader()
+            fileReader.readAsDataURL(e.target.files[0])
+            fileReader.onload = (e) => {
+              this.avatar = e.target.result
+            }
+            //console.log(this.item)
+          },
+
             loadKdHarga(){
                 let uri = '/api/setup';
                 this.axios.get(uri).then(response => {
