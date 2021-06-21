@@ -40,6 +40,7 @@ Route::post('category/create', 'CategoryController@create');
 Route::get('category/allCategories', 'CategoryController@allCategories');
 
 Route::get('merek', 'CategoryController@Semua');
+Route::post('/merek/create', 'CategoryController@createMerek');
 Route::get('jenis/{id}', 'CategoryController@Jenis');
 Route::get('type/{id}', 'CategoryController@Type');
 Route::get('tahun/{id}', 'CategoryController@Tahun');
@@ -115,6 +116,10 @@ Route::get('/kodeMekanik', 'nomorController@kodeMekanik');
 Route::get('/kodeJasa', 'nomorController@kodeJasa');
 Route::get('/kodeLift', 'nomorController@kodeLift');
 Route::get('/username', 'nomorController@kodeUsername');
+
+Route::get('/kodemerek', 'nomorController@kodeMerekMotor');
+Route::get('/kodejenis', 'nomorController@kodeJenisMotor');
+
 
 
 //=========Pembelian

@@ -21,6 +21,12 @@ use App\Motor;
 use App\Mekanik;
 use App\Lift;
 use App\Jasa;
+use App\MerekMotor;
+use App\JenisMotor;
+use App\TypeMotor;
+use App\TahunMotor;
+use App\KatSpMotor;
+use App\DetailPartMotor;
 use Illuminate\Support\Facades\DB;
 
 class nomorController extends Controller
@@ -574,6 +580,78 @@ class nomorController extends Controller
                     'success' => true,
                     'message' => 'Detail Post!',
                     'username'    => $post
+                ], 202);
+            }
+        }
+    }
+
+    public function kodeMerekMotor()
+    {
+        $count = MerekMotor::all();
+        if($count->isEmpty()){
+            $post = 'MTR'.'00'.'1';
+            return response()->json([
+                'success' => true,
+                'message' => 'Detail Post!',
+                'kdMerek'    => $post
+            ], 200);
+        }else{
+            $no = 0 ;
+            $count = MerekMotor::all()->last();
+            $terakhir = substr($count->kdMerek, 5,  20);
+            $kodeBaru = $terakhir + 1  ;
+
+            $post = 'MTR'.'00'.$kodeBaru;
+
+            if (MerekMotor::where('kdMerek', $post)->exists()) {
+                $kodeBarulagi = $kodeBaru + 1 ;
+                $post = 'MTR'.'00'.$kodeBarulagi;
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Detail Post!',
+                    'kdMerek'    => $post
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Detail Post!',
+                    'kdMerek'    => $post
+                ], 202);
+            }
+        }
+    }
+
+    public function kodeJenisMotor()
+    {
+        $count = JenisMotor::all();
+        if($count->isEmpty()){
+            $post = 'MTJ'.'00'.'1';
+            return response()->json([
+                'success' => true,
+                'message' => 'Detail Post!',
+                'kdJenis'    => $post
+            ], 200);
+        }else{
+            $no = 0 ;
+            $count = JenisMotor::all()->last();
+            $terakhir = substr($count->kdJenis, 5,  20);
+            $kodeBaru = $terakhir + 1  ;
+
+            $post = 'MTJ'.'00'.$kodeBaru;
+
+            if (JenisMotor::where('kdJenis', $post)->exists()) {
+                $kodeBarulagi = $kodeBaru + 1 ;
+                $post = 'MTJ'.'00'.$kodeBarulagi;
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Detail Post!',
+                    'kdJenis'    => $post
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Detail Post!',
+                    'kdJenis'    => $post
                 ], 202);
             }
         }

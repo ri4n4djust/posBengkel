@@ -67,19 +67,24 @@ class CategoryController extends Controller
         ], 200);
     }
 
-    public function create(Request $request){
-        $category = new Category;
-        $category->name = $request->name;
-        $category->parent_id = $request->parent_id; 
-        $category->save(); 
-        return response()->json($category, 200);
+    public function createMerek(Request $request){
+        $insert = MerekMotor::create([
+            'kdMerek'   => $request->input('kdMerek'),
+            'nmMerek'   => $request->input('nmMerek'),
+        ]);
+        if ($insert) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Post Berhasil Disimpan!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Post Gagal Disimpan!',
+            ], 400);
+        }
     }
 
-    public function allCategories()
-    {
-        $categories = Category::with('children')->whereNull('parent_id')->get();
-        return response()->json($categories, 200);
-    } 
 
 
 }
