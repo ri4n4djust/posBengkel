@@ -124,6 +124,27 @@ class CategoryController extends Controller
         }
     }
 
+    public function createTahun(Request $request){
+        $insert = TahunMotor::create([
+            'kdMerek'   => $request->input('kdMerek'),
+            'kdJenis'   => $request->input('kdJenis'),
+            'kdType'   => $request->input('kdType'),
+            'kdTahun'   => $request->input('kdTahun'),
+            'nmTahun'   => $request->input('nmTahun'),
+        ]);
+        if ($insert) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Post Berhasil Disimpan!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Post Gagal Disimpan!',
+            ], 400);
+        }
+    }
+
 
 
 }

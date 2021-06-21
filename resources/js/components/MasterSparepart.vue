@@ -325,6 +325,7 @@
             this.loadKdMerek();
             this.loadKdJenis();
             this.loadKdType();
+            this.loadKdTahun();
         },
         computed: {
             //newKode: function () {
@@ -448,6 +449,21 @@
                         this.getJenis();
                         this.getType();
                         this.modalTambahType = false;
+                    }).catch(error => {
+                    this.validation = error.response.data.data;
+                });
+            },
+
+            PostStoreTahun() {
+                let uri = '/api/tahun/create';
+                this.axios.post(uri, this.insert)
+                    .then((response) => {
+                        //this.$router.push({ name: 'pelanggan' });
+                        this.getMerek();
+                        this.getJenis();
+                        this.getType();
+                        this.getTahun();
+                        this.modalTambahTahun = false;
                     }).catch(error => {
                     this.validation = error.response.data.data;
                 });
