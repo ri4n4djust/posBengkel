@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 22 Bulan Mei 2021 pada 10.32
+-- Waktu pembuatan: 21 Jun 2021 pada 11.20
 -- Versi server: 10.4.18-MariaDB
--- Versi PHP: 8.0.3
+-- Versi PHP: 7.4.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,28 @@ SET time_zone = "+00:00";
 --
 -- Database: `bengkeldb`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `categories`
+--
+
+CREATE TABLE `categories` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `parent_id` int(10) UNSIGNED DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `categories`
+--
+
+INSERT INTO `categories` (`id`, `parent_id`, `name`, `created_at`, `updated_at`) VALUES
+(1, NULL, 'Laravel', '2021-06-21 01:29:31', '2021-06-21 01:29:31'),
+(2, 1, 'Vue js', '2021-06-21 01:29:46', '2021-06-21 01:29:46');
 
 -- --------------------------------------------------------
 
@@ -78,7 +100,17 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (26, '2021_04_13_201603_grand_jual_detail', 7),
 (27, '2021_05_07_164505_create_lifts_table', 8),
 (28, '2021_05_12_074653_create_jasas_table', 9),
-(29, '2021_05_12_075122_create_jasajuals_table', 10);
+(29, '2021_05_12_075122_create_jasajuals_table', 10),
+(30, '2021_05_24_154550_create_grand_belis_table', 11),
+(31, '2021_05_24_154817_create_grand_beli_details_table', 12),
+(32, '2021_06_15_162330_create_setups_table', 13),
+(33, '2021_06_21_063331_create_categories_table', 14),
+(34, '2021_06_21_101058_tbl_merek_motor', 15),
+(35, '2021_06_21_101239_tbl_jenis_motor', 16),
+(36, '2021_06_21_101448_tbl_type_motor', 17),
+(37, '2021_06_21_101643_tbl_tahun_motor', 18),
+(38, '2021_06_21_101956_tbl_kat_sp_motor', 19),
+(39, '2021_06_21_161344_tbl_detail_part_motor', 20);
 
 -- --------------------------------------------------------
 
@@ -91,6 +123,57 @@ CREATE TABLE `password_resets` (
   `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `provinsi`
+--
+
+CREATE TABLE `provinsi` (
+  `id_prov` char(2) NOT NULL,
+  `nama` tinytext NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data untuk tabel `provinsi`
+--
+
+INSERT INTO `provinsi` (`id_prov`, `nama`) VALUES
+('11', 'Aceh'),
+('12', 'Sumatera Utara'),
+('13', 'Sumatera Barat'),
+('14', 'Riau'),
+('15', 'Jambi'),
+('16', 'Sumatera Selatan'),
+('17', 'Bengkulu'),
+('18', 'Lampung'),
+('19', 'Kepulauan Bangka Belitung'),
+('21', 'Kepulauan Riau'),
+('31', 'DKI Jakarta'),
+('32', 'Jawa Barat'),
+('33', 'Jawa Tengah'),
+('34', 'DI Yogyakarta'),
+('35', 'Jawa Timur'),
+('36', 'Banten'),
+('51', 'Bali'),
+('52', 'Nusa Tenggara Barat'),
+('53', 'Nusa Tenggara Timur'),
+('61', 'Kalimantan Barat'),
+('62', 'Kalimantan Tengah'),
+('63', 'Kalimantan Selatan'),
+('64', 'Kalimantan Timur'),
+('65', 'Kalimantan Utara'),
+('71', 'Sulawesi Utara'),
+('72', 'Sulawesi Tengah'),
+('73', 'Sulawesi Selatan'),
+('74', 'Sulawesi Tenggara'),
+('75', 'Gorontalo'),
+('76', 'Sulawesi Barat'),
+('81', 'Maluku'),
+('82', 'Maluku Utara'),
+('91', 'Papua Barat'),
+('92', 'Papua');
 
 -- --------------------------------------------------------
 
@@ -122,14 +205,14 @@ CREATE TABLE `tblbarang` (
 --
 
 INSERT INTO `tblbarang` (`id`, `kdBarang`, `barcode`, `nmBarang`, `hrgPokok`, `hrgJual`, `ktgBarang`, `merek`, `stkBarang`, `stkSatuan`, `qtyMin`, `qtyMax`, `deskripsi`, `created_at`, `updated_at`, `satuanBarang`) VALUES
-(1, 'DB-2021-1', '123456', 'Kampas Kopling', 200000, 300000, 'KT-2021-1', 'NGK', '8', NULL, '2', '20', 'jjjhuh', '2021-03-26 11:23:36', '2021-05-09 12:29:30', 'Box'),
+(1, 'DB-2021-1', '123456', 'Kampas Kopling', 5, 300000, 'KT-2021-1', 'NGK', '11', NULL, '2', '20', 'jjjhuh', '2021-03-26 11:23:36', '2021-06-16 06:59:56', 'Box'),
 (2, 'DB-2021-2', '123', 'Busi', 9000, 15000, 'KT-2021-1', 'NGK', '26', NULL, '2', '4', 'Busi Ngk', '2021-04-06 10:42:47', '2021-05-09 12:29:48', 'PCS'),
-(3, 'DB-2021-3', '1234568766', 'Rantai Standart Supra X 100CC', 90000, 160000, 'KT-2021-1', 'Aspira', '24', NULL, '2', '100', 'Rantai Standart', '2021-04-15 05:26:03', '2021-04-15 05:26:03', 'PCS'),
-(5, 'DB-2021-4', '0987654321', 'Kampas Rem Vario 110', 50000, 60000, 'KT-2021-1', 'Aspira', '7', NULL, '2', '100', 'Kampas Rem Maut', '2021-04-15 05:29:06', '2021-04-15 05:29:06', 'PCS'),
+(3, 'DB-2021-3', '1234568766', 'Rantai Standart Supra X 100CC', 90000, 160000, 'KT-2021-1', 'Aspira', '23', NULL, '2', '100', 'Rantai Standart', '2021-04-15 05:26:03', '2021-04-15 05:26:03', 'PCS'),
+(5, 'DB-2021-4', '0987654321', 'Kampas Rem Vario 110', 50000, 60000, 'KT-2021-1', 'Aspira', '6', NULL, '2', '100', 'Kampas Rem Maut', '2021-04-15 05:29:06', '2021-04-15 05:29:06', 'PCS'),
 (6, 'DB-2021-5', '234', 'Speedo Meter Vario', 50000, 60000, 'KT-2021-1', 'Aspira', '36', NULL, '2', '100', 'Kampas Rem Maut', '2021-04-15 05:29:50', '2021-04-15 05:34:34', 'PCS'),
-(7, 'DB-2021-6', '789', 'Busi NGK Vario BOX', 200000, 300000, 'KT-2021-1', 'NGK', '13', NULL, '2', '10', 'Busi NGK 1Box', '2021-05-10 06:36:15', '2021-05-10 06:36:15', 'BOX'),
+(7, 'DB-2021-6', '789', 'Busi NGK Vario BOX', 200000, 300000, 'KT-2021-1', 'NGK', '23', NULL, '2', '10', 'Busi NGK 1Box', '2021-05-10 06:36:15', '2021-05-10 06:36:15', 'BOX'),
 (8, 'DB-2021-7', '789', 'Spul VArio 110', 190000, 250000, 'KT-2021-1', 'Astra', '4', NULL, '2', '20', 'Spul Untuk Vario 110 Karbu', '2021-05-10 06:41:03', '2021-05-10 06:41:03', 'PCS'),
-(9, 'DB-2021-8', '2546524', 'Oli Gardan', 5000, 15000, 'KT-2021-2', 'Mpx', '13', NULL, '5', '200', 'Oli Gardan', '2021-05-21 08:34:39', '2021-05-21 08:34:39', 'Botol'),
+(9, 'DB-2021-8', '2DP-E1631-00', 'PISTON YAMAHA', 5000, 15000, 'KT-2021-2', 'Mpx', '13', NULL, '5', '200', 'Oli Gardan', '2021-05-21 08:34:39', '2021-06-14 08:51:32', 'Botol'),
 (10, 'DB-2021-9', '12345687', 'Ban Dalam', 30000, 50000, 'KT-2021-1', 'Aspira', '24', NULL, '2', '50', 'Ban Dalam', '2021-05-21 08:37:55', '2021-05-21 08:37:55', 'PCS');
 
 -- --------------------------------------------------------
@@ -183,7 +266,104 @@ INSERT INTO `tbldetailjasajual` (`id`, `noNotaPenjualan`, `kdJasa`, `namaJasa`, 
 (80, 'INV20210525', 'JS-2021-1', 'Service Ringan', '50000', '1', '50000', '2021/05/21', '2021-05-21 08:23:57', '2021-05-21 08:23:57'),
 (81, 'INV20210526', 'JS-2021-2', 'Bongkar Mesin', '70000', '1', '70000', '2021/05/21', '2021-05-21 08:25:35', '2021-05-21 08:25:35'),
 (82, 'INV20210527', 'JS-2021-2', 'Bongkar Mesin', '70000', '1', '70000', '2021/05/21', '2021-05-21 08:28:51', '2021-05-21 08:28:51'),
-(83, 'INV20210528', 'JS-2021-1', 'Service Ringan', '50000', '1', '50000', '2021/05/21', '2021-05-21 09:10:00', '2021-05-21 09:10:00');
+(83, 'INV20210528', 'JS-2021-1', 'Service Ringan', '50000', '1', '50000', '2021/05/21', '2021-05-21 09:10:00', '2021-05-21 09:10:00'),
+(86, 'INV20210630', 'JS-2021-2', 'Bongkar Mesin', '70000', '1', '70000', '2021/06/12', '2021-06-12 02:02:55', '2021-06-12 02:02:55'),
+(87, 'INV20210631', 'JS-2021-2', 'Bongkar Mesin', '70000', '1', '70000', '2021/06/14', '2021-06-14 02:40:50', '2021-06-14 02:40:50');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tbldetailpartmotor`
+--
+
+CREATE TABLE `tbldetailpartmotor` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `kdDetail` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `kdType` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `kdTahun` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nmDetail` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `warnaDetail` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `gbrDetail` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `tbldetailpartmotor`
+--
+
+INSERT INTO `tbldetailpartmotor` (`id`, `kdDetail`, `kdType`, `kdTahun`, `nmDetail`, `warnaDetail`, `gbrDetail`, `created_at`, `updated_at`) VALUES
+(1, 'MTR001MTJ001VR001TH001', 'VR001', '2008', 'Vario Karbu 110', 'Putih', 'var.jpg', NULL, NULL),
+(2, 'MTR001MTJ001VR001TH001', 'VR001', '2008', 'Vario Karbu 110', 'Putih Hijau', 'vrh.jpg', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tblgrandbeli`
+--
+
+CREATE TABLE `tblgrandbeli` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `kdGrandBeli` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tglGrandBeli` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `kdSupplier` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `totalGrandBeli` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pembayaranGrandBeli` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `userGrandBeli` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `tblgrandbeli`
+--
+
+INSERT INTO `tblgrandbeli` (`id`, `kdGrandBeli`, `tglGrandBeli`, `kdSupplier`, `totalGrandBeli`, `pembayaranGrandBeli`, `userGrandBeli`, `created_at`, `updated_at`) VALUES
+(2, 'GB2021051', '2021/05/24', 'SP-2021-2', '20000', '1', '1', '2021-05-24 08:50:43', '2021-05-24 08:50:43'),
+(3, 'GB2021052', '2021/05/24', 'SP-2021-2', '20000', '1', '1', '2021-05-24 08:53:12', '2021-05-24 08:53:12'),
+(4, 'GB2021053', '2021/05/24', 'SP-2021-2', '20000', '1', '1', '2021-05-24 09:01:48', '2021-05-24 09:01:48'),
+(5, 'GB2021054', '2021/05/24', 'SP-2021-2', '20000', '1', '1', '2021-05-24 09:06:45', '2021-05-24 09:06:45'),
+(6, 'GB2021055', '2021/05/24', 'SP-2021-2', '689000', '2', '1', '2021-05-24 09:09:08', '2021-05-24 09:09:08'),
+(7, 'GB2021056', '2021/05/27', 'SP-2021-2', '4000000', '1', '1', '2021-05-27 07:50:50', '2021-05-27 07:50:50'),
+(8, 'GB2021057', '2021/05/27', 'SP-2021-2', '100000', '1', '1', '2021-05-27 07:51:16', '2021-05-27 07:51:16'),
+(9, 'GB2021068', '2021/06/12', 'SP-2021-2', '200000', '1', '1', '2021-06-12 01:16:51', '2021-06-12 01:16:51');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tblgrandbelidetail`
+--
+
+CREATE TABLE `tblgrandbelidetail` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `kdGrandBeli` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tglGrandBeli` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `noNotaPembelian` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `totalGrandBeli` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pembayaranGrandBeli` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `userGrandBeli` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `tblgrandbelidetail`
+--
+
+INSERT INTO `tblgrandbelidetail` (`id`, `kdGrandBeli`, `tglGrandBeli`, `noNotaPembelian`, `totalGrandBeli`, `pembayaranGrandBeli`, `userGrandBeli`, `created_at`, `updated_at`) VALUES
+(1, 'GB2021054', '2021/04/15', 'PB-2021-4', '20000', '1', '1', '2021-05-24 09:06:50', '2021-05-24 09:06:50'),
+(2, 'GB2021054', '2021/05/10', 'PB-2021-8', '0', '1', '1', '2021-05-24 09:06:50', '2021-05-24 09:06:50'),
+(3, 'GB2021054', '2021/05/10', 'PB-2021-11', '0', '1', '1', '2021-05-24 09:06:50', '2021-05-24 09:06:50'),
+(4, 'GB2021054', '2021/05/11', 'PB-2021-12', '0', '1', '1', '2021-05-24 09:06:50', '2021-05-24 09:06:50'),
+(5, 'GB2021055', '2021/05/10', 'PB-2021-8', '9000', '2', '1', '2021-05-24 09:09:09', '2021-05-24 09:09:09'),
+(6, 'GB2021055', '2021/05/10', 'PB-2021-11', '500000', '2', '1', '2021-05-24 09:09:09', '2021-05-24 09:09:09'),
+(7, 'GB2021055', '2021/05/11', 'PB-2021-12', '180000', '2', '1', '2021-05-24 09:09:09', '2021-05-24 09:09:09'),
+(8, 'GB2021056', '2021/05/10', 'PB-2021-8', '4000000', '1', '1', '2021-05-27 07:50:52', '2021-05-27 07:50:52'),
+(9, 'GB2021056', '2021/05/10', 'PB-2021-11', '0', '1', '1', '2021-05-27 07:50:52', '2021-05-27 07:50:52'),
+(10, 'GB2021056', '2021/05/27', 'PB-2021-15', '0', '1', '1', '2021-05-27 07:50:52', '2021-05-27 07:50:52'),
+(11, 'GB2021057', '2021/05/10', 'PB-2021-11', '100000', '1', '1', '2021-05-27 07:51:17', '2021-05-27 07:51:17'),
+(12, 'GB2021068', '2021/05/10', 'PB-2021-11', '200000', '1', '1', '2021-06-12 01:16:52', '2021-06-12 01:16:52'),
+(13, 'GB2021068', '2021/05/27', 'PB-2021-15', '0', '1', '1', '2021-06-12 01:16:53', '2021-06-12 01:16:53');
 
 -- --------------------------------------------------------
 
@@ -286,6 +466,31 @@ CREATE TABLE `tbljasa` (
 INSERT INTO `tbljasa` (`id`, `kdJasa`, `namaJasa`, `desJasa`, `biayaJasa`, `created_at`, `updated_at`) VALUES
 (1, 'JS-2021-1', 'Service Ringan', 'Membersihkan Karbu', '50000', '2021-05-13 01:38:28', '2021-05-13 01:38:28'),
 (2, 'JS-2021-2', 'Bongkar Mesin', 'Bongkar Kop', '70000', '2021-05-14 02:33:09', '2021-05-14 02:33:09');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tbljenismotor`
+--
+
+CREATE TABLE `tbljenismotor` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `kdMerek` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `kdJenis` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nmJenis` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `tbljenismotor`
+--
+
+INSERT INTO `tbljenismotor` (`id`, `kdMerek`, `kdJenis`, `nmJenis`, `created_at`, `updated_at`) VALUES
+(1, 'MTR001', 'MTJ001', 'MATIC', NULL, NULL),
+(2, 'MTR001', 'MTJ002', 'MANUAL', NULL, NULL),
+(3, 'MTR002', 'MTJ003', 'MATIC YAMAHA', NULL, NULL),
+(4, 'MTR002', 'MTJ004', 'MANUAL YAMAHA', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -419,11 +624,17 @@ INSERT INTO `tblkartustok` (`id`, `kdBarang`, `tglKartu`, `qtyMasuk`, `qtyKeluar
 (267, 'DB-2021-8', '2021/05/21', '0', '-5', 'OP-2021-3', 'Stok Opname-Hilang', 'Botol', '2021-05-21 09:08:34', '2021-05-21 09:08:34'),
 (268, 'DB-2021-8', '2021/05/21', '0', '1', 'INV20210528', 'Penjualan', 'Botol', '2021-05-21 09:09:47', '2021-05-21 09:09:47'),
 (269, 'DB-2021-9', '2021/05/21', '0', '1', 'INV20210528', 'Penjualan', 'PCS', '2021-05-21 09:09:53', '2021-05-21 09:09:53'),
-(270, 'DB-2021-2', '2021/05/21', '0', '1', 'INV20210529', 'Penjualan', 'PCS', '2021-05-21 09:13:56', '2021-05-21 09:13:56'),
 (271, 'DB-2021-8', '2021/05/21', '0', '1', 'INV20210529', 'Penjualan', 'Botol', '2021-05-21 09:14:03', '2021-05-21 09:14:03'),
-(272, 'DB-2021-5', '2021/05/22', '10', '0', 'PB-2021-15', 'Pembelian', 'PCS', '2021-05-22 04:28:51', '2021-05-22 04:28:51'),
-(273, 'DB-2021-6', '2021/05/22', '10', '0', 'PB-2021-15', 'Pembelian', 'BOX', '2021-05-22 04:28:59', '2021-05-22 04:28:59'),
-(274, 'DB-2021-2', '2021/05/22', '10', '0', 'PB-2021-15', 'Pembelian', 'PCS', '2021-05-22 04:30:09', '2021-05-22 04:30:09');
+(272, 'DB-2021-5', '2021/05/27', '10', '0', 'PB-2021-15', 'Pembelian', 'PCS', '2021-05-22 04:28:51', '2021-05-22 04:28:51'),
+(273, 'DB-2021-6', '2021/05/27', '10', '0', 'PB-2021-15', 'Pembelian', 'BOX', '2021-05-22 04:28:59', '2021-05-22 04:28:59'),
+(274, 'DB-2021-2', '2021/05/27', '10', '0', 'PB-2021-15', 'Pembelian', 'PCS', '2021-05-22 04:30:09', '2021-05-22 04:30:09'),
+(276, 'DB-2021-1', '2021/05/27', '5', '0', 'PB-2021-15', 'Pembelian', 'Box', '2021-05-27 07:49:48', '2021-05-27 07:49:48'),
+(277, 'DB-2021-6', '2021/05/27', '10', '0', 'PB-2021-15', 'Pembelian', 'BOX', '2021-05-27 07:49:56', '2021-05-27 07:49:56'),
+(280, 'DB-2021-1', '2021/06/12', '0', '1', 'INV20210630', 'Penjualan', 'Box', '2021-06-12 02:02:47', '2021-06-12 02:02:47'),
+(281, 'DB-2021-2', '2021/06/12', '0', '1', 'INV20210630', 'Penjualan', 'PCS', '2021-06-12 02:02:50', '2021-06-12 02:02:50'),
+(282, 'DB-2021-1', '2021/06/14', '0', '1', 'INV20210631', 'Penjualan', 'Box', '2021-06-14 02:40:29', '2021-06-14 02:40:29'),
+(283, 'DB-2021-3', '2021/06/14', '0', '1', 'INV20210631', 'Penjualan', 'PCS', '2021-06-14 02:40:33', '2021-06-14 02:40:33'),
+(284, 'DB-2021-4', '2021/06/14', '0', '1', 'INV20210631', 'Penjualan', 'PCS', '2021-06-14 02:40:39', '2021-06-14 02:40:39');
 
 -- --------------------------------------------------------
 
@@ -447,6 +658,24 @@ INSERT INTO `tblkategori` (`id`, `kodeKtg`, `namaKtg`, `created_at`, `updated_at
 (1, 'KT-2021-1', 'Spare PArt', '2021-03-26 11:20:43', '2021-04-15 03:10:33'),
 (2, 'KT-2021-2', 'OLI Gardan', '2021-04-15 03:03:08', '2021-04-15 03:10:56'),
 (3, 'KT-2021-3', 'OLi Mesin', '2021-04-15 03:10:43', '2021-04-15 03:10:43');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tblkatspmotor`
+--
+
+CREATE TABLE `tblkatspmotor` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `kdMerek` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `kdJenis` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `kdType` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `kdTahun` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `kdKatSp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nmKatSp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -524,6 +753,28 @@ INSERT INTO `tblmekanik` (`id`, `kdMekanik`, `namaMekanik`, `alamatMekanik`, `no
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `tblmerekmotor`
+--
+
+CREATE TABLE `tblmerekmotor` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `kdMerek` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nmMerek` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `tblmerekmotor`
+--
+
+INSERT INTO `tblmerekmotor` (`id`, `kdMerek`, `nmMerek`, `created_at`, `updated_at`) VALUES
+(1, 'MTR001', 'HONDA', NULL, NULL),
+(2, 'MTR002', 'YAMAHA', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `tblmotor`
 --
 
@@ -596,76 +847,8 @@ CREATE TABLE `tblpembayaran` (
 --
 
 INSERT INTO `tblpembayaran` (`id`, `notaPembayaran`, `diskonPembayaran`, `pajakPembayaran`, `typePembayaran`, `chargePembayaran`, `noKartuPembayaran`, `created_at`, `updated_at`) VALUES
-(1, 'INV-2021-1', '5', '10', '1', '0', '0', NULL, NULL),
-(2, 'INV-2021-2', '5', '10', '2', '2', '545458', NULL, NULL),
-(3, 'INV-2021-3', '5', '10', '2', '2', '0255', NULL, NULL),
-(4, 'INV-2021-4', '5', '10', '2', '2', '01114', NULL, NULL),
-(5, 'INV-2021-5', '5', '10', '2', '2', '252525', NULL, NULL),
-(6, 'INV-2021-6', '5', '10', '2', '2', '5272', NULL, NULL),
-(7, 'INV-2021-7', '5', '10', '2', '2', '04141', NULL, NULL),
-(8, 'INV-2021-8', '5', '10', '2', '2', '04', NULL, NULL),
-(9, 'INV-2021-9', '5', '10', '2', '2', '2', NULL, NULL),
-(10, 'INV-2021-10', '5', '10', '2', '2', '0', NULL, NULL),
-(11, 'INV-2021-1', '5', '10', '1', '0', '0', NULL, NULL),
-(12, 'INV-2021-2', '0', '0', '1', '0', '0', NULL, NULL),
-(13, 'INV-2021-3', '0', '0', '2', '0', '0', NULL, NULL),
-(14, 'INV-2021-4', '0', '0', '2', '0', '0', NULL, NULL),
-(15, 'INV-2021-1', '0', '0', '1', '0', '0', NULL, NULL),
-(16, 'INV-2021-2', '0', '0', '1', '2', '0', NULL, NULL),
-(17, 'INV-2021-3', '0', '0', '2', '0', '0', NULL, NULL),
-(18, 'INV-2021-4', '0', '0', '2', '0', '0', NULL, NULL),
-(19, 'INV-2021-5', '0', '0', '2', '2', '324654', NULL, NULL),
-(20, 'INV-2021-6', '0', '0', '1', '0', '0', NULL, NULL),
-(21, 'INV-2021-7', '0', '0', '1', '0', '0534564', NULL, NULL),
-(22, 'INV-2021-8', '0', '0', '1', '0', '0', NULL, NULL),
-(23, 'INV-2021-9', '0', '0', '2', '2', '2454656', NULL, NULL),
-(24, 'INV-2021-10', '0', '0', '1', '0', '0', NULL, NULL),
-(25, 'INV-2021-1', '0', '0', '1', '0', '0', NULL, NULL),
-(26, 'INV-2021-2', '0', '0', '2', '0', '0', NULL, NULL),
-(27, 'INV-2021-2', '0', '0', '2', '0', '0', NULL, NULL),
-(28, 'INV-2021-3', '0', '0', '1', '0', '0', NULL, NULL),
-(29, 'INV-2021-4', '0', '0', '1', '0', '0', NULL, NULL),
-(30, 'INV-2021-5', '0', '0', '1', '2', '56465', NULL, NULL),
-(31, 'INV-2021-6', '0', '0', '1', '0', '0', NULL, NULL),
-(32, 'INV-2021-7', '0', '0', '1', '0', '0', NULL, NULL),
-(33, 'INV-2021-8', '0', '0', '2', '0', '0', NULL, NULL),
-(34, 'INV-2021-9', '0', '0', '2', '2', '0546546', NULL, NULL),
-(35, 'INV-2021-10', '0', '0', '1', '0', '0', NULL, NULL),
-(36, 'INV-2021-10', '0', '0', '1', '0', '0', NULL, NULL),
-(37, 'INV-2021-1', '0', '0', '1', '2', '0', NULL, NULL),
-(38, 'INV-2021-1', '0', '0', '1', '0', '0', NULL, NULL),
-(39, 'INV-2021-2', '0', '0', '2', '0', '0', NULL, NULL),
-(40, 'INV-2021-3', '10', '0', '2', '2', '0', NULL, NULL),
-(41, 'INV20210000001', '0', '0', '1', '0', '0', NULL, NULL),
-(42, 'INV2021051', '0', '0', '1', '0', '0', NULL, NULL),
-(43, 'INV2021052', '0', '0', '2', '0', '0', NULL, NULL),
-(44, 'INV2021053', '0', '0', '1', '0', '0', NULL, NULL),
-(45, 'INV2021054', '10', '0', '1', '2', '052274', NULL, NULL),
-(46, 'INV2021055', '10', '0', '2', '0', '0', NULL, NULL),
-(47, 'INV2021056', '0', '0', '2', '2', '0', NULL, NULL),
-(48, 'INV2021057', '10', '0', '1', '0', '0', NULL, NULL),
-(49, 'INV2021058', '10', '0', '1', '0', '0', NULL, NULL),
-(50, 'INV2021059', '0', '0', '2', '0', '0', NULL, NULL),
-(51, 'INV20210510', '0', '0', '1', '0', '0', NULL, NULL),
-(52, 'INV20210511', '0', '0', '1', '0', '0', NULL, NULL),
-(53, 'INV20210512', '0', '0', '1', '2', '546546315', NULL, NULL),
-(54, 'INV20210513', '0', '0', '1', '0', '0', NULL, NULL),
-(55, 'INV20210514', '0', '0', '1', '0', '0', NULL, NULL),
-(56, 'INV20210515', '0', '0', '1', '2', '3432423', NULL, NULL),
-(57, 'INV20210516', '0', '0', '1', '0', '0', NULL, NULL),
-(58, 'INV20210517', '5', '0', '1', '0', '0', NULL, NULL),
-(59, 'INV20210518', '0', '0', '1', '0', '0', NULL, NULL),
-(60, 'INV20210519', '0', '0', '1', '0', '0', NULL, NULL),
-(61, 'INV20210520', '0', '0', '1', '0', '0', NULL, NULL),
-(62, 'INV20210521', '0', '0', '1', '0', '0', NULL, NULL),
-(63, 'INV20210522', '5', '0', '2', '0', '0', NULL, NULL),
-(64, 'INV20210523', '0', '0', '2', '0', '0', NULL, NULL),
-(65, 'INV20210524', '0', '0', '2', '0', '0', NULL, NULL),
-(66, 'INV20210525', '0', '0', '1', '0', '0', NULL, NULL),
-(67, 'INV20210526', '0', '0', '1', '2', '5465464956', NULL, NULL),
-(68, 'INV20210527', '5', '0', '2', '0', '0', NULL, NULL),
-(69, 'INV20210528', '0', '0', '1', '0', '0', NULL, NULL),
-(70, 'INV20210529', '0', '0', '1', '0', '0', NULL, NULL);
+(1, 'INV20210630', '0', '0', '1', '0', '0', NULL, NULL),
+(2, 'INV20210631', '0', '0', '1', '0', '0', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -694,18 +877,17 @@ CREATE TABLE `tblpembelian` (
 --
 
 INSERT INTO `tblpembelian` (`id`, `idSupplier`, `noNotaPembelian`, `tglNotaPembelian`, `totalNotaPembelian`, `userPembelian`, `created_at`, `updated_at`, `typePembelian`, `termPembelian`, `hutangPembelian`, `bayarNotaPembelian`, `jthTempoPembelian`) VALUES
-(4, 'SP-2021-2', 'PB-2021-4', '2021/04/15', '27000', '1', '2021-04-15 03:28:49', '2021-04-15 03:28:49', '2', '14', '20000', '7000', ''),
+(4, 'SP-2021-2', 'PB-2021-4', '2021/04/15', '27000', '1', '2021-04-15 03:28:49', '2021-05-24 09:06:50', '2', '14', '0', '7000', ''),
 (5, 'SP-2021-2', 'PB-2021-5', '2021/04/15', '400000', '1', '2021-04-15 04:13:12', '2021-04-15 04:13:12', '1', '0', '0', '400000', ''),
 (6, 'SP-2021-1', 'PB-2021-6', '2021/04/15', '36000', '1', '2021-04-15 04:13:48', '2021-04-15 04:13:48', '2', '14', '26000', '10000', ''),
-(7, 'SP-2021-2', 'PB-2021-7', '2021/04/16', '59000', '1', '2021-04-16 22:56:03', '2021-04-16 22:56:03', '1', '0', '-1000', '60000', ''),
-(8, 'SP-2021-2', 'PB-2021-8', '2021/05/10', '5009000', '1', '2021-05-10 06:30:56', '2021-05-10 06:30:56', '2', '30', '4009000', '1000000', '2021/06/09'),
+(8, 'SP-2021-2', 'PB-2021-8', '2021/05/10', '5009000', '1', '2021-05-10 06:30:56', '2021-05-27 07:50:52', '2', '30', '0', '5000000', '2021/06/09'),
 (9, 'SP-2021-1', 'PB-2021-9', '2021/05/10', '2800000', '1', '2021-05-10 06:33:23', '2021-05-10 06:33:23', '1', '0', '0', '2800000', '2021/05/10'),
 (10, 'SP-2021-2', 'PB-2021-10', '2021/05/10', '600000', '1', '2021-05-10 06:36:56', '2021-05-10 06:36:56', '1', '0', '0', '600000', '2021/05/10'),
-(11, 'SP-2021-2', 'PB-2021-11', '2021/05/10', '1900000', '1', '2021-05-10 06:42:09', '2021-05-10 06:42:09', '2', '25', '1000000', '900000', '2021/06/04'),
-(12, 'SP-2021-2', 'PB-2021-12', '2021/05/11', '180000', '1', '2021-05-11 02:30:05', '2021-05-11 02:30:05', '2', '15', '180000', '0', '2021/05/26'),
+(11, 'SP-2021-2', 'PB-2021-11', '2021/05/10', '1900000', '1', '2021-05-10 06:42:09', '2021-06-12 01:16:52', '2', '25', '200000', '1200000', '2021/06/04'),
+(12, 'SP-2021-2', 'PB-2021-12', '2021/05/11', '180000', '1', '2021-05-11 02:30:05', '2021-05-24 09:09:09', '2', '15', '0', '0', '2021/05/26'),
 (13, 'SP-2021-2', 'PB-2021-13', '2021/05/20', '2980000', '1', '2021-05-20 01:33:05', '2021-05-20 01:33:05', '2', '20', '0', '2980000', '2021/06/09'),
 (14, 'SP-2021-2', 'PB-2021-14', '2021/05/21', '200000', '1', '2021-05-21 09:06:45', '2021-05-21 09:06:45', '1', '0', '0', '200000', '2021/05/21'),
-(15, 'SP-2021-2', 'PB-2021-15', '2021/05/22', '2590000', '1', '2021-05-22 04:30:33', '2021-05-22 04:30:33', '2', '30', '-10000', '2600000', '2021/06/21');
+(16, 'SP-2021-2', 'PB-2021-15', '2021/05/27', '3000000', '1', '2021-05-27 07:50:16', '2021-06-12 01:16:53', '2', '15', '3000000', '0', '2021/06/11');
 
 -- --------------------------------------------------------
 
@@ -732,8 +914,6 @@ INSERT INTO `tblpembeliandetail` (`id`, `noNotaPembelian`, `kdBarang`, `hrgPokok
 (8, 'PB-2021-4', 'DB-2021-2', '9000', '3', '27000', '2021-04-15 03:27:34', '2021-04-15 03:27:34'),
 (9, 'PB-2021-5', 'DB-2021-1', '200000', '2', '400000', '2021-04-15 04:12:57', '2021-04-15 04:12:57'),
 (10, 'PB-2021-6', 'DB-2021-2', '9000', '4', '36000', '2021-04-15 04:13:36', '2021-04-15 04:13:36'),
-(11, 'PB-2021-7', 'DB-2021-5', '50000', '1', '50000', '2021-04-16 22:55:31', '2021-04-16 22:55:31'),
-(12, 'PB-2021-7', 'DB-2021-2', '9000', '1', '9000', '2021-04-16 22:55:43', '2021-04-16 22:55:43'),
 (17, 'PB-2021-8', 'DB-2021-1', '200000', '20', '4000000', '2021-05-10 06:26:44', '2021-05-10 06:26:44'),
 (18, 'PB-2021-8', 'DB-2021-5', '50000', '20', '1000000', '2021-05-10 06:26:53', '2021-05-10 06:26:53'),
 (19, 'PB-2021-8', 'DB-2021-2', '9000', '1', '9000', '2021-05-10 06:30:24', '2021-05-10 06:30:24'),
@@ -747,9 +927,8 @@ INSERT INTO `tblpembeliandetail` (`id`, `noNotaPembelian`, `kdBarang`, `hrgPokok
 (27, 'PB-2021-13', 'DB-2021-2', '9000', '20', '180000', '2021-05-20 01:32:24', '2021-05-20 01:32:24'),
 (30, 'PB-2021-14', 'DB-2021-8', '5000', '10', '50000', '2021-05-21 09:06:12', '2021-05-21 09:06:12'),
 (31, 'PB-2021-14', 'DB-2021-9', '30000', '5', '150000', '2021-05-21 09:06:21', '2021-05-21 09:06:21'),
-(32, 'PB-2021-15', 'DB-2021-5', '50000', '10', '500000', '2021-05-22 04:28:51', '2021-05-22 04:28:51'),
-(33, 'PB-2021-15', 'DB-2021-6', '200000', '10', '2000000', '2021-05-22 04:28:59', '2021-05-22 04:28:59'),
-(34, 'PB-2021-15', 'DB-2021-2', '9000', '10', '90000', '2021-05-22 04:30:09', '2021-05-22 04:30:09');
+(35, 'PB-2021-15', 'DB-2021-1', '200000', '5', '1000000', '2021-05-27 07:49:48', '2021-05-27 07:49:48'),
+(36, 'PB-2021-15', 'DB-2021-6', '200000', '10', '2000000', '2021-05-27 07:49:56', '2021-05-27 07:49:56');
 
 -- --------------------------------------------------------
 
@@ -813,7 +992,11 @@ INSERT INTO `tblpenjualan` (`id`, `noNota`, `liftNo`, `pelangganNota`, `tglNota`
 (43, 'INV20210526', 'LF-2021-1', 'PL-2021-1', '2021/05/21', '193800', '0', '0', '193800', '3800', '3800', '1', '2021-05-21 08:26:16', '2021-05-21 08:26:16', 'MK-2021-1', '1', '2', '0', 0, '2021/05/21'),
 (44, 'INV20210527', 'LF-2021-1', 'PL-2021-3', '2021/05/21', '465500', '0', '24500', '0', '0', '-465500', '1', '2021-05-21 08:29:02', '2021-05-21 08:31:09', 'MK-2021-1', '2', '1', '14', 260000, '2021/06/04'),
 (45, 'INV20210528', 'LF-2021-1', 'PL-2021-1', '2021/05/21', '115000', '0', '0', '115000', '0', '5000', '1', '2021-05-21 09:10:23', '2021-05-21 09:10:23', 'MK-2021-1', '1', '1', '0', 0, '2021/05/21'),
-(46, 'INV20210529', 'LF-2021-1', 'PL-2021-1', '2021/05/21', '30000', '0', '0', '30000', '0', '0', '1', '2021-05-21 09:14:11', '2021-05-21 09:14:11', 'MK-2021-1', '1', '1', '0', 0, '2021/05/21');
+(47, 'INV20210629', 'LF-2021-1', 'PL-2021-1', '2021/06/12', '145000', '0', '0', '145000', '0', '0', '1', '2021-06-12 02:01:12', '2021-06-12 02:01:12', 'MK-2021-1', '1', '1', '0', 0, '2021/06/12'),
+(48, 'INV20210629', 'LF-2021-1', 'PL-2021-1', '2021/06/12', '145000', '0', '0', '145000', '0', '0', '1', '2021-06-12 02:01:13', '2021-06-12 02:01:13', 'MK-2021-1', '1', '1', '0', 0, '2021/06/12'),
+(49, 'INV20210630', 'LF-2021-1', 'PL-2021-1', '2021/06/12', '385000', '0', '0', '385000', '0', '0', '1', '2021-06-12 02:03:14', '2021-06-12 02:03:14', 'MK-2021-1', '1', '1', '0', 0, '2021/06/12'),
+(50, 'INV20210630', 'LF-2021-1', 'PL-2021-1', '2021/06/12', '385000', '0', '0', '385000', '0', '0', '1', '2021-06-12 02:07:56', '2021-06-12 02:07:56', 'MK-2021-1', '1', '1', '0', 0, '2021/06/12'),
+(51, 'INV20210631', 'LF-2021-1', 'PL-2021-1', '2021/06/14', '590000', '0', '0', '590000', '0', '10000', '1', '2021-06-14 02:40:58', '2021-06-14 02:40:58', 'MK-2021-1', '1', '1', '0', 0, '2021/06/14');
 
 -- --------------------------------------------------------
 
@@ -891,8 +1074,11 @@ INSERT INTO `tblpenjualandetail` (`id`, `noNotaPenjualan`, `kdBarang`, `hrgJual`
 (75, 'INV20210527', 'DB-2021-5', '60000', '1', 'PCS', '60000', '2021-05-21 08:28:48', '2021-05-21 08:28:48', '2021/05/21', 'Speedo Meter Vario'),
 (76, 'INV20210528', 'DB-2021-8', '15000', '1', 'Botol', '15000', '2021-05-21 09:09:47', '2021-05-21 09:09:47', '2021/05/21', 'Oli Gardan'),
 (77, 'INV20210528', 'DB-2021-9', '50000', '1', 'PCS', '50000', '2021-05-21 09:09:53', '2021-05-21 09:09:53', '2021/05/21', 'Ban Dalam'),
-(78, 'INV20210529', 'DB-2021-2', '15000', '1', 'PCS', '15000', '2021-05-21 09:13:56', '2021-05-21 09:13:56', '2021/05/21', 'Busi'),
-(79, 'INV20210529', 'DB-2021-8', '15000', '1', 'Botol', '15000', '2021-05-21 09:14:03', '2021-05-21 09:14:03', '2021/05/21', 'Oli Gardan');
+(83, 'INV20210630', 'DB-2021-1', '300000', '1', 'Box', '300000', '2021-06-12 02:02:47', '2021-06-12 02:02:47', '2021/06/12', 'Kampas Kopling'),
+(84, 'INV20210630', 'DB-2021-2', '15000', '1', 'PCS', '15000', '2021-06-12 02:02:50', '2021-06-12 02:02:50', '2021/06/12', 'Busi'),
+(85, 'INV20210631', 'DB-2021-1', '300000', '1', 'Box', '300000', '2021-06-14 02:40:29', '2021-06-14 02:40:29', '2021/06/14', 'Kampas Kopling'),
+(86, 'INV20210631', 'DB-2021-3', '160000', '1', 'PCS', '160000', '2021-06-14 02:40:33', '2021-06-14 02:40:33', '2021/06/14', 'Rantai Standart Supra X 100CC'),
+(87, 'INV20210631', 'DB-2021-4', '60000', '1', 'PCS', '60000', '2021-06-14 02:40:39', '2021-06-14 02:40:39', '2021/06/14', 'Kampas Rem Vario 110');
 
 -- --------------------------------------------------------
 
@@ -908,6 +1094,36 @@ CREATE TABLE `tblsatuan` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tblsetupharga`
+--
+
+CREATE TABLE `tblsetupharga` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `noHrg` int(5) NOT NULL,
+  `codeHrg` char(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `tblsetupharga`
+--
+
+INSERT INTO `tblsetupharga` (`id`, `noHrg`, `codeHrg`, `created_at`, `updated_at`) VALUES
+(1, 1, 'A', NULL, '2021-06-16 06:52:36'),
+(2, 2, 'B', NULL, '2021-06-16 06:52:36'),
+(3, 3, 'C', NULL, '2021-06-16 06:52:36'),
+(4, 4, 'D', NULL, '2021-06-16 06:52:36'),
+(5, 5, 'E', NULL, '2021-06-16 06:52:36'),
+(6, 6, 'F', NULL, '2021-06-16 06:52:36'),
+(7, 7, 'G', NULL, '2021-06-16 06:52:36'),
+(8, 8, 'H', NULL, '2021-06-16 06:52:36'),
+(9, 9, 'I', NULL, '2021-06-16 06:52:37'),
+(10, 0, 'X', NULL, '2021-06-16 06:52:37');
 
 -- --------------------------------------------------------
 
@@ -991,6 +1207,31 @@ INSERT INTO `tblsupplier` (`id`, `kdSupplier`, `nmSupplier`, `almtSupplier`, `no
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `tbltahunmotor`
+--
+
+CREATE TABLE `tbltahunmotor` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `kdMerek` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `kdType` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `kdJenis` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `kdTahun` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nmTahun` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `tbltahunmotor`
+--
+
+INSERT INTO `tbltahunmotor` (`id`, `kdMerek`, `kdType`, `kdJenis`, `kdTahun`, `nmTahun`, `created_at`, `updated_at`) VALUES
+(1, 'MTR001', 'MTJ001', 'VR001', 'TH001', '2008', NULL, NULL),
+(2, 'MTR001', 'MTJ001', 'VR001', 'TH002', '2009', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `tbltmp_transaksidetail`
 --
 
@@ -1028,6 +1269,32 @@ CREATE TABLE `tbltmp_transaksis` (
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `tbltypemotor`
+--
+
+CREATE TABLE `tbltypemotor` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `kdMerek` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `kdJenis` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `kdType` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nmType` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `tbltypemotor`
+--
+
+INSERT INTO `tbltypemotor` (`id`, `kdMerek`, `kdJenis`, `kdType`, `nmType`, `created_at`, `updated_at`) VALUES
+(1, 'MTR001', 'MTJ001', 'VR001', 'VARIO 110', NULL, NULL),
+(2, 'MTR001', 'MTJ001', 'BT001', 'Beat 110', NULL, NULL),
+(3, 'MTR002', 'MTJ003', 'MI001', 'MIO 110', NULL, NULL),
+(4, 'MTR002', 'MTJ003', 'NM001', 'N MAX 150', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `users`
 --
 
@@ -1057,6 +1324,12 @@ INSERT INTO `users` (`id`, `name`, `username`, `role`, `email`, `password`, `ema
 --
 
 --
+-- Indeks untuk tabel `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -1075,6 +1348,12 @@ ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
 
 --
+-- Indeks untuk tabel `provinsi`
+--
+ALTER TABLE `provinsi`
+  ADD PRIMARY KEY (`id_prov`) USING BTREE;
+
+--
 -- Indeks untuk tabel `tblbarang`
 --
 ALTER TABLE `tblbarang`
@@ -1084,6 +1363,24 @@ ALTER TABLE `tblbarang`
 -- Indeks untuk tabel `tbldetailjasajual`
 --
 ALTER TABLE `tbldetailjasajual`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `tbldetailpartmotor`
+--
+ALTER TABLE `tbldetailpartmotor`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `tblgrandbeli`
+--
+ALTER TABLE `tblgrandbeli`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `tblgrandbelidetail`
+--
+ALTER TABLE `tblgrandbelidetail`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1105,6 +1402,12 @@ ALTER TABLE `tbljasa`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeks untuk tabel `tbljenismotor`
+--
+ALTER TABLE `tbljenismotor`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `tblkartustok`
 --
 ALTER TABLE `tblkartustok`
@@ -1114,6 +1417,12 @@ ALTER TABLE `tblkartustok`
 -- Indeks untuk tabel `tblkategori`
 --
 ALTER TABLE `tblkategori`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `tblkatspmotor`
+--
+ALTER TABLE `tblkatspmotor`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1132,6 +1441,12 @@ ALTER TABLE `tbllift`
 -- Indeks untuk tabel `tblmekanik`
 --
 ALTER TABLE `tblmekanik`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `tblmerekmotor`
+--
+ALTER TABLE `tblmerekmotor`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1183,6 +1498,12 @@ ALTER TABLE `tblsatuan`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeks untuk tabel `tblsetupharga`
+--
+ALTER TABLE `tblsetupharga`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `tblstokopname`
 --
 ALTER TABLE `tblstokopname`
@@ -1201,6 +1522,12 @@ ALTER TABLE `tblsupplier`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeks untuk tabel `tbltahunmotor`
+--
+ALTER TABLE `tbltahunmotor`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `tbltmp_transaksidetail`
 --
 ALTER TABLE `tbltmp_transaksidetail`
@@ -1210,6 +1537,12 @@ ALTER TABLE `tbltmp_transaksidetail`
 -- Indeks untuk tabel `tbltmp_transaksis`
 --
 ALTER TABLE `tbltmp_transaksis`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `tbltypemotor`
+--
+ALTER TABLE `tbltypemotor`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1223,6 +1556,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT untuk tabel `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT untuk tabel `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -1232,7 +1571,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT untuk tabel `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT untuk tabel `tblbarang`
@@ -1244,7 +1583,25 @@ ALTER TABLE `tblbarang`
 -- AUTO_INCREMENT untuk tabel `tbldetailjasajual`
 --
 ALTER TABLE `tbldetailjasajual`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+
+--
+-- AUTO_INCREMENT untuk tabel `tbldetailpartmotor`
+--
+ALTER TABLE `tbldetailpartmotor`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT untuk tabel `tblgrandbeli`
+--
+ALTER TABLE `tblgrandbeli`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT untuk tabel `tblgrandbelidetail`
+--
+ALTER TABLE `tblgrandbelidetail`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT untuk tabel `tblgrandjual`
@@ -1265,16 +1622,28 @@ ALTER TABLE `tbljasa`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT untuk tabel `tbljenismotor`
+--
+ALTER TABLE `tbljenismotor`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT untuk tabel `tblkartustok`
 --
 ALTER TABLE `tblkartustok`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=275;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=287;
 
 --
 -- AUTO_INCREMENT untuk tabel `tblkategori`
 --
 ALTER TABLE `tblkategori`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT untuk tabel `tblkatspmotor`
+--
+ALTER TABLE `tblkatspmotor`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `tblkomposisi`
@@ -1295,6 +1664,12 @@ ALTER TABLE `tblmekanik`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT untuk tabel `tblmerekmotor`
+--
+ALTER TABLE `tblmerekmotor`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT untuk tabel `tblmotor`
 --
 ALTER TABLE `tblmotor`
@@ -1310,37 +1685,43 @@ ALTER TABLE `tblpelanggan`
 -- AUTO_INCREMENT untuk tabel `tblpembayaran`
 --
 ALTER TABLE `tblpembayaran`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `tblpembelian`
 --
 ALTER TABLE `tblpembelian`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT untuk tabel `tblpembeliandetail`
 --
 ALTER TABLE `tblpembeliandetail`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT untuk tabel `tblpenjualan`
 --
 ALTER TABLE `tblpenjualan`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT untuk tabel `tblpenjualandetail`
 --
 ALTER TABLE `tblpenjualandetail`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 
 --
 -- AUTO_INCREMENT untuk tabel `tblsatuan`
 --
 ALTER TABLE `tblsatuan`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `tblsetupharga`
+--
+ALTER TABLE `tblsetupharga`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT untuk tabel `tblstokopname`
@@ -1361,6 +1742,12 @@ ALTER TABLE `tblsupplier`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT untuk tabel `tbltahunmotor`
+--
+ALTER TABLE `tbltahunmotor`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT untuk tabel `tbltmp_transaksidetail`
 --
 ALTER TABLE `tbltmp_transaksidetail`
@@ -1371,6 +1758,12 @@ ALTER TABLE `tbltmp_transaksidetail`
 --
 ALTER TABLE `tbltmp_transaksis`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `tbltypemotor`
+--
+ALTER TABLE `tbltypemotor`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`

@@ -39,6 +39,12 @@ Route::delete('/kategori/{id?}', 'kategoriController@destroy');
 Route::post('category/create', 'CategoryController@create');
 Route::get('category/allCategories', 'CategoryController@allCategories');
 
+Route::get('merek', 'CategoryController@Semua');
+Route::get('jenis/{id}', 'CategoryController@Jenis');
+Route::get('type/{id}', 'CategoryController@Type');
+Route::get('tahun/{id}', 'CategoryController@Tahun');
+Route::get('detailmotor/{id}', 'CategoryController@DetailMotor');
+
 //=======Motor
 Route::get('/motor', 'motorController@index');
 Route::post('/motor/store', 'motorController@store');
