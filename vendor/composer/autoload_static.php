@@ -502,6 +502,7 @@ class ComposerStaticInitc4f97d6204a4d34371f464f9dc423f38
     public static $classMap = array (
         'App\\Bank' => __DIR__ . '/../..' . '/app/Bank.php',
         'App\\Barang' => __DIR__ . '/../..' . '/app/Barang.php',
+        'App\\Category' => __DIR__ . '/../..' . '/app/Category.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\GrandBeli' => __DIR__ . '/../..' . '/app/GrandBeli.php',
@@ -527,6 +528,7 @@ class ComposerStaticInitc4f97d6204a4d34371f464f9dc423f38
         'App\\Http\\Controllers\\pembelianController' => __DIR__ . '/../..' . '/app/Http/Controllers/pembelianController.php',
         'App\\Http\\Controllers\\penjualanController' => __DIR__ . '/../..' . '/app/Http/Controllers/penjualanController.php',
         'App\\Http\\Controllers\\salesController' => __DIR__ . '/../..' . '/app/Http/Controllers/salesController.php',
+        'App\\Http\\Controllers\\setupController' => __DIR__ . '/../..' . '/app/Http/Controllers/setupController.php',
         'App\\Http\\Controllers\\stokController' => __DIR__ . '/../..' . '/app/Http/Controllers/stokController.php',
         'App\\Http\\Controllers\\supplierController' => __DIR__ . '/../..' . '/app/Http/Controllers/supplierController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',

@@ -36,6 +36,9 @@ Route::get('/kategori/{id?}', 'kategoriController@show');
 Route::post('/kategori/update/{id?}', 'kategoriController@update');
 Route::delete('/kategori/{id?}', 'kategoriController@destroy');
 
+Route::post('category/create', 'CategoryController@create');
+Route::get('category/allCategories', 'CategoryController@allCategories');
+
 //=======Motor
 Route::get('/motor', 'motorController@index');
 Route::post('/motor/store', 'motorController@store');

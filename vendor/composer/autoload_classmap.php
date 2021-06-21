@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'App\\Bank' => $baseDir . '/app/Bank.php',
     'App\\Barang' => $baseDir . '/app/Barang.php',
+    'App\\Category' => $baseDir . '/app/Category.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\GrandBeli' => $baseDir . '/app/GrandBeli.php',
@@ -33,6 +34,7 @@ return array(
     'App\\Http\\Controllers\\pembelianController' => $baseDir . '/app/Http/Controllers/pembelianController.php',
     'App\\Http\\Controllers\\penjualanController' => $baseDir . '/app/Http/Controllers/penjualanController.php',
     'App\\Http\\Controllers\\salesController' => $baseDir . '/app/Http/Controllers/salesController.php',
+    'App\\Http\\Controllers\\setupController' => $baseDir . '/app/Http/Controllers/setupController.php',
     'App\\Http\\Controllers\\stokController' => $baseDir . '/app/Http/Controllers/stokController.php',
     'App\\Http\\Controllers\\supplierController' => $baseDir . '/app/Http/Controllers/supplierController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
