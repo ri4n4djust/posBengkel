@@ -85,6 +85,45 @@ class CategoryController extends Controller
         }
     }
 
+    public function createJenis(Request $request){
+        $insert = JenisMotor::create([
+            'kdMerek'   => $request->input('kdMerek'),
+            'kdJenis'   => $request->input('kdJenis'),
+            'nmJenis'   => $request->input('nmJenis'),
+        ]);
+        if ($insert) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Post Berhasil Disimpan!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Post Gagal Disimpan!',
+            ], 400);
+        }
+    }
+
+    public function createType(Request $request){
+        $insert = TypeMotor::create([
+            'kdMerek'   => $request->input('kdMerek'),
+            'kdJenis'   => $request->input('kdJenis'),
+            'kdType'   => $request->input('kdType'),
+            'nmType'   => $request->input('nmType'),
+        ]);
+        if ($insert) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Post Berhasil Disimpan!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Post Gagal Disimpan!',
+            ], 400);
+        }
+    }
+
 
 
 }

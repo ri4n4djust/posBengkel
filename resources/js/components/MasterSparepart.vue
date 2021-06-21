@@ -39,7 +39,7 @@
 
                             <div class="form-group">
                             <label class="col-sm-3 control-label">Tahun Motor:</label>
-                            <a href="#" @click="modalTambahMerek = true" class="btn btn-md btn-success">Tambah Tahun</a>
+                            <a href="#" @click="modalTambahTahun = true" class="btn btn-md btn-success">Tambah Tahun</a>
                             <div class="col-sm-4">
                             <select class='form-control' v-model='kdTahun' required>
                                 <option v-for='data in tahun' :value='data.kdTahun' :key='data.id'>{{ data.nmTahun }}</option>
@@ -101,15 +101,17 @@
               <div class="modal-body">
                 
                         <form @submit.prevent="PostStoreMerek">
-                            <div class="form-group">
-                                <label>Kode Merek </label>
+                            <div class="input-group">
+                                <span class="input-group-addon">Kode Merek &nbsp;</span>
                                 <input type="text" class="form-control" v-model="insert.kdMerek" disabled>
                             </div>
-                            <div class="form-group">
-                                <label>Nama Merek</label>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">Nama Merek</span>
                                 <input type="text" class="form-control" v-model="insert.nmMerek"
-                                       placeholder="Masukkan No" required>
+                                       placeholder="Masukkan Nama" required>
                             </div>
+                            <br>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-md btn-success">SIMPAN</button>
                             </div>
@@ -150,16 +152,124 @@
                                 <label>Kode Jenis </label>
                                 <input type="text" class="form-control" v-model="insert.kdJenis" disabled>
                             </div>
-                            <div class="form-group">
-                                <label>Nama Jenis</label>
+                            <div class="input-group">
+                                <span class="input-group-addon">Nama Jenis</span>
                                 <input type="text" class="form-control" v-model="insert.nmJenis"
-                                       placeholder="Masukkan No" required>
+                                       placeholder="Masukkan Nama Jenis" required>
                             </div>
+                            <br>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-md btn-success">SIMPAN</button>
                             </div>
                         </form>
 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+  </div>
+  <!-- /ModalTambah -->
+  <!-- /ModalTambah -->
+ <div v-if="modalTambahType">
+    <transition name="modal">
+      <div class="modal-mask">
+        <div class="modal-wrapper">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" @click="modalTambahType=false">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Tambah Type Motor</h4>
+              </div>
+              <div class="modal-body">
+                
+                        <form @submit.prevent="PostStoreType">
+                            <div class="form-group">
+                            <label >Merek:</label>
+                            <select class='form-control' v-model='insert.kdMerek' required @change="getJenis(kdMerek = insert.kdMerek)">
+                                <option v-for='data in merek' :value='data.kdMerek' :key='data.id'>{{ data.nmMerek }}</option>
+                            </select>
+                            </div>
+                            <div class="form-group">
+                            <label >Jenis:</label>
+                            <select class='form-control' v-model='insert.kdJenis' required >
+                                <option v-for='data in jenis' :value='data.kdJenis' :key='data.id'>{{ data.nmJenis }}</option>
+                            </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Kode Type </label>
+                                <input type="text" class="form-control" v-model="insert.kdType" disabled>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon">Nama Type</span>
+                                <input type="text" class="form-control" v-model="insert.nmType"
+                                       placeholder="Masukkan Nama Type" required>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-md btn-success">SIMPAN</button>
+                            </div>
+                        </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+  </div>
+  <!-- /ModalTambah -->
+  <!-- /ModalTambah -->
+ <div v-if="modalTambahTahun">
+    <transition name="modal">
+      <div class="modal-mask">
+        <div class="modal-wrapper">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" @click="modalTambahTahun=false">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Tambah Tahun Motor</h4>
+              </div>
+              <div class="modal-body">
+                
+                        <form @submit.prevent="PostStoreTahun">
+                            <div class="form-group">
+                            <label >Merek:</label>
+                            <select class='form-control' v-model='insert.kdMerek' required @change="getJenis(kdMerek = insert.kdMerek)">
+                                <option v-for='data in merek' :value='data.kdMerek' :key='data.id'>{{ data.nmMerek }}</option>
+                            </select>
+                            </div>
+                            <div class="form-group">
+                            <label >Jenis:</label>
+                            <select class='form-control' v-model='insert.kdJenis' required @change="getType(kdJenis = insert.kdJenis)" >
+                                <option v-for='data in jenis' :value='data.kdJenis' :key='data.id'>{{ data.nmJenis }}</option>
+                            </select>
+                            </div>
+                            <div class="form-group">
+                            <label>Type Motor:</label>
+                            <select class='form-control' v-model='insert.kdType' required @change="getTahun(kdType = insert.kdType)">
+                                <option v-for='data in type' :value='data.kdType' :key='data.id'>{{ data.nmType }}</option>
+                            </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Kode Tahun </label>
+                                <input type="text" class="form-control" v-model="insert.kdTahun" disabled>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon">Tahun</span>
+                                <input type="text" class="form-control" v-model="insert.nmTahun"
+                                       placeholder="Masukkan Nama Type" required>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-md btn-success">SIMPAN</button>
+                            </div>
+                        </form>
 
               </div>
             </div>
@@ -200,6 +310,8 @@
                 detailmotor: [],
                 modalTambahMerek: false,
                 modalTambahJenis: false,
+                modalTambahType: false,
+                modalTambahTahun: false,
                 insert: {},
             }
         },
@@ -212,7 +324,7 @@
             this.getMerek();
             this.loadKdMerek();
             this.loadKdJenis();
-            //this.getJenis()
+            this.loadKdType();
         },
         computed: {
             //newKode: function () {
@@ -288,6 +400,20 @@
                 
             });
             },
+            loadKdType:function(){
+                let uri = `/api/kodetype/`;
+                this.axios.get(uri).then(response => {
+                this.insert.kdType = response.data.kdType;
+                
+            });
+            },
+            loadKdTahun:function(){
+                let uri = `/api/kodetahun/`;
+                this.axios.get(uri).then(response => {
+                this.insert.kdTahun = response.data.kdTahun;
+                
+            });
+            },
             PostStoreMerek() {
                 let uri = '/api/merek/create';
                 this.axios.post(uri, this.insert)
@@ -296,6 +422,32 @@
                         this.getMerek();
                         //this.loadKdLift();
                         this.modalTambahMerek = false;
+                    }).catch(error => {
+                    this.validation = error.response.data.data;
+                });
+            },
+            PostStoreJenis() {
+                let uri = '/api/jenis/create';
+                this.axios.post(uri, this.insert)
+                    .then((response) => {
+                        //this.$router.push({ name: 'pelanggan' });
+                        this.getMerek();
+                        this.getJenis();
+                        //this.loadKdLift();
+                        this.modalTambahJenis = false;
+                    }).catch(error => {
+                    this.validation = error.response.data.data;
+                });
+            },
+            PostStoreType() {
+                let uri = '/api/type/create';
+                this.axios.post(uri, this.insert)
+                    .then((response) => {
+                        //this.$router.push({ name: 'pelanggan' });
+                        this.getMerek();
+                        this.getJenis();
+                        this.getType();
+                        this.modalTambahType = false;
                     }).catch(error => {
                     this.validation = error.response.data.data;
                 });

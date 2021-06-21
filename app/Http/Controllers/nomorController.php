@@ -656,4 +656,74 @@ class nomorController extends Controller
             }
         }
     }
+    public function kodeTypeMotor()
+    {
+        $count = TypeMotor::all();
+        if($count->isEmpty()){
+            $post = 'MTY'.'00'.'1';
+            return response()->json([
+                'success' => true,
+                'message' => 'Detail Post!',
+                'kdType'    => $post
+            ], 200);
+        }else{
+            $no = 0 ;
+            $count = TypeMotor::all()->last();
+            $terakhir = substr($count->kdType, 4,  20);
+            $kodeBaru = $terakhir + 1  ;
+
+            $post = 'MTY'.'00'.$kodeBaru;
+
+            if (TypeMotor::where('kdType', $post)->exists()) {
+                $kodeBarulagi = $kodeBaru + 1 ;
+                $post = 'MTY'.'00'.$kodeBarulagi;
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Detail Post!',
+                    'kdType'    => $post
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Detail Post!',
+                    'kdType'    => $post
+                ], 202);
+            }
+        }
+    }
+    public function kodeTahunMotor()
+    {
+        $count = TahunMotor::all();
+        if($count->isEmpty()){
+            $post = 'TH'.'00'.'1';
+            return response()->json([
+                'success' => true,
+                'message' => 'Detail Post!',
+                'kdTahun'    => $post
+            ], 200);
+        }else{
+            $no = 0 ;
+            $count = TahunMotor::all()->last();
+            $terakhir = substr($count->kdTahun, 4,  20);
+            $kodeBaru = $terakhir + 1  ;
+
+            $post = 'TH'.'00'.$kodeBaru;
+
+            if (TahunMotor::where('kdTahun', $post)->exists()) {
+                $kodeBarulagi = $kodeBaru + 1 ;
+                $post = 'TH'.'00'.$kodeBarulagi;
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Detail Post!',
+                    'kdTahun'    => $post
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Detail Post!',
+                    'kdTahun'    => $post
+                ], 202);
+            }
+        }
+    }
 }

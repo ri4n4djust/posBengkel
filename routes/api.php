@@ -42,7 +42,10 @@ Route::get('category/allCategories', 'CategoryController@allCategories');
 Route::get('merek', 'CategoryController@Semua');
 Route::post('/merek/create', 'CategoryController@createMerek');
 Route::get('jenis/{id}', 'CategoryController@Jenis');
+Route::post('/jenis/create', 'CategoryController@createJenis');
 Route::get('type/{id}', 'CategoryController@Type');
+Route::post('/type/create', 'CategoryController@createType');
+
 Route::get('tahun/{id}', 'CategoryController@Tahun');
 Route::get('detailmotor/{id}', 'CategoryController@DetailMotor');
 
@@ -119,6 +122,8 @@ Route::get('/username', 'nomorController@kodeUsername');
 
 Route::get('/kodemerek', 'nomorController@kodeMerekMotor');
 Route::get('/kodejenis', 'nomorController@kodeJenisMotor');
+Route::get('/kodetype', 'nomorController@kodeTypeMotor');
+Route::get('/kodetahun', 'nomorController@kodeTahunMotor');
 
 
 
