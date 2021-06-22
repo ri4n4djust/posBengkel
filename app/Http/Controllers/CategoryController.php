@@ -47,7 +47,7 @@ class CategoryController extends Controller
 
     public function Tahun($id)
     {
-        $tahun = TahunMotor::where('kdJenis', $id)->get();
+        $tahun = TahunMotor::where('kdType', $id)->get();
         //return response()->json($categories, 200);
         return response([
             'success' => true,

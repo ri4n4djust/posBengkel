@@ -598,7 +598,7 @@ class nomorController extends Controller
         }else{
             $no = 0 ;
             $count = MerekMotor::all()->last();
-            $terakhir = substr($count->kdMerek, 5,  20);
+            $terakhir = substr($count->kdMerek, 4,  20);
             $kodeBaru = $terakhir + 1  ;
 
             $post = 'MTR'.'00'.$kodeBaru;
