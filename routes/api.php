@@ -125,7 +125,7 @@ Route::get('/kodemerek', 'nomorController@kodeMerekMotor');
 Route::get('/kodejenis', 'nomorController@kodeJenisMotor');
 Route::get('/kodetype', 'nomorController@kodeTypeMotor');
 Route::get('/kodetahun', 'nomorController@kodeTahunMotor');
-
+Route::get('/kodedetmotor', 'nomorController@kodeDetailMotor');
 
 
 //=========Pembelian

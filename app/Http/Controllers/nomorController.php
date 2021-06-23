@@ -726,4 +726,39 @@ class nomorController extends Controller
             }
         }
     }
+    public function kodeDetailMotor()
+    {
+        $count = DetailPartMotor::all();
+        if($count->isEmpty()){
+            $post = 'DETMTR'.'00'.'1';
+            return response()->json([
+                'success' => true,
+                'message' => 'Detail Post!',
+                'kdDetailMotor'    => $post
+            ], 200);
+        }else{
+            $no = 0 ;
+            $count = DetailPartMotor::all()->last();
+            $terakhir = substr($count->kdTahun, 9,  20);
+            $kodeBaru = $terakhir + 1  ;
+
+            $post = 'DETMTR'.'00'.$kodeBaru;
+
+            if (DetailPartMotor::where('kdDetailMotor', $post)->exists()) {
+                $kodeBarulagi = $kodeBaru + 1 ;
+                $post = 'DETMTR'.'00'.$kodeBarulagi;
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Detail Post!',
+                    'kdDetailMotor'    => $post
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Detail Post!',
+                    'kdDetailMotor'    => $post
+                ], 202);
+            }
+        }
+    }
 }

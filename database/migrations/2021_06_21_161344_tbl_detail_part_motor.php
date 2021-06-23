@@ -17,6 +17,7 @@ class TblDetailPartMotor extends Migration
         Schema::create('tblDetailPartMotor', function (Blueprint $table) {
             $table->id();
             $table->string('kdDetail');
+            $table->string('kdDetailMotor');
             $table->string('kdType');
             $table->string('kdTahun');
             $table->string('nmDetail');

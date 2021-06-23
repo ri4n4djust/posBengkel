@@ -1,11 +1,6 @@
 <template>
 
         <div class="card-body">
-                        <h3>
-                        <router-link :to="{ name: 'createKategori' }" class="btn btn-md btn-success">TAMBAH KATEGORI</router-link>
-                        </h3>
-
-                            
                            
                             <div class="form-group">
                             <label class="col-sm-3 control-label">Merek:</label>
@@ -302,23 +297,28 @@
                 
                         <form @submit.prevent="PostStoreMotor">
                             <div class="form-group">
-                                <label>Kode Tahun </label>
                                 <input type="text" class="form-control" :value="kdMerek + kdJenis +kdType + kdTahun" :name="kodeDetMotor" disabled>
                             </div>
                             <div class="input-group">
-                                <span class="input-group-addon">Tahun</span>
+                                <span class="input-group-addon">Kode</span>
+                                <input type="text" class="form-control" v-model="insert.kdDetailMotor"
+                                       placeholder="Masukkan Nama Type" required>
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">Nama</span>
                                 <input type="text" class="form-control" v-model="insert.nmTahun"
                                        placeholder="Masukkan Nama Type" required>
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">Tahun</span>
+                                <span class="input-group-addon">Warna</span>
                                 <input type="text" class="form-control" v-model="insert.nmTahun"
                                        placeholder="Masukkan Nama Type" required>
                             </div>
                             <br>
                             <div class="input-group">
-                                <span class="input-group-addon">Tahun</span>
+                                <span class="input-group-addon">Gambar</span>
                                 <input type="text" class="form-control" v-model="insert.nmTahun"
                                        placeholder="Masukkan Nama Type" required>
                             </div>
@@ -372,6 +372,7 @@
                 modalTambahMotor: false,
                 insert: {},
                 kodeDetMotor: '',
+                
             }
         },
         beforeCreate: function () {
@@ -385,6 +386,7 @@
             this.loadKdJenis();
             this.loadKdType();
             this.loadKdTahun();
+            this.loadKdDetMotor();
         },
         computed: {
             //newKode: function () {
@@ -474,6 +476,13 @@
                 
             });
             },
+            loadKdDetMotor:function(){
+                let uri = `/api/kodedetmotor/`;
+                this.axios.get(uri).then(response => {
+                this.insert.kdDetailMotor = response.data.kdDetailMotor;
+                
+            });
+            },
             PostStoreMerek() {
                 let uri = '/api/merek/create';
                 this.axios.post(uri, this.insert)
@@ -544,6 +553,7 @@
 
             PostStoreMotor() {
                 var newKode = this.kdMerek + this.kdJenis + this.kdType + this.kdTahun;
+                var tahun = this.data.nmtahun;
                 alert(newKode)
                 //let uri = '/api/tahun/create';
                 //this.axios.post(uri, this.insert)

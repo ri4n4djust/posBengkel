@@ -10,7 +10,7 @@ class DetailPartMotor extends Model
     protected $table = 'tblDetailPartMotor';
 
     protected $fillable = [
-        'kdDetail', 'kdType', 'kdTahun', 'nmDetail', 'warnaDetail', 'gbrDetail'
+        'kdDetail', 'kdDetailMotor', 'kdType', 'kdTahun', 'nmDetail', 'warnaDetail', 'gbrDetail'
 
     ];
 }
