@@ -36,7 +36,7 @@
                             <label class="col-sm-3 control-label">Tahun Motor:</label>
                             <a href="#" @click="modalTambahTahun = true" class="btn btn-md btn-success">Tambah Tahun</a>
                             <div class="col-sm-4">
-                            <select class='form-control' v-model='kdTahun' required>
+                            <select class='form-control' v-model='kdTahun' required @click="pilihTahun(kdTahun)">
                                 <option v-for='data in tahun' :value='data.kdTahun' :key='data.id'>{{ data.nmTahun }}</option>
                             </select>
                             </div>
@@ -54,7 +54,7 @@
                             </div>
                             </div>
                             
-
+{{dataNama.nmType}} {{dataTahun.nmTahun}}
 
         <div class="card-body">
         
@@ -295,7 +295,7 @@
               </div>
               <div class="modal-body">
                 
-                        <form @submit.prevent="PostStoreMotor">
+                        <form @submit.prevent="PostStoreMotor" enctype="multipart/form-data" >
                             <div class="form-group">
                                 <input type="text" class="form-control" :value="kdMerek + kdJenis +kdType + kdTahun" :name="kodeDetMotor" disabled>
                             </div>
@@ -303,26 +303,30 @@
                                 <span class="input-group-addon">Kode</span>
                                 <input type="text" class="form-control" v-model="insert.kdDetailMotor"
                                        placeholder="Masukkan Nama Type" required>
+                                <input type="text" class="form-control" v-model="dataTahun.nmTahun" required>
+                                <input type="text" class="form-control" v-model="dataNama.nmType" required>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">Nama</span>
-                                <input type="text" class="form-control" v-model="insert.nmTahun"
+                                <input type="text" class="form-control" v-model="nmMotor"
                                        placeholder="Masukkan Nama Type" required>
                             </div>
                             <br>
                             <div class="input-group">
                                 <span class="input-group-addon">Warna</span>
-                                <input type="text" class="form-control" v-model="insert.nmTahun"
-                                       placeholder="Masukkan Nama Type" required>
+                                <input type="text" class="form-control" v-model="warnaMotor" required>
                             </div>
                             <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">Gambar</span>
-                                <input type="text" class="form-control" v-model="insert.nmTahun"
-                                       placeholder="Masukkan Nama Type" required>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Gambar</label>
+                                <div class="col-sm-8">
+                                <input type="file" v-on:change="onImageChange" class="form-control">
+                                <div class="col-md-3" v-if="image">
+                                  <img :src="image" class="img-responsive" height="70" width="90">
+                              </div>
+                                </div>
                             </div>
-                            <br>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-md btn-success">SIMPAN</button>
                             </div>
@@ -372,6 +376,12 @@
                 modalTambahMotor: false,
                 insert: {},
                 kodeDetMotor: '',
+                dataNama: '',
+                dataTahun: '',
+                nmMotor: '',
+                warnaMotor: '',
+                image: ''
+                
                 
             }
         },
@@ -397,6 +407,20 @@
             //this.getCategories()
         },
         methods: {
+            onImageChange(e) {
+                let files = e.target.files || e.dataTransfer.files;
+                if (!files.length)
+                    return;
+                this.createImage(files[0]);
+            },
+            createImage(file) {
+                let reader = new FileReader();
+                let vm = this;
+                reader.onload = (e) => {
+                    vm.image = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            },
             getMerek(){
                 this.axios.get('api/merek')
                 .then(response => { 
@@ -423,6 +447,7 @@
                 this.axios.get('api/type/'+ kdJenis)
                 .then(response => { 
                 this.type = response.data.data;
+                
                 console.log(response.data)
                 })
                 .catch(error => {
@@ -433,6 +458,20 @@
                 this.axios.get('api/tahun/'+ kdType)
                 .then(response => { 
                 this.tahun = response.data.data;
+                this.dataNama = response.data.nmType;
+                console.log(response.data)
+                })
+                .catch(error => {
+                console.error(error);
+                });
+            },
+            pilihTahun(kdTahun){
+              //alert(kdTahun);
+                //this.kdTahun = kdTahun;
+                this.axios.get('api/pilihtahun/'+ kdTahun)
+                .then(response => { 
+                //this.tahun = response.data.data;
+                this.dataTahun = response.data.nmTahun;
                 console.log(response.data)
                 })
                 .catch(error => {
@@ -553,16 +592,22 @@
 
             PostStoreMotor() {
                 var newKode = this.kdMerek + this.kdJenis + this.kdType + this.kdTahun;
-                var tahun = this.data.nmtahun;
-                alert(newKode)
-                //let uri = '/api/tahun/create';
-                //this.axios.post(uri, this.insert)
-                //    .then((response) => {
+                alert(this.image)
+                let uri = '/api/motor/create';
+                this.axios.post(uri, {
+                      newKode : newKode,
+                      kdDetailMotor: this.insert.kdDetailMotor,
+                      tahun: this.dataTahun.nmTahun,
+                      nama: this.dataNama.nmType,
+                      image: this.image,
+                  })
+                    .then((response) => {
+                      alert(image)
                         //this.$router.push({ name: 'pelanggan' });
-                //        this.modalTambahMotor = false;
-                //    }).catch(error => {
-                //    this.validation = error.response.data.data;
-               // });
+                        this.modalTambahMotor = false;
+                    }).catch(error => {
+                    this.validation = error.response.data.data;
+                });
             },
            
         }

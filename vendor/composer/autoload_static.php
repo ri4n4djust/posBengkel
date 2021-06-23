@@ -504,6 +504,7 @@ class ComposerStaticInitc4f97d6204a4d34371f464f9dc423f38
         'App\\Barang' => __DIR__ . '/../..' . '/app/Barang.php',
         'App\\Category' => __DIR__ . '/../..' . '/app/Category.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
+        'App\\DetailPartMotor' => __DIR__ . '/../..' . '/app/DetailPartMotor.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\GrandBeli' => __DIR__ . '/../..' . '/app/GrandBeli.php',
         'App\\GrandBeliDetail' => __DIR__ . '/../..' . '/app/GrandBeliDetail.php',

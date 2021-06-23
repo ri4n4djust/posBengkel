@@ -11,6 +11,11 @@ use App\TahunMotor;
 use App\KatSpMotor;
 use App\DetailPartMotor;
 
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use Image;
+use App\FileUpload;
+
 class CategoryController extends Controller
 {
     public function Semua()
@@ -48,11 +53,28 @@ class CategoryController extends Controller
     public function Tahun($id)
     {
         $tahun = TahunMotor::where('kdType', $id)->get();
+        $nmType = TypeMotor::where('kdType', $id)->first();
+        //$nmTahun = TahunMotor::where('kdType', $id)->first();
         //return response()->json($categories, 200);
         return response([
             'success' => true,
             'message' => 'List Semua Type',
-            'data' => $tahun
+            'data' => $tahun,
+            'nmType' => $nmType,
+        ], 200);
+    }
+
+    public function pilihTahun($id)
+    {
+        //$tahun = TahunMotor::where('kdType', $id)->get();
+        $nmTahun = TahunMotor::where('kdTahun', $id)->first();
+        //$nmTahun = TahunMotor::where('kdType', $id)->first();
+        //return response()->json($categories, 200);
+        return response([
+            'success' => true,
+            'message' => 'List Semua Tahun',
+            //'data' => $tahun,
+            'nmTahun' => $nmTahun,
         ], 200);
     }
 
@@ -145,6 +167,28 @@ class CategoryController extends Controller
         }
     }
 
+    public function storeMotor(Request $request)
+    {
+        
+          $image = $request->get('image');
+          $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+         // $realname = $image->getClientOriginalName();
+          \Image::make($request->get('image'))->save(public_path('images/').$name );
 
+          //$path = public_path('uploads/profile_images')."/".$name;
+          //\Image::make($image->getRealPath())->resize(150,150)->save($path);
+        
+
+       $image= new DetailPartMotor();
+       $image->image_name = $name;
+       $image->save();
+
+
+       return response()->json([
+           'success' => 'You have successfully uploaded an image',
+           'data'   => $name,
+       ], 200);
+       
+     }
 
 }

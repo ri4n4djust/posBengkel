@@ -46,9 +46,11 @@ Route::post('/jenis/create', 'CategoryController@createJenis');
 Route::get('type/{id}', 'CategoryController@Type');
 Route::post('/type/create', 'CategoryController@createType');
 Route::get('tahun/{id}', 'CategoryController@Tahun');
+Route::get('pilihtahun/{id}', 'CategoryController@pilihTahun');
 Route::post('/tahun/create', 'CategoryController@createTahun');
 
 Route::get('detailmotor/{id}', 'CategoryController@DetailMotor');
+Route::post('/motor/create', 'CategoryController@storeMotor');
 
 //=======Motor
 Route::get('/motor', 'motorController@index');
