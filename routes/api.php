@@ -51,6 +51,10 @@ Route::post('/tahun/create', 'CategoryController@createTahun');
 
 Route::get('detailmotor/{id}', 'CategoryController@DetailMotor');
 Route::post('/motor/create', 'CategoryController@storeMotor');
+Route::delete('/motor/{id}', 'CategoryController@delMotor');
+Route::get('/motor/{id}', 'CategoryController@DetailSPMotor');
+Route::post('/katspmotor/create', 'CategoryController@storeSpMotor');
+Route::get('/listspmotor/{id}', 'CategoryController@listSpMotor');
 
 //=======Motor
 Route::get('/motor', 'motorController@index');
@@ -128,6 +132,7 @@ Route::get('/kodejenis', 'nomorController@kodeJenisMotor');
 Route::get('/kodetype', 'nomorController@kodeTypeMotor');
 Route::get('/kodetahun', 'nomorController@kodeTahunMotor');
 Route::get('/kodedetmotor', 'nomorController@kodeDetailMotor');
+Route::get('/kodespmotor', 'nomorController@kodeDetailSpMotor');
 
 
 //=========Pembelian

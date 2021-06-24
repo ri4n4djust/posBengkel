@@ -89,6 +89,28 @@ class CategoryController extends Controller
         ], 200);
     }
 
+    public function DetailSPMotor($id)
+    {
+        $tahun = DetailPartMotor::where('kdDetailMotor', $id)->first();
+        //return response()->json($categories, 200);
+        return response([
+            'success' => true,
+            'message' => 'List Semua Detail',
+            'data' => $tahun
+        ], 200);
+    }
+
+    public function ListSPMotor($id)
+    {
+        $tahun = KatSpMotor::where('kdDetailMotor', $id)->get();
+        //return response()->json($categories, 200);
+        return response([
+            'success' => true,
+            'message' => 'List Semua Detail',
+            'data' => $tahun
+        ], 200);
+    }
+
     public function createMerek(Request $request){
         $insert = MerekMotor::create([
             'kdMerek'   => $request->input('kdMerek'),
@@ -172,24 +194,73 @@ class CategoryController extends Controller
         
           $image = $request->get('image');
           $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-         // $realname = $image->getClientOriginalName();
-         $path = 'image/'.$name ;
-          \Image::make($request->get('image'))->save($path);
-
-          $path = public_path('uploads/profile_images')."/".$name;
-          //\Image::make($image->getRealPath())->resize(150,150)->save($path);
-        
-
-       //$image= new DetailPartMotor();
-       //$image->gbrMotor = $name;
-       //$image->save();
-
-
+         $path = 'image/foto/';
+         if (!file_exists($path)) {
+            File::makeDirectory($path, 0755, true);
+          }
+          \Image::make($request->get('image'))->save($path.$name);
+          
+          $insert = DetailPartMotor::create([
+            'kdDetail'   => $request->input('newKode'),
+            'kdDetailMotor'   => $request->input('kdDetailMotor'),
+            'kdType'   => $request->input('nama'),
+            'kdTahun'   => $request->input('tahun'),
+            'nmDetail'   => $request->input('nmDetail'),
+            'warnaDetail'   => $request->input('warnaDetail'),
+            'gbrDetail'   => $name,
+        ]);
        return response()->json([
            'success' => 'You have successfully uploaded an image',
            'data'   => $name,
        ], 200);
        
      }
+
+     public function storeSpMotor(Request $request)
+    {
+        
+          $image = $request->get('image');
+          $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+         $path = 'image/foto/katsp/';
+         if (!file_exists($path)) {
+            File::makeDirectory($path, 0755, true);
+          }
+          \Image::make($request->get('image'))->save($path.$name);
+          
+          $insert = KatSpMotor::create([
+            'kdDetail'   => $request->input('kdDetail'),
+            'kdDetailMotor'   => $request->input('kdDetailMotor'),
+            'kdKatSp'   => $request->input('kdKatSp'),
+            'nmKatSp'   => $request->input('nmKatSp'),
+            'gbrKatSp'   => $name,
+        ]);
+       return response()->json([
+           'success' => 'You have successfully uploaded an image',
+           'data'   => $name,
+       ], 200);
+       
+     }
+
+     public function delMotor($id)
+    {
+        $post = DetailPartMotor::findOrFail($id);
+        $gbr = $post->gbrDetail ;
+        if (File::exists('image/foto/'.$gbr)) {
+            File::delete('image/foto/'.$gbr);
+        }
+        $post->delete();
+
+        if ($post) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Post Berhasil Dihapus!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Post Gagal Dihapus!',
+            ], 500);
+        }
+    }
 
 }

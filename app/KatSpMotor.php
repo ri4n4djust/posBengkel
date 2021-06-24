@@ -10,7 +10,7 @@ class KatSpMotor extends Model
     protected $table = 'tblKatSpMotor';
 
     protected $fillable = [
-        'kdMerek', 'kdJenis', 'kdType', 'kdTahun', 'kdKatSp', 'nmKatSp'
+        'kdDetail', 'kdDetailMotor', 'kdKatSp', 'nmKatSp', 'gbrKatSp'
 
     ];
 }

@@ -761,4 +761,40 @@ class nomorController extends Controller
             }
         }
     }
+
+    public function kodeDetailSpMotor()
+    {
+        $count = KatSpMotor::all();
+        if($count->isEmpty()){
+            $post = 'KATSP'.'00'.'1';
+            return response()->json([
+                'success' => true,
+                'message' => 'Detail Post!',
+                'kdKatSp'    => $post
+            ], 200);
+        }else{
+            $no = 0 ;
+            $count = KatSpMotor::all()->last();
+            $terakhir = substr($count->kdKatSp, 7,  20);
+            $kodeBaru = $terakhir + 1  ;
+
+            $post = 'KATSP'.'00'.$kodeBaru;
+
+            if (KatSpMotor::where('kdKatSp', $post)->exists()) {
+                $kodeBarulagi = $kodeBaru + 1 ;
+                $post = 'KATSP'.'00'.$kodeBarulagi;
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Detail Post!',
+                    'kdKatSp'    => $post
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Detail Post!',
+                    'kdKatSp'    => $post
+                ], 202);
+            }
+        }
+    }
 }

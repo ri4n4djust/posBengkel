@@ -16,12 +16,11 @@ class TblKatSpMotor extends Migration
         //
         Schema::create('tblKatSpMotor', function (Blueprint $table) {
             $table->id();
-            $table->string('kdMerek');
-            $table->string('kdJenis');
-            $table->string('kdType');
-            $table->string('kdTahun');
+            $table->string('kdDetail');
+            $table->string('kdDetailMotor');
             $table->string('kdKatSp');
             $table->string('nmKatSp');
+            $table->string('gbrKatSp');
             $table->timestamps();
         });
     }

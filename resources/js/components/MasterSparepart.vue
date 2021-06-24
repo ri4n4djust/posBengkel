@@ -1,6 +1,7 @@
 <template>
 
         <div class="card-body">
+          <h3>DETAIL MOTOR</h3>
                            
                             <div class="form-group">
                             <label class="col-sm-3 control-label">Merek:</label>
@@ -41,7 +42,7 @@
                             </select>
                             </div>
                             </div> 
-{{ newKode= kdMerek + kdJenis +kdType + kdTahun }}
+
                             <div class="form-group">
                             <div class="col-sm-8">
                             <button type="submit" @click="PostCari(newKode= kdMerek + kdJenis +kdType + kdTahun)" class="btn btn-md btn-success">Cari</button>
@@ -54,7 +55,6 @@
                             </div>
                             </div>
                             
-{{dataNama.nmType}} {{dataTahun.nmTahun}}
 
         <div class="card-body">
         
@@ -75,11 +75,10 @@
                                     <td>{{ det.kdTahun }}</td>
                                     <td>{{ det.nmDetail }}</td>
                                     <td>{{ det.warnaDetail }}</td>
-                                    <td>{{ det.gbrDetail }}</td>
+                                    <td><img :src="`../image/foto/${det.gbrDetail}`" class="img-responsive" height="70" width="90"></td>
                                     <td class="text-center">
-                                        <router-link :to="{name: 'editKategori', params: { id: det.id }}" class="btn btn-sm btn-primary">Detail</router-link>
-                                        <router-link :to="{name: 'editKategori', params: { id: det.id }}" class="btn btn-sm btn-primary">EDIT</router-link>
-                                        <button @click.prevent="PostDelete(det.id, index)" class="btn btn-sm btn-danger">HAPUS</button>
+                                        <router-link :to="{name: 'mastersdetailparepart', params: { id: det.kdDetailMotor }}" class="btn btn-sm btn-primary">Detail</router-link>
+                                        <button @click.prevent="PostDeleteMotor(id = det.id, index)" class="btn btn-sm btn-danger">HAPUS</button>
                                         
                                     </td>
                                 </tr>
@@ -380,7 +379,8 @@
                 dataTahun: '',
                 nmMotor: '',
                 warnaMotor: '',
-                image: ''
+                image: '',
+                gamb: '@/image/foto/',
                 
                 
             }
@@ -479,10 +479,12 @@
                 });
             },
             PostCari(newKode){
+
                let uri = '/api/detailmotor/'+ newKode;
                 this.axios.get(uri)
                     .then((response) => {
                         this.detailmotor = response.data.data;
+                        //this.gamb = '@/image/foto/'+ this.detailmotor.gbrDetail;
                     }).catch(error => {
                     this.validation = error.response.data.data;
                 });
@@ -592,23 +594,37 @@
 
             PostStoreMotor() {
                 var newKode = this.kdMerek + this.kdJenis + this.kdType + this.kdTahun;
-                alert(this.image)
+                //alert(this.image)
                 let uri = '/api/motor/create';
                 this.axios.post(uri, {
                       newKode : newKode,
                       kdDetailMotor: this.insert.kdDetailMotor,
                       tahun: this.dataTahun.nmTahun,
                       nama: this.dataNama.nmType,
+                      nmDetail: this.nmMotor,
+                      warnaDetail: this.warnaMotor,
                       image: this.image,
-                  })
-                    .then((response) => {
-                      alert(image)
-                        //this.$router.push({ name: 'pelanggan' });
+                  }).then((response) => {
+                      this.loadKdDetMotor();
+                       this.nmMotor = '';
+                       this.warnaMotor = '';
                         this.modalTambahMotor = false;
                     }).catch(error => {
                     this.validation = error.response.data.data;
                 });
             },
+
+            PostDeleteMotor(id, index)
+            {
+            if(confirm("Do you really want to delete?")){
+                this.axios.delete(`/api/motor/${id}`)
+                    .then(response => {
+                        this.detailmotor.splice(index, 1);
+                    }).catch(error => {
+                    alert('system error!');
+                });
+            }
+            }
            
         }
     }
