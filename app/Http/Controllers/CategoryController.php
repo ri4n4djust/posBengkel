@@ -111,6 +111,18 @@ class CategoryController extends Controller
         ], 200);
     }
 
+
+    public function ListDetSPMotor($id)
+    {
+        $tahun = KatSpMotor::where('kdKatSp', $id)->first();
+        //return response()->json($categories, 200);
+        return response([
+            'success' => true,
+            'message' => 'List Semua Detail',
+            'data' => $tahun
+        ], 200);
+    }
+
     public function createMerek(Request $request){
         $insert = MerekMotor::create([
             'kdMerek'   => $request->input('kdMerek'),

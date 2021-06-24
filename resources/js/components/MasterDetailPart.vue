@@ -16,10 +16,9 @@
 
 
                 <p class="text-muted text-center">
-                  <div class="input-group">
-                  <span class="input-group-addon">Type</span>
-                      <select class='form-control' v-model='kdKatSp' required>
-                          <option  v-for="det in listkatsp" :data="det.kdKatSp" :key="det.id">{{det.nmKatSp}}</option>
+                  <div class="form-group">
+                      <select class='form-control' @click="listSpMotor()" v-model='listkatsp.kdKatSp' required>
+                          <option  v-for="det in listkatspmotor" :data="det.kdKatSp" :key="det.id">{{det.nmKatSp}}</option>
                         </select>
                   </div>
                   
@@ -40,8 +39,7 @@
                     </div>
                     <div class="box-body">
 
-                      
-
+                        <img :src="`../image/foto/katsp/${listkatsp.gbrKatSp}`" class="img-responsive">
                     </div>
                     
                     <!-- /.box-body -->
@@ -76,8 +74,9 @@
                 insert: {},
                 kodeDetMotor: '',
                 image: '',
-                kdKatSp: `${this.$route.params.id}`,
+                kdKatSp: '',
                 listkatsp: [],
+                listkatspmotor: [],
                 
             }
         },
@@ -89,7 +88,8 @@
         created() {
             this.loadKdSp();
             this.loadDetMotor();
-            this.listSpMotor();
+            //this.listSpMotor();
+            this.listDetSpMotor();
         },
         computed: {
             //newKode: function () {
@@ -121,7 +121,13 @@
                 });
             },
             listSpMotor:function(){
-                let uri = `/api/listspmotor/${this.$route.params.id}`;
+                let uri = '/api/listspmotor/'+ this.listkatsp.kdDetailMotor;
+                this.axios.get(uri).then(response => {
+                this.listkatspmotor = response.data.data;
+                });
+            },
+            listDetSpMotor:function(){
+                let uri = `/api/listdetspmotor/${this.$route.params.id}`;
                 this.axios.get(uri).then(response => {
                 this.listkatsp = response.data.data;
                 });

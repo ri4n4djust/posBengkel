@@ -76,7 +76,48 @@
                                  </div>
                             </div>
 
+                            <div class="form-group">
+                                <input type="checkbox" id="promo" v-model="checked">
+                                <label for="promo">Catalog</label>
+                            </div>
+                            {{merek}}
+                            <div v-if="checked">
+                                <!-----Awal Katalog ---->
+                                <div class="form-group">
+                                <label class="col-sm-3 control-label">Merek:</label>
+                                <div class="col-sm-4">
+                                <select class='form-control' v-model='kdMerek' required @click="getJenis(kdMerek)">
+                                    <option v-for='data in merek' :value='data.kdMerek' :key='data.id'>{{ data.nmMerek }}</option>
+                                </select>
+                                </div>
+                                </div>
+                                <div class="form-group">
+                                <label class="col-sm-3 control-label">Jenis:</label>
+                                <div class="col-sm-4">
+                                <select class='form-control' v-model='kdJenis' required @click="getType(kdJenis)">
+                                    <option v-for='data in jenis' :value='data.kdJenis' :key='data.id'>{{ data.nmJenis }}</option>
+                                </select>
+                                </div>
+                                </div> 
+                                <div class="form-group">
+                                <label class="col-sm-3 control-label">Type Motor:</label>
+                                <div class="col-sm-4">
+                                <select class='form-control' v-model='kdType' required @click="getTahun(kdType)">
+                                    <option v-for='data in type' :value='data.kdType' :key='data.id'>{{ data.nmType }}</option>
+                                </select>
+                                </div>
+                                </div>
 
+                                <div class="form-group">
+                                <label class="col-sm-3 control-label">Tahun Motor:</label>
+                                <div class="col-sm-4">
+                                <select class='form-control' v-model='kdTahun' required @click="pilihTahun(kdTahun)">
+                                    <option v-for='data in tahun' :value='data.kdTahun' :key='data.id'>{{ data.nmTahun }}</option>
+                                </select>
+                                </div>
+                                </div> 
+                                <!------EndKatalog ------>
+                            </div>
                           
                 </div>
             </div>
@@ -188,13 +229,24 @@ Vue.component(VueBarcode.name, VueBarcode);
                     name: '',
                     party: ''
                 }],
-               
+                checked: false,
+                merek : [],
+                kdMerek: '',
+                nmMerek: '',
+                jenis: [],
+                kdJenis: '',
+                nmJenis: '',
+                type: [],
+                kdType: '',
+                tahun: [],
+                kdTahun: '',
             }
             
         },
-        created: function(){
-            this.loadKdBarang()
-            this.getCountries()
+        created(){
+            this.loadKdBarang();
+            this.getCountries();
+            this.getMerek();
             this.adminuser = this.$session.get('roleID');
             
         },
@@ -229,6 +281,63 @@ Vue.component(VueBarcode.name, VueBarcode);
                 })
                 .then(response => {})
                 .catch(error => {})
+            },
+            getMerek(){
+                this.axios.get('api/merek')
+                .then(response => { 
+                this.merek = response.data.data;
+                this.nmMerek = this.merek.nmMerek;
+                console.log(response.data)
+                })
+                .catch(error => {
+                console.error(error);
+                });
+            },
+            getJenis(kdMerek){
+                this.axios.get('api/jenis/'+ kdMerek)
+                .then(response => { 
+                this.jenis = response.data.data;
+                this.nmJenis = this.jenis.nmJenis;
+                console.log(response.data)
+                })
+                .catch(error => {
+                console.error(error);
+                });
+            },
+            getType(kdJenis){
+                this.axios.get('api/type/'+ kdJenis)
+                .then(response => { 
+                this.type = response.data.data;
+                
+                console.log(response.data)
+                })
+                .catch(error => {
+                console.error(error);
+                });
+            },
+            getTahun(kdType){
+                this.axios.get('api/tahun/'+ kdType)
+                .then(response => { 
+                this.tahun = response.data.data;
+                this.dataNama = response.data.nmType;
+                console.log(response.data)
+                })
+                .catch(error => {
+                console.error(error);
+                });
+            },
+            pilihTahun(kdTahun){
+              //alert(kdTahun);
+                //this.kdTahun = kdTahun;
+                this.axios.get('api/pilihtahun/'+ kdTahun)
+                .then(response => { 
+                //this.tahun = response.data.data;
+                this.dataTahun = response.data.nmTahun;
+                console.log(response.data)
+                })
+                .catch(error => {
+                console.error(error);
+                });
             },
             PostStore() {
                 let uri = '/api/posts/store';

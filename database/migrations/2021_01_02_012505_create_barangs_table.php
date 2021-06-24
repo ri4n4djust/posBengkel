@@ -27,7 +27,10 @@ class CreateBarangsTable extends Migration
             $table->char('stkSatuan')->nullable();
             $table->char('qtyMin');
             $table->char('qtyMax');
-            $table->text('deskripsi');
+            $table->text('deskripsi')->nullable();
+            $table->char('gmbrBarang')->nullable();
+            $table->char('kategoriSp')->nullable();
+            $table->char('noSp')->nullable();
             $table->timestamps();
         });
     }

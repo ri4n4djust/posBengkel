@@ -28,7 +28,7 @@
                                     
                                     <h4 class="box-title">{{ det.nmKatSp }} </h4>
                                     <button @click.prevent="PostDeleteKatSp(id = det.id, index)" class="btn btn-sm btn-danger">HAPUS</button>
-                                        <router-link :to="{name: 'mastersdetailpart', params: { id: det.kdDetailMotor }}" class="btn btn-sm btn-primary">
+                                        <router-link :to="{name: 'mastersdetailpart', params: { id: det.kdKatSp }}" class="btn btn-sm btn-primary">
                                             <img :src="`../image/foto/katsp/${det.gbrKatSp}`" class="img-responsive">
                                         </router-link>
                                     </div>
