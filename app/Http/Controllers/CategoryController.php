@@ -173,15 +173,16 @@ class CategoryController extends Controller
           $image = $request->get('image');
           $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
          // $realname = $image->getClientOriginalName();
-          \Image::make($request->get('image'))->save(public_path('images/').$name );
+         $path = 'image/'.$name ;
+          \Image::make($request->get('image'))->save($path);
 
-          //$path = public_path('uploads/profile_images')."/".$name;
+          $path = public_path('uploads/profile_images')."/".$name;
           //\Image::make($image->getRealPath())->resize(150,150)->save($path);
         
 
-       $image= new DetailPartMotor();
-       $image->image_name = $name;
-       $image->save();
+       //$image= new DetailPartMotor();
+       //$image->gbrMotor = $name;
+       //$image->save();
 
 
        return response()->json([
