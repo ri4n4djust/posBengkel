@@ -55,6 +55,7 @@ Route::delete('/motor/{id}', 'CategoryController@delMotor');
 Route::get('/motor/{id}', 'CategoryController@DetailSPMotor');
 Route::post('/katspmotor/create', 'CategoryController@storeSpMotor');
 Route::get('/listspmotor/{id}', 'CategoryController@listSpMotor');
+Route::delete('/listspmotor/{id}', 'CategoryController@delSpMotor');
 
 //=======Motor
 Route::get('/motor', 'motorController@index');

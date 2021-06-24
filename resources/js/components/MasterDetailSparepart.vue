@@ -10,6 +10,7 @@
           <div class="row">
             <div class="col-md-6">
                {{post.nmDetail}} 
+               {{post.warnaDetail}} 
                 <button @click="modalTambahSp = true" class="btn btn-md btn-primary">TAMBAH KATEGORI SPARE PART</button>
                
             </div>
@@ -19,13 +20,17 @@
         <!-- /.box-body -->
 
       <!-- /.box -->  
-                        <div v-for="(det) in listkatsp" :key="det.id" class="col-lg-3 col-xs-8" >
+                        <div v-for="(det, index) in listkatsp" :key="det.id" class="col-lg-3 col-xs-8" >
                                             <!-- small box -->
                             <div>
                                 <div class="small-box bg-green">
                                     <div class="inner">
-                                    <h4 class="box-title">{{ det.nmKatSp }}</h4>
-                                        <img :src="`../image/foto/katsp/${det.gbrKatSp}`" class="img-responsive">
+                                    
+                                    <h4 class="box-title">{{ det.nmKatSp }} </h4>
+                                    <button @click.prevent="PostDeleteKatSp(id = det.id, index)" class="btn btn-sm btn-danger">HAPUS</button>
+                                        <router-link :to="{name: 'mastersdetailpart', params: { id: det.kdDetailMotor }}" class="btn btn-sm btn-primary">
+                                            <img :src="`../image/foto/katsp/${det.gbrKatSp}`" class="img-responsive">
+                                        </router-link>
                                     </div>
                                     <div class="icon">
                                     </div>
@@ -187,12 +192,12 @@
                 });
             },
             
-            PostDeleteMotor(id, index)
+            PostDeleteKatSp(id, index)
             {
             if(confirm("Do you really want to delete?")){
-                this.axios.delete(`/api/motor/${id}`)
+                this.axios.delete(`/api/listspmotor/${id}`)
                     .then(response => {
-                        this.detailmotor.splice(index, 1);
+                        this.listkatsp.splice(index, 1);
                     }).catch(error => {
                     alert('system error!');
                 });

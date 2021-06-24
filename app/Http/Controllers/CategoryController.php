@@ -263,4 +263,26 @@ class CategoryController extends Controller
         }
     }
 
+    public function delSpMotor($id)
+    {
+        $post = KatSpMotor::findOrFail($id);
+        $gbr = $post->gbrKatSp ;
+        if (File::exists('image/foto/katsp/'.$gbr)) {
+            File::delete('image/foto/katsp/'.$gbr);
+        }
+        $post->delete();
+
+        if ($post) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Post Berhasil Dihapus!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Post Gagal Dihapus!',
+            ], 500);
+        }
+    }
+
 }

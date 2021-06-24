@@ -74,6 +74,7 @@ import CreateGrandJual from './components/GrandJualCreate.vue';
 
 import MasterSPComponent from './components/MasterSparepart.vue';
 import MasterDetSPComponent from './components/MasterDetailSparepart.vue';
+import MasterPartComponent from './components/MasterDetailPart.vue';
 import SettingComponent from './components/MasterHarga.vue';
 
 import LaporanPenjualanComponent from './components/laporan/laporanPenjualan.vue';
@@ -133,6 +134,7 @@ const routes = [
     //=============Master SP
     { name: 'mastersparepart', path: '/mastersparepart', component: MasterSPComponent },
     { name: 'mastersdetailparepart', path: '/masterdetailsparepart/:id', component: MasterDetSPComponent },
+    { name: 'mastersdetailpart', path: '/masterdetailpart/:id', component: MasterPartComponent },
     //=============Setting Harga
     { name: 'setting', path: '/setting', component: SettingComponent },
     //=============Jasa
