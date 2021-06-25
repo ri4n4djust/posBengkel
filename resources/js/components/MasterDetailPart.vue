@@ -21,6 +21,12 @@
                           <option  v-for="det in listkatspmotor" :data="det.kdKatSp" :key="det.id">{{det.nmKatSp}}</option>
                         </select>
                   </div>
+                <div class="row">
+                    Order List
+                </div>
+                <div class="row">
+                    Part List
+                </div>
                   
               
             </div>
