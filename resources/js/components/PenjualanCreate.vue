@@ -148,9 +148,7 @@
                                   autocomplete
                                   optionLabel="namaJasa" 
                           ></vue-single-select>
-                          <select class='form-control' v-model='post2.kdJasa' required>
-                            <option v-for='mk in jasas' :value='mk.kdJasa' :key='mk.id'>{{ mk.namaJasa }}</option>
-                          </select>     
+
                           <input type="hidden" v-model="qtyJualJasa" class="form-control input-sm" placeholder="Qty"> 
                           <input type="hidden" :value="(post2.biayaJasa * qtyJualJasa) || 0" :name="subTotal" class="form-control input-sm" placeholder="Total">                  
                           </div>
