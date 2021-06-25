@@ -28,6 +28,7 @@ Route::post('/posts/store', 'salesController@store');
 Route::get('/posts/{id?}', 'salesController@show');
 Route::post('/posts/update/{id?}', 'salesController@update');
 Route::delete('/posts/{id?}', 'salesController@destroy');
+Route::get('/caribarang', 'salesController@cariBarang');
 
 //=======kategori
 Route::get('/kategori', 'kategoriController@index');
@@ -58,6 +59,9 @@ Route::get('/listspmotor/{id}', 'CategoryController@listSpMotor');
 Route::delete('/listspmotor/{id}', 'CategoryController@delSpMotor');
 
 Route::get('/listdetspmotor/{id}', 'CategoryController@listDetSpMotor');
+
+Route::get('/listkatalog/{id}', 'CategoryController@SemuaKatalog');
+Route::post('/katalog/create', 'CategoryController@storeKatalog');
 
 //=======Motor
 Route::get('/motor', 'motorController@index');

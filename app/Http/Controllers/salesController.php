@@ -33,6 +33,15 @@ class salesController extends Controller
         ], 200);
     }
 
+    public function cariBarang(Request $request){
+        $barangs = Barang::where('barcode','LIKE',''.$request->barccode.'%')
+                        ->take(5)
+                        ->get();
+        return response([
+            'data' => $barangs
+        ]);
+    }
+
     public function semua()
     {
         $posts = Barang::join('tblKategori', 'tblBarang.ktgBarang', '=', 'tblKategori.kodeKtg')

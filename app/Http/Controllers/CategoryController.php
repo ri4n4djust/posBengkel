@@ -10,6 +10,7 @@ use App\TypeMotor;
 use App\TahunMotor;
 use App\KatSpMotor;
 use App\DetailPartMotor;
+use App\DetailCatalog;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -27,6 +28,37 @@ class CategoryController extends Controller
             'message' => 'List Semua Merek',
             'data' => $categories
         ], 200);
+    }
+    public function SemuaKatalog($id)
+    {
+        $catalog = DetailCatalog::where('kdKatSP', $id)
+                                ->orderBy('noBarang')
+                                ->get();
+        //return response()->json($categories, 200);
+        return response([
+            'success' => true,
+            'message' => 'List Semua Merek',
+            'data' => $catalog
+        ], 200);
+    }
+    public function storeKatalog(Request $request){
+        $insert = DetailCatalog::create([
+            'kdKatSp'   => $request->input('kdKatSp'),
+            'barcode'   => $request->input('barcode'),
+            'noBarang'   => $request->input('noBarang'),
+            'nmBarang'   => $request->input('nmBarang'),
+        ]);
+        if ($insert) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Post Berhasil Disimpan!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Post Gagal Disimpan!',
+            ], 400);
+        }
     }
     public function Jenis($id)
     {

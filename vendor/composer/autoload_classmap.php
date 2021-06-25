@@ -10,6 +10,7 @@ return array(
     'App\\Barang' => $baseDir . '/app/Barang.php',
     'App\\Category' => $baseDir . '/app/Category.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
+    'App\\DetailCatalog' => $baseDir . '/app/DetailCatalog.php',
     'App\\DetailPartMotor' => $baseDir . '/app/DetailPartMotor.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\GrandBeli' => $baseDir . '/app/GrandBeli.php',

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 21 Jun 2021 pada 11.20
+-- Waktu pembuatan: 25 Jun 2021 pada 08.30
 -- Versi server: 10.4.18-MariaDB
 -- Versi PHP: 7.4.16
 
@@ -110,7 +110,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (36, '2021_06_21_101448_tbl_type_motor', 17),
 (37, '2021_06_21_101643_tbl_tahun_motor', 18),
 (38, '2021_06_21_101956_tbl_kat_sp_motor', 19),
-(39, '2021_06_21_161344_tbl_detail_part_motor', 20);
+(39, '2021_06_21_161344_tbl_detail_part_motor', 20),
+(40, '2021_06_25_112012_create_detail_catalogs_table', 21);
 
 -- --------------------------------------------------------
 
@@ -273,12 +274,41 @@ INSERT INTO `tbldetailjasajual` (`id`, `noNotaPenjualan`, `kdJasa`, `namaJasa`, 
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `tbldetailkatalog`
+--
+
+CREATE TABLE `tbldetailkatalog` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `kdKatSP` char(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `barcode` char(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `noBarang` int(5) NOT NULL,
+  `nmBarang` char(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `tbldetailkatalog`
+--
+
+INSERT INTO `tbldetailkatalog` (`id`, `kdKatSP`, `barcode`, `noBarang`, `nmBarang`, `created_at`, `updated_at`) VALUES
+(5, 'KATSP005', '1234568766', 12, 'Rantai Standart Supra X 100CC', '2021-06-25 03:51:01', '2021-06-25 03:51:01'),
+(6, 'KATSP005', '123456', 3, 'Kampas Kopling', '2021-06-25 03:52:31', '2021-06-25 03:52:31'),
+(7, 'KATSP006', '123', 12, 'Busi', '2021-06-25 03:52:53', '2021-06-25 03:52:53'),
+(8, 'KATSP005', '1234568766', 1, 'Rantai Standart Supra X 100CC', '2021-06-25 04:46:30', '2021-06-25 04:46:30'),
+(9, 'KATSP005', '123', 2, 'Busi', '2021-06-25 04:46:49', '2021-06-25 04:46:49'),
+(10, 'KATSP005', '0987654321', 7, 'Kampas Rem Vario 110', '2021-06-25 04:54:43', '2021-06-25 04:54:43');
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `tbldetailpartmotor`
 --
 
 CREATE TABLE `tbldetailpartmotor` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `kdDetail` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `kdDetailMotor` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `kdType` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `kdTahun` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nmDetail` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -292,9 +322,10 @@ CREATE TABLE `tbldetailpartmotor` (
 -- Dumping data untuk tabel `tbldetailpartmotor`
 --
 
-INSERT INTO `tbldetailpartmotor` (`id`, `kdDetail`, `kdType`, `kdTahun`, `nmDetail`, `warnaDetail`, `gbrDetail`, `created_at`, `updated_at`) VALUES
-(1, 'MTR001MTJ001VR001TH001', 'VR001', '2008', 'Vario Karbu 110', 'Putih', 'var.jpg', NULL, NULL),
-(2, 'MTR001MTJ001VR001TH001', 'VR001', '2008', 'Vario Karbu 110', 'Putih Hijau', 'vrh.jpg', NULL, NULL);
+INSERT INTO `tbldetailpartmotor` (`id`, `kdDetail`, `kdDetailMotor`, `kdType`, `kdTahun`, `nmDetail`, `warnaDetail`, `gbrDetail`, `created_at`, `updated_at`) VALUES
+(7, 'MTR001MTJ001VR001TH004', 'DETMTR002', 'VARIO 110', '2008', 'VARIO 110 FI', 'HITAM', '1624500985.png', '2021-06-24 02:16:25', '2021-06-24 02:16:25'),
+(9, 'MTR002MTJ003MI001TH0011', 'DETMTR002', 'MIO 110', '2014', 'MIO 110 KARBU', 'BIRU', '1624502213.png', '2021-06-24 02:36:53', '2021-06-24 02:36:53'),
+(10, 'MTR003MTJ005MTY002TH003', 'DETMTR002', 'SUZUKI NEXT FI', '2013', 'SUZUKI NEXT FI', 'HITAM', '1624502513.jpeg', '2021-06-24 02:41:53', '2021-06-24 02:41:53');
 
 -- --------------------------------------------------------
 
@@ -490,7 +521,11 @@ INSERT INTO `tbljenismotor` (`id`, `kdMerek`, `kdJenis`, `nmJenis`, `created_at`
 (1, 'MTR001', 'MTJ001', 'MATIC', NULL, NULL),
 (2, 'MTR001', 'MTJ002', 'MANUAL', NULL, NULL),
 (3, 'MTR002', 'MTJ003', 'MATIC YAMAHA', NULL, NULL),
-(4, 'MTR002', 'MTJ004', 'MANUAL YAMAHA', NULL, NULL);
+(4, 'MTR002', 'MTJ004', 'MANUAL YAMAHA', NULL, NULL),
+(8, 'MTR003', 'MTJ005', 'MATIC SUZUKI', '2021-06-22 01:12:37', '2021-06-22 01:12:37'),
+(9, 'MTR004', 'MTJ006', 'SPORT', '2021-06-22 01:49:00', '2021-06-22 01:49:00'),
+(11, 'MTR004', 'MTJ007', 'MANUAL', '2021-06-22 01:52:35', '2021-06-22 01:52:35'),
+(12, 'MTR004', 'MTJ008', 'MATIC', '2021-06-22 02:05:01', '2021-06-22 02:05:01');
 
 -- --------------------------------------------------------
 
@@ -667,15 +702,22 @@ INSERT INTO `tblkategori` (`id`, `kodeKtg`, `namaKtg`, `created_at`, `updated_at
 
 CREATE TABLE `tblkatspmotor` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `kdMerek` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `kdJenis` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `kdType` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `kdTahun` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `kdDetail` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `kdDetailMotor` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `kdKatSp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nmKatSp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `gbrKatSp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `tblkatspmotor`
+--
+
+INSERT INTO `tblkatspmotor` (`id`, `kdDetail`, `kdDetailMotor`, `kdKatSp`, `nmKatSp`, `gbrKatSp`, `created_at`, `updated_at`) VALUES
+(9, 'MTR001MTJ001VR001TH004', 'DETMTR002', 'KATSP005', 'Cilinder', '1624585881.png', '2021-06-25 01:51:22', '2021-06-25 01:51:22'),
+(11, 'MTR001MTJ001VR001TH004', 'DETMTR002', 'KATSP006', 'Camsaft', '1624587359.png', '2021-06-25 02:15:59', '2021-06-25 02:15:59');
 
 -- --------------------------------------------------------
 
@@ -770,7 +812,9 @@ CREATE TABLE `tblmerekmotor` (
 
 INSERT INTO `tblmerekmotor` (`id`, `kdMerek`, `nmMerek`, `created_at`, `updated_at`) VALUES
 (1, 'MTR001', 'HONDA', NULL, NULL),
-(2, 'MTR002', 'YAMAHA', NULL, NULL);
+(2, 'MTR002', 'YAMAHA', NULL, NULL),
+(4, 'MTR003', 'SUZUKI', '2021-06-22 01:12:20', '2021-06-22 01:12:20'),
+(5, 'MTR004', 'KAWASAKI', '2021-06-22 01:48:39', '2021-06-22 01:48:39');
 
 -- --------------------------------------------------------
 
@@ -1114,16 +1158,16 @@ CREATE TABLE `tblsetupharga` (
 --
 
 INSERT INTO `tblsetupharga` (`id`, `noHrg`, `codeHrg`, `created_at`, `updated_at`) VALUES
-(1, 1, 'A', NULL, '2021-06-16 06:52:36'),
-(2, 2, 'B', NULL, '2021-06-16 06:52:36'),
-(3, 3, 'C', NULL, '2021-06-16 06:52:36'),
-(4, 4, 'D', NULL, '2021-06-16 06:52:36'),
-(5, 5, 'E', NULL, '2021-06-16 06:52:36'),
-(6, 6, 'F', NULL, '2021-06-16 06:52:36'),
-(7, 7, 'G', NULL, '2021-06-16 06:52:36'),
-(8, 8, 'H', NULL, '2021-06-16 06:52:36'),
-(9, 9, 'I', NULL, '2021-06-16 06:52:37'),
-(10, 0, 'X', NULL, '2021-06-16 06:52:37');
+(1, 1, 'Z', NULL, '2021-06-23 08:27:58'),
+(2, 2, 'B', NULL, '2021-06-23 08:27:58'),
+(3, 3, 'C', NULL, '2021-06-23 08:27:58'),
+(4, 4, 'D', NULL, '2021-06-23 08:27:58'),
+(5, 5, 'E', NULL, '2021-06-23 08:27:58'),
+(6, 6, 'F', NULL, '2021-06-23 08:27:59'),
+(7, 7, 'G', NULL, '2021-06-23 08:27:59'),
+(8, 8, 'H', NULL, '2021-06-23 08:27:59'),
+(9, 9, 'I', NULL, '2021-06-23 08:27:59'),
+(10, 0, 'X', NULL, '2021-06-23 08:27:59');
 
 -- --------------------------------------------------------
 
@@ -1226,8 +1270,19 @@ CREATE TABLE `tbltahunmotor` (
 --
 
 INSERT INTO `tbltahunmotor` (`id`, `kdMerek`, `kdType`, `kdJenis`, `kdTahun`, `nmTahun`, `created_at`, `updated_at`) VALUES
-(1, 'MTR001', 'MTJ001', 'VR001', 'TH001', '2008', NULL, NULL),
-(2, 'MTR001', 'MTJ001', 'VR001', 'TH002', '2009', NULL, NULL);
+(4, 'MTR003', 'MTY002', 'MTJ005', 'TH003', '2013', '2021-06-22 01:36:21', '2021-06-22 01:36:21'),
+(5, 'MTR001', 'VR001', 'MTJ001', 'TH004', '2008', '2021-06-22 01:41:49', '2021-06-22 01:41:49'),
+(6, 'MTR001', 'VR001', 'MTJ001', 'TH009', '2009', '2021-06-22 01:42:16', '2021-06-22 01:42:16'),
+(7, 'MTR004', 'MTY003', 'MTJ006', 'TH005', '2014', '2021-06-22 01:51:13', '2021-06-22 01:51:13'),
+(8, 'MTR002', 'MI001', 'MTJ003', 'TH006', '2015', '2021-06-22 01:55:01', '2021-06-22 01:55:01'),
+(9, 'MTR001', 'MTY004', 'MTJ001', 'TH007', '2014', '2021-06-22 01:59:59', '2021-06-22 01:59:59'),
+(10, 'MTR001', 'MTY004', 'MTJ001', 'TH007', '2017', '2021-06-22 02:00:12', '2021-06-22 02:00:12'),
+(11, 'MTR001', 'MTY006', 'MTJ002', 'TH008', '2010', '2021-06-23 01:34:24', '2021-06-23 01:34:24'),
+(12, 'MTR001', 'VR001', 'MTJ001', 'TH0010', '2013', '2021-06-23 03:14:03', '2021-06-23 03:14:03'),
+(13, 'MTR002', 'MI001', 'MTJ003', 'TH0011', '2014', '2021-06-23 03:15:22', '2021-06-23 03:15:22'),
+(14, 'MTR002', 'NM001', 'MTJ003', 'TH0012', '2014', '2021-06-23 03:18:03', '2021-06-23 03:18:03'),
+(15, 'MTR002', 'MTY007', 'MTJ003', 'TH0013', '2007', '2021-06-23 03:19:04', '2021-06-23 03:19:04'),
+(16, 'MTR002', 'MTY008', 'MTJ003', 'TH0014', '2015', '2021-06-23 08:24:44', '2021-06-23 08:24:44');
 
 -- --------------------------------------------------------
 
@@ -1290,7 +1345,15 @@ INSERT INTO `tbltypemotor` (`id`, `kdMerek`, `kdJenis`, `kdType`, `nmType`, `cre
 (1, 'MTR001', 'MTJ001', 'VR001', 'VARIO 110', NULL, NULL),
 (2, 'MTR001', 'MTJ001', 'BT001', 'Beat 110', NULL, NULL),
 (3, 'MTR002', 'MTJ003', 'MI001', 'MIO 110', NULL, NULL),
-(4, 'MTR002', 'MTJ003', 'NM001', 'N MAX 150', NULL, NULL);
+(4, 'MTR002', 'MTJ003', 'NM001', 'N MAX 150', NULL, NULL),
+(5, 'MTR003', 'MTJ005', 'MTY002', 'SUZUKI NEXT FI', '2021-06-22 01:13:02', '2021-06-22 01:13:02'),
+(6, 'MTR004', 'MTJ006', 'MTY003', 'NINJA 250 CC', '2021-06-22 01:49:24', '2021-06-22 01:49:24'),
+(7, 'MTR001', 'MTJ001', 'MTY004', 'SCOOPY', '2021-06-22 01:57:41', '2021-06-22 01:57:41'),
+(8, 'MTR001', 'MTJ001', 'MTY004', 'SPACY', '2021-06-22 01:57:59', '2021-06-22 01:57:59'),
+(9, 'MTR004', 'MTJ007', 'MTY005', 'KAZE R', '2021-06-22 02:05:51', '2021-06-22 02:05:51'),
+(10, 'MTR001', 'MTJ002', 'MTY006', 'SUPRA X 125', '2021-06-23 01:34:00', '2021-06-23 01:34:00'),
+(11, 'MTR002', 'MTJ003', 'MTY007', 'MIO SOUL', '2021-06-23 03:18:43', '2021-06-23 03:18:43'),
+(12, 'MTR002', 'MTJ003', 'MTY008', 'LEXI 150', '2021-06-23 08:24:23', '2021-06-23 08:24:23');
 
 -- --------------------------------------------------------
 
@@ -1363,6 +1426,12 @@ ALTER TABLE `tblbarang`
 -- Indeks untuk tabel `tbldetailjasajual`
 --
 ALTER TABLE `tbldetailjasajual`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `tbldetailkatalog`
+--
+ALTER TABLE `tbldetailkatalog`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1571,7 +1640,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT untuk tabel `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT untuk tabel `tblbarang`
@@ -1586,10 +1655,16 @@ ALTER TABLE `tbldetailjasajual`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
+-- AUTO_INCREMENT untuk tabel `tbldetailkatalog`
+--
+ALTER TABLE `tbldetailkatalog`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
 -- AUTO_INCREMENT untuk tabel `tbldetailpartmotor`
 --
 ALTER TABLE `tbldetailpartmotor`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT untuk tabel `tblgrandbeli`
@@ -1625,7 +1700,7 @@ ALTER TABLE `tbljasa`
 -- AUTO_INCREMENT untuk tabel `tbljenismotor`
 --
 ALTER TABLE `tbljenismotor`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT untuk tabel `tblkartustok`
@@ -1643,7 +1718,7 @@ ALTER TABLE `tblkategori`
 -- AUTO_INCREMENT untuk tabel `tblkatspmotor`
 --
 ALTER TABLE `tblkatspmotor`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT untuk tabel `tblkomposisi`
@@ -1667,7 +1742,7 @@ ALTER TABLE `tblmekanik`
 -- AUTO_INCREMENT untuk tabel `tblmerekmotor`
 --
 ALTER TABLE `tblmerekmotor`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `tblmotor`
@@ -1745,7 +1820,7 @@ ALTER TABLE `tblsupplier`
 -- AUTO_INCREMENT untuk tabel `tbltahunmotor`
 --
 ALTER TABLE `tbltahunmotor`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbltmp_transaksidetail`
@@ -1763,7 +1838,7 @@ ALTER TABLE `tbltmp_transaksis`
 -- AUTO_INCREMENT untuk tabel `tbltypemotor`
 --
 ALTER TABLE `tbltypemotor`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
