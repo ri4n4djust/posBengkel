@@ -534,6 +534,7 @@
                         this.loadKdJenis();
                         this.loadKdType();
                         this.loadKdTahun();
+                        this.loadKdDetMotor();
                         this.modalTambahMerek = false;
                     }).catch(error => {
                     this.validation = error.response.data.data;

@@ -739,7 +739,7 @@ class nomorController extends Controller
         }else{
             $no = 0 ;
             $count = DetailPartMotor::all()->last();
-            $terakhir = substr($count->kdTahun, 9,  20);
+            $terakhir = substr($count->kdDetailMotor, 8,  20);
             $kodeBaru = $terakhir + 1  ;
 
             $post = 'DETMTR'.'00'.$kodeBaru;
