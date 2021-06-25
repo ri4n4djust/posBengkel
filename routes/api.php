@@ -29,6 +29,7 @@ Route::get('/posts/{id?}', 'salesController@show');
 Route::post('/posts/update/{id?}', 'salesController@update');
 Route::delete('/posts/{id?}', 'salesController@destroy');
 Route::get('/caribarang', 'salesController@cariBarang');
+Route::get('/caribarcode/{id}', 'salesController@cariBarcode');
 
 //=======kategori
 Route::get('/kategori', 'kategoriController@index');

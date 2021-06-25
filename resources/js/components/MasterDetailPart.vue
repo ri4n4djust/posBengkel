@@ -32,7 +32,9 @@
                 </div>
                 <div class="row">
                     cart
-                    {{ this.$session.get('barcode') }}
+                    {{ item }}
+
+                    <button type="button" @click="removeStorage()" class="btn btn-md btn-success">Remove</button>
                 </div>
                 <div class="row">
                     
@@ -50,14 +52,16 @@
                             <th>No</th>
                             <th>Barcode</th>
                             <th>Nama</th>
+                            <th>Qty</th>
                             <th>Aksi</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="(kat) in listkatalog" :key="kat.id">
+                        <tr v-for="(kat, index) in listkatalog" :key="kat.id">
                             <td>{{ kat.noBarang }}</td>
                             <td>{{ kat.barcode }}</td>
                             <td>{{ kat.nmBarang }}</td>
+                            <td>1{{ index+1 }}</td>
                             <td>
                              <a href="#" @click="cart(brg = kat.barcode )"><i class="fa fa-fw fa-cart-plus"></i></a>
                              <i class="fa fa-fw fa-eye"></i>
@@ -189,6 +193,7 @@
                 barangs: [],
                 brg: '',
                 listkatalog: [],
+                item: [],
                 
             }
         },
@@ -204,6 +209,7 @@
             this.listKatalog();
             this.listDetSpMotor();
             this.listSpMotor();
+            localStorage.removeItem('barcode')
         },
         computed: {
             //newKode: function () {
@@ -211,15 +217,27 @@
             //}
             
         },
+        
         mounted(){
             this.listSpMotor();
-            
+           // thi.localStorage.getItem('barcode')
         },
         methods: {
             cart(brg){
-                    this.$session.start()
-                    this.$session.set('barcode', brg)
-                    this.$session.set('qtyBarang', 1)
+                let uri = '/api/caribarcode/'+brg;
+                this.axios.get(uri).then(response => {
+                //this.listkatalog = response.data.data;
+                    localStorage.setItem('barcode', JSON.stringify(response.data.data));
+                    console.log(localStorage)
+                    this.item = localStorage.getItem('barcode')
+                    alert(this.item)
+                 });
+            },
+            removeStorage(){
+                localStorage.removeItem('barcode')
+                localStorage.removeItem('qty')
+                console.log(localStorage)
+                this.item = localStorage.getItem('barcode')
             },
             changeRoute() {
                 let currentPath = this.$route.path;
