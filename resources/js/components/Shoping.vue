@@ -47,11 +47,11 @@
         data(){
             return{
                 cartItems: [],
-                items : products,
+                items : [],
                 qty: '1',
             }
         },
-        props: ['items', 'cartItems'],
+        //props: ['items'],
         computed: {
             Total() {
             let total = 0;
