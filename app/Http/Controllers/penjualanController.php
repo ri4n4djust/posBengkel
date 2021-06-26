@@ -227,6 +227,8 @@ class penjualanController extends Controller
                     'data' => $bulan
                 ], 200);
     }
+
+    
     public function laporanBulananSorting(Request $request)
     {
 
@@ -256,6 +258,34 @@ class penjualanController extends Controller
                     'data' => $bulan
                 ], 200);
     }
+
+    public function laporanLabaSorting(Request $request)
+    {
+
+        $startDate = $request->input('startDate');
+        $endDate = $request->input('endDate');
+
+        $bulan = DB::table('tblPenjualan as w')
+                ->select(array(DB::Raw('sum(w.totalNota) as total'),DB::Raw('sum(w.totalPokok) as totalPokok'),DB::Raw('sum(w.taxNota) as ppn'),DB::Raw('sum(w.diskonNota) as diskon'),DB::Raw('sum(w.chargeNota) as charge'),DB::Raw('w.tglNota')))
+                ->groupBy('w.tglNota')
+                ->orderBy('w.tglNota')
+                ->whereBetween('w.tglNota', [$startDate, $endDate])
+                ->get();
+                $NotalTOtal = Penjualan::whereBetween('tglNota', [$startDate, $endDate])->sum('totalNota');
+                $pokok = Penjualan::whereBetween('tglNota', [$startDate, $endDate])->sum('totalPokok');
+               $laba = $NotalTOtal - $pokok ;
+        return response([
+                    'success' => true,
+                    'message' => 'List Semua Laba',
+                    'startDate' => $startDate,
+                    'endDate' => $endDate,
+                    'notaSum' => $NotalTOtal,
+                    'pokokSum' => $pokok,
+                    'labas' => $laba,
+                    'data' => $bulan
+                ], 200);
+    }
+
     public function listDetailPenjualan($id)
     {
         //$post = TransaksiDetail::whereId($id)->first();
@@ -364,6 +394,7 @@ class penjualanController extends Controller
                 'hrgJual'     => $request->input('hrgJual'),
                 'qtyJual'     => $request->input('qtyJual'),
                 'totalJual'     => $request->input('totalJual'),
+                'totalPokokJual'     => $request->input('totalPokokJual'),
                 'satuanJual'  => $request->input('satuanJual'),
                 'tglPenjualan' => $request->input('tglPenjualan'),
                 'nmBarangJual'  => $request->input('nmBarangJual'),
@@ -404,6 +435,7 @@ class penjualanController extends Controller
                 ->first();
             $qtyB = $brng->qtyJual ;
             $totalB = $brng->totalJual ;
+            $totalP = $brng->totalPokokJual ;
             
             
             DB::table('tblPenjualanDetail')
@@ -412,6 +444,7 @@ class penjualanController extends Controller
                 ->update([
                     'qtyJual' => $qtyB + $request->input('qtyJual'),
                     'totalJual' => $totalB + $request->input('totalJual'),
+                    'totalPokokJual' => $totalP + $request->input('totalPokokJual'),
                     ]);
             //=======Update stok tabel barang
             $barang = DB::table('tblBarang')->where('kdBarang', $request->input('kdBarang'))->first();
@@ -502,11 +535,15 @@ class penjualanController extends Controller
     {
         $totalNota = DB::table('tblPenjualanDetail')
             ->where('noNotaPenjualan', '=', $request->input('ntp'))
-            ->sum('totalJual');      
+            ->sum('totalJual');
+        $totalNotaPokok = DB::table('tblPenjualanDetail')
+            ->where('noNotaPenjualan', '=', $request->input('ntp'))
+            ->sum('totalPokokJual');      
             return response()->json([
                 'success' => true,
                 'message' => 'Detail Post!',
-                'subTotalJual'    => $totalNota
+                'subTotalJual'    => $totalNota,
+                'subTotalPokokJual'    => $totalNotaPokok
             ], 200);
        
     }
@@ -535,6 +572,7 @@ class penjualanController extends Controller
             'liftNo'     => $request->input('liftNo'),
             'tglNota'     => $request->input('tglNota'),
             'totalNota'     => $request->input('totalNota'),
+            'totalPokok'     => $request->input('totalPokok'),
             'taxNota'     => $request->input('taxNota'),
             'diskonNota'     => $request->input('diskonNota'),
             'chargeNota'     => $request->input('chargeNota'),

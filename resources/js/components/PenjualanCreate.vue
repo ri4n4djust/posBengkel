@@ -53,7 +53,7 @@
                   </div>
                   <p>
                   <div class="input-group">
-                    <span class="input-group-addon">Total Barang.</span>
+                    <span class="input-group-addon">Total Barang. </span>
                     <input type="text" class="form-control" :value="subtotals" >
                   </div>
                   <p>
@@ -68,7 +68,7 @@
                 <p class="text-muted text-center">
                 <a href="#" @click="showModalBayar = true" class="btn btn-primary btn-block"><b>Payment</b></a>
                 </p>
-              
+             
             </div>
             <!-- /.box-body -->
 
@@ -468,6 +468,7 @@
                 totalBayar: '',
                 //subtotal: '',
                 subtotals: '',
+                subpokoktotals: '',
                 subtotalJasa: 0,
                 ntp:'',
                 satuanJual: '',
@@ -572,6 +573,7 @@
                     ntp: this.noNotaPenjualan,
                 }).then(response => {
                 this.subtotals = response.data.subTotalJual;
+                this.subpokoktotals = response.data.subTotalPokokJual;
                 }).catch(error => {
                     console.log(error.response)
                 });
@@ -683,7 +685,8 @@
                     totalJual: this.post1.hrgJual * this.qtyJual,
                     tglPenjualan: this.tglPenjualan,
                     satuanJual: this.post1.satuanBarang,
-                    nmBarangJual: this.post1.nmBarang
+                    nmBarangJual: this.post1.nmBarang,
+                    totalPokokJual: this.post1.hrgPokok * this.qtyJual,
                 })
                     .then((response) => {
                         this.loadTotal()
@@ -732,6 +735,7 @@
                     taxNota: (this.subtotal * this.pajak / 100),
                     diskonNota: ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100),
                     totalNota: Math.floor(((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100)) + ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100)) * this.taxDebit / 100),
+                    totalPokok: this.subpokoktotals,
                     bayarNota: this.rbayar,
                     userNota: this.$session.get('userId'),
                     mekanikNota: this.mekanikNota,
@@ -763,8 +767,10 @@
         computed: {
           // a computed getter
           subtotal: function () {
-            // `this` mengarah ke instance vm
             return this.subtotals + this.subtotalJasa ;
+          },
+          subtotalpokok: function () {
+            return this.subpokoktotals  ;
           },
           totalNota: function(){
             return Math.floor(((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100)) + ((this.subtotal * this.pajak / 100 + this.subtotal) - ((this.subtotal * this.pajak / 100 + this.subtotal) * this.post.diskonPelanggan / 100)) * this.taxDebit / 100);

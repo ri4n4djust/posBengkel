@@ -160,13 +160,14 @@ export default {
             },
             DeletePenjualan(id)
             {
-                if(confirm("Do you really want to delete?")){
+                if(confirm("Do you really want to delete?" + id)){
                 this.axios.delete(`/api/hapuspenjualan/${id}`)
                     .then(response => {
                         alert('penjualan berhasil dihapus');
                         //this.posts.splice(index, 1);
+                        this.loadData()
                         this.showModalPenjualan = false;
-                       
+                       //this.$emit('event-name');
                     }).catch(error => {
                     alert('system error!');
                 });
@@ -211,5 +212,6 @@ export default {
             required: true,
         },
     },
+    //props: ['value'],
 };
 </script>
