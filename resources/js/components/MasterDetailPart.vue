@@ -31,8 +31,8 @@
                    <button @click="modalTambahBarang = true" class="btn btn-md btn-primary">TAMBAH BARANG</button>
                 </div>
                 <div class="row">
-                    cart
-                    {{ item }}
+                    {{cart}}
+                    {{ item.barcode }} | {{ item.nmBarang }}
 
                     <button type="button" @click="removeStorage()" class="btn btn-md btn-success">Remove</button>
                 </div>
@@ -227,17 +227,21 @@
                 let uri = '/api/caribarcode/'+brg;
                 this.axios.get(uri).then(response => {
                 //this.listkatalog = response.data.data;
-                    localStorage.setItem('barcode', JSON.stringify(response.data.data));
-                    console.log(localStorage)
-                    this.item = localStorage.getItem('barcode')
+                    var cart =  localStorage.getItem('cart');
+                    localStorage.setItem('cart', cart + JSON.stringify(response.data.data));
+                    const counter = localStorage.getItem("counter");
+                    localStorage.setItem("counter", +counter + 1);
+                    console.log(cart)
+                    this.item = JSON.parse(localStorage.getItem('cart'))
                     alert(this.item)
                  });
             },
             removeStorage(){
-                localStorage.removeItem('barcode')
+                localStorage.removeItem('cart')
                 localStorage.removeItem('qty')
+                localStorage.removeItem('counter')
                 console.log(localStorage)
-                this.item = localStorage.getItem('barcode')
+                this.cart = localStorage.getItem('cart')
             },
             changeRoute() {
                 let currentPath = this.$route.path;
