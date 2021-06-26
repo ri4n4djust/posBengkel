@@ -2,7 +2,7 @@
     <div class="mt-3">
 
         <section class="content">
-
+        <div class="text-right"><button class="btn btn-primary" data-toggle="modal" data-target="#cartModal">Cart ({{cartItems.length}})</button></div>
       <div class="row">
         <div class="col-md-4">
            
@@ -29,12 +29,32 @@
                   </div>
                 <div class="row">
                    <button @click="modalTambahBarang = true" class="btn btn-md btn-primary">TAMBAH BARANG</button>
+                   <router-link :to="{ name: 'mastersdetailparepart', params: { id: listkatsp.kdDetailMotor } }" class="btn btn-md btn-primary">KEMBALI</router-link>
                 </div>
                 <div class="row">
-                    {{cart}}
-                    {{ item.barcode }} | {{ item.nmBarang }}
-
-                    <button type="button" @click="removeStorage()" class="btn btn-md btn-success">Remove</button>
+           
+                    <shoping-cart inline-template :items="cartItems">
+                        <div>
+                            <table class="table table-cart">
+                                <tr v-for="(item, index) in items" :key="item.id">
+                                <td>{{item.nmBarang}}</td>
+                                <td style="width:120px">QTY:
+                                    <input v-model="item.qty" class="form-control input-qty" type="number">
+                                </td>
+                                <td>
+                                    <button @click="removeItem(index)"><span class="glyphicon glyphicon-trash"></span></button>
+                                </td>
+                                </tr>
+                                <tr v-show="items.length === 0">
+                                <td colspan="4" class="text-center">Cart is empty</td>
+                                </tr>
+                                <tr v-show="items.length > 0">
+                                </tr>
+                            </table>
+                        </div>
+                        <!-- /.container -->
+                    </shoping-cart>
+                    
                 </div>
                 <div class="row">
                     
@@ -57,13 +77,13 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="(kat, index) in listkatalog" :key="kat.id">
+                        <tr v-for="(kat) in listkatalog" :key="kat.id">
                             <td>{{ kat.noBarang }}</td>
                             <td>{{ kat.barcode }}</td>
                             <td>{{ kat.nmBarang }}</td>
-                            <td>1{{ index+1 }}</td>
+                            <td><input v-model="item.qty" type="number" class="form-control" placeholder="Qty" min="1"/></td>
                             <td>
-                             <a href="#" @click="cart(brg = kat.barcode )"><i class="fa fa-fw fa-cart-plus"></i></a>
+                             <button @click="addToCart(kat)" class="btn btn-sm btn-primary"><i class="fa fa-fw fa-cart-plus"></i></button>
                              <i class="fa fa-fw fa-eye"></i>
                             </td>
                         </tr>
@@ -111,6 +131,46 @@
       <!-- /.row -->
 
     </section>
+
+<!-- Modal --> 
+   <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">          <span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title" id="myModalLabel">Cart</h4>
+            </div>
+            <div class="modal-body">
+               <shoping-cart inline-template :items="cartItems">
+                        <div>
+                            <table class="table table-cart">
+                                <tr v-for="(item, index) in items" :key="item.id">
+                                <td>{{item.nmBarang}}</td>
+                                <td>{{item.barcode}}</td>
+                                <td>QTY:
+                                    <input v-model="item.qty" class="form-control input-qty" type="number">
+                                </td>
+                                <td>
+                                    <button @click="removeItem(index)"><span class="glyphicon glyphicon-trash"></span></button>
+                                </td>
+                                </tr>
+                                <tr v-show="items.length === 0">
+                                <td colspan="4" class="text-center">Cart is empty</td>
+                                </tr>
+                                <tr v-show="items.length > 0">
+                                </tr>
+                            </table>
+                        </div>
+                        <!-- /.container -->
+                    </shoping-cart>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+         </div>
+      </div>
+   </div>
+
 <!-- /ModalTambah -->
  <div v-if="modalTambahBarang">
     <transition name="modal">
@@ -179,6 +239,7 @@
     export default {
 
         data() {
+            const products = this.listkatalog;
             return {
                 post : [],
                 kdMerek: '',
@@ -194,6 +255,9 @@
                 brg: '',
                 listkatalog: [],
                 item: [],
+                cartItems: [],
+                items : products,
+                qty: '1',
                 
             }
         },
@@ -223,26 +287,22 @@
            // thi.localStorage.getItem('barcode')
         },
         methods: {
-            cart(brg){
-                let uri = '/api/caribarcode/'+brg;
-                this.axios.get(uri).then(response => {
-                //this.listkatalog = response.data.data;
-                    var cart =  localStorage.getItem('cart');
-                    localStorage.setItem('cart', cart + JSON.stringify(response.data.data));
-                    const counter = localStorage.getItem("counter");
-                    localStorage.setItem("counter", +counter + 1);
-                    console.log(cart)
-                    this.item = JSON.parse(localStorage.getItem('cart'))
-                    alert(this.item)
-                 });
+            addToCart(itemToAdd) {
+            let found = false;
+            // Add the item or increase qty
+            let itemInCart = this.cartItems.filter(item => item.id===itemToAdd.id);
+            let isItemInCart = itemInCart.length > 0;
+
+            if (isItemInCart === false) {
+                this.cartItems.push(Vue.util.extend({}, itemToAdd));
+            } else {
+                        itemInCart[0].qty += itemToAdd.qty;
+                    }
+                    
+                    itemToAdd.qty = 1;
+                    alert('sukses')
             },
-            removeStorage(){
-                localStorage.removeItem('cart')
-                localStorage.removeItem('qty')
-                localStorage.removeItem('counter')
-                console.log(localStorage)
-                this.cart = localStorage.getItem('cart')
-            },
+            
             changeRoute() {
                 let currentPath = this.$route.path;
                 this.$router.push({path: currentPath, param: { id: 'KATSP005' }})

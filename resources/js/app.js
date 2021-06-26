@@ -35,6 +35,8 @@ Vue.use(VueSession);
 import vmodal from 'vue-js-modal';
     Vue.use(vmodal);
 
+import shoping from './components/Shoping.vue';
+    Vue.component('shoping-cart', shoping);
 
 import IndexComponent from './components/posts/Index.vue';
 import CreateComponent from './components/posts/Create.vue';
@@ -53,6 +55,8 @@ import CreateMotorComponent from './components/motor/Create.vue';
 import EditMotorComponent from './components/motor/Edit.vue';
 
 import homeComponent from './components/Home.vue';
+import cartComponent from './components/Cart.vue';
+
 import liveorder from './components/LiveOrder.vue'
 import mekanikComponent from './components/Mekanik.vue';
 import jasaComponent from './components/Jasa.vue';
@@ -166,7 +170,9 @@ const routes = [
     { name: 'stokinventori', path: '/stokinventori', component: InventoriComponent },
     { name: 'stokinventoricreate', path: '/stokinventoricreate', component: InputInventoriComponent },
     //=========Home
-    { name: 'home', path: '/', component: homeComponent }
+    { name: 'home', path: '/', component: homeComponent },
+    //=========tes cart
+    { name: 'cart', path: '/cart', component: cartComponent }
 ];
 
 
