@@ -113,8 +113,7 @@
                     <h3 class="box-title">Cari Barang</h3>
                     </div>
                     <div class="box-body">
-                        <h4 class="box-title">{{ listkatsp.nmKatSp }}</h4>
-                        {{listkatsp.gbrKatSp}}
+                        <h4 class="box-title">{{ listkatsp.nmKatSp }}  | {{listkatsp.gbrKatSp}}</h4>
                         <img :src="`../image/foto/katsp/${listkatsp.gbrKatSp}`" class="img-responsive">
                     </div>
                     

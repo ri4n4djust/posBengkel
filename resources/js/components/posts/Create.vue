@@ -28,7 +28,6 @@
                                 </div>
                             </div>
 
-                            <span v-if="adminuser === 'Admin'">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Harga. Beli</label>
                                 <div class="col-sm-8">
@@ -46,7 +45,8 @@
                                 <label class="col-sm-3 control-label">Harga. Jual</label>
                                 <div class="col-sm-8">
                                 <input type="text" class="form-control" v-model="post.hrgJual"
-                                       placeholder="Harga Jual" @keypress="onlyNumber">
+                                       placeholder="Harga Jual" @keypress="onlyNumber" @keyup="letterValue()">
+                                <input type="text" class="form-control" v-model="str">
                                 <div v-if="validation.hrgJual">
                                     <div class="alert alert-danger mt-1" role="alert">
                                         {{ validation.hrgJual[0] }}
@@ -54,11 +54,6 @@
                                 </div>
                                 </div>
                             </div>
-                            </span>
-                            <span v-else>
-                                Harga
-                            </span>
-
                             <div class="form-group">
                             <label class="col-sm-3 control-label">Kategori:</label>
                             <div class="col-sm-8">
@@ -183,6 +178,7 @@ Vue.component(VueBarcode.name, VueBarcode);
                 countries: {},
                 total: {},
                 kdBarang: '',
+                str: '',
                 //barcode: this.post.kdBarang,
                 inputs: [{
                     name: '',
@@ -207,6 +203,34 @@ Vue.component(VueBarcode.name, VueBarcode);
         
 
         methods: {
+            letterValue(){
+                var hr = this.post.hrgJual.length;
+                var a = [];
+                //for (var a=1;a<=hr;a++) {
+                    var convert = this.post.hrgJual.split("");
+                    var kdh = '';
+                //var str = [];
+                for (convert of this.post.hrgJual.split("")) {
+                    
+                    //var str = '';
+                    let uri = '/api/setup/'+ convert;
+                    this.axios.get(uri).then(response => {
+                    kdh = response.data.data.codeHrg;
+                    
+                    a = a += kdh
+                    //console.log(a.split('').reverse().join(''));
+                        console.log(a)
+                        //this.str = kdh ;
+                        return this.str = a;
+                    });
+                    //str = i += kdh
+                    
+                }
+                //console.log(this.hr)
+                //}
+
+                
+            },
             add () {
             this.inputs.push({
                 name: '',
