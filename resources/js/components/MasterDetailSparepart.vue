@@ -2,7 +2,6 @@
 
 <div class="card-body">
     <!-- SELECT2 EXAMPLE -->
-    <shoping-cart></shoping-cart>
         
         <!-- /.box-header -->
         <div class="box-body">

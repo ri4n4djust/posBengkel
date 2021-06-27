@@ -12,12 +12,12 @@
                              <div class="form-group">
                                  <label class="col-sm-3 control-label">Kode Barang</label>
                                  <div class="col-sm-8">
-                                <input type="text" class="form-control" :value="post.kdBarang" :name="kdBarang" disabled >
+                                <input type="text" class="form-control" v-model="post.kdBarang" disabled >
                                  </div>
                              </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Nama Barang</label>
-                                <div class="col-sm-6">
+                                <div class="col-sm-8">
                                 <input type="text" class="form-control" v-model="post.nmBarang"
                                        placeholder="Masukkan Title">
                                 <div v-if="validation.nmBarang">
@@ -43,15 +43,12 @@
 
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Harga. Jual</label>
-                                <div class="col-sm-8">
+                                <div class="col-sm-5">
                                 <input type="text" class="form-control" v-model="post.hrgJual"
                                        placeholder="Harga Jual" @keypress="onlyNumber" @keyup="letterValue()">
-                                <input type="text" class="form-control" v-model="str">
-                                <div v-if="validation.hrgJual">
-                                    <div class="alert alert-danger mt-1" role="alert">
-                                        {{ validation.hrgJual[0] }}
-                                    </div>
                                 </div>
+                                <div class="col-sm-3">
+                                <input type="text" class="form-control" v-model="str">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -177,7 +174,7 @@ Vue.component(VueBarcode.name, VueBarcode);
                 country: 0,
                 countries: {},
                 total: {},
-                kdBarang: '',
+                //kdBarang: '',
                 str: '',
                 //barcode: this.post.kdBarang,
                 inputs: [{
@@ -260,11 +257,11 @@ Vue.component(VueBarcode.name, VueBarcode);
                 let uri = '/api/posts/store';
                 this.axios.post(uri, this.post)
                     .then((response) => {
-                        const path = '/barang/create'
+                        const path = '/barang'
                         this.$router.push(path)
                         this.loadKdBarang()
-                        //this.loadData()
-                        document.getElementById("anyName").reset();
+                        //this.post = '',
+                        //document.getElementById("anyName").reset();
                         alert('sukses Tambah Barang')
                         
                     }).catch(error => {

@@ -11,7 +11,7 @@
           <!-- About Me Box -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Kategori Part</h3>
+              <h3 class="box-title">Katalog</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -19,20 +19,16 @@
 
                 <p class="text-muted text-center">
                   <div class="form-group">
-                      <select class='form-control' @click="listSpMotor()" v-model='listkatsp.kdKatSp' v-on:change="changeRoute" required>
-                          <option  v-for="det in listkatspmotor" :data="det.kdKatSp" :key="det.id">
-                                
-                                  {{det.nmKatSp}}<a href="#"> detail </a>
-                               
-                              </option>
-                        </select>
+
                   </div>
                 <div class="row">
-                   <button @click="modalTambahBarang = true" class="btn btn-md btn-primary">TAMBAH BARANG</button>
-                   <router-link :to="{ name: 'mastersdetailparepart', params: { id: listkatsp.kdDetailMotor } }" class="btn btn-md btn-primary">KEMBALI</router-link>
+                    <div class="box-body">
+                    <button @click="modalTambahBarang = true" class="btn btn-md btn-primary">TAMBAH BARANG</button>
+                    <router-link :to="{ name: 'mastersdetailparepart', params: { id: listkatsp.kdDetailMotor } }" class="btn btn-md btn-primary">KEMBALI</router-link>
+                    </div>
                 </div>
                 <div class="row">
-           
+                    <div class="box-body">
                     <shoping-cart inline-template :items="cartItems">
                         <div>
                             <table class="table table-cart">
@@ -54,7 +50,7 @@
                         </div>
                         <!-- /.container -->
                     </shoping-cart>
-                    
+                    </div>
                 </div>
                 <div class="row">
                     
@@ -83,7 +79,7 @@
                             <td>{{ kat.nmBarang }}</td>
                             <td><input v-model="item.qty" type="number" class="form-control" placeholder="Qty" min="1"/></td>
                             <td>
-                             <button @click="addToCart(kat)" class="btn btn-sm btn-primary"><i class="fa fa-fw fa-cart-plus"></i></button>
+                             <button @click="addToCart(kat)" class="btn btn-xs btn-primary"><i class="fa fa-fw fa-cart-plus"></i></button>
                              <i class="fa fa-fw fa-eye"></i>
                             </td>
                         </tr>
@@ -273,7 +269,6 @@
             this.listKatalog();
             this.listDetSpMotor();
             this.listSpMotor();
-            localStorage.removeItem('barcode')
         },
         computed: {
             //newKode: function () {
@@ -303,11 +298,6 @@
                     alert('sukses')
             },
             
-            changeRoute() {
-                let currentPath = this.$route.path;
-                this.$router.push({path: currentPath, param: { id: 'KATSP005' }})
-                alert(currentPath);
-            },
             onImageChange(e) {
                 let files = e.target.files || e.dataTransfer.files;
                 if (!files.length)

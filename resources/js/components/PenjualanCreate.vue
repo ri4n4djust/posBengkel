@@ -711,13 +711,12 @@
                     qtyJasa: this.qtyJualJasa,
                     totalJasa: this.post2.biayaJasa * this.qtyJualJasa,
                     tglPenjualan: this.tglPenjualan,
-                })
-                    .then((response) => {
+                }).then((response) => {
                         this.loadTotal()
                         this.loadTotalJasa()
                         this.loadTransaksiPenjualan()
                         this.loadTransaksiJasaPenjualan()
-                        alert('sukses donkkkkkkkk');
+                        alert('Jasa Berhasil Ditambahkan');
                         document.getElementById("anyName").reset();
                         //this.loadTransaksiPenjualan()
                         //this.loadTotal()

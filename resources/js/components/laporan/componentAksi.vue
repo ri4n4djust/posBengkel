@@ -168,6 +168,7 @@ export default {
                         this.loadData()
                         this.showModalPenjualan = false;
                        //this.$emit('event-name');
+                       this.$emit('bindings', this.loadData())
                     }).catch(error => {
                     alert('system error!');
                 });

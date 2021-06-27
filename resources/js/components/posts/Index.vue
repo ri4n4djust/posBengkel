@@ -83,7 +83,11 @@ Vue.component("data-table", DataTable, VueBarcode);
                             title: "Nama Barang",
                             sortable: false,
                         },
-                        
+                        {
+                            key: "barcode",
+                            title: "Barcode",
+                            sortable: false,
+                        },
                         {
                             key: "stkBarang",
                             title: "Stok",

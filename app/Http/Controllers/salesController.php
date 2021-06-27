@@ -22,7 +22,7 @@ class salesController extends Controller
     {
         $posts = Barang::join('tblKategori', 'tblBarang.ktgBarang', '=', 'tblKategori.kodeKtg')
                 //->where('tblBarang.stsBarang', '1')
-                //->take(5)
+                ->orderBy('id', 'DESC')
                 ->get(['tblBarang.*', 'tblKategori.namaKtg']);
         //$posts = Barang::latest()->get();
         $count = Barang::count();
@@ -34,7 +34,7 @@ class salesController extends Controller
     }
 
     public function cariBarang(Request $request){
-        $barangs = Barang::where('barcode','LIKE',''.$request->barccode.'%')
+        $barangs = Barang::where('barcode','LIKE',''.$request->brg.'%')
                         ->take(5)
                         ->get();
         return response([
@@ -43,7 +43,7 @@ class salesController extends Controller
     }
 
     public function cariBarcode($id){
-        $barangs = Barang::where('barcode', $id)->first();
+        $barangs = Barang::where('barcode', $id)->get();
         return response([
             'data' => $barangs
         ]);

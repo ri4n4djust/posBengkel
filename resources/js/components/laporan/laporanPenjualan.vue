@@ -237,7 +237,7 @@ Vue.component("data-table", DataTable);
                 posts1: [],
                 startDate: '',
                 endDate: '',
-                ActionButtons: null,
+                ActionButtons: '',
                 validation: null,
                 //actionTriggered: null,
                 totalS: [],
@@ -325,17 +325,24 @@ Vue.component("data-table", DataTable);
             }
         },
         created() {
-            let uri = '/api/penjualan';
-            this.axios.get(uri).then(response => {
-                this.posts = response.data.data;
-            });
+            this.loadData();
+        },
+        mounted () {
+            this.intervalFetchData();
         },
         methods: {
 
             print () {
                 window.print(printMe)
             },
-            
+            loadData:function(){
+                let uri = '/api/penjualan';
+                this.axios.get(uri).then(response => {
+                this.posts = response.data.data;
+                
+                
+            });
+            },
             PostDelete(id, index)
             {
                 this.axios.delete(`/api/penjualan/${id}`)
@@ -365,6 +372,11 @@ Vue.component("data-table", DataTable);
                         //this.loadTotal()
                     });
                 
+            },
+            intervalFetchData: function () {
+            setInterval(() => {    
+                this.loadData();
+                }, 3000);    
             },
             //print () {
             // Pass the element id here
