@@ -5,13 +5,10 @@
         <div class="text-right"><button class="btn btn-primary" data-toggle="modal" data-target="#cartModal">Cart ({{cartItems.length}})</button></div>
       <div class="row">
         <div class="col-md-4">
-           
-
-{{listkatsp.kdDetailMotor}}
           <!-- About Me Box -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Katalog</h3>
+              <h3 class="box-title">Katalog {{listkatsp.kdDetailMotor}}</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -25,10 +22,12 @@
                     <div class="box-body">
                     <button @click="modalTambahBarang = true" class="btn btn-md btn-primary">TAMBAH BARANG</button>
                     <router-link :to="{ name: 'mastersdetailparepart', params: { id: listkatsp.kdDetailMotor } }" class="btn btn-md btn-primary">KEMBALI</router-link>
+                    <button type="button" class="btn-sm btn-success" @click="HpsSession()">Clear</button>
                     </div>
                 </div>
                 <div class="row">
                     <div class="box-body">
+                        {{ lists }}
                     <shoping-cart inline-template :items="cartItems">
                         <div>
                             <table class="table table-cart">
@@ -254,6 +253,7 @@
                 cartItems: [],
                 items : products,
                 qty: '1',
+                lists: [],
                 
             }
         },
@@ -278,8 +278,13 @@
         },
         
         mounted(){
+            //this.$session.start('products')
             this.listSpMotor();
            // thi.localStorage.getItem('barcode')
+           this.axios.get('/api/list')
+            .then((response)=>{
+            this.lists= response.data
+            });
         },
         methods: {
             addToCart(itemToAdd) {
@@ -287,7 +292,7 @@
             // Add the item or increase qty
             let itemInCart = this.cartItems.filter(item => item.id===itemToAdd.id);
             let isItemInCart = itemInCart.length > 0;
-
+            
             if (isItemInCart === false) {
                 this.cartItems.push(Vue.util.extend({}, itemToAdd));
             } else {
@@ -295,9 +300,17 @@
                     }
                     
                     itemToAdd.qty = 1;
-                    alert('sukses')
+                    alert('sukses');
+                axios.get('/api/store-in-cart',{
+                        product : '1234'
+                    }).then((response)=>{
+                    console.log(response)
+                });
             },
-            
+            HpsSession: function () {
+            this.$session.destroy('products')
+            alert('session produk di hapus')
+            },
             onImageChange(e) {
                 let files = e.target.files || e.dataTransfer.files;
                 if (!files.length)

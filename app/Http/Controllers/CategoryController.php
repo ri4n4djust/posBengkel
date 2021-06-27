@@ -19,6 +19,15 @@ use App\FileUpload;
 
 class CategoryController extends Controller
 {
+    public function StoreInCart(Request $request){
+        $products = \Session::push('product',$request->product);
+        //session()->push('products', $request->product);
+         return $products;
+     }
+     public function getProduct(Request $request){
+         $product = \Session::get('product');
+          return $product;
+     }
     public function Semua()
     {
         $categories = MerekMotor::all();

@@ -64,6 +64,9 @@ Route::get('/listdetspmotor/{id}', 'CategoryController@listDetSpMotor');
 Route::get('/listkatalog/{id}', 'CategoryController@SemuaKatalog');
 Route::post('/katalog/create', 'CategoryController@storeKatalog');
 
+Route::get('/store-in-cart', 'CategoryController@StoreInCart');
+Route::get('/list', 'CategoryController@getProduct');
+
 //=======Motor
 Route::get('/motor', 'motorController@index');
 Route::post('/motor/store', 'motorController@store');
