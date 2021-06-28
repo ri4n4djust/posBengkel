@@ -27,7 +27,7 @@
                 </div>
                 <div class="row">
                     <div class="box-body">
-                        {{ lists }}
+                        {{ $session.get('prd') }}
                     <shoping-cart inline-template :items="cartItems">
                         <div>
                             <table class="table table-cart">
@@ -255,6 +255,7 @@
                 qty: '1',
                 lists: [],
                 
+                
             }
         },
         beforeCreate: function () {
@@ -276,9 +277,13 @@
             //}
             
         },
-        
+        watch:{
+            itemToAdd: function() {
+            return this.$session.get('prd');
+            }
+        },
         mounted(){
-            //this.$session.start('products')
+            this.$session.start('prd')
             this.listSpMotor();
            // thi.localStorage.getItem('barcode')
            this.axios.get('/api/list')
@@ -292,24 +297,37 @@
             // Add the item or increase qty
             let itemInCart = this.cartItems.filter(item => item.id===itemToAdd.id);
             let isItemInCart = itemInCart.length > 0;
-            
+            //var itemSes = this.$session.get('prd');
             if (isItemInCart === false) {
                 this.cartItems.push(Vue.util.extend({}, itemToAdd));
+                //this.$session.push('prd', itemToAdd)
+                
+                //itemSes += this.$session.push('prd', itemToAdd);
             } else {
                         itemInCart[0].qty += itemToAdd.qty;
+                        //this.$session.push('prd', itemToAdd);
+                         
                     }
                     
                     itemToAdd.qty = 1;
                     alert('sukses');
-                axios.get('/api/store-in-cart',{
-                        product : '1234'
-                    }).then((response)=>{
-                    console.log(response)
-                });
+                    
+                    if (this.$session.exists('prd')) {
+                            this.$session.get('prd') + this.$session.set('prd', itemToAdd)
+                        alert('ada')
+
+                            }else{
+                            this.$session.set('prd', itemToAdd)
+                            }
+                    //this.axios.get('/api/store-in-cart',{
+                    //    product : '1234'
+                    //}).then((response)=>{
+                    //console.log(response)
+               // });
             },
             HpsSession: function () {
-            this.$session.destroy('products')
-            alert('session produk di hapus')
+            this.$session.remove('prd')
+                alert('session produk di hapus')
             },
             onImageChange(e) {
                 let files = e.target.files || e.dataTransfer.files;

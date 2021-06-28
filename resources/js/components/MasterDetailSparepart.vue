@@ -8,6 +8,7 @@
         <h3 class="box-title">DETAIL SPARE PART MOTOR</h3>
           <div class="row">
             <div class="col-md-6">
+                {{ $session.get('prd') }}
                {{post.nmDetail}} 
                {{post.warnaDetail}} 
                 <button @click="modalTambahSp = true" class="btn btn-md btn-primary">TAMBAH KATEGORI SPARE PART</button>
