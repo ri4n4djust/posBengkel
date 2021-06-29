@@ -27,11 +27,10 @@
                 </div>
                 <div class="row">
                     <div class="box-body">
-                        {{ $session.get('prd') }}
-                    <shoping-cart inline-template :items="cartItems">
+                        {{ crt }}
                         <div>
                             <table class="table table-cart">
-                                <tr v-for="(item, index) in items" :key="item.id">
+                                <tr v-for="(item, index) in crt" :key="item.id">
                                 <td>{{item.nmBarang}}</td>
                                 <td style="width:120px">QTY:
                                     <input v-model="item.qty" class="form-control input-qty" type="number">
@@ -40,15 +39,9 @@
                                     <button @click="removeItem(index)"><span class="glyphicon glyphicon-trash"></span></button>
                                 </td>
                                 </tr>
-                                <tr v-show="items.length === 0">
-                                <td colspan="4" class="text-center">Cart is empty</td>
-                                </tr>
-                                <tr v-show="items.length > 0">
-                                </tr>
                             </table>
                         </div>
                         <!-- /.container -->
-                    </shoping-cart>
                     </div>
                 </div>
                 <div class="row">
@@ -76,7 +69,7 @@
                             <td>{{ kat.noBarang }}</td>
                             <td>{{ kat.barcode }}</td>
                             <td>{{ kat.nmBarang }}</td>
-                            <td><input v-model="item.qty" type="number" class="form-control" placeholder="Qty" min="1"/></td>
+                            <td><input v-model="kat.qty" type="number" class="form-control" placeholder="Qty" required/></td>
                             <td>
                              <button @click="addToCart(kat)" class="btn btn-xs btn-primary"><i class="fa fa-fw fa-cart-plus"></i></button>
                              <i class="fa fa-fw fa-eye"></i>
@@ -136,10 +129,9 @@
                <h4 class="modal-title" id="myModalLabel">Cart</h4>
             </div>
             <div class="modal-body">
-               <shoping-cart inline-template :items="cartItems">
                         <div>
                             <table class="table table-cart">
-                                <tr v-for="(item, index) in items" :key="item.id">
+                                <tr v-for="(item, index) in crt" :key="item.id">
                                 <td>{{item.nmBarang}}</td>
                                 <td>{{item.barcode}}</td>
                                 <td>QTY:
@@ -149,15 +141,14 @@
                                     <button @click="removeItem(index)"><span class="glyphicon glyphicon-trash"></span></button>
                                 </td>
                                 </tr>
-                                <tr v-show="items.length === 0">
+                                <tr v-show="crt.length === 0">
                                 <td colspan="4" class="text-center">Cart is empty</td>
                                 </tr>
-                                <tr v-show="items.length > 0">
+                                <tr v-show="crt.length > 0">
                                 </tr>
                             </table>
                         </div>
                         <!-- /.container -->
-                    </shoping-cart>
             </div>
             <div class="modal-footer">
                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -252,8 +243,9 @@
                 item: [],
                 cartItems: [],
                 items : products,
-                qty: '1',
+                qty: 1,
                 lists: [],
+                crt:[],
                 
                 
             }
@@ -270,6 +262,10 @@
             this.listKatalog();
             this.listDetSpMotor();
             this.listSpMotor();
+            this.getCart();
+            if (this.crt === null){
+                        this.crt = [];
+                    }
         },
         computed: {
             //newKode: function () {
@@ -278,9 +274,7 @@
             
         },
         watch:{
-            itemToAdd: function() {
-            return this.$session.get('prd');
-            }
+           
         },
         mounted(){
             this.$session.start('prd')
@@ -298,36 +292,50 @@
             let itemInCart = this.cartItems.filter(item => item.id===itemToAdd.id);
             let isItemInCart = itemInCart.length > 0;
             //var itemSes = this.$session.get('prd');
-            if (isItemInCart === false) {
-                this.cartItems.push(Vue.util.extend({}, itemToAdd));
-                //this.$session.push('prd', itemToAdd)
-                
-                //itemSes += this.$session.push('prd', itemToAdd);
-            } else {
+           
+                    if (isItemInCart === false) {
+                        this.cartItems.push(Vue.util.extend({}, itemToAdd));
+                    } else {
                         itemInCart[0].qty += itemToAdd.qty;
-                        //this.$session.push('prd', itemToAdd);
-                         
                     }
                     
-                    itemToAdd.qty = 1;
-                    alert('sukses');
+                    //itemToAdd.qty + 1;
+                    //alert('sukses');
                     
-                    if (this.$session.exists('prd')) {
-                            this.$session.get('prd') + this.$session.set('prd', itemToAdd)
-                        alert('ada')
+                  
+                    let cartItems;
+                    if (localStorage.getItem('cartItems')===null){
+                        cartItems = [];
+                    }else{
+                        cartItems = JSON.parse(localStorage.getItem('cartItems'));	
+                    }
+                    
+                    cartItems.push(itemToAdd);	
+                    		
+                    localStorage.setItem('cartItems',JSON.stringify(cartItems));
+                    this.getCart();
 
-                            }else{
-                            this.$session.set('prd', itemToAdd)
-                            }
-                    //this.axios.get('/api/store-in-cart',{
-                    //    product : '1234'
-                    //}).then((response)=>{
-                    //console.log(response)
-               // });
+                    alert(itemToAdd.nmBarang + " berhasil disimpan")
+            },
+            removeItem(index) {
+                let i = localStorage.length;
+                alert(i)
+                while (i-- > 0) {
+                    let key = localStorage.key(i);
+                    if (localStorage.getItem(key) === index) {
+                        localStorage.removeItem(key);
+                        this.items.splice(index, 1)
+                        aler('berhasil dihapus')
+                    }
+                }
             },
             HpsSession: function () {
-            this.$session.remove('prd')
+            localStorage.clear();
+                this.getCart();
                 alert('session produk di hapus')
+            },
+            getCart: function() {
+                this.crt = JSON.parse(localStorage.getItem('cartItems'))
             },
             onImageChange(e) {
                 let files = e.target.files || e.dataTransfer.files;

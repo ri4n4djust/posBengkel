@@ -26,7 +26,15 @@
         methods: {
                 // Remove item by its index
             removeItem(index) {
-            this.items.splice(index, 1)
+                let i = localStorage.length;
+                while (i-- > 0) {
+                    let key = localStorage.key(i);
+                    if (localStorage.getItem(key) === index) {
+                        localStorage.removeItem(key);
+                        this.items.splice(index, 1)
+                        aler('berhasil dihapus')
+                    }
+                }
             }
         }
 
