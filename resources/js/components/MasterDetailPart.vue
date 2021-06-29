@@ -22,21 +22,19 @@
                     <div class="box-body">
                     <button @click="modalTambahBarang = true" class="btn btn-md btn-primary">TAMBAH BARANG</button>
                     <router-link :to="{ name: 'mastersdetailparepart', params: { id: listkatsp.kdDetailMotor } }" class="btn btn-md btn-primary">KEMBALI</router-link>
-                    <button type="button" class="btn-sm btn-success" @click="HpsSession()">Clear</button>
                     </div>
                 </div>
                 <div class="row">
                     <div class="box-body">
-                        {{ crt }}
                         <div>
                             <table class="table table-cart">
-                                <tr v-for="(item, index) in crt" :key="item.id">
+                                <tr v-for="item in crt" :key="item.id">
                                 <td>{{item.nmBarang}}</td>
-                                <td style="width:120px">QTY:
+                                <td>QTY:
                                     <input v-model="item.qty" class="form-control input-qty" type="number">
                                 </td>
                                 <td>
-                                    <button @click="removeItem(index)"><span class="glyphicon glyphicon-trash"></span></button>
+                                    <button @click="removeItem(id = item.id)"><span class="glyphicon glyphicon-trash"></span></button>
                                 </td>
                                 </tr>
                             </table>
@@ -131,14 +129,14 @@
             <div class="modal-body">
                         <div>
                             <table class="table table-cart">
-                                <tr v-for="(item, index) in crt" :key="item.id">
+                                <tr v-for="item in crt" :key="item.id">
                                 <td>{{item.nmBarang}}</td>
                                 <td>{{item.barcode}}</td>
                                 <td>QTY:
                                     <input v-model="item.qty" class="form-control input-qty" type="number">
                                 </td>
                                 <td>
-                                    <button @click="removeItem(index)"><span class="glyphicon glyphicon-trash"></span></button>
+                                    <button @click="removeItem(id = item.id)"><span class="glyphicon glyphicon-trash"></span></button>
                                 </td>
                                 </tr>
                                 <tr v-show="crt.length === 0">
@@ -317,26 +315,17 @@
                     alert(itemToAdd.nmBarang + " berhasil disimpan")
                     //alert(localStorage.length + "length")
             },
-            removeItem(index) {
-              var arrayFromStroage = JSON.parse(localStorage.getItem('cartItems'));
-            //alert(arrayFromStroage.length)
-
-                let i = arrayFromStroage.length;
-                alert(i)
-                while (i-- > 0) {
-                    let key = localStorage.key(i);
-                    if (localStorage.getItem(key) === index) {
-                        localStorage.removeItem(key);
-                        this.items.splice(index, 1)
-                        aler('berhasil dihapus')
-                    }
-                }
+            removeItem(id) {
+                //alert(id)
+                var arrayFromStroage = JSON.parse(localStorage.getItem('cartItems'));
+                const filtered = arrayFromStroage.filter(arrayFromStroage => arrayFromStroage.id !== id);
+                localStorage.setItem('cartItems', JSON.stringify(filtered));
+                //this.items.splice(index, 1)
+                this.crt = JSON.parse(localStorage.getItem('cartItems'))
+                alert('berhasil dihapus')
+                
             },
-            HpsSession: function () {
-            localStorage.clear();
-                this.getCart();
-                alert('session produk di hapus')
-            },
+            
             getCart: function() {
                 this.crt = JSON.parse(localStorage.getItem('cartItems'))
             },
