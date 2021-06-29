@@ -314,11 +314,14 @@
                     		
                     localStorage.setItem('cartItems',JSON.stringify(cartItems));
                     this.getCart();
-
                     alert(itemToAdd.nmBarang + " berhasil disimpan")
+                    //alert(localStorage.length + "length")
             },
             removeItem(index) {
-                let i = localStorage.length;
+              var arrayFromStroage = JSON.parse(localStorage.getItem('cartItems'));
+            //alert(arrayFromStroage.length)
+
+                let i = arrayFromStroage.length;
                 alert(i)
                 while (i-- > 0) {
                     let key = localStorage.key(i);

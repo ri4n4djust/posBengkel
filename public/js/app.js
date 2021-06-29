@@ -14082,10 +14082,12 @@ __webpack_require__.r(__webpack_exports__);
       cartItems.push(itemToAdd);
       localStorage.setItem('cartItems', JSON.stringify(cartItems));
       this.getCart();
-      alert(itemToAdd.nmBarang + " berhasil disimpan");
+      alert(itemToAdd.nmBarang + " berhasil disimpan"); //alert(localStorage.length + "length")
     },
     removeItem: function removeItem(index) {
-      var i = localStorage.length;
+      var arrayFromStroage = JSON.parse(localStorage.getItem('cartItems')); //alert(arrayFromStroage.length)
+
+      var i = arrayFromStroage.length;
       alert(i);
 
       while (i-- > 0) {
