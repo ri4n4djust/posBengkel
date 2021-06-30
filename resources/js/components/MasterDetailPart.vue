@@ -63,7 +63,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="(kat) in listkatalog" :key="kat.id">
+                        <tr v-for="(kat, index) in listkatalog" :key="kat.id">
                             <td>{{ kat.noBarang }}</td>
                             <td>{{ kat.barcode }}</td>
                             <td>{{ kat.nmBarang }}</td>
@@ -71,6 +71,7 @@
                             <td>
                              <button @click="addToCart(kat)" class="btn btn-xs btn-primary"><i class="fa fa-fw fa-cart-plus"></i></button>
                              <i class="fa fa-fw fa-eye"></i>
+                             <button @click="delKatalog(id = kat.id, index)"><span class="glyphicon glyphicon-trash"></span></button>
                             </td>
                         </tr>
                         </tbody>
@@ -241,7 +242,7 @@
                 item: [],
                 cartItems: [],
                 items : products,
-                qty: 1,
+                qty: ["1"],
                 lists: [],
                 crt:[],
                 
@@ -277,43 +278,28 @@
         mounted(){
             this.$session.start('prd')
             this.listSpMotor();
-           // thi.localStorage.getItem('barcode')
-           this.axios.get('/api/list')
-            .then((response)=>{
-            this.lists= response.data
-            });
         },
         methods: {
             addToCart(itemToAdd) {
-            let found = false;
-            // Add the item or increase qty
-            let itemInCart = this.cartItems.filter(item => item.id===itemToAdd.id);
-            let isItemInCart = itemInCart.length > 0;
-            //var itemSes = this.$session.get('prd');
-           
-                    if (isItemInCart === false) {
-                        this.cartItems.push(Vue.util.extend({}, itemToAdd));
-                    } else {
-                        itemInCart[0].qty += itemToAdd.qty;
-                    }
-                    
-                    //itemToAdd.qty + 1;
-                    //alert('sukses');
-                    
                   
                     let cartItems;
                     if (localStorage.getItem('cartItems')===null){
                         cartItems = [];
                     }else{
-                        cartItems = JSON.parse(localStorage.getItem('cartItems'));	
+                        cartItems = JSON.parse(localStorage.getItem('cartItems'));
                     }
-                    
-                    cartItems.push(itemToAdd);	
-                    		
-                    localStorage.setItem('cartItems',JSON.stringify(cartItems));
-                    this.getCart();
-                    alert(itemToAdd.nmBarang + " berhasil disimpan")
-                    //alert(localStorage.length + "length")
+                        const oldItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+                        const existingItem = oldItems.find(({ id }) => id === itemToAdd.id);
+                        if (existingItem) {
+                            itemToAdd.qty++;
+                            alert('qtyupdate')
+                            cartItems.push(itemToAdd);
+                        }else{
+                        cartItems.push(itemToAdd);	
+                        localStorage.setItem('cartItems',JSON.stringify(cartItems));
+                        this.getCart();
+                        alert(itemToAdd.nmBarang + " berhasil disimpan")
+                        }
             },
             removeItem(id) {
                 //alert(id)
@@ -406,6 +392,17 @@
                     }).catch(error => {
                     this.validation = error.response.data.data;
                 });
+            },
+            delKatalog(id, index)
+            {
+            if(confirm("Do you really want to delete?")){
+                this.axios.delete(`/api/katalog/${id}`)
+                    .then(response => {
+                        this.listkatalog.splice(index, 1);
+                    }).catch(error => {
+                    alert('system error!');
+                });
+            }
             }
             
         }

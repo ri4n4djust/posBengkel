@@ -19,15 +19,6 @@ use App\FileUpload;
 
 class CategoryController extends Controller
 {
-    public function StoreInCart(Request $request){
-        $products = \Session::push('product',$request->product);
-        //session()->push('products', $request->product);
-         return $products;
-     }
-     public function getProduct(Request $request){
-         $product = \Session::get('product');
-          return $product;
-     }
     public function Semua()
     {
         $categories = MerekMotor::all();
@@ -318,11 +309,29 @@ class CategoryController extends Controller
 
     public function delSpMotor($id)
     {
-        $post = KatSpMotor::findOrFail($id);
+        $post = de::findOrFail($id);
         $gbr = $post->gbrKatSp ;
         if (File::exists('image/foto/katsp/'.$gbr)) {
             File::delete('image/foto/katsp/'.$gbr);
         }
+        $post->delete();
+
+        if ($post) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Post Berhasil Dihapus!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Post Gagal Dihapus!',
+            ], 500);
+        }
+    }
+
+    public function delKatalog($id)
+    {
+        $post = DetailCatalog::findOrFail($id);
         $post->delete();
 
         if ($post) {
