@@ -25,10 +25,11 @@
 
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Harga Pokok</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" @keyup="letterValue()" v-model="post.hrgPokok"
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" @blur="letterValue()" v-model="post.hrgPokok"
                                         placeholder="Harga Pokok" required>
-                                     
+                                </div>
+                                <div class="col-sm-3">     
                                     <input type="text" class="form-control" v-model="str">
                                 </div>
                             </div>
@@ -55,8 +56,7 @@
                             <label class="col-sm-3 control-label">Barcode : </label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" v-model="post.barcode">
-                                <label class="col-sm-3 text-center">Barcode</label>
-                                <barcode v-model="post.barcode" :options="{ displayValue: true, text: Bacode }"></barcode>
+                                <barcode v-model="post.barcode" :options="{ displayValue: true }"></barcode>
                                 
                             </div>
                             </div>
@@ -115,13 +115,6 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Gambar</label>
-                                <div class="col-sm-8">
-                                <input type="file" class="form-control" @change="avatarChange">
-                                <img :src="avatar" class="user-image">
-                                </div>
-                            </div>
                         
                                          
                     

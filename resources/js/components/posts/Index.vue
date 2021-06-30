@@ -63,7 +63,7 @@ Vue.component("data-table", DataTable, VueBarcode);
         data() {
             return {
                 posts: [],
-                ActionButtons: null,
+                ActionButtons: '',
                 actionTriggered: null,
                 //showModal: false,
             }

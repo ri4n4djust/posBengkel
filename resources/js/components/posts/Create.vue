@@ -45,7 +45,7 @@
                                 <label class="col-sm-3 control-label">Harga. Jual</label>
                                 <div class="col-sm-5">
                                 <input type="text" class="form-control" v-model="post.hrgJual"
-                                       placeholder="Harga Jual" @keypress="onlyNumber" @keyup="letterValue()">
+                                       placeholder="Harga Jual" @keypress="onlyNumber" @blur="letterValue()">
                                 </div>
                                 <div class="col-sm-3">
                                 <input type="text" class="form-control" v-model="str">
