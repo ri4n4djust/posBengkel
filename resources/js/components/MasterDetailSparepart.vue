@@ -2,13 +2,12 @@
 
 <div class="card-body">
     <!-- SELECT2 EXAMPLE -->
-        
+        <shoping-cart></shoping-cart>
         <!-- /.box-header -->
         <div class="box-body">
         <h3 class="box-title">DETAIL SPARE PART MOTOR</h3>
           <div class="row">
             <div class="col-md-6">
-                {{ this.crt }}
                {{post.nmDetail}} 
                {{post.warnaDetail}} 
                 <button @click="modalTambahSp = true" class="btn btn-md btn-primary">TAMBAH KATEGORI SPARE PART</button>
@@ -108,10 +107,7 @@
 </template>
 
 <script>
-import Shoping from './Shoping.vue';
-    export default {
-  components: { Shoping },
-
+export default {
         data() {
             return {
                 post : [],
@@ -122,8 +118,6 @@ import Shoping from './Shoping.vue';
                 image: '',
                 kdKatSp: '',
                 listkatsp: [],
-
-                
             }
         },
         beforeCreate: function () {

@@ -2,6 +2,7 @@
 
         <div class="card-body">
           <h3>DETAIL MOTOR</h3>
+          <shoping-cart></shoping-cart>
                            
                             <div class="form-group">
                             <label class="col-sm-3 control-label">Merek:</label>

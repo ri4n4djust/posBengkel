@@ -309,7 +309,7 @@ class CategoryController extends Controller
 
     public function delSpMotor($id)
     {
-        $post = de::findOrFail($id);
+        $post = KatSpMotor::findOrFail($id);
         $gbr = $post->gbrKatSp ;
         if (File::exists('image/foto/katsp/'.$gbr)) {
             File::delete('image/foto/katsp/'.$gbr);
