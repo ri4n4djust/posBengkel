@@ -88,7 +88,7 @@
         display: block;
         font-size: 12px;
       }
-      table { font-size: 80%; }
+      table { font-size: 12px; }
 
      }
     </style>
@@ -102,7 +102,7 @@
                 qty: '1',
                 crt: [],
                 printMe: '',
-                //isicart: localStorage.length,
+                isicart: Object.keys(JSON.parse(localStorage.getItem('cartItems'))).length,
             }
         },
         //props: ['crt'],
@@ -117,7 +117,7 @@
         },
         mounted(){
            
-            this.isicart = localStorage.getItem('cartItems').length;
+            //this.isicart = localStorage.getItem('cartItems').length;
           
         },
         methods: {
@@ -129,7 +129,7 @@
                 //this.items.splice(index, 1)
                 //this.crt = JSON.parse(localStorage.getItem('cartItems'))
                 this.getCart();
-                this.isicart = cartItems.length;
+                this.isicart = Object.keys(JSON.parse(localStorage.getItem('cartItems'))).length,
                 alert('berhasil dihapus')
                 
             },
@@ -138,7 +138,7 @@
             },
             printOrder(printMe) {
                 window.print(printMe);
-                localStorage.removeItem('cartItems');
+                //localStorage.removeItem('cartItems');
                 this.crt = [];
                 $('#cartModal').modal('hide');
             },

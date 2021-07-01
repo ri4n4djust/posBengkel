@@ -242,10 +242,10 @@
                 item: [],
                 cartItems: [],
                 items : products,
-                qty: ["1"],
+                qty: 1,
                 lists: [],
                 crt:[],
-                isicart: localStorage.length,
+                isicart: '',
                 
                 
             }
@@ -290,7 +290,7 @@
                         cartItems = JSON.parse(localStorage.getItem('cartItems'));
                     }
                         const oldItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-                        const existingItem = oldItems.find(({ id }) => id === itemToAdd.id);
+                        const existingItem = oldItems.find(({ barcode }) => barcode === itemToAdd.barcode);
                         if (existingItem) {
                             itemToAdd.qty++;
                             alert('qtyupdate')
@@ -299,7 +299,7 @@
                         cartItems.push(itemToAdd);	
                         localStorage.setItem('cartItems',JSON.stringify(cartItems));
                         this.getCart();
-                        this.isicart = localStorage.length;
+                        this.isicart = Object.keys(JSON.parse(localStorage.getItem('cartItems'))).length;
                         alert(itemToAdd.nmBarang + " berhasil disimpan")
                         }
             },
@@ -309,14 +309,15 @@
                 const filtered = arrayFromStroage.filter(arrayFromStroage => arrayFromStroage.id !== id);
                 localStorage.setItem('cartItems', JSON.stringify(filtered));
                 //this.items.splice(index, 1)
-                this.isicart = localStorage.length;
+                this.isicart = Object.keys(JSON.parse(localStorage.getItem('cartItems'))).length;
                 this.getCart();
                 alert('berhasil dihapus')
                 
             },
             
             getCart: function() {
-                this.crt = JSON.parse(localStorage.getItem('cartItems'))
+                this.crt = JSON.parse(localStorage.getItem('cartItems'));
+                this.isicart = JSON.parse(localStorage.getItem('cartItems')).length;
             },
             onImageChange(e) {
                 let files = e.target.files || e.dataTransfer.files;
