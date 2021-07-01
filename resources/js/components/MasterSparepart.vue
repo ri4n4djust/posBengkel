@@ -340,6 +340,7 @@
     </transition>
   </div>
   <!-- /ModalTambah -->
+
         
         </div>
                         
@@ -351,6 +352,7 @@
                 
 
 </template>
+
 
 <script>
     export default {
@@ -382,6 +384,7 @@
                 warnaMotor: '',
                 image: '',
                 gamb: '@/image/foto/',
+                printMe: '',
                 
                 
             }
@@ -398,6 +401,10 @@
             this.loadKdType();
             this.loadKdTahun();
             this.loadKdDetMotor();
+            this.getCart();
+            if (this.crt === null){
+                            this.crt = [];
+                        }
         },
         computed: {
             //newKode: function () {
@@ -408,6 +415,9 @@
             //this.getCategories()
         },
         methods: {
+            getCart: function() {
+                this.crt = JSON.parse(localStorage.getItem('cartItems'))
+            },
             onImageChange(e) {
                 let files = e.target.files || e.dataTransfer.files;
                 if (!files.length)

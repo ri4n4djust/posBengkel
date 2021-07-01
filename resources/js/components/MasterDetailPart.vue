@@ -2,7 +2,7 @@
     <div class="mt-3">
 
         <section class="content">
-        <div class="text-right"><button class="btn btn-primary" data-toggle="modal" data-target="#cartModal">Cart ({{cartItems.length}})</button></div>
+        <div class="text-right"><button class="btn btn-primary" data-toggle="modal" data-target="#cartModal">Cart ({{ isicart }}) Items</button></div>
       <div class="row">
         <div class="col-md-4">
           <!-- About Me Box -->
@@ -245,6 +245,7 @@
                 qty: ["1"],
                 lists: [],
                 crt:[],
+                isicart: localStorage.length,
                 
                 
             }
@@ -298,6 +299,7 @@
                         cartItems.push(itemToAdd);	
                         localStorage.setItem('cartItems',JSON.stringify(cartItems));
                         this.getCart();
+                        this.isicart = localStorage.length;
                         alert(itemToAdd.nmBarang + " berhasil disimpan")
                         }
             },
@@ -307,7 +309,8 @@
                 const filtered = arrayFromStroage.filter(arrayFromStroage => arrayFromStroage.id !== id);
                 localStorage.setItem('cartItems', JSON.stringify(filtered));
                 //this.items.splice(index, 1)
-                this.crt = JSON.parse(localStorage.getItem('cartItems'))
+                this.isicart = localStorage.length;
+                this.getCart();
                 alert('berhasil dihapus')
                 
             },

@@ -98,7 +98,7 @@
                           <option v-for='lf in lifts' :value='lf.kdLift' :key='lf.id'>{{ lf.noLift }}</option>
                         </select>
                         </div>
-                        <div class="col-xs-2">
+                        <div class="col-xs-3">
                         <label class="control-label" ><i class="fa fa-check"></i>Jenis Motor</label>
                         <input type="text" class="form-control" v-model="post.namaMotor" disabled>
                         </div>

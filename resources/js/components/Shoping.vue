@@ -2,7 +2,7 @@
 
 <div class="mt-3">
 
-<div class="text-right"><button class="btn btn-primary" data-toggle="modal" data-target="#cartModal">Cart ({{cartItems.length}})</button></div>
+<div class="text-right"><button class="btn btn-primary" data-toggle="modal" data-target="#cartModal">Cart ({{ isicart }}) Items</button></div>
 
 <!-- Modal --> 
    <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -16,8 +16,8 @@
                         <div>
                             <table class="table table-cart">
                                 <tr v-for="item in crt" :key="item.id">
-                                <td>{{item.nmBarang}}</td>
                                 <td>{{item.barcode}}</td>
+                                <td>{{item.nmBarang}}</td>
                                 <td>QTY:
                                     <input v-model="item.qty" class="form-control input-qty" type="number">
                                 </td>
@@ -35,15 +35,63 @@
                         <!-- /.container -->
             </div>
             <div class="modal-footer">
+                <button @click="printOrder(printMe)" class="btn btn-default">Print Order</button>
                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
+
+            <div id="printMe" >
+                            <table class="table" >
+                                <thead>
+                                    <tr>
+                                        <th>Barcode</th>
+                                        <th>Nama</th>
+                                        <th>Qty</th>
+                                    </tr>
+                                </thead>
+                               <tbody>
+                                    <tr v-for="item in crt" :key="item.id">
+                                        <td>{{item.barcode}}</td>
+                                        <td>{{item.nmBarang}}</td>
+                                        <td>{{item.qty}}</td>
+                                    </tr>
+                               </tbody>
+                            </table>
+                        </div>
+
+
          </div>
       </div>
    </div>
 
+
+                        
+                        
+
+
 </div>
 </template>
 
+<style scoped>
+
+    #printMe { display: none; }
+
+    @media print
+    {
+      @page{
+        margin: 0;
+      }
+      body * {
+        visibility: hidden;
+      }
+      
+      #printMe {
+        display: block;
+        font-size: 12px;
+      }
+      table { font-size: 80%; }
+
+     }
+    </style>
 <script>
 
     export default {
@@ -53,9 +101,11 @@
                 items : [],
                 qty: '1',
                 crt: [],
+                printMe: '',
+                //isicart: localStorage.length,
             }
         },
-        //props: ['items'],
+        //props: ['crt'],
         computed: {
         
         },
@@ -64,6 +114,11 @@
         if (this.crt === null){
                         this.crt = [];
                     }
+        },
+        mounted(){
+           
+            this.isicart = localStorage.getItem('cartItems').length;
+          
         },
         methods: {
             removeItem(id) {
@@ -74,11 +129,18 @@
                 //this.items.splice(index, 1)
                 //this.crt = JSON.parse(localStorage.getItem('cartItems'))
                 this.getCart();
+                this.isicart = cartItems.length;
                 alert('berhasil dihapus')
                 
             },
             getCart: function() {
                 this.crt = JSON.parse(localStorage.getItem('cartItems'))
+            },
+            printOrder(printMe) {
+                window.print(printMe);
+                localStorage.removeItem('cartItems');
+                this.crt = [];
+                $('#cartModal').modal('hide');
             },
         }
 
