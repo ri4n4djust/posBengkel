@@ -2,13 +2,14 @@
     <div class="mt-3">
 
         <section class="content">
-        <div class="text-right"><button class="btn btn-primary" data-toggle="modal" data-target="#cartModal">Cart ({{ isicart }}) Items</button></div>
+        
       <div class="row">
         <div class="col-md-4">
           <!-- About Me Box -->
           <div class="box box-primary">
             <div class="box-header with-border">
               <h3 class="box-title">Katalog {{listkatsp.kdDetailMotor}}</h3>
+              <div class="text-right"><button class="btn btn-primary" data-toggle="modal" data-target="#cartModal">Cart ({{ isicart }}) Items</button></div>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -31,7 +32,8 @@
                                 <tr v-for="item in crt" :key="item.id">
                                 <td>{{item.nmBarang}}</td>
                                 <td>QTY:
-                                    <input v-model="item.qty" class="form-control input-qty" type="number">
+                                    <input v-model="item.qty" class="form-control input-qty" type="number" min="1">
+                                    
                                 </td>
                                 <td>
                                     <button @click="removeItem(id = item.id)"><span class="glyphicon glyphicon-trash"></span></button>
@@ -67,7 +69,7 @@
                             <td>{{ kat.noBarang }}</td>
                             <td>{{ kat.barcode }}</td>
                             <td>{{ kat.nmBarang }}</td>
-                            <td><input v-model="kat.qty" type="number" class="form-control" placeholder="Qty" required/></td>
+                            <td><input v-model="kat.qty" value="1" type="number" min="1" class="form-control" placeholder="Qty" required/></td>
                             <td>
                              <button @click="addToCart(kat)" class="btn btn-xs btn-primary"><i class="fa fa-fw fa-cart-plus"></i></button>
                              <i class="fa fa-fw fa-eye"></i>
@@ -134,7 +136,7 @@
                                 <td>{{item.nmBarang}}</td>
                                 <td>{{item.barcode}}</td>
                                 <td>QTY:
-                                    <input v-model="item.qty" class="form-control input-qty" type="number">
+                                    <input v-model="item.qty" class="form-control input-qty" type="number" min="1">
                                 </td>
                                 <td>
                                     <button @click="removeItem(id = item.id)"><span class="glyphicon glyphicon-trash"></span></button>
@@ -245,8 +247,7 @@
                 qty: 1,
                 lists: [],
                 crt:[],
-                isicart: '',
-                
+                isicart: 0,
                 
             }
         },
@@ -263,22 +264,13 @@
             this.listDetSpMotor();
             this.listSpMotor();
             this.getCart();
-            if (this.crt === null){
-                        this.crt = [];
-                    }
+            
         },
         computed: {
             //newKode: function () {
             //return this.newKode = this.kdMerek + this.kdJenis + this.kdType + this.kdTahun
             //}
             
-        },
-        watch:{
-           
-        },
-        mounted(){
-            this.$session.start('prd')
-            this.listSpMotor();
         },
         methods: {
             addToCart(itemToAdd) {
@@ -294,11 +286,12 @@
                         if (existingItem) {
                             const objIndex = cartItems.findIndex((e => e.barcode === itemToAdd.barcode));
                             const oldQty = cartItems[objIndex].qty;
-                            const newQty = oldQty + itemToAdd.qty ;
+                            const newQty = parseInt(oldQty) + parseInt(itemToAdd.qty) ;
                             cartItems[objIndex].qty = parseInt(newQty);
-                            //itemToAdd.qty++;
-                            alert(cartItems[objIndex].barcode)
-                            //cartItems.push(itemToAdd);
+                            localStorage.setItem('cartItems',JSON.stringify(cartItems));
+                            alert('Quantity Update')
+                            this.getCart();
+                            this.isicart = Object.keys(JSON.parse(localStorage.getItem('cartItems'))).length;
                         }else{
                         cartItems.push(itemToAdd);	
                         localStorage.setItem('cartItems',JSON.stringify(cartItems));
@@ -320,8 +313,13 @@
             },
             
             getCart: function() {
+                if (localStorage.getItem('cartItems')===null){
+                    this.crt = localStorage.setItem('cartItems', '[]');
+                    }else{
                 this.crt = JSON.parse(localStorage.getItem('cartItems'));
                 this.isicart = JSON.parse(localStorage.getItem('cartItems')).length;
+                    }
+
             },
             onImageChange(e) {
                 let files = e.target.files || e.dataTransfer.files;
@@ -390,6 +388,7 @@
                     barcode: this.brg,
                     noBarang: this.insert.noBarang,
                     nmBarang: this.insert.nmBarang,
+                    qty: 1,
                 }).then((response) => {
                         //this.loadDetMotor();
                         this.brg = '';

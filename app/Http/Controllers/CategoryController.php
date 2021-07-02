@@ -47,6 +47,7 @@ class CategoryController extends Controller
             'barcode'   => $request->input('barcode'),
             'noBarang'   => $request->input('noBarang'),
             'nmBarang'   => $request->input('nmBarang'),
+            'qty'   => $request->input('qty'),
         ]);
         if ($insert) {
             return response()->json([

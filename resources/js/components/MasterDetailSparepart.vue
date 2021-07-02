@@ -11,6 +11,7 @@
                {{post.nmDetail}} 
                {{post.warnaDetail}} 
                 <button @click="modalTambahSp = true" class="btn btn-md btn-primary">TAMBAH KATEGORI SPARE PART</button>
+                <router-link :to="{name: 'mastersparepart'}" class="btn btn-md btn-primary">MENU UTAMA</router-link>
                
             </div>
           </div>
@@ -118,6 +119,8 @@ export default {
                 image: '',
                 kdKatSp: '',
                 listkatsp: [],
+                isicart: 0,
+                crt: [],
             }
         },
         beforeCreate: function () {

@@ -10,7 +10,7 @@ class DetailCatalog extends Model
     protected $table = 'tblDetailKatalog';
 
     protected $fillable = [
-        'kdKatSp', 'barcode', 'noBarang', 'nmBarang'
+        'kdKatSp', 'barcode', 'noBarang', 'nmBarang', 'qty'
 
     ];
 }

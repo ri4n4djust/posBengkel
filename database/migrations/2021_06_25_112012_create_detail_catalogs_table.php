@@ -19,6 +19,7 @@ class CreateDetailCatalogsTable extends Migration
             $table->char('barcode');
             $table->integer('noBarang');
             $table->char('nmBarang');
+            $table->integer('qty');
             $table->timestamps();
         });
     }

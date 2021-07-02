@@ -385,6 +385,7 @@
                 image: '',
                 gamb: '@/image/foto/',
                 printMe: '',
+                crt: [],
                 
                 
             }
@@ -402,9 +403,7 @@
             this.loadKdTahun();
             this.loadKdDetMotor();
             this.getCart();
-            if (this.crt === null){
-                            this.crt = [];
-                        }
+            
         },
         computed: {
             //newKode: function () {
@@ -416,7 +415,12 @@
         },
         methods: {
             getCart: function() {
+                if (localStorage.getItem('cartItems')===null){
+                            this.crt = localStorage.setItem('cartItems', '[]');
+                        }else{
                 this.crt = JSON.parse(localStorage.getItem('cartItems'))
+                this.isicart = JSON.parse(localStorage.getItem('cartItems')).length;
+                        }
             },
             onImageChange(e) {
                 let files = e.target.files || e.dataTransfer.files;

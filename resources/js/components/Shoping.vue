@@ -102,7 +102,7 @@
                 qty: '1',
                 crt: [],
                 printMe: '',
-                isicart: Object.keys(JSON.parse(localStorage.getItem('cartItems'))).length,
+                isicart: 0,
             }
         },
         //props: ['crt'],
@@ -110,10 +110,7 @@
         
         },
         created() {
-        this.getCart();
-        if (this.crt === null){
-                        this.crt = [];
-                    }
+            this.getCart();
         },
         mounted(){
            
@@ -134,11 +131,17 @@
                 
             },
             getCart: function() {
+                 if (this.crt === null){
+                            this.crt = localStorage.setItem('cartItems', '[]');
+                        }else{
                 this.crt = JSON.parse(localStorage.getItem('cartItems'))
+                this.isicart = JSON.parse(localStorage.getItem('cartItems')).length;
+                        }
             },
             printOrder(printMe) {
                 window.print(printMe);
-                //localStorage.removeItem('cartItems');
+                localStorage.setItem('cartItems', '[]');
+                this.isicart = Object.keys(JSON.parse(localStorage.getItem('cartItems'))).length,
                 this.crt = [];
                 $('#cartModal').modal('hide');
             },
