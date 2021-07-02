@@ -292,9 +292,13 @@
                         const oldItems = JSON.parse(localStorage.getItem('cartItems')) || [];
                         const existingItem = oldItems.find(({ barcode }) => barcode === itemToAdd.barcode);
                         if (existingItem) {
-                            itemToAdd.qty++;
-                            alert('qtyupdate')
-                            cartItems.push(itemToAdd);
+                            const objIndex = cartItems.findIndex((e => e.barcode === itemToAdd.barcode));
+                            const oldQty = cartItems[objIndex].qty;
+                            const newQty = oldQty + itemToAdd.qty ;
+                            cartItems[objIndex].qty = parseInt(newQty);
+                            //itemToAdd.qty++;
+                            alert(cartItems[objIndex].barcode)
+                            //cartItems.push(itemToAdd);
                         }else{
                         cartItems.push(itemToAdd);	
                         localStorage.setItem('cartItems',JSON.stringify(cartItems));
