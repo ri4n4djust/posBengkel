@@ -13997,6 +13997,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var products = this.listkatalog;
@@ -14019,7 +14028,8 @@ __webpack_require__.r(__webpack_exports__);
       items: products,
       qty: 1,
       lists: [],
-      crt: []
+      crt: [],
+      isicart: 0
     };
   },
   beforeCreate: function beforeCreate() {
@@ -14034,43 +14044,13 @@ __webpack_require__.r(__webpack_exports__);
     this.listDetSpMotor();
     this.listSpMotor();
     this.getCart();
-
-    if (this.crt === null) {
-      this.crt = [];
-    }
   },
   computed: {//newKode: function () {
     //return this.newKode = this.kdMerek + this.kdJenis + this.kdType + this.kdTahun
     //}
   },
-  watch: {},
-  mounted: function mounted() {
-    var _this = this;
-
-    this.$session.start('prd');
-    this.listSpMotor(); // thi.localStorage.getItem('barcode')
-
-    this.axios.get('/api/list').then(function (response) {
-      _this.lists = response.data;
-    });
-  },
   methods: {
     addToCart: function addToCart(itemToAdd) {
-      var found = false; // Add the item or increase qty
-
-      var itemInCart = this.cartItems.filter(function (item) {
-        return item.id === itemToAdd.id;
-      });
-      var isItemInCart = itemInCart.length > 0; //var itemSes = this.$session.get('prd');
-
-      if (isItemInCart === false) {
-        this.cartItems.push(Vue.util.extend({}, itemToAdd));
-      } else {
-        itemInCart[0].qty += itemToAdd.qty;
-      } //itemToAdd.qty + 1;
-      //alert('sukses');
-
-
       var cartItems;
 
       if (localStorage.getItem('cartItems') === null) {
@@ -14079,34 +14059,62 @@ __webpack_require__.r(__webpack_exports__);
         cartItems = JSON.parse(localStorage.getItem('cartItems'));
       }
 
-      cartItems.push(itemToAdd);
-      localStorage.setItem('cartItems', JSON.stringify(cartItems));
-      this.getCart();
-      alert(itemToAdd.nmBarang + " berhasil disimpan"); //alert(localStorage.length + "length")
-    },
-    removeItem: function removeItem(index) {
-      var arrayFromStroage = JSON.parse(localStorage.getItem('cartItems')); //alert(arrayFromStroage.length)
+      var oldItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+      var existingItem = oldItems.find(function (_ref) {
+        var barcode = _ref.barcode;
+        return barcode === itemToAdd.barcode;
+      });
 
-      var i = arrayFromStroage.length;
-      alert(i);
-
-      while (i-- > 0) {
-        var key = localStorage.key(i);
-
-        if (localStorage.getItem(key) === index) {
-          localStorage.removeItem(key);
-          this.items.splice(index, 1);
-          aler('berhasil dihapus');
-        }
+      if (existingItem) {
+        var objIndex = cartItems.findIndex(function (e) {
+          return e.barcode === itemToAdd.barcode;
+        });
+        var oldQty = cartItems[objIndex].qty;
+        var newQty = parseInt(oldQty) + parseInt(itemToAdd.qty);
+        cartItems[objIndex].qty = parseInt(newQty);
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        alert('Quantity Update');
+        this.getCart();
+        this.isicart = Object.keys(JSON.parse(localStorage.getItem('cartItems'))).length;
+      } else {
+        cartItems.push(itemToAdd);
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        this.getCart();
+        this.isicart = Object.keys(JSON.parse(localStorage.getItem('cartItems'))).length;
+        alert(itemToAdd.nmBarang + " berhasil disimpan");
       }
     },
-    HpsSession: function HpsSession() {
-      localStorage.clear();
+    removeItem: function removeItem(id) {
+      //alert(id)
+      var arrayFromStroage = JSON.parse(localStorage.getItem('cartItems'));
+      var filtered = arrayFromStroage.filter(function (arrayFromStroage) {
+        return arrayFromStroage.id !== id;
+      });
+      localStorage.setItem('cartItems', JSON.stringify(filtered)); //this.items.splice(index, 1)
+
+      this.isicart = Object.keys(JSON.parse(localStorage.getItem('cartItems'))).length;
       this.getCart();
-      alert('session produk di hapus');
+      alert('berhasil dihapus');
+    },
+    updateItem: function updateItem(barcode, index) {
+      var cartItems = JSON.parse(localStorage.getItem('cartItems'));
+      var objIndex = cartItems.findIndex(function (e) {
+        return e.barcode === barcode;
+      });
+      var newQty = parseInt(this.crt[index].qty);
+      cartItems[objIndex].qty = parseInt(newQty);
+      localStorage.setItem('cartItems', JSON.stringify(cartItems)); //alert('Quantity Update')
+
+      this.getCart();
+      this.isicart = Object.keys(JSON.parse(localStorage.getItem('cartItems'))).length;
     },
     getCart: function getCart() {
-      this.crt = JSON.parse(localStorage.getItem('cartItems'));
+      if (localStorage.getItem('cartItems') === null) {
+        this.crt = localStorage.setItem('cartItems', '[]');
+      } else {
+        this.crt = JSON.parse(localStorage.getItem('cartItems'));
+        this.isicart = JSON.parse(localStorage.getItem('cartItems')).length;
+      }
     },
     onImageChange: function onImageChange(e) {
       var files = e.target.files || e.dataTransfer.files;
@@ -14129,7 +14137,7 @@ __webpack_require__.r(__webpack_exports__);
       this.barangs = [];
     },
     get_brg: function get_brg() {
-      var _this2 = this;
+      var _this = this;
 
       if (this.brg.length == 0) {
         this.barangs = [];
@@ -14141,7 +14149,7 @@ __webpack_require__.r(__webpack_exports__);
             brg: this.brg
           }
         }).then(function (response) {
-          _this2.barangs = response.data.data;
+          _this.barangs = response.data.data;
         });
       }
     },
@@ -14151,58 +14159,70 @@ __webpack_require__.r(__webpack_exports__);
       this.insert.kdKatSp = "".concat(this.$route.params.id); //    });
     },
     listKatalog: function listKatalog() {
-      var _this3 = this;
+      var _this2 = this;
 
       var uri = "/api/listkatalog/".concat(this.$route.params.id);
       this.axios.get(uri).then(function (response) {
-        _this3.listkatalog = response.data.data;
+        _this2.listkatalog = response.data.data;
       });
     },
     listSpMotor: function listSpMotor() {
-      var _this4 = this;
+      var _this3 = this;
 
       var uri = '/api/listspmotor/' + this.listkatsp.kdDetailMotor;
       this.axios.get(uri).then(function (response) {
-        _this4.listkatspmotor = response.data.data; //this.$router.push({name: 'mastersdetailpart', params: { id: listkatspmotor.kdKatSp }});
+        _this3.listkatspmotor = response.data.data; //this.$router.push({name: 'mastersdetailpart', params: { id: listkatspmotor.kdKatSp }});
       });
     },
     listDetSpMotor: function listDetSpMotor() {
-      var _this5 = this;
+      var _this4 = this;
 
       var uri = "/api/listdetspmotor/".concat(this.$route.params.id);
       this.axios.get(uri).then(function (response) {
-        _this5.listkatsp = response.data.data;
+        _this4.listkatsp = response.data.data;
       });
     },
     loadDetMotor: function loadDetMotor() {
-      var _this6 = this;
+      var _this5 = this;
 
       var uri = "/api/motor/".concat(this.$route.params.id);
       this.axios.get(uri).then(function (response) {
-        _this6.post = response.data.data;
+        _this5.post = response.data.data;
       });
     },
     PostStoreBarang: function PostStoreBarang() {
-      var _this7 = this;
+      var _this6 = this;
 
       var uri = '/api/katalog/create';
       this.axios.post(uri, {
         kdKatSp: this.insert.kdKatSp,
         barcode: this.brg,
         noBarang: this.insert.noBarang,
-        nmBarang: this.insert.nmBarang
+        nmBarang: this.insert.nmBarang,
+        qty: 1
       }).then(function (response) {
         //this.loadDetMotor();
-        _this7.brg = '';
-        _this7.insert.noBarang = '';
-        _this7.insert.nmBarang = '';
+        _this6.brg = '';
+        _this6.insert.noBarang = '';
+        _this6.insert.nmBarang = '';
 
-        _this7.listKatalog();
+        _this6.listKatalog();
 
-        _this7.modalTambahBarang = false;
+        _this6.modalTambahBarang = false;
       })["catch"](function (error) {
-        _this7.validation = error.response.data.data;
+        _this6.validation = error.response.data.data;
       });
+    },
+    delKatalog: function delKatalog(id, index) {
+      var _this7 = this;
+
+      if (confirm("Do you really want to delete?")) {
+        this.axios["delete"]("/api/katalog/".concat(id)).then(function (response) {
+          _this7.listkatalog.splice(index, 1);
+        })["catch"](function (error) {
+          alert('system error!');
+        });
+      }
     }
   }
 });
@@ -14218,7 +14238,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Shoping_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Shoping.vue */ "./resources/js/components/Shoping.vue");
 //
 //
 //
@@ -14328,11 +14347,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 /* harmony default export */ __webpack_exports__["default"] = ({
-  components: {
-    Shoping: _Shoping_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
-  },
   data: function data() {
     return {
       post: [],
@@ -14342,7 +14357,9 @@ __webpack_require__.r(__webpack_exports__);
       kodeDetMotor: '',
       image: '',
       kdKatSp: '',
-      listkatsp: []
+      listkatsp: [],
+      isicart: 0,
+      crt: []
     };
   },
   beforeCreate: function beforeCreate() {
@@ -14945,6 +14962,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -14972,7 +14992,9 @@ __webpack_require__.r(__webpack_exports__);
       nmMotor: '',
       warnaMotor: '',
       image: '',
-      gamb: '@/image/foto/'
+      gamb: '@/image/foto/',
+      printMe: '',
+      crt: []
     };
   },
   beforeCreate: function beforeCreate() {
@@ -14987,6 +15009,7 @@ __webpack_require__.r(__webpack_exports__);
     this.loadKdType();
     this.loadKdTahun();
     this.loadKdDetMotor();
+    this.getCart();
   },
   computed: {//newKode: function () {
     //return this.newKode = this.kdMerek + this.kdJenis + this.kdType + this.kdTahun
@@ -14995,6 +15018,14 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {//this.getCategories()
   },
   methods: {
+    getCart: function getCart() {
+      if (localStorage.getItem('cartItems') === null) {
+        this.crt = localStorage.setItem('cartItems', '[]');
+      } else {
+        this.crt = JSON.parse(localStorage.getItem('cartItems'));
+        this.isicart = JSON.parse(localStorage.getItem('cartItems')).length;
+      }
+    },
     onImageChange: function onImageChange(e) {
       var files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;
@@ -16821,38 +16852,157 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       cartItems: [],
       items: [],
-      qty: '1'
+      qty: '1',
+      crt: [],
+      printMe: '',
+      isicart: 0
     };
   },
-  props: ['items'],
-  computed: {
-    Total: function Total() {
-      var total = 0;
-      this.items.forEach(function (item) {
-        total += item.price * item.qty;
-      });
-      return total;
-    }
+  //props: ['crt'],
+  computed: {},
+  created: function created() {
+    this.getCart();
+  },
+  mounted: function mounted() {//this.isicart = localStorage.getItem('cartItems').length;
   },
   methods: {
-    // Remove item by its index
-    removeItem: function removeItem(index) {
-      var i = localStorage.length;
+    removeItem: function removeItem(id) {
+      //alert(id)
+      var arrayFromStroage = JSON.parse(localStorage.getItem('cartItems'));
+      var filtered = arrayFromStroage.filter(function (arrayFromStroage) {
+        return arrayFromStroage.id !== id;
+      });
+      localStorage.setItem('cartItems', JSON.stringify(filtered)); //this.items.splice(index, 1)
+      //this.crt = JSON.parse(localStorage.getItem('cartItems'))
 
-      while (i-- > 0) {
-        var key = localStorage.key(i);
+      this.getCart();
+      this.isicart = Object.keys(JSON.parse(localStorage.getItem('cartItems'))).length, alert('berhasil dihapus');
+    },
+    updateItem: function updateItem(barcode, index) {
+      var cartItems = JSON.parse(localStorage.getItem('cartItems'));
+      var objIndex = cartItems.findIndex(function (e) {
+        return e.barcode === barcode;
+      });
+      var newQty = parseInt(this.crt[index].qty);
+      cartItems[objIndex].qty = parseInt(newQty);
+      localStorage.setItem('cartItems', JSON.stringify(cartItems)); //alert('Quantity Update')
 
-        if (localStorage.getItem(key) === index) {
-          localStorage.removeItem(key);
-          this.items.splice(index, 1);
-          aler('berhasil dihapus');
-        }
+      this.getCart();
+      this.isicart = Object.keys(JSON.parse(localStorage.getItem('cartItems'))).length;
+    },
+    getCart: function getCart() {
+      if (this.crt === null) {
+        this.crt = localStorage.setItem('cartItems', '[]');
+      } else {
+        this.crt = JSON.parse(localStorage.getItem('cartItems'));
+        this.isicart = JSON.parse(localStorage.getItem('cartItems')).length;
       }
+    },
+    printOrder: function printOrder(printMe) {
+      window.print(printMe);
+      localStorage.setItem('cartItems', '[]');
+      this.isicart = Object.keys(JSON.parse(localStorage.getItem('cartItems'))).length, this.crt = [];
+      $('#cartModal').modal('hide');
     }
   }
 });
@@ -22776,13 +22926,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -22985,7 +23128,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component("data-table", _andresouzaab
   data: function data() {
     return {
       posts: [],
-      ActionButtons: null,
+      ActionButtons: '',
       actionTriggered: null //showModal: false,
 
     };
@@ -29609,7 +29752,7 @@ exports = module.exports = __webpack_require__(/*! ../css-loader/lib/css-base.js
 
 
 // module
-exports.push([module.i, ".mx-icon-left:before,.mx-icon-right:before,.mx-icon-double-left:before,.mx-icon-double-right:before,.mx-icon-double-left:after,.mx-icon-double-right:after{content:\"\";position:relative;top:-1px;display:inline-block;width:10px;height:10px;vertical-align:middle;border-style:solid;border-color:currentColor;border-width:2px 0 0 2px;border-radius:1px;-webkit-box-sizing:border-box;box-sizing:border-box;-webkit-transform-origin:center;transform-origin:center;-webkit-transform:rotate(-45deg) scale(0.7);transform:rotate(-45deg) scale(0.7)}.mx-icon-double-left:after{left:-4px}.mx-icon-double-right:before{left:4px}.mx-icon-right:before,.mx-icon-double-right:before,.mx-icon-double-right:after{-webkit-transform:rotate(135deg) scale(0.7);transform:rotate(135deg) scale(0.7)}.mx-btn{-webkit-box-sizing:border-box;box-sizing:border-box;line-height:1;font-size:14px;font-weight:500;padding:7px 15px;margin:0;cursor:pointer;background-color:transparent;outline:none;border:1px solid rgba(0,0,0,.1);border-radius:4px;color:#73879c;white-space:nowrap}.mx-btn:hover{border-color:#1284e7;color:#1284e7}.mx-btn-text{border:0;padding:0 4px;text-align:left;line-height:inherit}.mx-scrollbar{height:100%}.mx-scrollbar:hover .mx-scrollbar-track{opacity:1}.mx-scrollbar-wrap{height:100%;overflow-x:hidden;overflow-y:auto}.mx-scrollbar-track{position:absolute;top:2px;right:2px;bottom:2px;width:6px;z-index:1;border-radius:4px;opacity:0;-webkit-transition:opacity .24s ease-out;transition:opacity .24s ease-out}.mx-scrollbar-track .mx-scrollbar-thumb{position:absolute;width:100%;height:0;cursor:pointer;border-radius:inherit;background-color:rgba(144,147,153,.3);-webkit-transition:background-color .3s;transition:background-color .3s}.mx-zoom-in-down-enter-active,.mx-zoom-in-down-leave-active{opacity:1;-webkit-transform:scaleY(1);transform:scaleY(1);-webkit-transition:opacity .3s cubic-bezier(0.23, 1, 0.32, 1),-webkit-transform .3s cubic-bezier(0.23, 1, 0.32, 1);transition:opacity .3s cubic-bezier(0.23, 1, 0.32, 1),-webkit-transform .3s cubic-bezier(0.23, 1, 0.32, 1);transition:transform .3s cubic-bezier(0.23, 1, 0.32, 1),opacity .3s cubic-bezier(0.23, 1, 0.32, 1);transition:transform .3s cubic-bezier(0.23, 1, 0.32, 1),opacity .3s cubic-bezier(0.23, 1, 0.32, 1),-webkit-transform .3s cubic-bezier(0.23, 1, 0.32, 1);-webkit-transform-origin:center top;transform-origin:center top}.mx-zoom-in-down-enter,.mx-zoom-in-down-leave-to{opacity:0;-webkit-transform:scaleY(0);transform:scaleY(0)}.mx-datepicker{position:relative;display:inline-block;width:210px}.mx-datepicker svg{width:1em;height:1em;vertical-align:-0.15em;fill:currentColor;overflow:hidden}.mx-datepicker-range{width:320px}.mx-datepicker-inline{width:auto}.mx-input-wrapper{position:relative}.mx-input-wrapper .mx-icon-clear{display:none}.mx-input-wrapper:hover .mx-icon-clear{display:block}.mx-input-wrapper:hover .mx-icon-clear+.mx-icon-calendar{display:none}.mx-input{display:inline-block;-webkit-box-sizing:border-box;box-sizing:border-box;width:100%;height:34px;padding:6px 30px;padding-left:10px;font-size:14px;line-height:1.4;color:#555;background-color:#fff;border:1px solid #ccc;border-radius:4px;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);box-shadow:inset 0 1px 1px rgba(0,0,0,.075)}.mx-input:hover,.mx-input:focus{border-color:#409aff}.mx-input:disabled,.mx-input.disabled{color:#ccc;background-color:#f3f3f3;border-color:#ccc;cursor:not-allowed}.mx-input:focus{outline:none}.mx-input::-ms-clear{display:none}.mx-icon-calendar,.mx-icon-clear{position:absolute;top:50%;right:8px;-webkit-transform:translateY(-50%);transform:translateY(-50%);font-size:16px;line-height:1;color:rgba(0,0,0,.5);vertical-align:middle}.mx-icon-clear{cursor:pointer}.mx-icon-clear:hover{color:rgba(0,0,0,.8)}.mx-datepicker-main{font:14px/1.5 \"Helvetica Neue\",Helvetica,Arial,\"Microsoft Yahei\",sans-serif;color:#73879c;background-color:#fff;border:1px solid #e8e8e8}.mx-datepicker-popup{position:absolute;margin-top:1px;margin-bottom:1px;-webkit-box-shadow:0 6px 12px rgba(0,0,0,.175);box-shadow:0 6px 12px rgba(0,0,0,.175);z-index:2001}.mx-datepicker-sidebar{float:left;-webkit-box-sizing:border-box;box-sizing:border-box;width:100px;padding:6px;overflow:auto}.mx-datepicker-sidebar+.mx-datepicker-content{margin-left:100px;border-left:1px solid #e8e8e8}.mx-datepicker-body{position:relative;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.mx-btn-shortcut{display:block;padding:0 6px;line-height:24px}.mx-range-wrapper{display:-webkit-box;display:-ms-flexbox;display:flex}@media(max-width: 750px){.mx-range-wrapper{-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column}}.mx-datepicker-header{padding:6px 8px;border-bottom:1px solid #e8e8e8}.mx-datepicker-footer{padding:6px 8px;text-align:right;border-top:1px solid #e8e8e8}.mx-calendar{-webkit-box-sizing:border-box;box-sizing:border-box;width:248px;padding:6px 12px}.mx-calendar+.mx-calendar{border-left:1px solid #e8e8e8}.mx-calendar-header,.mx-time-header{-webkit-box-sizing:border-box;box-sizing:border-box;height:34px;line-height:34px;text-align:center;overflow:hidden}.mx-btn-icon-left,.mx-btn-icon-double-left{float:left}.mx-btn-icon-right,.mx-btn-icon-double-right{float:right}.mx-calendar-header-label{font-size:14px}.mx-calendar-decade-separator{margin:0 2px}.mx-calendar-decade-separator:after{content:\"~\"}.mx-calendar-content{position:relative;height:224px;-webkit-box-sizing:border-box;box-sizing:border-box}.mx-calendar-content .cell{cursor:pointer}.mx-calendar-content .cell:hover{color:#73879c;background-color:#f3f9fe}.mx-calendar-content .cell.active{color:#fff;background-color:#1284e7}.mx-calendar-content .cell.in-range,.mx-calendar-content .cell.hover-in-range{color:#73879c;background-color:#dbedfb}.mx-calendar-content .cell.disabled{cursor:not-allowed;color:#ccc;background-color:#f3f3f3}.mx-calendar-week-mode .mx-date-row{cursor:pointer}.mx-calendar-week-mode .mx-date-row:hover{background-color:#f3f9fe}.mx-calendar-week-mode .mx-date-row.mx-active-week{background-color:#dbedfb}.mx-calendar-week-mode .mx-date-row .cell:hover{color:inherit;background-color:transparent}.mx-calendar-week-mode .mx-date-row .cell.active{color:inherit;background-color:transparent}.mx-week-number{opacity:.5}.mx-table{table-layout:fixed;border-collapse:separate;border-spacing:0;width:100%;height:100%;-webkit-box-sizing:border-box;box-sizing:border-box;text-align:center;vertical-align:middle}.mx-table th{padding:0;font-weight:500}.mx-table td{padding:0}.mx-table-date td,.mx-table-date th{height:32px;font-size:12px}.mx-table-date .today{color:#2a90e9}.mx-table-date .cell.not-current-month{color:#ccc;background:none}.mx-time{-webkit-box-flex:1;-ms-flex:1;flex:1;width:224px;background:#fff}.mx-time+.mx-time{border-left:1px solid #e8e8e8}.mx-calendar-time{position:absolute;top:0;left:0;width:100%;height:100%}.mx-time-header{border-bottom:1px solid #e8e8e8}.mx-time-content{height:224px;-webkit-box-sizing:border-box;box-sizing:border-box;overflow:hidden}.mx-time-columns{display:-webkit-box;display:-ms-flexbox;display:flex;width:100%;height:100%;overflow:hidden}.mx-time-column{-webkit-box-flex:1;-ms-flex:1;flex:1;position:relative;border-left:1px solid #e8e8e8;text-align:center}.mx-time-column:first-child{border-left:0}.mx-time-column .mx-time-list{margin:0;padding:0;list-style:none}.mx-time-column .mx-time-list::after{content:\"\";display:block;height:192px}.mx-time-column .mx-time-item{cursor:pointer;font-size:12px;height:32px;line-height:32px}.mx-time-column .mx-time-item:hover{color:#73879c;background-color:#f3f9fe}.mx-time-column .mx-time-item.active{color:#1284e7;background-color:transparent;font-weight:700}.mx-time-column .mx-time-item.disabled{cursor:not-allowed;color:#ccc;background-color:#f3f3f3}.mx-time-option{cursor:pointer;padding:8px 10px;font-size:14px;line-height:20px}.mx-time-option:hover{color:#73879c;background-color:#f3f9fe}.mx-time-option.active{color:#1284e7;background-color:transparent;font-weight:700}.mx-time-option.disabled{cursor:not-allowed;color:#ccc;background-color:#f3f3f3}\r\n", ""]);
+exports.push([module.i, ".mx-icon-left:before,.mx-icon-right:before,.mx-icon-double-left:before,.mx-icon-double-right:before,.mx-icon-double-left:after,.mx-icon-double-right:after{content:\"\";position:relative;top:-1px;display:inline-block;width:10px;height:10px;vertical-align:middle;border-style:solid;border-color:currentColor;border-width:2px 0 0 2px;border-radius:1px;-webkit-box-sizing:border-box;box-sizing:border-box;-webkit-transform-origin:center;transform-origin:center;-webkit-transform:rotate(-45deg) scale(0.7);transform:rotate(-45deg) scale(0.7)}.mx-icon-double-left:after{left:-4px}.mx-icon-double-right:before{left:4px}.mx-icon-right:before,.mx-icon-double-right:before,.mx-icon-double-right:after{-webkit-transform:rotate(135deg) scale(0.7);transform:rotate(135deg) scale(0.7)}.mx-btn{-webkit-box-sizing:border-box;box-sizing:border-box;line-height:1;font-size:14px;font-weight:500;padding:7px 15px;margin:0;cursor:pointer;background-color:transparent;outline:none;border:1px solid rgba(0,0,0,.1);border-radius:4px;color:#73879c;white-space:nowrap}.mx-btn:hover{border-color:#1284e7;color:#1284e7}.mx-btn-text{border:0;padding:0 4px;text-align:left;line-height:inherit}.mx-scrollbar{height:100%}.mx-scrollbar:hover .mx-scrollbar-track{opacity:1}.mx-scrollbar-wrap{height:100%;overflow-x:hidden;overflow-y:auto}.mx-scrollbar-track{position:absolute;top:2px;right:2px;bottom:2px;width:6px;z-index:1;border-radius:4px;opacity:0;-webkit-transition:opacity .24s ease-out;transition:opacity .24s ease-out}.mx-scrollbar-track .mx-scrollbar-thumb{position:absolute;width:100%;height:0;cursor:pointer;border-radius:inherit;background-color:rgba(144,147,153,.3);-webkit-transition:background-color .3s;transition:background-color .3s}.mx-zoom-in-down-enter-active,.mx-zoom-in-down-leave-active{opacity:1;-webkit-transform:scaleY(1);transform:scaleY(1);-webkit-transition:opacity .3s cubic-bezier(0.23, 1, 0.32, 1),-webkit-transform .3s cubic-bezier(0.23, 1, 0.32, 1);transition:opacity .3s cubic-bezier(0.23, 1, 0.32, 1),-webkit-transform .3s cubic-bezier(0.23, 1, 0.32, 1);transition:transform .3s cubic-bezier(0.23, 1, 0.32, 1),opacity .3s cubic-bezier(0.23, 1, 0.32, 1);transition:transform .3s cubic-bezier(0.23, 1, 0.32, 1),opacity .3s cubic-bezier(0.23, 1, 0.32, 1),-webkit-transform .3s cubic-bezier(0.23, 1, 0.32, 1);-webkit-transform-origin:center top;transform-origin:center top}.mx-zoom-in-down-enter,.mx-zoom-in-down-leave-to{opacity:0;-webkit-transform:scaleY(0);transform:scaleY(0)}.mx-datepicker{position:relative;display:inline-block;width:210px}.mx-datepicker svg{width:1em;height:1em;vertical-align:-0.15em;fill:currentColor;overflow:hidden}.mx-datepicker-range{width:320px}.mx-datepicker-inline{width:auto}.mx-input-wrapper{position:relative}.mx-input-wrapper .mx-icon-clear{display:none}.mx-input-wrapper:hover .mx-icon-clear{display:block}.mx-input-wrapper:hover .mx-icon-clear+.mx-icon-calendar{display:none}.mx-input{display:inline-block;-webkit-box-sizing:border-box;box-sizing:border-box;width:100%;height:34px;padding:6px 30px;padding-left:10px;font-size:14px;line-height:1.4;color:#555;background-color:#fff;border:1px solid #ccc;border-radius:4px;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);box-shadow:inset 0 1px 1px rgba(0,0,0,.075)}.mx-input:hover,.mx-input:focus{border-color:#409aff}.mx-input:disabled,.mx-input.disabled{color:#ccc;background-color:#f3f3f3;border-color:#ccc;cursor:not-allowed}.mx-input:focus{outline:none}.mx-input::-ms-clear{display:none}.mx-icon-calendar,.mx-icon-clear{position:absolute;top:50%;right:8px;-webkit-transform:translateY(-50%);transform:translateY(-50%);font-size:16px;line-height:1;color:rgba(0,0,0,.5);vertical-align:middle}.mx-icon-clear{cursor:pointer}.mx-icon-clear:hover{color:rgba(0,0,0,.8)}.mx-datepicker-main{font:14px/1.5 \"Helvetica Neue\",Helvetica,Arial,\"Microsoft Yahei\",sans-serif;color:#73879c;background-color:#fff;border:1px solid #e8e8e8}.mx-datepicker-popup{position:absolute;margin-top:1px;margin-bottom:1px;-webkit-box-shadow:0 6px 12px rgba(0,0,0,.175);box-shadow:0 6px 12px rgba(0,0,0,.175);z-index:2001}.mx-datepicker-sidebar{float:left;-webkit-box-sizing:border-box;box-sizing:border-box;width:100px;padding:6px;overflow:auto}.mx-datepicker-sidebar+.mx-datepicker-content{margin-left:100px;border-left:1px solid #e8e8e8}.mx-datepicker-body{position:relative;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.mx-btn-shortcut{display:block;padding:0 6px;line-height:24px}.mx-range-wrapper{display:-webkit-box;display:-ms-flexbox;display:flex}@media(max-width: 750px){.mx-range-wrapper{-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column}}.mx-datepicker-header{padding:6px 8px;border-bottom:1px solid #e8e8e8}.mx-datepicker-footer{padding:6px 8px;text-align:right;border-top:1px solid #e8e8e8}.mx-calendar{-webkit-box-sizing:border-box;box-sizing:border-box;width:248px;padding:6px 12px}.mx-calendar+.mx-calendar{border-left:1px solid #e8e8e8}.mx-calendar-header,.mx-time-header{-webkit-box-sizing:border-box;box-sizing:border-box;height:34px;line-height:34px;text-align:center;overflow:hidden}.mx-btn-icon-left,.mx-btn-icon-double-left{float:left}.mx-btn-icon-right,.mx-btn-icon-double-right{float:right}.mx-calendar-header-label{font-size:14px}.mx-calendar-decade-separator{margin:0 2px}.mx-calendar-decade-separator:after{content:\"~\"}.mx-calendar-content{position:relative;height:224px;-webkit-box-sizing:border-box;box-sizing:border-box}.mx-calendar-content .cell{cursor:pointer}.mx-calendar-content .cell:hover{color:#73879c;background-color:#f3f9fe}.mx-calendar-content .cell.active{color:#fff;background-color:#1284e7}.mx-calendar-content .cell.in-range,.mx-calendar-content .cell.hover-in-range{color:#73879c;background-color:#dbedfb}.mx-calendar-content .cell.disabled{cursor:not-allowed;color:#ccc;background-color:#f3f3f3}.mx-calendar-week-mode .mx-date-row{cursor:pointer}.mx-calendar-week-mode .mx-date-row:hover{background-color:#f3f9fe}.mx-calendar-week-mode .mx-date-row.mx-active-week{background-color:#dbedfb}.mx-calendar-week-mode .mx-date-row .cell:hover{color:inherit;background-color:transparent}.mx-calendar-week-mode .mx-date-row .cell.active{color:inherit;background-color:transparent}.mx-week-number{opacity:.5}.mx-table{table-layout:fixed;border-collapse:separate;border-spacing:0;width:100%;height:100%;-webkit-box-sizing:border-box;box-sizing:border-box;text-align:center;vertical-align:middle}.mx-table th{padding:0;font-weight:500}.mx-table td{padding:0}.mx-table-date td,.mx-table-date th{height:32px;font-size:12px}.mx-table-date .today{color:#2a90e9}.mx-table-date .cell.not-current-month{color:#ccc;background:none}.mx-time{-webkit-box-flex:1;-ms-flex:1;flex:1;width:224px;background:#fff}.mx-time+.mx-time{border-left:1px solid #e8e8e8}.mx-calendar-time{position:absolute;top:0;left:0;width:100%;height:100%}.mx-time-header{border-bottom:1px solid #e8e8e8}.mx-time-content{height:224px;-webkit-box-sizing:border-box;box-sizing:border-box;overflow:hidden}.mx-time-columns{display:-webkit-box;display:-ms-flexbox;display:flex;width:100%;height:100%;overflow:hidden}.mx-time-column{-webkit-box-flex:1;-ms-flex:1;flex:1;position:relative;border-left:1px solid #e8e8e8;text-align:center}.mx-time-column:first-child{border-left:0}.mx-time-column .mx-time-list{margin:0;padding:0;list-style:none}.mx-time-column .mx-time-list::after{content:\"\";display:block;height:192px}.mx-time-column .mx-time-item{cursor:pointer;font-size:12px;height:32px;line-height:32px}.mx-time-column .mx-time-item:hover{color:#73879c;background-color:#f3f9fe}.mx-time-column .mx-time-item.active{color:#1284e7;background-color:transparent;font-weight:700}.mx-time-column .mx-time-item.disabled{cursor:not-allowed;color:#ccc;background-color:#f3f3f3}.mx-time-option{cursor:pointer;padding:8px 10px;font-size:14px;line-height:20px}.mx-time-option:hover{color:#73879c;background-color:#f3f9fe}.mx-time-option.active{color:#1284e7;background-color:transparent;font-weight:700}.mx-time-option.disabled{cursor:not-allowed;color:#ccc;background-color:#f3f3f3}\n", ""]);
 
 // exports
 
@@ -29628,7 +29771,7 @@ exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base
 
 
 // module
-exports.push([module.i, "\n.w-full[data-v-27213e1d] {\r\n  width: 100%;\n}\n.inline-block[data-v-27213e1d] {\r\n  display: inline-block;\n}\n.block[data-v-27213e1d] {\r\n  display: block;\n}\n.flex[data-v-27213e1d] {\r\n  display: flex;\n}\n.border[data-v-27213e1d] {\r\n  border-width: thin;\r\n  border-style: solid;\n}\n.rounded[data-v-27213e1d] {\r\n  border-radius: 0.25em;\n}\n.text-black[data-v-27213e1d] {\r\n  color: #22292f;\n}\n.border-grey-lighter[data-v-27213e1d] {\r\n  border-color: #ced4da;\n}\n.bg-grey-lighter[data-v-27213e1d] {\r\n  background-color: #606f7b;\n}\n.bg-grey-light[data-v-27213e1d] {\r\n  background-color: #dae1e7;\n}\n.bg-grey-dark[data-v-27213e1d] {\r\n  background-color: #8795a1;\n}\n.bg-white[data-v-27213e1d] {\r\n  background-color: #fff;\n}\n.pin-r[data-v-27213e1d] {\r\n  right: 0;\n}\n.pin-y[data-v-27213e1d] {\r\n  top: 0;\r\n  bottom: 0;\n}\n.absolute[data-v-27213e1d] {\r\n  position: absolute;\n}\n.relative[data-v-27213e1d] {\r\n  position: relative;\n}\n.items-center[data-v-27213e1d] {\r\n  align-items: center;\n}\n.p-0[data-v-27213e1d] {\r\n  padding: 0;\n}\n.p-1[data-v-27213e1d] {\r\n  padding: 0.25em;\n}\n.px-1[data-v-27213e1d] {\r\n  padding-left: 0.25em;\r\n  padding-right: 0.25em;\n}\n.py-2[data-v-27213e1d] {\r\n  padding-top: 0.5em;\r\n  padding-bottom: 0.5em;\n}\n.px-2[data-v-27213e1d] {\r\n  padding-left: 0.5em;\r\n  padding-right: 0.5em;\n}\n.mt-px[data-v-27213e1d] {\r\n  margin-top: 1px;\n}\n.leading-tight[data-v-27213e1d] {\r\n  line-height: 1.25;\n}\n.leading-normal[data-v-27213e1d] {\r\n  line-height: 1.5;\n}\n.text-left[data-v-27213e1d] {\r\n  text-align: left;\n}\n.w-full[data-v-27213e1d] {\r\n  width: 100%;\n}\n.shadow[data-v-27213e1d] {\r\n  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);\n}\n.list-reset[data-v-27213e1d] {\r\n  list-style: none;\r\n  padding: 0;\n}\n.overflow-auto[data-v-27213e1d] {\r\n  overflow: auto;\n}\n.appearance-none[data-v-27213e1d] {\r\n  -webkit-appearance: none;\r\n  -moz-appearance: none;\r\n  appearance: none;\n}\n.w-1[data-v-27213e1d] {\r\n  width: 0.25em;\n}\n.w-2[data-v-27213e1d] {\r\n  width: 0.5em;\n}\n.w-3[data-v-27213e1d] {\r\n  width: 0.75em;\n}\n.w-4[data-v-27213e1d] {\r\n  width: 1em;\n}\n.h-4[data-v-27213e1d] {\r\n  height: 1em;\n}\n.h-1[data-v-27213e1d] {\r\n  height: 0.25em;\n}\n.h-2[data-v-27213e1d] {\r\n  height: 0.5em;\n}\n.h-3[data-v-27213e1d] {\r\n  height: 0.75em;\n}\n.fill-current[data-v-27213e1d] {\r\n  fill: currentColor;\n}\n.no-underline[data-v-27213e1d] {\r\n  text-decoration: none;\n}\n.hover\\:no-underline[data-v-27213e1d]:hover {\r\n  text-decoration: none;\n}\n.outline-none[data-v-27213e1d] {\r\n  outline: 0;\n}\n.hover\\:outline-none[data-v-27213e1d] {\r\n  outline: 0;\n}\n.hover\\:bg-grey-light[data-v-27213e1d]:hover {\r\n  background-color: #dae1e7;\n}\n.shadow-md[data-v-27213e1d] {\r\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.08);\n}\n.search-input[data-v-27213e1d] {\r\n  display: block;\r\n  width: 100%;\r\n  padding: 0.375em 0.75em;\r\n  font-size: 1em;\r\n  line-height: 1.5;\r\n  color: #495057;\r\n  background-color: #fff;\r\n  background-clip: padding-box;\r\n  border: 1px solid #ced4da;\r\n  border-radius: 0.25em;\r\n  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;\r\n  box-sizing: border-box;\n}\n.icons[data-v-27213e1d] {\r\n  padding: 0 1em;\r\n  right: 0;\r\n  top: 0;\r\n  bottom: 0;\r\n  fill: #606f7b;\n}\n.icons svg[data-v-27213e1d] {\r\n  width: 0.75em;\r\n  height: 0.75em;\n}\n.single-select-wrapper[data-v-27213e1d] {\r\n  position: relative;\r\n  margin-bottom: 0.5em;\n}\n.required[data-v-27213e1d] {\r\n  _color: #721c24;\r\n  _background-color: #f8d7da;\r\n  border-color: #f5c6cb;\n}\n.cursor-pointer[data-v-27213e1d] {\r\n  cursor: pointer;\n}\n.dropdown[data-v-27213e1d] {\r\n  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12),\r\n    0 2px 4px 0 rgba(0, 0, 0, 0.08);\r\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.08);\r\n  background-color: #fff;\r\n  color: #606f7b;\r\n  border-radius: 0.25em;\r\n  line-height: 1.25;\r\n  text-align: left;\n}\n.dropdown > li[data-v-27213e1d] {\r\n  padding: 0.5em 0.75em;\n}\n.active[data-v-27213e1d] {\r\n  background: #dae1e7;\n}\r\n", ""]);
+exports.push([module.i, "\n.w-full[data-v-27213e1d] {\n  width: 100%;\n}\n.inline-block[data-v-27213e1d] {\n  display: inline-block;\n}\n.block[data-v-27213e1d] {\n  display: block;\n}\n.flex[data-v-27213e1d] {\n  display: flex;\n}\n.border[data-v-27213e1d] {\n  border-width: thin;\n  border-style: solid;\n}\n.rounded[data-v-27213e1d] {\n  border-radius: 0.25em;\n}\n.text-black[data-v-27213e1d] {\n  color: #22292f;\n}\n.border-grey-lighter[data-v-27213e1d] {\n  border-color: #ced4da;\n}\n.bg-grey-lighter[data-v-27213e1d] {\n  background-color: #606f7b;\n}\n.bg-grey-light[data-v-27213e1d] {\n  background-color: #dae1e7;\n}\n.bg-grey-dark[data-v-27213e1d] {\n  background-color: #8795a1;\n}\n.bg-white[data-v-27213e1d] {\n  background-color: #fff;\n}\n.pin-r[data-v-27213e1d] {\n  right: 0;\n}\n.pin-y[data-v-27213e1d] {\n  top: 0;\n  bottom: 0;\n}\n.absolute[data-v-27213e1d] {\n  position: absolute;\n}\n.relative[data-v-27213e1d] {\n  position: relative;\n}\n.items-center[data-v-27213e1d] {\n  align-items: center;\n}\n.p-0[data-v-27213e1d] {\n  padding: 0;\n}\n.p-1[data-v-27213e1d] {\n  padding: 0.25em;\n}\n.px-1[data-v-27213e1d] {\n  padding-left: 0.25em;\n  padding-right: 0.25em;\n}\n.py-2[data-v-27213e1d] {\n  padding-top: 0.5em;\n  padding-bottom: 0.5em;\n}\n.px-2[data-v-27213e1d] {\n  padding-left: 0.5em;\n  padding-right: 0.5em;\n}\n.mt-px[data-v-27213e1d] {\n  margin-top: 1px;\n}\n.leading-tight[data-v-27213e1d] {\n  line-height: 1.25;\n}\n.leading-normal[data-v-27213e1d] {\n  line-height: 1.5;\n}\n.text-left[data-v-27213e1d] {\n  text-align: left;\n}\n.w-full[data-v-27213e1d] {\n  width: 100%;\n}\n.shadow[data-v-27213e1d] {\n  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);\n}\n.list-reset[data-v-27213e1d] {\n  list-style: none;\n  padding: 0;\n}\n.overflow-auto[data-v-27213e1d] {\n  overflow: auto;\n}\n.appearance-none[data-v-27213e1d] {\n  -webkit-appearance: none;\n  -moz-appearance: none;\n  appearance: none;\n}\n.w-1[data-v-27213e1d] {\n  width: 0.25em;\n}\n.w-2[data-v-27213e1d] {\n  width: 0.5em;\n}\n.w-3[data-v-27213e1d] {\n  width: 0.75em;\n}\n.w-4[data-v-27213e1d] {\n  width: 1em;\n}\n.h-4[data-v-27213e1d] {\n  height: 1em;\n}\n.h-1[data-v-27213e1d] {\n  height: 0.25em;\n}\n.h-2[data-v-27213e1d] {\n  height: 0.5em;\n}\n.h-3[data-v-27213e1d] {\n  height: 0.75em;\n}\n.fill-current[data-v-27213e1d] {\n  fill: currentColor;\n}\n.no-underline[data-v-27213e1d] {\n  text-decoration: none;\n}\n.hover\\:no-underline[data-v-27213e1d]:hover {\n  text-decoration: none;\n}\n.outline-none[data-v-27213e1d] {\n  outline: 0;\n}\n.hover\\:outline-none[data-v-27213e1d] {\n  outline: 0;\n}\n.hover\\:bg-grey-light[data-v-27213e1d]:hover {\n  background-color: #dae1e7;\n}\n.shadow-md[data-v-27213e1d] {\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.08);\n}\n.search-input[data-v-27213e1d] {\n  display: block;\n  width: 100%;\n  padding: 0.375em 0.75em;\n  font-size: 1em;\n  line-height: 1.5;\n  color: #495057;\n  background-color: #fff;\n  background-clip: padding-box;\n  border: 1px solid #ced4da;\n  border-radius: 0.25em;\n  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;\n  box-sizing: border-box;\n}\n.icons[data-v-27213e1d] {\n  padding: 0 1em;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  fill: #606f7b;\n}\n.icons svg[data-v-27213e1d] {\n  width: 0.75em;\n  height: 0.75em;\n}\n.single-select-wrapper[data-v-27213e1d] {\n  position: relative;\n  margin-bottom: 0.5em;\n}\n.required[data-v-27213e1d] {\n  _color: #721c24;\n  _background-color: #f8d7da;\n  border-color: #f5c6cb;\n}\n.cursor-pointer[data-v-27213e1d] {\n  cursor: pointer;\n}\n.dropdown[data-v-27213e1d] {\n  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12),\n    0 2px 4px 0 rgba(0, 0, 0, 0.08);\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.08);\n  background-color: #fff;\n  color: #606f7b;\n  border-radius: 0.25em;\n  line-height: 1.25;\n  text-align: left;\n}\n.dropdown > li[data-v-27213e1d] {\n  padding: 0.5em 0.75em;\n}\n.active[data-v-27213e1d] {\n  background: #dae1e7;\n}\n", ""]);
 
 // exports
 
@@ -29647,7 +29790,26 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.container{\r\n  padding:20px;\r\n  max-width:600px;\n}\n.input-qty {\r\n  width: 60px;\r\n  float: right\n}\n.table-cart > tr > td {\r\n  vertical-align: middle !important;\n}\r\n\r\n", ""]);
+exports.push([module.i, "\n.container{\n  padding:20px;\n  max-width:600px;\n}\n.input-qty {\n  width: 60px;\n  float: right\n}\n.table-cart > tr > td {\n  vertical-align: middle !important;\n}\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Shoping.vue?vue&type=style&index=0&id=28360491&scoped=true&lang=css&":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Shoping.vue?vue&type=style&index=0&id=28360491&scoped=true&lang=css& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n#printMe[data-v-28360491] { display: none;\n}\n@media print\n{\n@page{\n    margin: 0;\n}\nbody *[data-v-28360491] {\n    visibility: hidden;\n}\n#printMe[data-v-28360491] {\n    display: block;\n    font-size: 12px;\n}\ntable[data-v-28360491] { font-size: 12px;\n}\n}\n", ""]);
 
 // exports
 
@@ -29837,7 +29999,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.data-table {\r\n\tdisplay: grid;\r\n\twidth: 100%;\r\n\theight: 100%;\n}\r\n", ""]);
+exports.push([module.i, "\n.data-table {\n\tdisplay: grid;\n\twidth: 100%;\n\theight: 100%;\n}\n", ""]);
 
 // exports
 
@@ -29856,7 +30018,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.data-table {\r\n\tdisplay: grid;\r\n\twidth: 100%;\r\n\theight: 100%;\n}\r\n", ""]);
+exports.push([module.i, "\n.data-table {\n\tdisplay: grid;\n\twidth: 100%;\n\theight: 100%;\n}\n", ""]);
 
 // exports
 
@@ -29875,7 +30037,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.data-table {\r\n\tdisplay: grid;\r\n\twidth: 100%;\r\n\theight: 100%;\n}\r\n", ""]);
+exports.push([module.i, "\n.data-table {\n\tdisplay: grid;\n\twidth: 100%;\n\theight: 100%;\n}\n", ""]);
 
 // exports
 
@@ -29894,7 +30056,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.data-table {\r\n\tdisplay: grid;\r\n\twidth: 100%;\r\n\theight: 100%;\n}\r\n", ""]);
+exports.push([module.i, "\n.data-table {\n\tdisplay: grid;\n\twidth: 100%;\n\theight: 100%;\n}\n", ""]);
 
 // exports
 
@@ -61821,6 +61983,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Shoping.vue?vue&type=style&index=0&id=28360491&scoped=true&lang=css&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Shoping.vue?vue&type=style&index=0&id=28360491&scoped=true&lang=css& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--5-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--5-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Shoping.vue?vue&type=style&index=0&id=28360491&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Shoping.vue?vue&type=style&index=0&id=28360491&scoped=true&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/laporan/Laba.vue?vue&type=style&index=0&lang=css&":
 /*!**********************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/laporan/Laba.vue?vue&type=style&index=0&lang=css& ***!
@@ -66667,17 +66859,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "mt-3" }, [
     _c("section", { staticClass: "content" }, [
-      _c("div", { staticClass: "text-right" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-primary",
-            attrs: { "data-toggle": "modal", "data-target": "#cartModal" }
-          },
-          [_vm._v("Cart (" + _vm._s(_vm.cartItems.length) + ")")]
-        )
-      ]),
-      _vm._v(" "),
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-md-4" }, [
           _c("div", { staticClass: "box box-primary" }, [
@@ -66721,20 +66902,6 @@ var render = function() {
                         }
                       },
                       [_vm._v("KEMBALI")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn-sm btn-success",
-                        attrs: { type: "button" },
-                        on: {
-                          click: function($event) {
-                            return _vm.HpsSession()
-                          }
-                        }
-                      },
-                      [_vm._v("Clear")]
                     )
                   ],
                   1
@@ -66743,82 +66910,89 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "row" }, [
                 _c("div", { staticClass: "box-body" }, [
-                  _vm._v(
-                    "\n                        " +
-                      _vm._s(_vm.crt) +
-                      "\n                        "
-                  ),
                   _c("div", [
-                    _c(
-                      "table",
-                      { staticClass: "table table-cart" },
-                      _vm._l(_vm.crt, function(item, index) {
-                        return _c("tr", { key: item.id }, [
-                          _c("td", [_vm._v(_vm._s(item.nmBarang))]),
-                          _vm._v(" "),
-                          _c("td", { staticStyle: { width: "120px" } }, [
-                            _vm._v(
-                              "QTY:\n                                    "
-                            ),
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: item.qty,
-                                  expression: "item.qty"
-                                }
-                              ],
-                              staticClass: "form-control input-qty",
-                              attrs: { type: "number" },
-                              domProps: { value: item.qty },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
+                    _c("table", { staticClass: "table table-cart" }, [
+                      _vm._m(0),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.crt, function(item, index) {
+                          return _c("tr", { key: item.id }, [
+                            _c("td", [_vm._v(_vm._s(item.barcode))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(item.nmBarang))]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.crt[index].qty,
+                                    expression: "crt[index].qty"
                                   }
-                                  _vm.$set(item, "qty", $event.target.value)
-                                }
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _c(
-                              "button",
-                              {
+                                ],
+                                staticClass: "form-control input-qty",
+                                attrs: { type: "text", min: "1" },
+                                domProps: { value: _vm.crt[index].qty },
                                 on: {
-                                  click: function($event) {
-                                    return _vm.removeItem(index)
+                                  keyup: function($event) {
+                                    return _vm.updateItem(
+                                      (_vm.barcode = item.barcode),
+                                      index
+                                    )
+                                  },
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.crt[index],
+                                      "qty",
+                                      $event.target.value
+                                    )
                                   }
                                 }
-                              },
-                              [
-                                _c("span", {
-                                  staticClass: "glyphicon glyphicon-trash"
-                                })
-                              ]
-                            )
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _c(
+                                "button",
+                                {
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.removeItem((_vm.id = item.id))
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("span", {
+                                    staticClass: "glyphicon glyphicon-trash"
+                                  })
+                                ]
+                              )
+                            ])
                           ])
-                        ])
-                      }),
-                      0
-                    )
+                        }),
+                        0
+                      )
+                    ])
                   ])
                 ])
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "row" }, [
-                _vm._m(0),
+                _vm._m(1),
                 _vm._v(" "),
                 _c("div", { staticClass: "box-body" }, [
                   _c("div", { staticClass: "table-responsive" }, [
                     _c("table", { staticClass: "table no-margin" }, [
-                      _vm._m(1),
+                      _vm._m(2),
                       _vm._v(" "),
                       _c(
                         "tbody",
-                        _vm._l(_vm.listkatalog, function(kat) {
+                        _vm._l(_vm.listkatalog, function(kat, index) {
                           return _c("tr", { key: kat.id }, [
                             _c("td", [_vm._v(_vm._s(kat.noBarang))]),
                             _vm._v(" "),
@@ -66838,7 +67012,8 @@ var render = function() {
                                 ],
                                 staticClass: "form-control",
                                 attrs: {
-                                  type: "number",
+                                  type: "text",
+                                  min: "1",
                                   placeholder: "Qty",
                                   required: ""
                                 },
@@ -66872,7 +67047,26 @@ var render = function() {
                                 ]
                               ),
                               _vm._v(" "),
-                              _c("i", { staticClass: "fa fa-fw fa-eye" })
+                              _c("i", { staticClass: "fa fa-fw fa-eye" }),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.delKatalog(
+                                        (_vm.id = kat.id),
+                                        index
+                                      )
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("span", {
+                                    staticClass: "glyphicon glyphicon-trash"
+                                  })
+                                ]
+                              )
                             ])
                           ])
                         }),
@@ -66888,7 +67082,7 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "col-md-8" }, [
           _c("div", { staticClass: "box box-danger" }, [
-            _vm._m(2),
+            _vm._m(3),
             _vm._v(" "),
             _c("div", { staticClass: "box-body" }, [
               _c("h4", { staticClass: "box-title" }, [
@@ -66926,7 +67120,7 @@ var render = function() {
           { staticClass: "modal-dialog", attrs: { role: "document" } },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(3),
+              _vm._m(4),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("div", [
@@ -66934,7 +67128,7 @@ var render = function() {
                     "table",
                     { staticClass: "table table-cart" },
                     [
-                      _vm._l(_vm.crt, function(item, index) {
+                      _vm._l(_vm.crt, function(item) {
                         return _c("tr", { key: item.id }, [
                           _c("td", [_vm._v(_vm._s(item.nmBarang))]),
                           _vm._v(" "),
@@ -66954,7 +67148,7 @@ var render = function() {
                                 }
                               ],
                               staticClass: "form-control input-qty",
-                              attrs: { type: "number" },
+                              attrs: { type: "number", min: "1" },
                               domProps: { value: item.qty },
                               on: {
                                 input: function($event) {
@@ -66973,7 +67167,7 @@ var render = function() {
                               {
                                 on: {
                                   click: function($event) {
-                                    return _vm.removeItem(index)
+                                    return _vm.removeItem((_vm.id = item.id))
                                   }
                                 }
                               },
@@ -67027,7 +67221,7 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(4)
+              _vm._m(5)
             ])
           ]
         )
@@ -67268,6 +67462,22 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Barcode")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Nama")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Qty")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Del")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "box-header with-border" }, [
       _c("h3", { staticClass: "box-title" }, [_vm._v("List Part")])
     ])
@@ -67362,35 +67572,49 @@ var render = function() {
     "div",
     { staticClass: "card-body" },
     [
+      _c("shoping-cart"),
+      _vm._v(" "),
       _c("div", { staticClass: "box-body" }, [
         _c("h3", { staticClass: "box-title" }, [
           _vm._v("DETAIL SPARE PART MOTOR")
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-6" }, [
-            _vm._v(
-              "\r\n                " +
-                _vm._s(this.crt) +
-                "\r\n               " +
-                _vm._s(_vm.post.nmDetail) +
-                " \r\n               " +
-                _vm._s(_vm.post.warnaDetail) +
-                " \r\n                "
-            ),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-md btn-primary",
-                on: {
-                  click: function($event) {
-                    _vm.modalTambahSp = true
+          _c(
+            "div",
+            { staticClass: "col-md-6" },
+            [
+              _vm._v(
+                "\n               " +
+                  _vm._s(_vm.post.nmDetail) +
+                  " \n               " +
+                  _vm._s(_vm.post.warnaDetail) +
+                  " \n                "
+              ),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-md btn-primary",
+                  on: {
+                    click: function($event) {
+                      _vm.modalTambahSp = true
+                    }
                   }
-                }
-              },
-              [_vm._v("TAMBAH KATEGORI SPARE PART")]
-            )
-          ])
+                },
+                [_vm._v("TAMBAH KATEGORI SPARE PART")]
+              ),
+              _vm._v(" "),
+              _c(
+                "router-link",
+                {
+                  staticClass: "btn btn-md btn-primary",
+                  attrs: { to: { name: "mastersparepart" } }
+                },
+                [_vm._v("MENU UTAMA")]
+              )
+            ],
+            1
+          )
         ])
       ]),
       _vm._v(" "),
@@ -67918,576 +68142,441 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card-body" }, [
-    _c("h3", [_vm._v("DETAIL MOTOR")]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", { staticClass: "col-sm-3 control-label" }, [
-        _vm._v("Merek:")
-      ]),
+  return _c(
+    "div",
+    { staticClass: "card-body" },
+    [
+      _c("h3", [_vm._v("DETAIL MOTOR")]),
       _vm._v(" "),
-      _c(
-        "a",
-        {
-          staticClass: "btn btn-md btn-success",
-          attrs: { href: "#" },
-          on: {
-            click: function($event) {
-              _vm.modalTambahMerek = true
-            }
-          }
-        },
-        [_vm._v("Tambah Merek")]
-      ),
+      _c("shoping-cart"),
       _vm._v(" "),
-      _c("div", { staticClass: "col-sm-4" }, [
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { staticClass: "col-sm-3 control-label" }, [
+          _vm._v("Merek:")
+        ]),
+        _vm._v(" "),
         _c(
-          "select",
-          {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.kdMerek,
-                expression: "kdMerek"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { required: "" },
-            on: {
-              click: function($event) {
-                return _vm.getJenis(_vm.kdMerek)
-              },
-              change: function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.kdMerek = $event.target.multiple
-                  ? $$selectedVal
-                  : $$selectedVal[0]
-              }
-            }
-          },
-          _vm._l(_vm.merek, function(data) {
-            return _c(
-              "option",
-              { key: data.id, domProps: { value: data.kdMerek } },
-              [_vm._v(_vm._s(data.nmMerek))]
-            )
-          }),
-          0
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", { staticClass: "col-sm-3 control-label" }, [
-        _vm._v("Jenis:")
-      ]),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          staticClass: "btn btn-md btn-success",
-          attrs: { href: "#" },
-          on: {
-            click: function($event) {
-              _vm.modalTambahJenis = true
-            }
-          }
-        },
-        [_vm._v("Tambah Jenis  ")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-4" }, [
-        _c(
-          "select",
-          {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.kdJenis,
-                expression: "kdJenis"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { required: "" },
-            on: {
-              click: function($event) {
-                return _vm.getType(_vm.kdJenis)
-              },
-              change: function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.kdJenis = $event.target.multiple
-                  ? $$selectedVal
-                  : $$selectedVal[0]
-              }
-            }
-          },
-          _vm._l(_vm.jenis, function(data) {
-            return _c(
-              "option",
-              { key: data.id, domProps: { value: data.kdJenis } },
-              [_vm._v(_vm._s(data.nmJenis))]
-            )
-          }),
-          0
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", { staticClass: "col-sm-3 control-label" }, [
-        _vm._v("Type Motor:")
-      ]),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          staticClass: "btn btn-md btn-success",
-          attrs: { href: "#" },
-          on: {
-            click: function($event) {
-              _vm.modalTambahType = true
-            }
-          }
-        },
-        [_vm._v("Tambah Type  ")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-4" }, [
-        _c(
-          "select",
-          {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.kdType,
-                expression: "kdType"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { required: "" },
-            on: {
-              click: function($event) {
-                return _vm.getTahun(_vm.kdType)
-              },
-              change: function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.kdType = $event.target.multiple
-                  ? $$selectedVal
-                  : $$selectedVal[0]
-              }
-            }
-          },
-          _vm._l(_vm.type, function(data) {
-            return _c(
-              "option",
-              { key: data.id, domProps: { value: data.kdType } },
-              [_vm._v(_vm._s(data.nmType))]
-            )
-          }),
-          0
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", { staticClass: "col-sm-3 control-label" }, [
-        _vm._v("Tahun Motor:")
-      ]),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          staticClass: "btn btn-md btn-success",
-          attrs: { href: "#" },
-          on: {
-            click: function($event) {
-              _vm.modalTambahTahun = true
-            }
-          }
-        },
-        [_vm._v("Tambah Tahun")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-4" }, [
-        _c(
-          "select",
-          {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.kdTahun,
-                expression: "kdTahun"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { required: "" },
-            on: {
-              click: function($event) {
-                return _vm.pilihTahun(_vm.kdTahun)
-              },
-              change: function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.kdTahun = $event.target.multiple
-                  ? $$selectedVal
-                  : $$selectedVal[0]
-              }
-            }
-          },
-          _vm._l(_vm.tahun, function(data) {
-            return _c(
-              "option",
-              { key: data.id, domProps: { value: data.kdTahun } },
-              [_vm._v(_vm._s(data.nmTahun))]
-            )
-          }),
-          0
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("div", { staticClass: "col-sm-8" }, [
-        _c(
-          "button",
+          "a",
           {
             staticClass: "btn btn-md btn-success",
-            attrs: { type: "submit" },
+            attrs: { href: "#" },
             on: {
               click: function($event) {
-                return _vm.PostCari(
-                  (_vm.newKode =
-                    _vm.kdMerek + _vm.kdJenis + _vm.kdType + _vm.kdTahun)
-                )
+                _vm.modalTambahMerek = true
               }
             }
           },
-          [_vm._v("Cari")]
+          [_vm._v("Tambah Merek")]
         ),
         _vm._v(" "),
-        (_vm.newKode =
-          _vm.kdMerek + _vm.kdJenis + _vm.kdType + _vm.kdTahun.length <= 22)
-          ? _c("span", [
-              _c(
-                "button",
+        _c("div", { staticClass: "col-sm-4" }, [
+          _c(
+            "select",
+            {
+              directives: [
                 {
-                  staticClass: "btn btn-md btn-success disabled",
-                  attrs: { type: "submit" }
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.kdMerek,
+                  expression: "kdMerek"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { required: "" },
+              on: {
+                click: function($event) {
+                  return _vm.getJenis(_vm.kdMerek)
                 },
-                [_vm._v("Tambah Motor")]
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.kdMerek = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(_vm.merek, function(data) {
+              return _c(
+                "option",
+                { key: data.id, domProps: { value: data.kdMerek } },
+                [_vm._v(_vm._s(data.nmMerek))]
               )
-            ])
-          : _c("span", [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-md btn-success",
-                  attrs: { type: "submit" },
-                  on: {
-                    click: function($event) {
-                      _vm.modalTambahMotor = true
-                    }
-                  }
-                },
-                [_vm._v("Tambah Motor")]
-              )
-            ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "card-body" }, [
-      _c("table", { staticClass: "table table-hover table-bordered" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c(
-          "tbody",
-          _vm._l(_vm.detailmotor, function(det, index) {
-            return _c("tr", { key: det.id }, [
-              _c("td", [_vm._v(_vm._s(det.kdType))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(det.kdTahun))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(det.nmDetail))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(det.warnaDetail))]),
-              _vm._v(" "),
-              _c("td", [
-                _c("img", {
-                  staticClass: "img-responsive",
-                  attrs: {
-                    src: "../image/foto/" + det.gbrDetail,
-                    height: "70",
-                    width: "90"
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c(
-                "td",
-                { staticClass: "text-center" },
-                [
-                  _c(
-                    "router-link",
-                    {
-                      staticClass: "btn btn-sm btn-primary",
-                      attrs: {
-                        to: {
-                          name: "mastersdetailparepart",
-                          params: { id: det.kdDetailMotor }
-                        }
-                      }
-                    },
-                    [_vm._v("Detail")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-sm btn-danger",
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          return _vm.PostDeleteMotor((_vm.id = det.id), index)
-                        }
-                      }
-                    },
-                    [_vm._v("HAPUS")]
-                  )
-                ],
-                1
-              )
-            ])
-          }),
-          0
-        )
+            }),
+            0
+          )
+        ])
       ]),
       _vm._v(" "),
-      _vm.modalTambahMerek
-        ? _c(
-            "div",
-            [
-              _c("transition", { attrs: { name: "modal" } }, [
-                _c("div", { staticClass: "modal-mask" }, [
-                  _c("div", { staticClass: "modal-wrapper" }, [
-                    _c("div", { staticClass: "modal-dialog" }, [
-                      _c("div", { staticClass: "modal-content" }, [
-                        _c("div", { staticClass: "modal-header" }, [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "close",
-                              attrs: { type: "button" },
-                              on: {
-                                click: function($event) {
-                                  _vm.modalTambahMerek = false
-                                }
-                              }
-                            },
-                            [
-                              _c("span", { attrs: { "aria-hidden": "true" } }, [
-                                _vm._v("×")
-                              ])
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("h4", { staticClass: "modal-title" }, [
-                            _vm._v("Tambah Merek")
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "modal-body" }, [
-                          _c(
-                            "form",
-                            {
-                              on: {
-                                submit: function($event) {
-                                  $event.preventDefault()
-                                  return _vm.PostStoreMerek($event)
-                                }
-                              }
-                            },
-                            [
-                              _c("div", { staticClass: "input-group" }, [
-                                _c(
-                                  "span",
-                                  { staticClass: "input-group-addon" },
-                                  [_vm._v("Kode Merek  ")]
-                                ),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.insert.kdMerek,
-                                      expression: "insert.kdMerek"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: { type: "text", disabled: "" },
-                                  domProps: { value: _vm.insert.kdMerek },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.insert,
-                                        "kdMerek",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "input-group" }, [
-                                _c(
-                                  "span",
-                                  { staticClass: "input-group-addon" },
-                                  [_vm._v("Nama Merek")]
-                                ),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.insert.nmMerek,
-                                      expression: "insert.nmMerek"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: {
-                                    type: "text",
-                                    placeholder: "Masukkan Nama",
-                                    required: ""
-                                  },
-                                  domProps: { value: _vm.insert.nmMerek },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.insert,
-                                        "nmMerek",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "form-group" }, [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-md btn-success",
-                                    attrs: { type: "submit" }
-                                  },
-                                  [_vm._v("SIMPAN")]
-                                )
-                              ])
-                            ]
-                          )
-                        ])
-                      ])
-                    ])
-                  ])
-                ])
-              ])
-            ],
-            1
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { staticClass: "col-sm-3 control-label" }, [
+          _vm._v("Jenis:")
+        ]),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-md btn-success",
+            attrs: { href: "#" },
+            on: {
+              click: function($event) {
+                _vm.modalTambahJenis = true
+              }
+            }
+          },
+          [_vm._v("Tambah Jenis  ")]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-4" }, [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.kdJenis,
+                  expression: "kdJenis"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { required: "" },
+              on: {
+                click: function($event) {
+                  return _vm.getType(_vm.kdJenis)
+                },
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.kdJenis = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(_vm.jenis, function(data) {
+              return _c(
+                "option",
+                { key: data.id, domProps: { value: data.kdJenis } },
+                [_vm._v(_vm._s(data.nmJenis))]
+              )
+            }),
+            0
           )
-        : _vm._e(),
+        ])
+      ]),
       _vm._v(" "),
-      _vm.modalTambahJenis
-        ? _c(
-            "div",
-            [
-              _c("transition", { attrs: { name: "modal" } }, [
-                _c("div", { staticClass: "modal-mask" }, [
-                  _c("div", { staticClass: "modal-wrapper" }, [
-                    _c("div", { staticClass: "modal-dialog" }, [
-                      _c("div", { staticClass: "modal-content" }, [
-                        _c("div", { staticClass: "modal-header" }, [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "close",
-                              attrs: { type: "button" },
-                              on: {
-                                click: function($event) {
-                                  _vm.modalTambahJenis = false
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { staticClass: "col-sm-3 control-label" }, [
+          _vm._v("Type Motor:")
+        ]),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-md btn-success",
+            attrs: { href: "#" },
+            on: {
+              click: function($event) {
+                _vm.modalTambahType = true
+              }
+            }
+          },
+          [_vm._v("Tambah Type  ")]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-4" }, [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.kdType,
+                  expression: "kdType"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { required: "" },
+              on: {
+                click: function($event) {
+                  return _vm.getTahun(_vm.kdType)
+                },
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.kdType = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(_vm.type, function(data) {
+              return _c(
+                "option",
+                { key: data.id, domProps: { value: data.kdType } },
+                [_vm._v(_vm._s(data.nmType))]
+              )
+            }),
+            0
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { staticClass: "col-sm-3 control-label" }, [
+          _vm._v("Tahun Motor:")
+        ]),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-md btn-success",
+            attrs: { href: "#" },
+            on: {
+              click: function($event) {
+                _vm.modalTambahTahun = true
+              }
+            }
+          },
+          [_vm._v("Tambah Tahun")]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-4" }, [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.kdTahun,
+                  expression: "kdTahun"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { required: "" },
+              on: {
+                click: function($event) {
+                  return _vm.pilihTahun(_vm.kdTahun)
+                },
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.kdTahun = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(_vm.tahun, function(data) {
+              return _c(
+                "option",
+                { key: data.id, domProps: { value: data.kdTahun } },
+                [_vm._v(_vm._s(data.nmTahun))]
+              )
+            }),
+            0
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c("div", { staticClass: "col-sm-8" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-md btn-success",
+              attrs: { type: "submit" },
+              on: {
+                click: function($event) {
+                  return _vm.PostCari(
+                    (_vm.newKode =
+                      _vm.kdMerek + _vm.kdJenis + _vm.kdType + _vm.kdTahun)
+                  )
+                }
+              }
+            },
+            [_vm._v("Cari")]
+          ),
+          _vm._v(" "),
+          (_vm.newKode =
+            _vm.kdMerek + _vm.kdJenis + _vm.kdType + _vm.kdTahun.length <= 22)
+            ? _c("span", [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-md btn-success disabled",
+                    attrs: { type: "submit" }
+                  },
+                  [_vm._v("Tambah Motor")]
+                )
+              ])
+            : _c("span", [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-md btn-success",
+                    attrs: { type: "submit" },
+                    on: {
+                      click: function($event) {
+                        _vm.modalTambahMotor = true
+                      }
+                    }
+                  },
+                  [_vm._v("Tambah Motor")]
+                )
+              ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" }, [
+        _c("table", { staticClass: "table table-hover table-bordered" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.detailmotor, function(det, index) {
+              return _c("tr", { key: det.id }, [
+                _c("td", [_vm._v(_vm._s(det.kdType))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(det.kdTahun))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(det.nmDetail))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(det.warnaDetail))]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("img", {
+                    staticClass: "img-responsive",
+                    attrs: {
+                      src: "../image/foto/" + det.gbrDetail,
+                      height: "70",
+                      width: "90"
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c(
+                  "td",
+                  { staticClass: "text-center" },
+                  [
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "btn btn-sm btn-primary",
+                        attrs: {
+                          to: {
+                            name: "mastersdetailparepart",
+                            params: { id: det.kdDetailMotor }
+                          }
+                        }
+                      },
+                      [_vm._v("Detail")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-sm btn-danger",
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.PostDeleteMotor((_vm.id = det.id), index)
+                          }
+                        }
+                      },
+                      [_vm._v("HAPUS")]
+                    )
+                  ],
+                  1
+                )
+              ])
+            }),
+            0
+          )
+        ]),
+        _vm._v(" "),
+        _vm.modalTambahMerek
+          ? _c(
+              "div",
+              [
+                _c("transition", { attrs: { name: "modal" } }, [
+                  _c("div", { staticClass: "modal-mask" }, [
+                    _c("div", { staticClass: "modal-wrapper" }, [
+                      _c("div", { staticClass: "modal-dialog" }, [
+                        _c("div", { staticClass: "modal-content" }, [
+                          _c("div", { staticClass: "modal-header" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "close",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.modalTambahMerek = false
+                                  }
                                 }
-                              }
-                            },
-                            [
-                              _c("span", { attrs: { "aria-hidden": "true" } }, [
-                                _vm._v("×")
-                              ])
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("h4", { staticClass: "modal-title" }, [
-                            _vm._v("Tambah Jenis Motor")
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "modal-body" }, [
-                          _c(
-                            "form",
-                            {
-                              on: {
-                                submit: function($event) {
-                                  $event.preventDefault()
-                                  return _vm.PostStoreJenis($event)
-                                }
-                              }
-                            },
-                            [
-                              _c("div", { staticClass: "form-group" }, [
-                                _c("label", [_vm._v("Merek:")]),
-                                _vm._v(" "),
+                              },
+                              [
                                 _c(
-                                  "select",
-                                  {
+                                  "span",
+                                  { attrs: { "aria-hidden": "true" } },
+                                  [_vm._v("×")]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("h4", { staticClass: "modal-title" }, [
+                              _vm._v("Tambah Merek")
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "modal-body" }, [
+                            _c(
+                              "form",
+                              {
+                                on: {
+                                  submit: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.PostStoreMerek($event)
+                                  }
+                                }
+                              },
+                              [
+                                _c("div", { staticClass: "input-group" }, [
+                                  _c(
+                                    "span",
+                                    { staticClass: "input-group-addon" },
+                                    [_vm._v("Kode Merek  ")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
                                     directives: [
                                       {
                                         name: "model",
@@ -68497,246 +68586,195 @@ var render = function() {
                                       }
                                     ],
                                     staticClass: "form-control",
-                                    attrs: { required: "" },
+                                    attrs: { type: "text", disabled: "" },
+                                    domProps: { value: _vm.insert.kdMerek },
                                     on: {
-                                      change: function($event) {
-                                        var $$selectedVal = Array.prototype.filter
-                                          .call($event.target.options, function(
-                                            o
-                                          ) {
-                                            return o.selected
-                                          })
-                                          .map(function(o) {
-                                            var val =
-                                              "_value" in o ? o._value : o.value
-                                            return val
-                                          })
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
                                         _vm.$set(
                                           _vm.insert,
                                           "kdMerek",
-                                          $event.target.multiple
-                                            ? $$selectedVal
-                                            : $$selectedVal[0]
+                                          $event.target.value
                                         )
                                       }
                                     }
-                                  },
-                                  _vm._l(_vm.merek, function(data) {
-                                    return _c(
-                                      "option",
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "input-group" }, [
+                                  _c(
+                                    "span",
+                                    { staticClass: "input-group-addon" },
+                                    [_vm._v("Nama Merek")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
                                       {
-                                        key: data.id,
-                                        domProps: { value: data.kdMerek }
-                                      },
-                                      [_vm._v(_vm._s(data.nmMerek))]
-                                    )
-                                  }),
-                                  0
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "form-group" }, [
-                                _c("label", [_vm._v("Kode Jenis ")]),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.insert.kdJenis,
-                                      expression: "insert.kdJenis"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: { type: "text", disabled: "" },
-                                  domProps: { value: _vm.insert.kdJenis },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.insert.nmMerek,
+                                        expression: "insert.nmMerek"
                                       }
-                                      _vm.$set(
-                                        _vm.insert,
-                                        "kdJenis",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "input-group" }, [
-                                _c(
-                                  "span",
-                                  { staticClass: "input-group-addon" },
-                                  [_vm._v("Nama Jenis")]
-                                ),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.insert.nmJenis,
-                                      expression: "insert.nmJenis"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: {
-                                    type: "text",
-                                    placeholder: "Masukkan Nama Jenis",
-                                    required: ""
-                                  },
-                                  domProps: { value: _vm.insert.nmJenis },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "Masukkan Nama",
+                                      required: ""
+                                    },
+                                    domProps: { value: _vm.insert.nmMerek },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.insert,
+                                          "nmMerek",
+                                          $event.target.value
+                                        )
                                       }
-                                      _vm.$set(
-                                        _vm.insert,
-                                        "nmJenis",
-                                        $event.target.value
-                                      )
                                     }
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "form-group" }, [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-md btn-success",
-                                    attrs: { type: "submit" }
-                                  },
-                                  [_vm._v("SIMPAN")]
-                                )
-                              ])
-                            ]
-                          )
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-md btn-success",
+                                      attrs: { type: "submit" }
+                                    },
+                                    [_vm._v("SIMPAN")]
+                                  )
+                                ])
+                              ]
+                            )
+                          ])
                         ])
                       ])
                     ])
                   ])
                 ])
-              ])
-            ],
-            1
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.modalTambahType
-        ? _c(
-            "div",
-            [
-              _c("transition", { attrs: { name: "modal" } }, [
-                _c("div", { staticClass: "modal-mask" }, [
-                  _c("div", { staticClass: "modal-wrapper" }, [
-                    _c("div", { staticClass: "modal-dialog" }, [
-                      _c("div", { staticClass: "modal-content" }, [
-                        _c("div", { staticClass: "modal-header" }, [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "close",
-                              attrs: { type: "button" },
-                              on: {
-                                click: function($event) {
-                                  _vm.modalTambahType = false
+              ],
+              1
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.modalTambahJenis
+          ? _c(
+              "div",
+              [
+                _c("transition", { attrs: { name: "modal" } }, [
+                  _c("div", { staticClass: "modal-mask" }, [
+                    _c("div", { staticClass: "modal-wrapper" }, [
+                      _c("div", { staticClass: "modal-dialog" }, [
+                        _c("div", { staticClass: "modal-content" }, [
+                          _c("div", { staticClass: "modal-header" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "close",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.modalTambahJenis = false
+                                  }
                                 }
-                              }
-                            },
-                            [
-                              _c("span", { attrs: { "aria-hidden": "true" } }, [
-                                _vm._v("×")
-                              ])
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("h4", { staticClass: "modal-title" }, [
-                            _vm._v("Tambah Type Motor")
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "modal-body" }, [
-                          _c(
-                            "form",
-                            {
-                              on: {
-                                submit: function($event) {
-                                  $event.preventDefault()
-                                  return _vm.PostStoreType($event)
-                                }
-                              }
-                            },
-                            [
-                              _c("div", { staticClass: "form-group" }, [
-                                _c("label", [_vm._v("Merek:")]),
-                                _vm._v(" "),
+                              },
+                              [
                                 _c(
-                                  "select",
-                                  {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.insert.kdMerek,
-                                        expression: "insert.kdMerek"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: { required: "" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.getJenis(
-                                          (_vm.kdMerek = _vm.insert.kdMerek)
-                                        )
-                                      },
-                                      change: function($event) {
-                                        var $$selectedVal = Array.prototype.filter
-                                          .call($event.target.options, function(
-                                            o
-                                          ) {
-                                            return o.selected
-                                          })
-                                          .map(function(o) {
-                                            var val =
-                                              "_value" in o ? o._value : o.value
-                                            return val
-                                          })
-                                        _vm.$set(
-                                          _vm.insert,
-                                          "kdMerek",
-                                          $event.target.multiple
-                                            ? $$selectedVal
-                                            : $$selectedVal[0]
-                                        )
-                                      }
-                                    }
-                                  },
-                                  _vm._l(_vm.merek, function(data) {
-                                    return _c(
-                                      "option",
-                                      {
-                                        key: data.id,
-                                        domProps: { value: data.kdMerek }
-                                      },
-                                      [_vm._v(_vm._s(data.nmMerek))]
-                                    )
-                                  }),
-                                  0
+                                  "span",
+                                  { attrs: { "aria-hidden": "true" } },
+                                  [_vm._v("×")]
                                 )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "form-group" }, [
-                                _c("label", [_vm._v("Jenis:")]),
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("h4", { staticClass: "modal-title" }, [
+                              _vm._v("Tambah Jenis Motor")
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "modal-body" }, [
+                            _c(
+                              "form",
+                              {
+                                on: {
+                                  submit: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.PostStoreJenis($event)
+                                  }
+                                }
+                              },
+                              [
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c("label", [_vm._v("Merek:")]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "select",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.insert.kdMerek,
+                                          expression: "insert.kdMerek"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: { required: "" },
+                                      on: {
+                                        change: function($event) {
+                                          var $$selectedVal = Array.prototype.filter
+                                            .call(
+                                              $event.target.options,
+                                              function(o) {
+                                                return o.selected
+                                              }
+                                            )
+                                            .map(function(o) {
+                                              var val =
+                                                "_value" in o
+                                                  ? o._value
+                                                  : o.value
+                                              return val
+                                            })
+                                          _vm.$set(
+                                            _vm.insert,
+                                            "kdMerek",
+                                            $event.target.multiple
+                                              ? $$selectedVal
+                                              : $$selectedVal[0]
+                                          )
+                                        }
+                                      }
+                                    },
+                                    _vm._l(_vm.merek, function(data) {
+                                      return _c(
+                                        "option",
+                                        {
+                                          key: data.id,
+                                          domProps: { value: data.kdMerek }
+                                        },
+                                        [_vm._v(_vm._s(data.nmMerek))]
+                                      )
+                                    }),
+                                    0
+                                  )
+                                ]),
                                 _vm._v(" "),
-                                _c(
-                                  "select",
-                                  {
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c("label", [_vm._v("Kode Jenis ")]),
+                                  _vm._v(" "),
+                                  _c("input", {
                                     directives: [
                                       {
                                         name: "model",
@@ -68746,304 +68784,254 @@ var render = function() {
                                       }
                                     ],
                                     staticClass: "form-control",
-                                    attrs: { required: "" },
+                                    attrs: { type: "text", disabled: "" },
+                                    domProps: { value: _vm.insert.kdJenis },
                                     on: {
-                                      change: function($event) {
-                                        var $$selectedVal = Array.prototype.filter
-                                          .call($event.target.options, function(
-                                            o
-                                          ) {
-                                            return o.selected
-                                          })
-                                          .map(function(o) {
-                                            var val =
-                                              "_value" in o ? o._value : o.value
-                                            return val
-                                          })
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
                                         _vm.$set(
                                           _vm.insert,
                                           "kdJenis",
-                                          $event.target.multiple
-                                            ? $$selectedVal
-                                            : $$selectedVal[0]
+                                          $event.target.value
                                         )
                                       }
                                     }
-                                  },
-                                  _vm._l(_vm.jenis, function(data) {
-                                    return _c(
-                                      "option",
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "input-group" }, [
+                                  _c(
+                                    "span",
+                                    { staticClass: "input-group-addon" },
+                                    [_vm._v("Nama Jenis")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
                                       {
-                                        key: data.id,
-                                        domProps: { value: data.kdJenis }
-                                      },
-                                      [_vm._v(_vm._s(data.nmJenis))]
-                                    )
-                                  }),
-                                  0
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "form-group" }, [
-                                _c("label", [_vm._v("Kode Type ")]),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.insert.kdType,
-                                      expression: "insert.kdType"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: { type: "text", disabled: "" },
-                                  domProps: { value: _vm.insert.kdType },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.insert.nmJenis,
+                                        expression: "insert.nmJenis"
                                       }
-                                      _vm.$set(
-                                        _vm.insert,
-                                        "kdType",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "input-group" }, [
-                                _c(
-                                  "span",
-                                  { staticClass: "input-group-addon" },
-                                  [_vm._v("Nama Type")]
-                                ),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.insert.nmType,
-                                      expression: "insert.nmType"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: {
-                                    type: "text",
-                                    placeholder: "Masukkan Nama Type",
-                                    required: ""
-                                  },
-                                  domProps: { value: _vm.insert.nmType },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "Masukkan Nama Jenis",
+                                      required: ""
+                                    },
+                                    domProps: { value: _vm.insert.nmJenis },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.insert,
+                                          "nmJenis",
+                                          $event.target.value
+                                        )
                                       }
-                                      _vm.$set(
-                                        _vm.insert,
-                                        "nmType",
-                                        $event.target.value
-                                      )
                                     }
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "form-group" }, [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-md btn-success",
-                                    attrs: { type: "submit" }
-                                  },
-                                  [_vm._v("SIMPAN")]
-                                )
-                              ])
-                            ]
-                          )
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-md btn-success",
+                                      attrs: { type: "submit" }
+                                    },
+                                    [_vm._v("SIMPAN")]
+                                  )
+                                ])
+                              ]
+                            )
+                          ])
                         ])
                       ])
                     ])
                   ])
                 ])
-              ])
-            ],
-            1
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.modalTambahTahun
-        ? _c(
-            "div",
-            [
-              _c("transition", { attrs: { name: "modal" } }, [
-                _c("div", { staticClass: "modal-mask" }, [
-                  _c("div", { staticClass: "modal-wrapper" }, [
-                    _c("div", { staticClass: "modal-dialog" }, [
-                      _c("div", { staticClass: "modal-content" }, [
-                        _c("div", { staticClass: "modal-header" }, [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "close",
-                              attrs: { type: "button" },
-                              on: {
-                                click: function($event) {
-                                  _vm.modalTambahTahun = false
+              ],
+              1
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.modalTambahType
+          ? _c(
+              "div",
+              [
+                _c("transition", { attrs: { name: "modal" } }, [
+                  _c("div", { staticClass: "modal-mask" }, [
+                    _c("div", { staticClass: "modal-wrapper" }, [
+                      _c("div", { staticClass: "modal-dialog" }, [
+                        _c("div", { staticClass: "modal-content" }, [
+                          _c("div", { staticClass: "modal-header" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "close",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.modalTambahType = false
+                                  }
                                 }
-                              }
-                            },
-                            [
-                              _c("span", { attrs: { "aria-hidden": "true" } }, [
-                                _vm._v("×")
-                              ])
-                            ]
-                          ),
+                              },
+                              [
+                                _c(
+                                  "span",
+                                  { attrs: { "aria-hidden": "true" } },
+                                  [_vm._v("×")]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("h4", { staticClass: "modal-title" }, [
+                              _vm._v("Tambah Type Motor")
+                            ])
+                          ]),
                           _vm._v(" "),
-                          _c("h4", { staticClass: "modal-title" }, [
-                            _vm._v("Tambah Tahun Motor")
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "modal-body" }, [
-                          _c(
-                            "form",
-                            {
-                              on: {
-                                submit: function($event) {
-                                  $event.preventDefault()
-                                  return _vm.PostStoreTahun($event)
+                          _c("div", { staticClass: "modal-body" }, [
+                            _c(
+                              "form",
+                              {
+                                on: {
+                                  submit: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.PostStoreType($event)
+                                  }
                                 }
-                              }
-                            },
-                            [
-                              _c("div", { staticClass: "form-group" }, [
-                                _c("label", [_vm._v("Merek:")]),
+                              },
+                              [
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c("label", [_vm._v("Merek:")]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "select",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.insert.kdMerek,
+                                          expression: "insert.kdMerek"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: { required: "" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.getJenis(
+                                            (_vm.kdMerek = _vm.insert.kdMerek)
+                                          )
+                                        },
+                                        change: function($event) {
+                                          var $$selectedVal = Array.prototype.filter
+                                            .call(
+                                              $event.target.options,
+                                              function(o) {
+                                                return o.selected
+                                              }
+                                            )
+                                            .map(function(o) {
+                                              var val =
+                                                "_value" in o
+                                                  ? o._value
+                                                  : o.value
+                                              return val
+                                            })
+                                          _vm.$set(
+                                            _vm.insert,
+                                            "kdMerek",
+                                            $event.target.multiple
+                                              ? $$selectedVal
+                                              : $$selectedVal[0]
+                                          )
+                                        }
+                                      }
+                                    },
+                                    _vm._l(_vm.merek, function(data) {
+                                      return _c(
+                                        "option",
+                                        {
+                                          key: data.id,
+                                          domProps: { value: data.kdMerek }
+                                        },
+                                        [_vm._v(_vm._s(data.nmMerek))]
+                                      )
+                                    }),
+                                    0
+                                  )
+                                ]),
                                 _vm._v(" "),
-                                _c(
-                                  "select",
-                                  {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.insert.kdMerek,
-                                        expression: "insert.kdMerek"
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c("label", [_vm._v("Jenis:")]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "select",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.insert.kdJenis,
+                                          expression: "insert.kdJenis"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: { required: "" },
+                                      on: {
+                                        change: function($event) {
+                                          var $$selectedVal = Array.prototype.filter
+                                            .call(
+                                              $event.target.options,
+                                              function(o) {
+                                                return o.selected
+                                              }
+                                            )
+                                            .map(function(o) {
+                                              var val =
+                                                "_value" in o
+                                                  ? o._value
+                                                  : o.value
+                                              return val
+                                            })
+                                          _vm.$set(
+                                            _vm.insert,
+                                            "kdJenis",
+                                            $event.target.multiple
+                                              ? $$selectedVal
+                                              : $$selectedVal[0]
+                                          )
+                                        }
                                       }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: { required: "" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.getJenis(
-                                          (_vm.kdMerek = _vm.insert.kdMerek)
-                                        )
-                                      },
-                                      change: function($event) {
-                                        var $$selectedVal = Array.prototype.filter
-                                          .call($event.target.options, function(
-                                            o
-                                          ) {
-                                            return o.selected
-                                          })
-                                          .map(function(o) {
-                                            var val =
-                                              "_value" in o ? o._value : o.value
-                                            return val
-                                          })
-                                        _vm.$set(
-                                          _vm.insert,
-                                          "kdMerek",
-                                          $event.target.multiple
-                                            ? $$selectedVal
-                                            : $$selectedVal[0]
-                                        )
-                                      }
-                                    }
-                                  },
-                                  _vm._l(_vm.merek, function(data) {
-                                    return _c(
-                                      "option",
-                                      {
-                                        key: data.id,
-                                        domProps: { value: data.kdMerek }
-                                      },
-                                      [_vm._v(_vm._s(data.nmMerek))]
-                                    )
-                                  }),
-                                  0
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "form-group" }, [
-                                _c("label", [_vm._v("Jenis:")]),
+                                    },
+                                    _vm._l(_vm.jenis, function(data) {
+                                      return _c(
+                                        "option",
+                                        {
+                                          key: data.id,
+                                          domProps: { value: data.kdJenis }
+                                        },
+                                        [_vm._v(_vm._s(data.nmJenis))]
+                                      )
+                                    }),
+                                    0
+                                  )
+                                ]),
                                 _vm._v(" "),
-                                _c(
-                                  "select",
-                                  {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.insert.kdJenis,
-                                        expression: "insert.kdJenis"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: { required: "" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.getType(
-                                          (_vm.kdJenis = _vm.insert.kdJenis)
-                                        )
-                                      },
-                                      change: function($event) {
-                                        var $$selectedVal = Array.prototype.filter
-                                          .call($event.target.options, function(
-                                            o
-                                          ) {
-                                            return o.selected
-                                          })
-                                          .map(function(o) {
-                                            var val =
-                                              "_value" in o ? o._value : o.value
-                                            return val
-                                          })
-                                        _vm.$set(
-                                          _vm.insert,
-                                          "kdJenis",
-                                          $event.target.multiple
-                                            ? $$selectedVal
-                                            : $$selectedVal[0]
-                                        )
-                                      }
-                                    }
-                                  },
-                                  _vm._l(_vm.jenis, function(data) {
-                                    return _c(
-                                      "option",
-                                      {
-                                        key: data.id,
-                                        domProps: { value: data.kdJenis }
-                                      },
-                                      [_vm._v(_vm._s(data.nmJenis))]
-                                    )
-                                  }),
-                                  0
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "form-group" }, [
-                                _c("label", [_vm._v("Type Motor:")]),
-                                _vm._v(" "),
-                                _c(
-                                  "select",
-                                  {
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c("label", [_vm._v("Kode Type ")]),
+                                  _vm._v(" "),
+                                  _c("input", {
                                     directives: [
                                       {
                                         name: "model",
@@ -69053,419 +69041,692 @@ var render = function() {
                                       }
                                     ],
                                     staticClass: "form-control",
-                                    attrs: { required: "" },
+                                    attrs: { type: "text", disabled: "" },
+                                    domProps: { value: _vm.insert.kdType },
                                     on: {
-                                      click: function($event) {
-                                        return _vm.getTahun(
-                                          (_vm.kdType = _vm.insert.kdType)
-                                        )
-                                      },
-                                      change: function($event) {
-                                        var $$selectedVal = Array.prototype.filter
-                                          .call($event.target.options, function(
-                                            o
-                                          ) {
-                                            return o.selected
-                                          })
-                                          .map(function(o) {
-                                            var val =
-                                              "_value" in o ? o._value : o.value
-                                            return val
-                                          })
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
                                         _vm.$set(
                                           _vm.insert,
                                           "kdType",
-                                          $event.target.multiple
-                                            ? $$selectedVal
-                                            : $$selectedVal[0]
+                                          $event.target.value
                                         )
                                       }
                                     }
-                                  },
-                                  _vm._l(_vm.type, function(data) {
-                                    return _c(
-                                      "option",
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "input-group" }, [
+                                  _c(
+                                    "span",
+                                    { staticClass: "input-group-addon" },
+                                    [_vm._v("Nama Type")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
                                       {
-                                        key: data.id,
-                                        domProps: { value: data.kdType }
-                                      },
-                                      [_vm._v(_vm._s(data.nmType))]
-                                    )
-                                  }),
-                                  0
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "form-group" }, [
-                                _c("label", [_vm._v("Kode Tahun ")]),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.insert.kdTahun,
-                                      expression: "insert.kdTahun"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: { type: "text", disabled: "" },
-                                  domProps: { value: _vm.insert.kdTahun },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.insert.nmType,
+                                        expression: "insert.nmType"
                                       }
-                                      _vm.$set(
-                                        _vm.insert,
-                                        "kdTahun",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "input-group" }, [
-                                _c(
-                                  "span",
-                                  { staticClass: "input-group-addon" },
-                                  [_vm._v("Tahun")]
-                                ),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.insert.nmTahun,
-                                      expression: "insert.nmTahun"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: {
-                                    type: "text",
-                                    placeholder: "Masukkan Nama Type",
-                                    required: ""
-                                  },
-                                  domProps: { value: _vm.insert.nmTahun },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "Masukkan Nama Type",
+                                      required: ""
+                                    },
+                                    domProps: { value: _vm.insert.nmType },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.insert,
+                                          "nmType",
+                                          $event.target.value
+                                        )
                                       }
-                                      _vm.$set(
-                                        _vm.insert,
-                                        "nmTahun",
-                                        $event.target.value
-                                      )
                                     }
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "form-group" }, [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-md btn-success",
-                                    attrs: { type: "submit" }
-                                  },
-                                  [_vm._v("SIMPAN")]
-                                )
-                              ])
-                            ]
-                          )
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-md btn-success",
+                                      attrs: { type: "submit" }
+                                    },
+                                    [_vm._v("SIMPAN")]
+                                  )
+                                ])
+                              ]
+                            )
+                          ])
                         ])
                       ])
                     ])
                   ])
                 ])
-              ])
-            ],
-            1
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.modalTambahMotor
-        ? _c(
-            "div",
-            [
-              _c("transition", { attrs: { name: "modal" } }, [
-                _c("div", { staticClass: "modal-mask" }, [
-                  _c("div", { staticClass: "modal-wrapper" }, [
-                    _c("div", { staticClass: "modal-dialog" }, [
-                      _c("div", { staticClass: "modal-content" }, [
-                        _c("div", { staticClass: "modal-header" }, [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "close",
-                              attrs: { type: "button" },
-                              on: {
-                                click: function($event) {
-                                  _vm.modalTambahMotor = false
+              ],
+              1
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.modalTambahTahun
+          ? _c(
+              "div",
+              [
+                _c("transition", { attrs: { name: "modal" } }, [
+                  _c("div", { staticClass: "modal-mask" }, [
+                    _c("div", { staticClass: "modal-wrapper" }, [
+                      _c("div", { staticClass: "modal-dialog" }, [
+                        _c("div", { staticClass: "modal-content" }, [
+                          _c("div", { staticClass: "modal-header" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "close",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.modalTambahTahun = false
+                                  }
                                 }
-                              }
-                            },
-                            [
-                              _c("span", { attrs: { "aria-hidden": "true" } }, [
-                                _vm._v("×")
-                              ])
-                            ]
-                          ),
+                              },
+                              [
+                                _c(
+                                  "span",
+                                  { attrs: { "aria-hidden": "true" } },
+                                  [_vm._v("×")]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("h4", { staticClass: "modal-title" }, [
+                              _vm._v("Tambah Tahun Motor")
+                            ])
+                          ]),
                           _vm._v(" "),
-                          _c("h4", { staticClass: "modal-title" }, [
-                            _vm._v("Tambah Motor")
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "modal-body" }, [
-                          _c(
-                            "form",
-                            {
-                              attrs: { enctype: "multipart/form-data" },
-                              on: {
-                                submit: function($event) {
-                                  $event.preventDefault()
-                                  return _vm.PostStoreMotor($event)
+                          _c("div", { staticClass: "modal-body" }, [
+                            _c(
+                              "form",
+                              {
+                                on: {
+                                  submit: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.PostStoreTahun($event)
+                                  }
                                 }
-                              }
-                            },
-                            [
-                              _c("div", { staticClass: "form-group" }, [
-                                _c("input", {
-                                  staticClass: "form-control",
-                                  attrs: {
-                                    type: "text",
-                                    name: _vm.kodeDetMotor,
-                                    disabled: ""
-                                  },
-                                  domProps: {
-                                    value:
-                                      _vm.kdMerek +
-                                      _vm.kdJenis +
-                                      _vm.kdType +
-                                      _vm.kdTahun
+                              },
+                              [
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c("label", [_vm._v("Merek:")]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "select",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.insert.kdMerek,
+                                          expression: "insert.kdMerek"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: { required: "" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.getJenis(
+                                            (_vm.kdMerek = _vm.insert.kdMerek)
+                                          )
+                                        },
+                                        change: function($event) {
+                                          var $$selectedVal = Array.prototype.filter
+                                            .call(
+                                              $event.target.options,
+                                              function(o) {
+                                                return o.selected
+                                              }
+                                            )
+                                            .map(function(o) {
+                                              var val =
+                                                "_value" in o
+                                                  ? o._value
+                                                  : o.value
+                                              return val
+                                            })
+                                          _vm.$set(
+                                            _vm.insert,
+                                            "kdMerek",
+                                            $event.target.multiple
+                                              ? $$selectedVal
+                                              : $$selectedVal[0]
+                                          )
+                                        }
+                                      }
+                                    },
+                                    _vm._l(_vm.merek, function(data) {
+                                      return _c(
+                                        "option",
+                                        {
+                                          key: data.id,
+                                          domProps: { value: data.kdMerek }
+                                        },
+                                        [_vm._v(_vm._s(data.nmMerek))]
+                                      )
+                                    }),
+                                    0
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c("label", [_vm._v("Jenis:")]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "select",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.insert.kdJenis,
+                                          expression: "insert.kdJenis"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: { required: "" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.getType(
+                                            (_vm.kdJenis = _vm.insert.kdJenis)
+                                          )
+                                        },
+                                        change: function($event) {
+                                          var $$selectedVal = Array.prototype.filter
+                                            .call(
+                                              $event.target.options,
+                                              function(o) {
+                                                return o.selected
+                                              }
+                                            )
+                                            .map(function(o) {
+                                              var val =
+                                                "_value" in o
+                                                  ? o._value
+                                                  : o.value
+                                              return val
+                                            })
+                                          _vm.$set(
+                                            _vm.insert,
+                                            "kdJenis",
+                                            $event.target.multiple
+                                              ? $$selectedVal
+                                              : $$selectedVal[0]
+                                          )
+                                        }
+                                      }
+                                    },
+                                    _vm._l(_vm.jenis, function(data) {
+                                      return _c(
+                                        "option",
+                                        {
+                                          key: data.id,
+                                          domProps: { value: data.kdJenis }
+                                        },
+                                        [_vm._v(_vm._s(data.nmJenis))]
+                                      )
+                                    }),
+                                    0
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c("label", [_vm._v("Type Motor:")]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "select",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.insert.kdType,
+                                          expression: "insert.kdType"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: { required: "" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.getTahun(
+                                            (_vm.kdType = _vm.insert.kdType)
+                                          )
+                                        },
+                                        change: function($event) {
+                                          var $$selectedVal = Array.prototype.filter
+                                            .call(
+                                              $event.target.options,
+                                              function(o) {
+                                                return o.selected
+                                              }
+                                            )
+                                            .map(function(o) {
+                                              var val =
+                                                "_value" in o
+                                                  ? o._value
+                                                  : o.value
+                                              return val
+                                            })
+                                          _vm.$set(
+                                            _vm.insert,
+                                            "kdType",
+                                            $event.target.multiple
+                                              ? $$selectedVal
+                                              : $$selectedVal[0]
+                                          )
+                                        }
+                                      }
+                                    },
+                                    _vm._l(_vm.type, function(data) {
+                                      return _c(
+                                        "option",
+                                        {
+                                          key: data.id,
+                                          domProps: { value: data.kdType }
+                                        },
+                                        [_vm._v(_vm._s(data.nmType))]
+                                      )
+                                    }),
+                                    0
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c("label", [_vm._v("Kode Tahun ")]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.insert.kdTahun,
+                                        expression: "insert.kdTahun"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: { type: "text", disabled: "" },
+                                    domProps: { value: _vm.insert.kdTahun },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.insert,
+                                          "kdTahun",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "input-group" }, [
+                                  _c(
+                                    "span",
+                                    { staticClass: "input-group-addon" },
+                                    [_vm._v("Tahun")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.insert.nmTahun,
+                                        expression: "insert.nmTahun"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "Masukkan Nama Type",
+                                      required: ""
+                                    },
+                                    domProps: { value: _vm.insert.nmTahun },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.insert,
+                                          "nmTahun",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-md btn-success",
+                                      attrs: { type: "submit" }
+                                    },
+                                    [_vm._v("SIMPAN")]
+                                  )
+                                ])
+                              ]
+                            )
+                          ])
+                        ])
+                      ])
+                    ])
+                  ])
+                ])
+              ],
+              1
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.modalTambahMotor
+          ? _c(
+              "div",
+              [
+                _c("transition", { attrs: { name: "modal" } }, [
+                  _c("div", { staticClass: "modal-mask" }, [
+                    _c("div", { staticClass: "modal-wrapper" }, [
+                      _c("div", { staticClass: "modal-dialog" }, [
+                        _c("div", { staticClass: "modal-content" }, [
+                          _c("div", { staticClass: "modal-header" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "close",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.modalTambahMotor = false
                                   }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "input-group" }, [
+                                }
+                              },
+                              [
                                 _c(
                                   "span",
-                                  { staticClass: "input-group-addon" },
-                                  [_vm._v("Kode")]
-                                ),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.insert.kdDetailMotor,
-                                      expression: "insert.kdDetailMotor"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: {
-                                    type: "text",
-                                    placeholder: "Masukkan Nama Type",
-                                    required: ""
-                                  },
-                                  domProps: { value: _vm.insert.kdDetailMotor },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.insert,
-                                        "kdDetailMotor",
-                                        $event.target.value
-                                      )
-                                    }
+                                  { attrs: { "aria-hidden": "true" } },
+                                  [_vm._v("×")]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("h4", { staticClass: "modal-title" }, [
+                              _vm._v("Tambah Motor")
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "modal-body" }, [
+                            _c(
+                              "form",
+                              {
+                                attrs: { enctype: "multipart/form-data" },
+                                on: {
+                                  submit: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.PostStoreMotor($event)
                                   }
-                                }),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.dataTahun.nmTahun,
-                                      expression: "dataTahun.nmTahun"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: { type: "text", required: "" },
-                                  domProps: { value: _vm.dataTahun.nmTahun },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.dataTahun,
-                                        "nmTahun",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.dataNama.nmType,
-                                      expression: "dataNama.nmType"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: { type: "text", required: "" },
-                                  domProps: { value: _vm.dataNama.nmType },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.dataNama,
-                                        "nmType",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "input-group" }, [
-                                _c(
-                                  "span",
-                                  { staticClass: "input-group-addon" },
-                                  [_vm._v("Nama")]
-                                ),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.nmMotor,
-                                      expression: "nmMotor"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: {
-                                    type: "text",
-                                    placeholder: "Masukkan Nama Type",
-                                    required: ""
-                                  },
-                                  domProps: { value: _vm.nmMotor },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.nmMotor = $event.target.value
-                                    }
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "input-group" }, [
-                                _c(
-                                  "span",
-                                  { staticClass: "input-group-addon" },
-                                  [_vm._v("Warna")]
-                                ),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.warnaMotor,
-                                      expression: "warnaMotor"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: { type: "text", required: "" },
-                                  domProps: { value: _vm.warnaMotor },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.warnaMotor = $event.target.value
-                                    }
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "form-group" }, [
-                                _c(
-                                  "label",
-                                  { staticClass: "col-sm-3 control-label" },
-                                  [_vm._v("Gambar")]
-                                ),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "col-sm-8" }, [
+                                }
+                              },
+                              [
+                                _c("div", { staticClass: "form-group" }, [
                                   _c("input", {
                                     staticClass: "form-control",
-                                    attrs: { type: "file" },
-                                    on: { change: _vm.onImageChange }
+                                    attrs: {
+                                      type: "text",
+                                      name: _vm.kodeDetMotor,
+                                      disabled: ""
+                                    },
+                                    domProps: {
+                                      value:
+                                        _vm.kdMerek +
+                                        _vm.kdJenis +
+                                        _vm.kdType +
+                                        _vm.kdTahun
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "input-group" }, [
+                                  _c(
+                                    "span",
+                                    { staticClass: "input-group-addon" },
+                                    [_vm._v("Kode")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.insert.kdDetailMotor,
+                                        expression: "insert.kdDetailMotor"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "Masukkan Nama Type",
+                                      required: ""
+                                    },
+                                    domProps: {
+                                      value: _vm.insert.kdDetailMotor
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.insert,
+                                          "kdDetailMotor",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
                                   }),
                                   _vm._v(" "),
-                                  _vm.image
-                                    ? _c("div", { staticClass: "col-md-3" }, [
-                                        _c("img", {
-                                          staticClass: "img-responsive",
-                                          attrs: {
-                                            src: _vm.image,
-                                            height: "70",
-                                            width: "90"
-                                          }
-                                        })
-                                      ])
-                                    : _vm._e()
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.dataTahun.nmTahun,
+                                        expression: "dataTahun.nmTahun"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: { type: "text", required: "" },
+                                    domProps: { value: _vm.dataTahun.nmTahun },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.dataTahun,
+                                          "nmTahun",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.dataNama.nmType,
+                                        expression: "dataNama.nmType"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: { type: "text", required: "" },
+                                    domProps: { value: _vm.dataNama.nmType },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.dataNama,
+                                          "nmType",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "input-group" }, [
+                                  _c(
+                                    "span",
+                                    { staticClass: "input-group-addon" },
+                                    [_vm._v("Nama")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.nmMotor,
+                                        expression: "nmMotor"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "Masukkan Nama Type",
+                                      required: ""
+                                    },
+                                    domProps: { value: _vm.nmMotor },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.nmMotor = $event.target.value
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "input-group" }, [
+                                  _c(
+                                    "span",
+                                    { staticClass: "input-group-addon" },
+                                    [_vm._v("Warna")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.warnaMotor,
+                                        expression: "warnaMotor"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: { type: "text", required: "" },
+                                    domProps: { value: _vm.warnaMotor },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.warnaMotor = $event.target.value
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c(
+                                    "label",
+                                    { staticClass: "col-sm-3 control-label" },
+                                    [_vm._v("Gambar")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col-sm-8" }, [
+                                    _c("input", {
+                                      staticClass: "form-control",
+                                      attrs: { type: "file" },
+                                      on: { change: _vm.onImageChange }
+                                    }),
+                                    _vm._v(" "),
+                                    _vm.image
+                                      ? _c("div", { staticClass: "col-md-3" }, [
+                                          _c("img", {
+                                            staticClass: "img-responsive",
+                                            attrs: {
+                                              src: _vm.image,
+                                              height: "70",
+                                              width: "90"
+                                            }
+                                          })
+                                        ])
+                                      : _vm._e()
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-md btn-success",
+                                      attrs: { type: "submit" }
+                                    },
+                                    [_vm._v("SIMPAN")]
+                                  )
                                 ])
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "form-group" }, [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-md btn-success",
-                                    attrs: { type: "submit" }
-                                  },
-                                  [_vm._v("SIMPAN")]
-                                )
-                              ])
-                            ]
-                          )
+                              ]
+                            )
+                          ])
                         ])
                       ])
                     ])
                   ])
                 ])
-              ])
-            ],
-            1
-          )
-        : _vm._e()
-    ])
-  ])
+              ],
+              1
+            )
+          : _vm._e()
+      ])
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -71180,7 +71441,7 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-xs-2" }, [
+                _c("div", { staticClass: "col-xs-3" }, [
                   _vm._m(5),
                   _vm._v(" "),
                   _c("input", {
@@ -72565,10 +72826,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Shoping.vue?vue&type=template&id=28360491&":
-/*!**********************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Shoping.vue?vue&type=template&id=28360491& ***!
-  \**********************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Shoping.vue?vue&type=template&id=28360491&scoped=true&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Shoping.vue?vue&type=template&id=28360491&scoped=true& ***!
+  \**********************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -72580,9 +72841,214 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("div", { staticClass: "mt-3" }, [
+    _c("div", { staticClass: "text-right" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary",
+          attrs: { "data-toggle": "modal", "data-target": "#cartModal" }
+        },
+        [_vm._v("Cart (" + _vm._s(_vm.isicart) + ") Items")]
+      )
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "cartModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "myModalLabel"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("div", [
+                  _c("table", { staticClass: "table table-cart" }, [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.crt, function(item, index) {
+                        return _c("tr", { key: item.id }, [
+                          _c("td", [_vm._v(_vm._s(item.barcode))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(item.nmBarang))]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.crt[index].qty,
+                                  expression: "crt[index].qty"
+                                }
+                              ],
+                              staticClass: "form-control input-qty",
+                              attrs: { type: "text", min: "1" },
+                              domProps: { value: _vm.crt[index].qty },
+                              on: {
+                                keyup: function($event) {
+                                  return _vm.updateItem(
+                                    (_vm.barcode = item.barcode),
+                                    index
+                                  )
+                                },
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.crt[index],
+                                    "qty",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "button",
+                              {
+                                on: {
+                                  click: function($event) {
+                                    return _vm.removeItem((_vm.id = item.id))
+                                  }
+                                }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "glyphicon glyphicon-trash"
+                                })
+                              ]
+                            )
+                          ])
+                        ])
+                      }),
+                      0
+                    )
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-default",
+                    on: {
+                      click: function($event) {
+                        return _vm.printOrder(_vm.printMe)
+                      }
+                    }
+                  },
+                  [_vm._v("Print Order")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-default",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Close")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { attrs: { id: "printMe" } }, [
+                _c("table", { staticClass: "table" }, [
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.crt, function(item) {
+                      return _c("tr", { key: item.id }, [
+                        _c("td", [_vm._v(_vm._s(item.barcode))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.nmBarang))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.qty))])
+                      ])
+                    }),
+                    0
+                  )
+                ])
+              ])
+            ])
+          ]
+        )
+      ]
+    )
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      ),
+      _vm._v(" "),
+      _c("h4", { staticClass: "modal-title", attrs: { id: "myModalLabel" } }, [
+        _vm._v("Cart")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Barcode")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Nama")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Qty")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Del")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Barcode")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Nama")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Qty")])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -79720,7 +80186,7 @@ var render = function() {
                     domProps: { value: _vm.post.hrgJual },
                     on: {
                       keypress: _vm.onlyNumber,
-                      keyup: function($event) {
+                      blur: function($event) {
                         return _vm.letterValue()
                       },
                       input: function($event) {
@@ -80228,7 +80694,7 @@ var render = function() {
                     _vm._v("Harga Pokok")
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-sm-8" }, [
+                  _c("div", { staticClass: "col-sm-5" }, [
                     _c("input", {
                       directives: [
                         {
@@ -80246,7 +80712,7 @@ var render = function() {
                       },
                       domProps: { value: _vm.post.hrgPokok },
                       on: {
-                        keyup: function($event) {
+                        blur: function($event) {
                           return _vm.letterValue()
                         },
                         input: function($event) {
@@ -80256,8 +80722,10 @@ var render = function() {
                           _vm.$set(_vm.post, "hrgPokok", $event.target.value)
                         }
                       }
-                    }),
-                    _vm._v(" "),
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-3" }, [
                     _c("input", {
                       directives: [
                         {
@@ -80403,14 +80871,8 @@ var render = function() {
                         }
                       }),
                       _vm._v(" "),
-                      _c("label", { staticClass: "col-sm-3 text-center" }, [
-                        _vm._v("Barcode")
-                      ]),
-                      _vm._v(" "),
                       _c("barcode", {
-                        attrs: {
-                          options: { displayValue: true, text: _vm.Bacode }
-                        },
+                        attrs: { options: { displayValue: true } },
                         model: {
                           value: _vm.post.barcode,
                           callback: function($$v) {
@@ -80618,25 +81080,6 @@ var render = function() {
                       }
                     })
                   ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { staticClass: "col-sm-3 control-label" }, [
-                    _vm._v("Gambar")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-sm-8" }, [
-                    _c("input", {
-                      staticClass: "form-control",
-                      attrs: { type: "file" },
-                      on: { change: _vm.avatarChange }
-                    }),
-                    _vm._v(" "),
-                    _c("img", {
-                      staticClass: "user-image",
-                      attrs: { src: _vm.avatar }
-                    })
-                  ])
                 ])
               ])
             ]),
@@ -80737,11 +81180,11 @@ var render = function() {
           _c("div", { staticClass: "box-header with-border" }, [
             _c("h5", { staticClass: "box-title" }, [
               _vm._v(
-                "\r\n                  Login As " +
+                "\n                  Login As " +
                   _vm._s(this.$session.get("user")) +
                   " | Role : " +
                   _vm._s(this.$session.get("roleID")) +
-                  " \r\n                  "
+                  " \n                  "
               ),
               _c(
                 "button",
@@ -104693,9 +105136,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Shoping_vue_vue_type_template_id_28360491___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Shoping.vue?vue&type=template&id=28360491& */ "./resources/js/components/Shoping.vue?vue&type=template&id=28360491&");
+/* harmony import */ var _Shoping_vue_vue_type_template_id_28360491_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Shoping.vue?vue&type=template&id=28360491&scoped=true& */ "./resources/js/components/Shoping.vue?vue&type=template&id=28360491&scoped=true&");
 /* harmony import */ var _Shoping_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Shoping.vue?vue&type=script&lang=js& */ "./resources/js/components/Shoping.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _Shoping_vue_vue_type_style_index_0_id_28360491_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Shoping.vue?vue&type=style&index=0&id=28360491&scoped=true&lang=css& */ "./resources/js/components/Shoping.vue?vue&type=style&index=0&id=28360491&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -104703,13 +105148,13 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _Shoping_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Shoping_vue_vue_type_template_id_28360491___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _Shoping_vue_vue_type_template_id_28360491___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _Shoping_vue_vue_type_template_id_28360491_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Shoping_vue_vue_type_template_id_28360491_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  null,
+  "28360491",
   null
   
 )
@@ -104735,19 +105180,35 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Shoping.vue?vue&type=template&id=28360491&":
-/*!****************************************************************************!*\
-  !*** ./resources/js/components/Shoping.vue?vue&type=template&id=28360491& ***!
-  \****************************************************************************/
+/***/ "./resources/js/components/Shoping.vue?vue&type=style&index=0&id=28360491&scoped=true&lang=css&":
+/*!******************************************************************************************************!*\
+  !*** ./resources/js/components/Shoping.vue?vue&type=style&index=0&id=28360491&scoped=true&lang=css& ***!
+  \******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Shoping_vue_vue_type_style_index_0_id_28360491_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--5-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--5-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Shoping.vue?vue&type=style&index=0&id=28360491&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Shoping.vue?vue&type=style&index=0&id=28360491&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Shoping_vue_vue_type_style_index_0_id_28360491_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Shoping_vue_vue_type_style_index_0_id_28360491_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Shoping_vue_vue_type_style_index_0_id_28360491_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Shoping_vue_vue_type_style_index_0_id_28360491_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Shoping.vue?vue&type=template&id=28360491&scoped=true&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/Shoping.vue?vue&type=template&id=28360491&scoped=true& ***!
+  \****************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Shoping_vue_vue_type_template_id_28360491___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Shoping.vue?vue&type=template&id=28360491& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Shoping.vue?vue&type=template&id=28360491&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Shoping_vue_vue_type_template_id_28360491___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Shoping_vue_vue_type_template_id_28360491_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Shoping.vue?vue&type=template&id=28360491&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Shoping.vue?vue&type=template&id=28360491&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Shoping_vue_vue_type_template_id_28360491_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Shoping_vue_vue_type_template_id_28360491___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Shoping_vue_vue_type_template_id_28360491_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -107892,7 +108353,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\WinMax\Documents\GitHub\posBengkel\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/max/Documents/Web/posBengkel/resources/js/app.js */"./resources/js/app.js");
 
 
 /***/ })

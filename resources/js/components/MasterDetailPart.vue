@@ -9,7 +9,6 @@
           <div class="box box-primary">
             <div class="box-header with-border">
               <h3 class="box-title">Katalog {{listkatsp.kdDetailMotor}}</h3>
-              <div class="text-right"><button class="btn btn-primary" data-toggle="modal" data-target="#cartModal">Cart ({{ isicart }}) Items</button></div>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -29,16 +28,26 @@
                     <div class="box-body">
                         <div>
                             <table class="table table-cart">
-                                <tr v-for="item in crt" :key="item.id">
-                                <td>{{item.nmBarang}}</td>
-                                <td>QTY:
-                                    <input v-model="item.qty" class="form-control input-qty" type="number" min="1">
-                                    
-                                </td>
-                                <td>
-                                    <button @click="removeItem(id = item.id)"><span class="glyphicon glyphicon-trash"></span></button>
-                                </td>
-                                </tr>
+                                <thead>
+                                    <tr>
+                                        <th>Barcode</th>
+                                        <th>Nama</th>
+                                        <th>Qty</th>
+                                        <th>Del</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(item, index) in crt" :key="item.id">
+                                        <td>{{ item.barcode }}</td>
+                                        <td>{{ item.nmBarang }}</td>
+                                        <td>
+                                            <input v-model="crt[index].qty" @keyup="updateItem(barcode = item.barcode, index)" class="form-control input-qty" type="text" min="1">
+                                        </td>
+                                        <td>
+                                            <button @click="removeItem(id = item.id)"><span class="glyphicon glyphicon-trash"></span></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                         <!-- /.container -->
@@ -69,7 +78,7 @@
                             <td>{{ kat.noBarang }}</td>
                             <td>{{ kat.barcode }}</td>
                             <td>{{ kat.nmBarang }}</td>
-                            <td><input v-model="kat.qty" value="1" type="number" min="1" class="form-control" placeholder="Qty" required/></td>
+                            <td><input v-model="kat.qty" type="text" min="1" class="form-control" placeholder="Qty" required/></td>
                             <td>
                              <button @click="addToCart(kat)" class="btn btn-xs btn-primary"><i class="fa fa-fw fa-cart-plus"></i></button>
                              <i class="fa fa-fw fa-eye"></i>
@@ -112,7 +121,6 @@
                 <!-- /.box -->
                 
 
-               
           <!-- /.nav-tabs-custom -->
         </div>
         <!-- /.col -->
@@ -274,7 +282,6 @@
         },
         methods: {
             addToCart(itemToAdd) {
-                  
                     let cartItems;
                     if (localStorage.getItem('cartItems')===null){
                         cartItems = [];
@@ -309,7 +316,16 @@
                 this.isicart = Object.keys(JSON.parse(localStorage.getItem('cartItems'))).length;
                 this.getCart();
                 alert('berhasil dihapus')
-                
+            },
+            updateItem(barcode, index) {
+                const cartItems = JSON.parse(localStorage.getItem('cartItems'));
+                const objIndex = cartItems.findIndex((e => e.barcode === barcode));
+                const newQty = parseInt(this.crt[index].qty) ;
+                cartItems[objIndex].qty = parseInt(newQty);
+                localStorage.setItem('cartItems',JSON.stringify(cartItems));
+                //alert('Quantity Update')
+                this.getCart();
+                this.isicart = Object.keys(JSON.parse(localStorage.getItem('cartItems'))).length;
             },
             
             getCart: function() {

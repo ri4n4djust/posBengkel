@@ -15,21 +15,26 @@
             <div class="modal-body">
                         <div>
                             <table class="table table-cart">
-                                <tr v-for="item in crt" :key="item.id">
-                                <td>{{item.barcode}}</td>
-                                <td>{{item.nmBarang}}</td>
-                                <td>QTY:
-                                    <input v-model="item.qty" class="form-control input-qty" type="number">
-                                </td>
-                                <td>
-                                    <button @click="removeItem(id = item.id)"><span class="glyphicon glyphicon-trash"></span></button>
-                                </td>
-                                </tr>
-                                <tr v-show="crt.length === 0">
-                                <td colspan="4" class="text-center">Cart is empty</td>
-                                </tr>
-                                <tr v-show="crt.length > 0">
-                                </tr>
+                                <thead>
+                                    <tr>
+                                        <th>Barcode</th>
+                                        <th>Nama</th>
+                                        <th>Qty</th>
+                                        <th>Del</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(item, index) in crt" :key="item.id">
+                                        <td>{{ item.barcode }}</td>
+                                        <td>{{ item.nmBarang }}</td>
+                                        <td>
+                                            <input v-model="crt[index].qty" @keyup="updateItem(barcode = item.barcode, index)" class="form-control input-qty" type="text" min="1">
+                                        </td>
+                                        <td>
+                                            <button @click="removeItem(id = item.id)"><span class="glyphicon glyphicon-trash"></span></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                         <!-- /.container -->
@@ -129,6 +134,16 @@
                 this.isicart = Object.keys(JSON.parse(localStorage.getItem('cartItems'))).length,
                 alert('berhasil dihapus')
                 
+            },
+            updateItem(barcode, index) {
+                const cartItems = JSON.parse(localStorage.getItem('cartItems'));
+                const objIndex = cartItems.findIndex((e => e.barcode === barcode));
+                const newQty = parseInt(this.crt[index].qty) ;
+                cartItems[objIndex].qty = parseInt(newQty);
+                localStorage.setItem('cartItems',JSON.stringify(cartItems));
+                //alert('Quantity Update')
+                this.getCart();
+                this.isicart = Object.keys(JSON.parse(localStorage.getItem('cartItems'))).length;
             },
             getCart: function() {
                  if (this.crt === null){
