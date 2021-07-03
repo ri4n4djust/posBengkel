@@ -10,7 +10,7 @@ class setupController extends Controller
     //
     public function index()
     {
-        $posts = Setup::latest()->get();
+        $posts = Setup::all();
         return response([
             'success' => true,
             'message' => 'List Semua Supplier',

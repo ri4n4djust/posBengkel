@@ -22,7 +22,6 @@
                                         placeholder="Masukkan Title" required>
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Harga Pokok</label>
                                 <div class="col-sm-5">
@@ -179,22 +178,11 @@
                 var a = [];
                 //for (var a=1;a<=hr;a++) {
                     var convert = this.post.hrgPokok.split("");
-                    var kdh = '';
-                //var str = [];
+                    const kdh = Object.keys(this.hrg);
+                    let len = this.hrg.length;
                 for (convert of this.post.hrgPokok.split("")) {
-                    
-                    //var str = '';
-                    let uri = '/api/setup/'+ convert;
-                    this.axios.get(uri).then(response => {
-                    kdh = response.data.data.codeHrg;
-                    
-                    a = a += kdh
-                    //console.log(a.split('').reverse().join(''));
-                        console.log(a)
-                        //this.str = kdh ;
-                        return this.str = a;
-                    });
-                    //str = i += kdh
+                    var a = a += convert;
+                    alert(kdh)
                     
                 }
                 //console.log(this.hr)
