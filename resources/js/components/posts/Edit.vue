@@ -22,6 +22,7 @@
                                         placeholder="Masukkan Title" required>
                                 </div>
                             </div>
+                            {{hrg}}
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Harga Pokok</label>
                                 <div class="col-sm-5">
@@ -178,14 +179,15 @@
                 var a = [];
                 //for (var a=1;a<=hr;a++) {
                     var convert = this.post.hrgPokok.split("");
-                    const kdh = Object.keys(this.hrg);
+                    const kdh = this.hrg;
+                   
                     let len = this.hrg.length;
                 for (convert of this.post.hrgPokok.split("")) {
                     var a = a += convert;
-                    alert(kdh)
-                    
+                    //const aa = Object.keys(kdh).find(noHrg => kdh[noHrg] === noHrg);
+                    alert(a)
                 }
-                //console.log(this.hr)
+                
                 //}
 
                 
