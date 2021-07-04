@@ -22,7 +22,7 @@
                                         placeholder="Masukkan Title" required>
                                 </div>
                             </div>
-                            {{hrg}}
+                            
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Harga Pokok</label>
                                 <div class="col-sm-5">
@@ -30,15 +30,18 @@
                                         placeholder="Harga Pokok" required>
                                 </div>
                                 <div class="col-sm-3">     
-                                    <input type="text" class="form-control" v-model="str">
+                                    <input type="text" class="form-control" v-model="cPokok">
                                 </div>
                             </div>
                             
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Harga Jual</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" v-model="post.hrgJual"
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" @blur="codeJual()" v-model="post.hrgJual"
                                         placeholder="Harga Jual" required>
+                                </div>
+                                <div class="col-sm-3">     
+                                    <input type="text" class="form-control" v-model="cJual">
                                 </div>
                             </div>
 
@@ -115,18 +118,15 @@
                                 </div>
                             </div>
 
-                        
-                                         
-                    
-                    </div>
-                    </div>
-                            <div class="form-group">
                                 <button type="submit" class="btn btn-md btn-success">UPDATE </button>
                                 <button @click.prevent="PostDeleteTrx(post.id)" class="btn btn-md btn-danger">HAPUS</button>
                                 <a href="#"  class="btn btn-primary btn-success">Print Barcode</a>
                                 <router-link :to="{ name: 'posts' }" class="btn btn-primary btn-success">KEMBALI</router-link>
+                                         
+                    
+                    </div>
+                    </div>
                             
-                            </div>
 
                     </form>
 
@@ -151,7 +151,8 @@
                 country: 0,
                 countries: {},
                 kdh: [],
-                str: [],
+                cPokok: [],
+                cJual: [],
                 hrg: [],
                 codeHrg: [],
                 avatar: '',
@@ -168,29 +169,35 @@
             let uri = `/api/posts/${this.$route.params.id}`;
             this.axios.get(uri).then((response) => {
                 this.post = response.data.data;
-                this.getCountries()
-                this.loadKdHarga()
+                this.getCountries();
+                this.loadKdHarga();
             });
+            this.letterValue();
             
         },
         methods: {
+            
             letterValue(){
-                var hr = this.post.hrgPokok.length;
-                var a = [];
-                //for (var a=1;a<=hr;a++) {
-                    var convert = this.post.hrgPokok.split("");
-                    const kdh = this.hrg;
-                   
-                    let len = this.hrg.length;
+                    var a = '';
+                    let kdh = this.hrg;
                 for (convert of this.post.hrgPokok.split("")) {
-                    var a = a += convert;
-                    //const aa = Object.keys(kdh).find(noHrg => kdh[noHrg] === noHrg);
-                    alert(a)
+                    var convert;
+                    var cc = kdh.find(o => o.noHrg === parseInt(convert));
+                    var b = cc.codeHrg ;
+                    var cd = a += b ;
                 }
-                
-                //}
-
-                
+                return this.cPokok = cd ;
+            },
+            codeJual(){
+                    var a = '';
+                    let kdh = this.hrg;
+                for (convert of this.post.hrgJual.split("")) {
+                    var convert;
+                    var cc = kdh.find(o => o.noHrg === parseInt(convert));
+                    var b = cc.codeHrg ;
+                    var cd = a += b ;
+                }
+                return this.cJual = cd ;
             },
             avatarChange(e) {
             //console.log(e.target.files[0])
