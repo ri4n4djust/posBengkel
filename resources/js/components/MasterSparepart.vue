@@ -1,5 +1,5 @@
 <template>
-
+    <div class="mt-3">
         <div class="card-body">
           <h3>DETAIL MOTOR</h3>
           <shoping-cart></shoping-cart>
@@ -56,10 +56,11 @@
                             </div>
                             </div>
                             
-
+        </div>
         <div class="card-body">
+            
         
-        <table class="table table-hover table-bordered">
+                            <table class="table table-hover table-bordered">
                                 <thead>
                                 <tr>
                                     <th>Type </th>
@@ -85,6 +86,7 @@
                                 </tr>
                                 </tbody>
                             </table>
+        </div>
 
 <!-- /ModalTambah -->
  <div v-if="modalTambahMerek">
@@ -341,9 +343,6 @@
   </div>
   <!-- /ModalTambah -->
 
-        
-        </div>
-                        
 
 
                         
