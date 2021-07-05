@@ -102,3 +102,5 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2021-06-26 21:04:26
+
+ALTER TABLE `tblbarang` ADD `cPokok` VARCHAR(50) NULL AFTER `satuanBarang`, ADD `cJual` VARCHAR(50) NULL AFTER `cPokok`;

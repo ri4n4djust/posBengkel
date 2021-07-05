@@ -64,20 +64,6 @@ class salesController extends Controller
     }
 
 
-    public function mentah()
-    {
-        $posts = Barang::join('tblKategori', 'tblBarang.ktgBarang', '=', 'tblKategori.kodeKtg')
-                ->where('tblBarang.stsBarang', '2')
-               ->get(['tblBarang.*', 'tblKategori.namaKtg']);
-        //$posts = Barang::latest()->get();
-        $count = Barang::count();
-        return response([
-            'success' => true,
-            'message' => 'List Semua Posts',
-            'kdBarang' => $count + 1,
-            'data' => $posts
-        ], 200);
-    }
 
     public function store(Request $request)
     {
@@ -118,6 +104,8 @@ class salesController extends Controller
                 'merek' => $request->input('merek'),
                 'qtyMin' => $request->input('qtyMin'),
                 'qtyMax' => $request->input('qtyMax'),
+                'cPokok' => $request->input('cPokok'),
+                'cJual' => $request->input('cJual'),
             ]);
             
 
@@ -191,6 +179,8 @@ class salesController extends Controller
                 'qtyMin' => $request->input('qtyMin'),
                 'qtyMax' => $request->input('qtyMax'),
                 'barcode' => $request->input('barcode'),
+                'cPokok' => $request->input('cPokok'),
+                'cJual' => $request->input('cJual'),
             ]);
 
 

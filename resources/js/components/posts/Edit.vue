@@ -30,7 +30,7 @@
                                         placeholder="Harga Pokok" required>
                                 </div>
                                 <div class="col-sm-3">     
-                                    <input type="text" class="form-control" v-model="cPokok">
+                                    <input type="text" class="form-control" v-model="post.cPokok">
                                 </div>
                             </div>
                             
@@ -41,7 +41,7 @@
                                         placeholder="Harga Jual" required>
                                 </div>
                                 <div class="col-sm-3">     
-                                    <input type="text" class="form-control" v-model="cJual">
+                                    <input type="text" class="form-control" v-model="post.cJual">
                                 </div>
                             </div>
 
@@ -59,7 +59,7 @@
                             <label class="col-sm-3 control-label">Barcode : </label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" v-model="post.barcode">
-                                <barcode v-model="post.barcode" :options="{ displayValue: true }"></barcode>
+                                <barcode v-model="post.barcode" :options="{ width: 1, height: 40 }" tag="img"></barcode>
                                 
                             </div>
                             </div>
@@ -120,7 +120,7 @@
 
                                 <button type="submit" class="btn btn-md btn-success">UPDATE </button>
                                 <button @click.prevent="PostDeleteTrx(post.id)" class="btn btn-md btn-danger">HAPUS</button>
-                                <button type="button" class="btn btn-primary btn-success" data-toggle="modal" data-target="#modal-barcode ">Print Barcode</button>
+                                <button type="button" class="btn btn-primary btn-success" data-toggle="modal" data-target=".bd-example-modal-lg">Print Barcode</button>
                                 <router-link :to="{ name: 'posts' }" class="btn btn-primary btn-success">KEMBALI</router-link>
                                          
                     
@@ -131,9 +131,16 @@
 
             </div>
 
+                    <div class="row" id="printBar">
+                    <div v-for="qt in jlm" :key="qt"  >
+                        <div class="col-md-4" >
+                            <barcode v-model="post.barcode" :options="{ displayValue: true, width: 1, height: 35 }" tag="img"></barcode>
+                        </div>
+                    </div>
+                    </div>
 
-            <div class="modal fade" id="modal-barcode">
-            <div class="modal-dialog">
+            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -141,15 +148,14 @@
                     <h4 class="modal-title">Default Modal</h4>
                 </div>
                 <div class="modal-body">
-
+                    <div class="row">
                     <form @submit.prevent="PreviewBarcode" class="form-horizontal">
-                      
                         <div class="form-group">
                             
                             <div class="col-sm-8">
                                 <label class="col-sm-8 control-label">name : {{post.nmBarang}}</label>
                                 <label class="col-sm-8 control-label">Code : {{cJual}}</label>
-                                <barcode v-model="post.barcode" :options="{ displayValue: true }"></barcode>
+                                <barcode  v-model="post.barcode" :options="{ displayValue: true, width: 1, height: 20  }" ></barcode>
                             </div>
                         </div>
                         <div class="form-group">
@@ -158,28 +164,25 @@
                             <input type="text" class="form-control" v-model="qtyPrint" required>
                             </div>
                         </div>
-                        
+                        <div class="form-group">
+                            <div class="col-sm-3">
                             <button type="submit" class="btn btn-md btn-success">VIEW</button>
-                    </form>
-
-                    <section class="content">
-                        <div class="row">
-                            <div v-for="qt in jlm" :key="qt" >
-                            
-                                <div class="container-fluid">
-                                <div class="row">
-                                <div class="col-md-4">
-                                    <barcode v-model="post.barcode" :options="{ displayValue: true }"></barcode>
-                                </div>
-                                <div class="col-md-4 ml-auto">name : {{post.nmBarang}} Code : {{cJual}}</div>
-                                </div>
-                                </div>      
                             </div>
                         </div>
-                    </section>
+                    </form>
+                    </div>
+                    <div class="row">
+                    <div v-for="qt in jlm" :key="qt"  >
+                        <div class="col-md-4">
+                            <barcode v-model="post.barcode" :options="{ displayValue: true, width: 1, height: 35 }" tag="img"></barcode>
+                        </div>
+                    </div>
+                    </div>
                 </div>
+                <div></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button @click="printBarcode(printBar)" class="btn btn-default">Print Order</button>
                 </div>
                 </div>
                 <!-- /.modal-content -->
@@ -190,7 +193,23 @@
     </div>
 
 </template>
-
+<style scoped>
+    #printBar { display: block; }
+    @media print
+    {
+      @page{
+        margin: 0;
+      }
+      body * {
+        visibility: hidden;
+      }
+      #printBar {
+        display: block;
+        font-size: 12px;
+      }
+      table { font-size: 12px; }
+     }
+</style>
 <script>
     export default {
 
@@ -210,6 +229,7 @@
                 avatar: '',
                 qtyPrint: '',
                 jlm: [],
+                printBar: '',
                 
             }
         },
@@ -225,7 +245,6 @@
                 this.getCountries();
                 this.loadKdHarga();
             });
-            this.letterValue();
             
         },
         methods: {
@@ -239,7 +258,7 @@
                     var b = cc.codeHrg ;
                     var cd = a += b ;
                 }
-                return this.cPokok = cd ;
+                return this.post.cPokok = cd ;
             },
             codeJual(){
                     var a = '';
@@ -250,7 +269,7 @@
                     var b = cc.codeHrg ;
                     var cd = a += b ;
                 }
-                return this.cJual = cd ;
+                return this.post.cJual = cd ;
             },
             avatarChange(e) {
             //console.log(e.target.files[0])
@@ -262,7 +281,7 @@
             //console.log(this.item)
           },
             PreviewBarcode(){
-                for(var i = 0;i < this.qtyPrint; i++){
+                for(var i = 1;i < this.qtyPrint; i++){
                     this.jlm = i;
                 }
             },
@@ -287,6 +306,25 @@
                         this.countries = response.data.data;
                     }.bind(this));
             },
+            printBarcode(printBar) {
+               var contents = document.getElementById("printBar").innerHTML;
+                var frame1 = document.createElement('iframe');
+                frame1.name = "frame1";
+                frame1.style.position = "absolute";
+                frame1.style.top = "-1000000px";
+                document.body.appendChild(frame1);
+                var frameDoc = frame1.contentWindow ? frame1.contentWindow : frame1.contentDocument.document ? frame1.contentDocument.document : frame1.contentDocument;
+                frameDoc.document.open();
+                frameDoc.document.write(contents);
+                frameDoc.document.close();
+                setTimeout(function () {
+                    window.frames["frame1"].focus();
+                    window.frames["frame1"].print();
+                    document.body.removeChild(frame1);
+                }, 500);
+                return false;
+            },
+
             PostDeleteTrx(id)
             {
             if(confirm("Do you really want to delete?")){

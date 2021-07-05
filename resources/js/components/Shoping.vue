@@ -77,9 +77,7 @@
 </template>
 
 <style scoped>
-
     #printMe { display: none; }
-
     @media print
     {
       @page{
@@ -88,15 +86,13 @@
       body * {
         visibility: hidden;
       }
-      
       #printMe {
         display: block;
         font-size: 12px;
       }
       table { font-size: 12px; }
-
      }
-    </style>
+</style>
 <script>
 
     export default {

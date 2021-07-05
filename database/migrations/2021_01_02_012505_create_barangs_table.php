@@ -31,6 +31,8 @@ class CreateBarangsTable extends Migration
             $table->char('gmbrBarang')->nullable();
             $table->char('kategoriSp')->nullable();
             $table->char('noSp')->nullable();
+            $table->char('cPokok')->nullable();
+            $table->char('cJual')->nullable();
             $table->timestamps();
         });
     }

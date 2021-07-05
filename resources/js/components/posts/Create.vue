@@ -30,14 +30,12 @@
 
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Harga. Beli</label>
-                                <div class="col-sm-8">
+                                <div class="col-sm-5">
                                 <input type="text" class="form-control" v-model="post.hrgPokok"
-                                       placeholder="Harga Pokok" @keypress="onlyNumber">
-                                <div v-if="validation.hrgPokok">
-                                    <div class="alert alert-danger mt-1" role="alert">
-                                        {{ validation.hrgPokok[0] }}
-                                    </div>
+                                       placeholder="Harga Pokok" @keypress="onlyNumber" @blur="letterValue()">
                                 </div>
+                                <div class="col-sm-3">
+                                <input type="text" class="form-control" v-model="cPokok">
                                 </div>
                             </div>
 
@@ -45,10 +43,10 @@
                                 <label class="col-sm-3 control-label">Harga. Jual</label>
                                 <div class="col-sm-5">
                                 <input type="text" class="form-control" v-model="post.hrgJual"
-                                       placeholder="Harga Jual" @keypress="onlyNumber" @blur="letterValue()">
+                                       placeholder="Harga Jual" @keypress="onlyNumber" @blur="codeJual()">
                                 </div>
                                 <div class="col-sm-3">
-                                <input type="text" class="form-control" v-model="str">
+                                <input type="text" class="form-control" v-model="cJual">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -174,22 +172,18 @@ Vue.component(VueBarcode.name, VueBarcode);
                 country: 0,
                 countries: {},
                 total: {},
-                //kdBarang: '',
-                str: '',
-                //barcode: this.post.kdBarang,
-                inputs: [{
-                    name: '',
-                    party: ''
-                }],
-                
+                cPokok: '',
+                cJual: '',
+                kdh: [],
+                hrg: [],
             }
             
         },
         created(){
             this.loadKdBarang();
             this.getCountries();
-            this.getMerek();
             this.adminuser = this.$session.get('roleID');
+            this.loadKdHarga();
             
         },
         beforeCreate: function () {
@@ -201,62 +195,50 @@ Vue.component(VueBarcode.name, VueBarcode);
 
         methods: {
             letterValue(){
-                var hr = this.post.hrgJual.length;
-                var a = [];
-                //for (var a=1;a<=hr;a++) {
-                    var convert = this.post.hrgJual.split("");
-                    var kdh = '';
-                //var str = [];
-                for (convert of this.post.hrgJual.split("")) {
-                    
-                    //var str = '';
-                    let uri = '/api/setup/'+ convert;
-                    this.axios.get(uri).then(response => {
-                    kdh = response.data.data.codeHrg;
-                    
-                    a = a += kdh
-                    //console.log(a.split('').reverse().join(''));
-                        console.log(a)
-                        //this.str = kdh ;
-                        return this.str = a;
-                    });
-                    //str = i += kdh
-                    
+                    var a = '';
+                    let kdh = this.hrg;
+                for (convert of this.post.hrgPokok.split("")) {
+                    var convert;
+                    var cc = kdh.find(o => o.noHrg === parseInt(convert));
+                    var b = cc.codeHrg ;
+                    var cd = a += b ;
                 }
-                //console.log(this.hr)
-                //}
-
-                
+                return this.cPokok = cd ;
             },
-            add () {
-            this.inputs.push({
-                name: '',
-                party: ''
-            })
-            console.log(this.inputs)
+            codeJual(){
+                    var a = '';
+                    let kdh = this.hrg;
+                for (convert of this.post.hrgJual.split("")) {
+                    var convert;
+                    var cc = kdh.find(o => o.noHrg === parseInt(convert));
+                    var b = cc.codeHrg ;
+                    var cd = a += b ;
+                }
+                return this.cJual = cd ;
             },
-
-            remove (index) {
-            this.inputs.splice(index, 1)
+            loadKdHarga(){
+                let uri = '/api/setup';
+                this.axios.get(uri).then(response => {
+                this.hrg = response.data.data;
+                });
             },
-            
-            CangeKd () {
-                this.post.barcode = this.post.kdBarang;
-            },
-
-            addCandidate () {
-            axios
-                .post('/candidates', {
-                my_prop_name: JSON.stringify(this.inputs)
-                })
-                .then(response => {})
-                .catch(error => {})
-            },
-            
             PostStore() {
                 let uri = '/api/posts/store';
-                this.axios.post(uri, this.post)
-                    .then((response) => {
+                this.axios.post(uri, {
+                    kdBarang: this.post.kdBarang,
+                    nmBarang: this.post.nmBarang,
+                    hrgPokok: this.post.hrgPokok,
+                    hrgJual: this.post.hrgJual,
+                    ktgBarang: this.post.ktgBarang,
+                    barcode: this.post.barcode,
+                    satuanBarang: this.post.satuanBarang,
+                    qtyMin: this.post.qtyMin,
+                    qtyMax: this.post.qtyMax,
+                    merek: this.post.merek,
+                    deskripsi: this.post.deskripsi,
+                    cPokok: this.cPokok,
+                    cJual: this.cJual,
+                }).then((response) => {
                         const path = '/barang'
                         this.$router.push(path)
                         this.loadKdBarang()
