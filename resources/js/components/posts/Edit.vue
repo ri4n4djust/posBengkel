@@ -120,21 +120,73 @@
 
                                 <button type="submit" class="btn btn-md btn-success">UPDATE </button>
                                 <button @click.prevent="PostDeleteTrx(post.id)" class="btn btn-md btn-danger">HAPUS</button>
-                                <a href="#"  class="btn btn-primary btn-success">Print Barcode</a>
+                                <button type="button" class="btn btn-primary btn-success" data-toggle="modal" data-target="#modal-barcode ">Print Barcode</button>
                                 <router-link :to="{ name: 'posts' }" class="btn btn-primary btn-success">KEMBALI</router-link>
                                          
                     
                     </div>
                     </div>
-                            
 
                     </form>
 
             </div>
 
-            <div v-for="x in qtys" :key="x">
 
+            <div class="modal fade" id="modal-barcode">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Default Modal</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form @submit.prevent="PreviewBarcode" class="form-horizontal">
+                      
+                        <div class="form-group">
+                            
+                            <div class="col-sm-8">
+                                <label class="col-sm-8 control-label">name : {{post.nmBarang}}</label>
+                                <label class="col-sm-8 control-label">Code : {{cJual}}</label>
+                                <barcode v-model="post.barcode" :options="{ displayValue: true }"></barcode>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label ">QTY Print</label>
+                            <div class="col-sm-3">
+                            <input type="text" class="form-control" v-model="qtyPrint" required>
+                            </div>
+                        </div>
+                        
+                            <button type="submit" class="btn btn-md btn-success">VIEW</button>
+                    </form>
+
+                    <section class="content">
+                        <div class="row">
+                            <div v-for="qt in jlm" :key="qt" >
+                            
+                                <div class="container-fluid">
+                                <div class="row">
+                                <div class="col-md-4">
+                                    <barcode v-model="post.barcode" :options="{ displayValue: true }"></barcode>
+                                </div>
+                                <div class="col-md-4 ml-auto">name : {{post.nmBarang}} Code : {{cJual}}</div>
+                                </div>
+                                </div>      
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                </div>
+                </div>
+                <!-- /.modal-content -->
             </div>
+            <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
     </div>
 
 </template>
@@ -156,7 +208,8 @@
                 hrg: [],
                 codeHrg: [],
                 avatar: '',
-
+                qtyPrint: '',
+                jlm: [],
                 
             }
         },
@@ -208,7 +261,11 @@
             }
             //console.log(this.item)
           },
-
+            PreviewBarcode(){
+                for(var i = 0;i < this.qtyPrint; i++){
+                    this.jlm = i;
+                }
+            },
             loadKdHarga(){
                 let uri = '/api/setup';
                 this.axios.get(uri).then(response => {

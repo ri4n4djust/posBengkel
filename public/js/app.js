@@ -12067,146 +12067,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    var products = [{
-      id: 1,
-      title: 'Macbook Pro',
-      price: 2500.00,
-      qty: 1,
-      image: 'http://lorempixel.com/150/150/'
-    }, {
-      id: 2,
-      title: 'Asus ROG Gaming',
-      price: 1000.00,
-      qty: 1,
-      image: 'http://lorempixel.com/150/150/'
-    }, {
-      id: 3,
-      title: 'Amazon Kindle',
-      price: 150.00,
-      qty: 1,
-      image: 'http://lorempixel.com/150/150/'
-    }, {
-      id: 4,
-      title: 'Another Product',
-      price: 10,
-      qty: 1,
-      image: 'http://lorempixel.com/150/150/'
-    }];
     return {
-      cartItems: [],
-      items: products
+      message: "desde el content",
+      status: "disconnected"
     };
   },
-  computed: {
-    Total: function Total() {
-      var total = 0;
-      this.items.forEach(function (item) {
-        total += item.price * item.qty;
-      });
-      return total;
-    }
-  },
-  //props: ['value'],
   methods: {
-    // Remove item by its index
-    removeItem: function removeItem(index) {
-      this.items.splice(index, 1);
+    change: function change() {
+      this.status = 'connected';
     },
-    // Add Items to cart
-    addToCart: function addToCart(itemToAdd) {
-      var found = false; // Add the item or increase qty
+    connect: function connect() {
+      this.socket = new WebSocket("ws://localhost:8080");
+      var vm = this;
 
-      var itemInCart = this.cartItems.filter(function (item) {
-        return item.id === itemToAdd.id;
-      });
-      var isItemInCart = itemInCart.length > 0;
+      this.socket.onopen = function (openEvent) {
+        console.log("ws::open : connection established " + vm.status);
+        this.status = "connected";
+      };
 
-      if (isItemInCart === false) {
-        this.cartItems.push(Vue.util.extend({}, itemToAdd));
-      } else {
-        itemInCart[0].qty += itemToAdd.qty;
-      }
+      this.socket.onerror = function (errorEvent) {
+        console.log("WebSocket ERROR: " + JSON.stringify(errorEvent, null, 4));
+      };
 
-      itemToAdd.qty = 1;
-      alert('sukses');
+      this.socket.onmessage = function (messageEvent) {
+        var wsMsg = messageEvent.data;
+
+        if (wsMsg.indexOf("error") > 0) {
+          console.error("ws::msg_in:error: " + wsMsg.error);
+        } else {
+          console.info("ws::msg_in: " + wsMsg);
+        }
+      };
     }
   }
 });
@@ -14609,7 +14502,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
 //
 //
 //
@@ -22926,6 +22818,58 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -22936,10 +22880,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       country: 0,
       countries: {},
       kdh: [],
-      str: [],
+      cPokok: [],
+      cJual: [],
       hrg: [],
       codeHrg: [],
-      avatar: ''
+      avatar: '',
+      qtyPrint: '',
+      jlm: []
     };
   },
   beforeCreate: function beforeCreate() {
@@ -22958,16 +22905,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
       _this.loadKdHarga();
     });
+    this.letterValue();
   },
   methods: {
     letterValue: function letterValue() {
-      var _this2 = this;
-
-      var hr = this.post.hrgPokok.length;
-      var a = []; //for (var a=1;a<=hr;a++) {
-
-      var convert = this.post.hrgPokok.split("");
-      var kdh = ''; //var str = [];
+      var a = '';
+      var kdh = this.hrg;
 
       var _iterator = _createForOfIteratorHelper(this.post.hrgPokok.split("")),
           _step;
@@ -22975,55 +22918,81 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       try {
         for (_iterator.s(); !(_step = _iterator.n()).done;) {
           convert = _step.value;
-          //var str = '';
-          var uri = '/api/setup/' + convert;
-          this.axios.get(uri).then(function (response) {
-            kdh = response.data.data.codeHrg;
-            a = a += kdh; //console.log(a.split('').reverse().join(''));
-
-            console.log(a); //this.str = kdh ;
-
-            return _this2.str = a;
-          }); //str = i += kdh
-        } //console.log(this.hr)
-        //}
-
+          var convert;
+          var cc = kdh.find(function (o) {
+            return o.noHrg === parseInt(convert);
+          });
+          var b = cc.codeHrg;
+          var cd = a += b;
+        }
       } catch (err) {
         _iterator.e(err);
       } finally {
         _iterator.f();
       }
+
+      return this.cPokok = cd;
+    },
+    codeJual: function codeJual() {
+      var a = '';
+      var kdh = this.hrg;
+
+      var _iterator2 = _createForOfIteratorHelper(this.post.hrgJual.split("")),
+          _step2;
+
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          convert = _step2.value;
+          var convert;
+          var cc = kdh.find(function (o) {
+            return o.noHrg === parseInt(convert);
+          });
+          var b = cc.codeHrg;
+          var cd = a += b;
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+
+      return this.cJual = cd;
     },
     avatarChange: function avatarChange(e) {
-      var _this3 = this;
+      var _this2 = this;
 
       //console.log(e.target.files[0])
       var fileReader = new FileReader();
       fileReader.readAsDataURL(e.target.files[0]);
 
       fileReader.onload = function (e) {
-        _this3.avatar = e.target.result;
+        _this2.avatar = e.target.result;
       }; //console.log(this.item)
 
     },
+    PreviewBarcode: function PreviewBarcode() {
+      for (var i = 0; i < this.qtyPrint; i++) {
+        this.jlm = i;
+      }
+    },
     loadKdHarga: function loadKdHarga() {
-      var _this4 = this;
+      var _this3 = this;
 
       var uri = '/api/setup';
       this.axios.get(uri).then(function (response) {
-        _this4.hrg = response.data.data;
+        _this3.hrg = response.data.data;
       });
     },
     PostUpdate: function PostUpdate() {
-      var _this5 = this;
+      var _this4 = this;
 
       var uri = "/api/posts/update/".concat(this.$route.params.id);
       this.axios.post(uri, this.post).then(function (response) {
-        _this5.$router.push({
+        _this4.$router.push({
           name: 'posts'
         });
       })["catch"](function (error) {
-        _this5.validation = error.response.data.data;
+        _this4.validation = error.response.data.data;
       });
     },
     getCountries: function getCountries() {
@@ -23032,15 +23001,15 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }.bind(this));
     },
     PostDeleteTrx: function PostDeleteTrx(id) {
-      var _this6 = this;
+      var _this5 = this;
 
       if (confirm("Do you really want to delete?")) {
         this.axios["delete"]("/api/posts/".concat(id)).then(function (response) {
-          _this6.$router.push({
+          _this5.$router.push({
             name: 'posts'
           });
 
-          alert('Sukses Hapus' + _this6.post.nmBarang);
+          alert('Sukses Hapus' + _this5.post.nmBarang);
         })["catch"](function (error) {
           alert('system error!');
         });
@@ -29772,25 +29741,6 @@ exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base
 
 // module
 exports.push([module.i, "\n.w-full[data-v-27213e1d] {\n  width: 100%;\n}\n.inline-block[data-v-27213e1d] {\n  display: inline-block;\n}\n.block[data-v-27213e1d] {\n  display: block;\n}\n.flex[data-v-27213e1d] {\n  display: flex;\n}\n.border[data-v-27213e1d] {\n  border-width: thin;\n  border-style: solid;\n}\n.rounded[data-v-27213e1d] {\n  border-radius: 0.25em;\n}\n.text-black[data-v-27213e1d] {\n  color: #22292f;\n}\n.border-grey-lighter[data-v-27213e1d] {\n  border-color: #ced4da;\n}\n.bg-grey-lighter[data-v-27213e1d] {\n  background-color: #606f7b;\n}\n.bg-grey-light[data-v-27213e1d] {\n  background-color: #dae1e7;\n}\n.bg-grey-dark[data-v-27213e1d] {\n  background-color: #8795a1;\n}\n.bg-white[data-v-27213e1d] {\n  background-color: #fff;\n}\n.pin-r[data-v-27213e1d] {\n  right: 0;\n}\n.pin-y[data-v-27213e1d] {\n  top: 0;\n  bottom: 0;\n}\n.absolute[data-v-27213e1d] {\n  position: absolute;\n}\n.relative[data-v-27213e1d] {\n  position: relative;\n}\n.items-center[data-v-27213e1d] {\n  align-items: center;\n}\n.p-0[data-v-27213e1d] {\n  padding: 0;\n}\n.p-1[data-v-27213e1d] {\n  padding: 0.25em;\n}\n.px-1[data-v-27213e1d] {\n  padding-left: 0.25em;\n  padding-right: 0.25em;\n}\n.py-2[data-v-27213e1d] {\n  padding-top: 0.5em;\n  padding-bottom: 0.5em;\n}\n.px-2[data-v-27213e1d] {\n  padding-left: 0.5em;\n  padding-right: 0.5em;\n}\n.mt-px[data-v-27213e1d] {\n  margin-top: 1px;\n}\n.leading-tight[data-v-27213e1d] {\n  line-height: 1.25;\n}\n.leading-normal[data-v-27213e1d] {\n  line-height: 1.5;\n}\n.text-left[data-v-27213e1d] {\n  text-align: left;\n}\n.w-full[data-v-27213e1d] {\n  width: 100%;\n}\n.shadow[data-v-27213e1d] {\n  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);\n}\n.list-reset[data-v-27213e1d] {\n  list-style: none;\n  padding: 0;\n}\n.overflow-auto[data-v-27213e1d] {\n  overflow: auto;\n}\n.appearance-none[data-v-27213e1d] {\n  -webkit-appearance: none;\n  -moz-appearance: none;\n  appearance: none;\n}\n.w-1[data-v-27213e1d] {\n  width: 0.25em;\n}\n.w-2[data-v-27213e1d] {\n  width: 0.5em;\n}\n.w-3[data-v-27213e1d] {\n  width: 0.75em;\n}\n.w-4[data-v-27213e1d] {\n  width: 1em;\n}\n.h-4[data-v-27213e1d] {\n  height: 1em;\n}\n.h-1[data-v-27213e1d] {\n  height: 0.25em;\n}\n.h-2[data-v-27213e1d] {\n  height: 0.5em;\n}\n.h-3[data-v-27213e1d] {\n  height: 0.75em;\n}\n.fill-current[data-v-27213e1d] {\n  fill: currentColor;\n}\n.no-underline[data-v-27213e1d] {\n  text-decoration: none;\n}\n.hover\\:no-underline[data-v-27213e1d]:hover {\n  text-decoration: none;\n}\n.outline-none[data-v-27213e1d] {\n  outline: 0;\n}\n.hover\\:outline-none[data-v-27213e1d] {\n  outline: 0;\n}\n.hover\\:bg-grey-light[data-v-27213e1d]:hover {\n  background-color: #dae1e7;\n}\n.shadow-md[data-v-27213e1d] {\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.08);\n}\n.search-input[data-v-27213e1d] {\n  display: block;\n  width: 100%;\n  padding: 0.375em 0.75em;\n  font-size: 1em;\n  line-height: 1.5;\n  color: #495057;\n  background-color: #fff;\n  background-clip: padding-box;\n  border: 1px solid #ced4da;\n  border-radius: 0.25em;\n  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;\n  box-sizing: border-box;\n}\n.icons[data-v-27213e1d] {\n  padding: 0 1em;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  fill: #606f7b;\n}\n.icons svg[data-v-27213e1d] {\n  width: 0.75em;\n  height: 0.75em;\n}\n.single-select-wrapper[data-v-27213e1d] {\n  position: relative;\n  margin-bottom: 0.5em;\n}\n.required[data-v-27213e1d] {\n  _color: #721c24;\n  _background-color: #f8d7da;\n  border-color: #f5c6cb;\n}\n.cursor-pointer[data-v-27213e1d] {\n  cursor: pointer;\n}\n.dropdown[data-v-27213e1d] {\n  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12),\n    0 2px 4px 0 rgba(0, 0, 0, 0.08);\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.08);\n  background-color: #fff;\n  color: #606f7b;\n  border-radius: 0.25em;\n  line-height: 1.25;\n  text-align: left;\n}\n.dropdown > li[data-v-27213e1d] {\n  padding: 0.5em 0.75em;\n}\n.active[data-v-27213e1d] {\n  background: #dae1e7;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Cart.vue?vue&type=style&index=0&lang=css&":
-/*!**********************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Cart.vue?vue&type=style&index=0&lang=css& ***!
-  \**********************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.container{\n  padding:20px;\n  max-width:600px;\n}\n.input-qty {\n  width: 60px;\n  float: right\n}\n.table-cart > tr > td {\n  vertical-align: middle !important;\n}\n\n", ""]);
 
 // exports
 
@@ -61953,36 +61903,6 @@ if(false) {}
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Cart.vue?vue&type=style&index=0&lang=css&":
-/*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Cart.vue?vue&type=style&index=0&lang=css& ***!
-  \**************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--5-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--5-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Cart.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Cart.vue?vue&type=style&index=0&lang=css&");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Shoping.vue?vue&type=style&index=0&id=28360491&scoped=true&lang=css&":
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Shoping.vue?vue&type=style&index=0&id=28360491&scoped=true&lang=css& ***!
@@ -63782,289 +63702,18 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "mt-3" }, [
-    _c("div", { staticClass: "container", attrs: { id: "app" } }, [
-      _c("div", { staticClass: "text-right" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-primary",
-            attrs: { "data-toggle": "modal", "data-target": "#cartModal" }
-          },
-          [_vm._v("Cart (" + _vm._s(_vm.cartItems.length) + ")")]
-        )
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "modal fade",
-          attrs: {
-            id: "cartModal",
-            tabindex: "-1",
-            role: "dialog",
-            "aria-labelledby": "myModalLabel"
-          }
-        },
-        [
-          _c(
-            "div",
-            { staticClass: "modal-dialog", attrs: { role: "document" } },
-            [
-              _c("div", { staticClass: "modal-content" }, [
-                _vm._m(0),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "modal-body" },
-                  [
-                    _c("shoping-cart", {
-                      attrs: { items: _vm.cartItems },
-                      inlineTemplate: {
-                        render: function() {
-                          var _vm = this
-                          var _h = _vm.$createElement
-                          var _c = _vm._self._c || _h
-                          return _c("div", [
-                            _c(
-                              "table",
-                              { staticClass: "table table-cart" },
-                              [
-                                _vm._l(_vm.items, function(item, index) {
-                                  return _c("tr", { key: item.id }, [
-                                    _c("td", [_vm._v(_vm._s(item.title))]),
-                                    _vm._v(" "),
-                                    _c(
-                                      "td",
-                                      { staticStyle: { width: "120px" } },
-                                      [
-                                        _vm._v(
-                                          "QTY:\n                              "
-                                        ),
-                                        _c("input", {
-                                          directives: [
-                                            {
-                                              name: "model",
-                                              rawName: "v-model",
-                                              value: item.qty,
-                                              expression: "item.qty"
-                                            }
-                                          ],
-                                          staticClass: "form-control input-qty",
-                                          attrs: { type: "number" },
-                                          domProps: { value: item.qty },
-                                          on: {
-                                            input: function($event) {
-                                              if ($event.target.composing) {
-                                                return
-                                              }
-                                              _vm.$set(
-                                                item,
-                                                "qty",
-                                                $event.target.value
-                                              )
-                                            }
-                                          }
-                                        })
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c("td", { staticClass: "text-right" }, [
-                                      _vm._v("$" + _vm._s(item.price))
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", [
-                                      _c(
-                                        "button",
-                                        {
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.removeItem(index)
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _c("span", {
-                                            staticClass:
-                                              "glyphicon glyphicon-trash"
-                                          })
-                                        ]
-                                      )
-                                    ])
-                                  ])
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "tr",
-                                  {
-                                    directives: [
-                                      {
-                                        name: "show",
-                                        rawName: "v-show",
-                                        value: _vm.items.length === 0,
-                                        expression: "items.length === 0"
-                                      }
-                                    ]
-                                  },
-                                  [
-                                    _c(
-                                      "td",
-                                      {
-                                        staticClass: "text-center",
-                                        attrs: { colspan: "4" }
-                                      },
-                                      [_vm._v("Cart is empty")]
-                                    )
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "tr",
-                                  {
-                                    directives: [
-                                      {
-                                        name: "show",
-                                        rawName: "v-show",
-                                        value: _vm.items.length > 0,
-                                        expression: "items.length > 0"
-                                      }
-                                    ]
-                                  },
-                                  [
-                                    _c("td"),
-                                    _vm._v(" "),
-                                    _c("td", { staticClass: "text-right" }, [
-                                      _vm._v("Cart Total")
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", { staticClass: "text-right" }, [
-                                      _vm._v("$" + _vm._s(_vm.Total))
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td")
-                                  ]
-                                )
-                              ],
-                              2
-                            )
-                          ])
-                        },
-                        staticRenderFns: []
-                      }
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _vm._m(1)
-              ])
-            ]
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "container" }, [
-        _c(
-          "div",
-          { staticClass: "row" },
-          _vm._l(_vm.items, function(item) {
-            return _c(
-              "div",
-              { key: item.id, staticClass: "col-xs-3 text-center" },
-              [
-                _c("img", {
-                  staticClass: "img-responsive",
-                  attrs: { src: item.image, alt: "" }
-                }),
-                _vm._v(" "),
-                _c("h5", [_vm._v(_vm._s(item.title))]),
-                _vm._v(" "),
-                _c("h6", [_vm._v("$" + _vm._s(item.price))]),
-                _vm._v(" "),
-                _c("p", { staticClass: "text-center" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: item.qty,
-                        expression: "item.qty"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "number", placeholder: "Qty", min: "1" },
-                    domProps: { value: item.qty },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(item, "qty", $event.target.value)
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-sm btn-primary",
-                    on: {
-                      click: function($event) {
-                        return _vm.addToCart(item)
-                      }
-                    }
-                  },
-                  [_vm._v("Add to Cart")]
-                )
-              ]
-            )
-          }),
-          0
-        )
-      ])
-    ])
+    _vm.status === "connected"
+      ? _c("button", { on: { click: _vm.disconnect } }, [_vm._v("Disconnect")])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.status === "disconnected"
+      ? _c("button", { on: { click: _vm.connect } }, [_vm._v("Connect ")])
+      : _vm._e(),
+    _vm._v(" " + _vm._s(_vm.status) + "\n   "),
+    _c("button", { on: { click: _vm.change } }, [_vm._v(_vm._s(_vm.message))])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      ),
-      _vm._v(" "),
-      _c("h4", { staticClass: "modal-title", attrs: { id: "myModalLabel" } }, [
-        _vm._v("Cart")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-footer" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-default",
-          attrs: { type: "button", "data-dismiss": "modal" }
-        },
-        [_vm._v("Close")]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -68142,1591 +67791,1547 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "card-body" },
-    [
-      _c("h3", [_vm._v("DETAIL MOTOR")]),
-      _vm._v(" "),
-      _c("shoping-cart"),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { staticClass: "col-sm-3 control-label" }, [
-          _vm._v("Merek:")
-        ]),
+  return _c("div", { staticClass: "mt-3" }, [
+    _c(
+      "div",
+      { staticClass: "card-body" },
+      [
+        _c("h3", [_vm._v("DETAIL MOTOR")]),
         _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "btn btn-md btn-success",
-            attrs: { href: "#" },
-            on: {
-              click: function($event) {
-                _vm.modalTambahMerek = true
-              }
-            }
-          },
-          [_vm._v("Tambah Merek")]
-        ),
+        _c("shoping-cart"),
         _vm._v(" "),
-        _c("div", { staticClass: "col-sm-4" }, [
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { staticClass: "col-sm-3 control-label" }, [
+            _vm._v("Merek:")
+          ]),
+          _vm._v(" "),
           _c(
-            "select",
-            {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.kdMerek,
-                  expression: "kdMerek"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { required: "" },
-              on: {
-                click: function($event) {
-                  return _vm.getJenis(_vm.kdMerek)
-                },
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.kdMerek = $event.target.multiple
-                    ? $$selectedVal
-                    : $$selectedVal[0]
-                }
-              }
-            },
-            _vm._l(_vm.merek, function(data) {
-              return _c(
-                "option",
-                { key: data.id, domProps: { value: data.kdMerek } },
-                [_vm._v(_vm._s(data.nmMerek))]
-              )
-            }),
-            0
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { staticClass: "col-sm-3 control-label" }, [
-          _vm._v("Jenis:")
-        ]),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "btn btn-md btn-success",
-            attrs: { href: "#" },
-            on: {
-              click: function($event) {
-                _vm.modalTambahJenis = true
-              }
-            }
-          },
-          [_vm._v("Tambah Jenis  ")]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sm-4" }, [
-          _c(
-            "select",
-            {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.kdJenis,
-                  expression: "kdJenis"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { required: "" },
-              on: {
-                click: function($event) {
-                  return _vm.getType(_vm.kdJenis)
-                },
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.kdJenis = $event.target.multiple
-                    ? $$selectedVal
-                    : $$selectedVal[0]
-                }
-              }
-            },
-            _vm._l(_vm.jenis, function(data) {
-              return _c(
-                "option",
-                { key: data.id, domProps: { value: data.kdJenis } },
-                [_vm._v(_vm._s(data.nmJenis))]
-              )
-            }),
-            0
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { staticClass: "col-sm-3 control-label" }, [
-          _vm._v("Type Motor:")
-        ]),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "btn btn-md btn-success",
-            attrs: { href: "#" },
-            on: {
-              click: function($event) {
-                _vm.modalTambahType = true
-              }
-            }
-          },
-          [_vm._v("Tambah Type  ")]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sm-4" }, [
-          _c(
-            "select",
-            {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.kdType,
-                  expression: "kdType"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { required: "" },
-              on: {
-                click: function($event) {
-                  return _vm.getTahun(_vm.kdType)
-                },
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.kdType = $event.target.multiple
-                    ? $$selectedVal
-                    : $$selectedVal[0]
-                }
-              }
-            },
-            _vm._l(_vm.type, function(data) {
-              return _c(
-                "option",
-                { key: data.id, domProps: { value: data.kdType } },
-                [_vm._v(_vm._s(data.nmType))]
-              )
-            }),
-            0
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { staticClass: "col-sm-3 control-label" }, [
-          _vm._v("Tahun Motor:")
-        ]),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "btn btn-md btn-success",
-            attrs: { href: "#" },
-            on: {
-              click: function($event) {
-                _vm.modalTambahTahun = true
-              }
-            }
-          },
-          [_vm._v("Tambah Tahun")]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sm-4" }, [
-          _c(
-            "select",
-            {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.kdTahun,
-                  expression: "kdTahun"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { required: "" },
-              on: {
-                click: function($event) {
-                  return _vm.pilihTahun(_vm.kdTahun)
-                },
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.kdTahun = $event.target.multiple
-                    ? $$selectedVal
-                    : $$selectedVal[0]
-                }
-              }
-            },
-            _vm._l(_vm.tahun, function(data) {
-              return _c(
-                "option",
-                { key: data.id, domProps: { value: data.kdTahun } },
-                [_vm._v(_vm._s(data.nmTahun))]
-              )
-            }),
-            0
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("div", { staticClass: "col-sm-8" }, [
-          _c(
-            "button",
+            "a",
             {
               staticClass: "btn btn-md btn-success",
-              attrs: { type: "submit" },
+              attrs: { href: "#" },
               on: {
                 click: function($event) {
-                  return _vm.PostCari(
-                    (_vm.newKode =
-                      _vm.kdMerek + _vm.kdJenis + _vm.kdType + _vm.kdTahun)
-                  )
+                  _vm.modalTambahMerek = true
                 }
               }
             },
-            [_vm._v("Cari")]
+            [_vm._v("Tambah Merek")]
           ),
           _vm._v(" "),
-          (_vm.newKode =
-            _vm.kdMerek + _vm.kdJenis + _vm.kdType + _vm.kdTahun.length <= 22)
-            ? _c("span", [
-                _c(
-                  "button",
+          _c("div", { staticClass: "col-sm-4" }, [
+            _c(
+              "select",
+              {
+                directives: [
                   {
-                    staticClass: "btn btn-md btn-success disabled",
-                    attrs: { type: "submit" }
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.kdMerek,
+                    expression: "kdMerek"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { required: "" },
+                on: {
+                  click: function($event) {
+                    return _vm.getJenis(_vm.kdMerek)
                   },
-                  [_vm._v("Tambah Motor")]
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.kdMerek = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              _vm._l(_vm.merek, function(data) {
+                return _c(
+                  "option",
+                  { key: data.id, domProps: { value: data.kdMerek } },
+                  [_vm._v(_vm._s(data.nmMerek))]
                 )
-              ])
-            : _c("span", [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-md btn-success",
-                    attrs: { type: "submit" },
-                    on: {
-                      click: function($event) {
-                        _vm.modalTambahMotor = true
-                      }
-                    }
-                  },
-                  [_vm._v("Tambah Motor")]
-                )
-              ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _c("table", { staticClass: "table table-hover table-bordered" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c(
-            "tbody",
-            _vm._l(_vm.detailmotor, function(det, index) {
-              return _c("tr", { key: det.id }, [
-                _c("td", [_vm._v(_vm._s(det.kdType))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(det.kdTahun))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(det.nmDetail))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(det.warnaDetail))]),
-                _vm._v(" "),
-                _c("td", [
-                  _c("img", {
-                    staticClass: "img-responsive",
-                    attrs: {
-                      src: "../image/foto/" + det.gbrDetail,
-                      height: "70",
-                      width: "90"
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c(
-                  "td",
-                  { staticClass: "text-center" },
-                  [
-                    _c(
-                      "router-link",
-                      {
-                        staticClass: "btn btn-sm btn-primary",
-                        attrs: {
-                          to: {
-                            name: "mastersdetailparepart",
-                            params: { id: det.kdDetailMotor }
-                          }
-                        }
-                      },
-                      [_vm._v("Detail")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-sm btn-danger",
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            return _vm.PostDeleteMotor((_vm.id = det.id), index)
-                          }
-                        }
-                      },
-                      [_vm._v("HAPUS")]
-                    )
-                  ],
-                  1
-                )
-              ])
-            }),
-            0
-          )
+              }),
+              0
+            )
+          ])
         ]),
         _vm._v(" "),
-        _vm.modalTambahMerek
-          ? _c(
-              "div",
-              [
-                _c("transition", { attrs: { name: "modal" } }, [
-                  _c("div", { staticClass: "modal-mask" }, [
-                    _c("div", { staticClass: "modal-wrapper" }, [
-                      _c("div", { staticClass: "modal-dialog" }, [
-                        _c("div", { staticClass: "modal-content" }, [
-                          _c("div", { staticClass: "modal-header" }, [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "close",
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.modalTambahMerek = false
-                                  }
-                                }
-                              },
-                              [
-                                _c(
-                                  "span",
-                                  { attrs: { "aria-hidden": "true" } },
-                                  [_vm._v("×")]
-                                )
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c("h4", { staticClass: "modal-title" }, [
-                              _vm._v("Tambah Merek")
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "modal-body" }, [
-                            _c(
-                              "form",
-                              {
-                                on: {
-                                  submit: function($event) {
-                                    $event.preventDefault()
-                                    return _vm.PostStoreMerek($event)
-                                  }
-                                }
-                              },
-                              [
-                                _c("div", { staticClass: "input-group" }, [
-                                  _c(
-                                    "span",
-                                    { staticClass: "input-group-addon" },
-                                    [_vm._v("Kode Merek  ")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.insert.kdMerek,
-                                        expression: "insert.kdMerek"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: { type: "text", disabled: "" },
-                                    domProps: { value: _vm.insert.kdMerek },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          _vm.insert,
-                                          "kdMerek",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  })
-                                ]),
-                                _vm._v(" "),
-                                _c("br"),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "input-group" }, [
-                                  _c(
-                                    "span",
-                                    { staticClass: "input-group-addon" },
-                                    [_vm._v("Nama Merek")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.insert.nmMerek,
-                                        expression: "insert.nmMerek"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: {
-                                      type: "text",
-                                      placeholder: "Masukkan Nama",
-                                      required: ""
-                                    },
-                                    domProps: { value: _vm.insert.nmMerek },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          _vm.insert,
-                                          "nmMerek",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  })
-                                ]),
-                                _vm._v(" "),
-                                _c("br"),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "form-group" }, [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-md btn-success",
-                                      attrs: { type: "submit" }
-                                    },
-                                    [_vm._v("SIMPAN")]
-                                  )
-                                ])
-                              ]
-                            )
-                          ])
-                        ])
-                      ])
-                    ])
-                  ])
-                ])
-              ],
-              1
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { staticClass: "col-sm-3 control-label" }, [
+            _vm._v("Jenis:")
+          ]),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-md btn-success",
+              attrs: { href: "#" },
+              on: {
+                click: function($event) {
+                  _vm.modalTambahJenis = true
+                }
+              }
+            },
+            [_vm._v("Tambah Jenis  ")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-sm-4" }, [
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.kdJenis,
+                    expression: "kdJenis"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { required: "" },
+                on: {
+                  click: function($event) {
+                    return _vm.getType(_vm.kdJenis)
+                  },
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.kdJenis = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              _vm._l(_vm.jenis, function(data) {
+                return _c(
+                  "option",
+                  { key: data.id, domProps: { value: data.kdJenis } },
+                  [_vm._v(_vm._s(data.nmJenis))]
+                )
+              }),
+              0
             )
-          : _vm._e(),
+          ])
+        ]),
         _vm._v(" "),
-        _vm.modalTambahJenis
-          ? _c(
-              "div",
-              [
-                _c("transition", { attrs: { name: "modal" } }, [
-                  _c("div", { staticClass: "modal-mask" }, [
-                    _c("div", { staticClass: "modal-wrapper" }, [
-                      _c("div", { staticClass: "modal-dialog" }, [
-                        _c("div", { staticClass: "modal-content" }, [
-                          _c("div", { staticClass: "modal-header" }, [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "close",
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.modalTambahJenis = false
-                                  }
-                                }
-                              },
-                              [
-                                _c(
-                                  "span",
-                                  { attrs: { "aria-hidden": "true" } },
-                                  [_vm._v("×")]
-                                )
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c("h4", { staticClass: "modal-title" }, [
-                              _vm._v("Tambah Jenis Motor")
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "modal-body" }, [
-                            _c(
-                              "form",
-                              {
-                                on: {
-                                  submit: function($event) {
-                                    $event.preventDefault()
-                                    return _vm.PostStoreJenis($event)
-                                  }
-                                }
-                              },
-                              [
-                                _c("div", { staticClass: "form-group" }, [
-                                  _c("label", [_vm._v("Merek:")]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "select",
-                                    {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.insert.kdMerek,
-                                          expression: "insert.kdMerek"
-                                        }
-                                      ],
-                                      staticClass: "form-control",
-                                      attrs: { required: "" },
-                                      on: {
-                                        change: function($event) {
-                                          var $$selectedVal = Array.prototype.filter
-                                            .call(
-                                              $event.target.options,
-                                              function(o) {
-                                                return o.selected
-                                              }
-                                            )
-                                            .map(function(o) {
-                                              var val =
-                                                "_value" in o
-                                                  ? o._value
-                                                  : o.value
-                                              return val
-                                            })
-                                          _vm.$set(
-                                            _vm.insert,
-                                            "kdMerek",
-                                            $event.target.multiple
-                                              ? $$selectedVal
-                                              : $$selectedVal[0]
-                                          )
-                                        }
-                                      }
-                                    },
-                                    _vm._l(_vm.merek, function(data) {
-                                      return _c(
-                                        "option",
-                                        {
-                                          key: data.id,
-                                          domProps: { value: data.kdMerek }
-                                        },
-                                        [_vm._v(_vm._s(data.nmMerek))]
-                                      )
-                                    }),
-                                    0
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "form-group" }, [
-                                  _c("label", [_vm._v("Kode Jenis ")]),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.insert.kdJenis,
-                                        expression: "insert.kdJenis"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: { type: "text", disabled: "" },
-                                    domProps: { value: _vm.insert.kdJenis },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          _vm.insert,
-                                          "kdJenis",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  })
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "input-group" }, [
-                                  _c(
-                                    "span",
-                                    { staticClass: "input-group-addon" },
-                                    [_vm._v("Nama Jenis")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.insert.nmJenis,
-                                        expression: "insert.nmJenis"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: {
-                                      type: "text",
-                                      placeholder: "Masukkan Nama Jenis",
-                                      required: ""
-                                    },
-                                    domProps: { value: _vm.insert.nmJenis },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          _vm.insert,
-                                          "nmJenis",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  })
-                                ]),
-                                _vm._v(" "),
-                                _c("br"),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "form-group" }, [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-md btn-success",
-                                      attrs: { type: "submit" }
-                                    },
-                                    [_vm._v("SIMPAN")]
-                                  )
-                                ])
-                              ]
-                            )
-                          ])
-                        ])
-                      ])
-                    ])
-                  ])
-                ])
-              ],
-              1
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { staticClass: "col-sm-3 control-label" }, [
+            _vm._v("Type Motor:")
+          ]),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-md btn-success",
+              attrs: { href: "#" },
+              on: {
+                click: function($event) {
+                  _vm.modalTambahType = true
+                }
+              }
+            },
+            [_vm._v("Tambah Type  ")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-sm-4" }, [
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.kdType,
+                    expression: "kdType"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { required: "" },
+                on: {
+                  click: function($event) {
+                    return _vm.getTahun(_vm.kdType)
+                  },
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.kdType = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              _vm._l(_vm.type, function(data) {
+                return _c(
+                  "option",
+                  { key: data.id, domProps: { value: data.kdType } },
+                  [_vm._v(_vm._s(data.nmType))]
+                )
+              }),
+              0
             )
-          : _vm._e(),
+          ])
+        ]),
         _vm._v(" "),
-        _vm.modalTambahType
-          ? _c(
-              "div",
-              [
-                _c("transition", { attrs: { name: "modal" } }, [
-                  _c("div", { staticClass: "modal-mask" }, [
-                    _c("div", { staticClass: "modal-wrapper" }, [
-                      _c("div", { staticClass: "modal-dialog" }, [
-                        _c("div", { staticClass: "modal-content" }, [
-                          _c("div", { staticClass: "modal-header" }, [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "close",
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.modalTambahType = false
-                                  }
-                                }
-                              },
-                              [
-                                _c(
-                                  "span",
-                                  { attrs: { "aria-hidden": "true" } },
-                                  [_vm._v("×")]
-                                )
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c("h4", { staticClass: "modal-title" }, [
-                              _vm._v("Tambah Type Motor")
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "modal-body" }, [
-                            _c(
-                              "form",
-                              {
-                                on: {
-                                  submit: function($event) {
-                                    $event.preventDefault()
-                                    return _vm.PostStoreType($event)
-                                  }
-                                }
-                              },
-                              [
-                                _c("div", { staticClass: "form-group" }, [
-                                  _c("label", [_vm._v("Merek:")]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "select",
-                                    {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.insert.kdMerek,
-                                          expression: "insert.kdMerek"
-                                        }
-                                      ],
-                                      staticClass: "form-control",
-                                      attrs: { required: "" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.getJenis(
-                                            (_vm.kdMerek = _vm.insert.kdMerek)
-                                          )
-                                        },
-                                        change: function($event) {
-                                          var $$selectedVal = Array.prototype.filter
-                                            .call(
-                                              $event.target.options,
-                                              function(o) {
-                                                return o.selected
-                                              }
-                                            )
-                                            .map(function(o) {
-                                              var val =
-                                                "_value" in o
-                                                  ? o._value
-                                                  : o.value
-                                              return val
-                                            })
-                                          _vm.$set(
-                                            _vm.insert,
-                                            "kdMerek",
-                                            $event.target.multiple
-                                              ? $$selectedVal
-                                              : $$selectedVal[0]
-                                          )
-                                        }
-                                      }
-                                    },
-                                    _vm._l(_vm.merek, function(data) {
-                                      return _c(
-                                        "option",
-                                        {
-                                          key: data.id,
-                                          domProps: { value: data.kdMerek }
-                                        },
-                                        [_vm._v(_vm._s(data.nmMerek))]
-                                      )
-                                    }),
-                                    0
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "form-group" }, [
-                                  _c("label", [_vm._v("Jenis:")]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "select",
-                                    {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.insert.kdJenis,
-                                          expression: "insert.kdJenis"
-                                        }
-                                      ],
-                                      staticClass: "form-control",
-                                      attrs: { required: "" },
-                                      on: {
-                                        change: function($event) {
-                                          var $$selectedVal = Array.prototype.filter
-                                            .call(
-                                              $event.target.options,
-                                              function(o) {
-                                                return o.selected
-                                              }
-                                            )
-                                            .map(function(o) {
-                                              var val =
-                                                "_value" in o
-                                                  ? o._value
-                                                  : o.value
-                                              return val
-                                            })
-                                          _vm.$set(
-                                            _vm.insert,
-                                            "kdJenis",
-                                            $event.target.multiple
-                                              ? $$selectedVal
-                                              : $$selectedVal[0]
-                                          )
-                                        }
-                                      }
-                                    },
-                                    _vm._l(_vm.jenis, function(data) {
-                                      return _c(
-                                        "option",
-                                        {
-                                          key: data.id,
-                                          domProps: { value: data.kdJenis }
-                                        },
-                                        [_vm._v(_vm._s(data.nmJenis))]
-                                      )
-                                    }),
-                                    0
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "form-group" }, [
-                                  _c("label", [_vm._v("Kode Type ")]),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.insert.kdType,
-                                        expression: "insert.kdType"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: { type: "text", disabled: "" },
-                                    domProps: { value: _vm.insert.kdType },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          _vm.insert,
-                                          "kdType",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  })
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "input-group" }, [
-                                  _c(
-                                    "span",
-                                    { staticClass: "input-group-addon" },
-                                    [_vm._v("Nama Type")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.insert.nmType,
-                                        expression: "insert.nmType"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: {
-                                      type: "text",
-                                      placeholder: "Masukkan Nama Type",
-                                      required: ""
-                                    },
-                                    domProps: { value: _vm.insert.nmType },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          _vm.insert,
-                                          "nmType",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  })
-                                ]),
-                                _vm._v(" "),
-                                _c("br"),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "form-group" }, [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-md btn-success",
-                                      attrs: { type: "submit" }
-                                    },
-                                    [_vm._v("SIMPAN")]
-                                  )
-                                ])
-                              ]
-                            )
-                          ])
-                        ])
-                      ])
-                    ])
-                  ])
-                ])
-              ],
-              1
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { staticClass: "col-sm-3 control-label" }, [
+            _vm._v("Tahun Motor:")
+          ]),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-md btn-success",
+              attrs: { href: "#" },
+              on: {
+                click: function($event) {
+                  _vm.modalTambahTahun = true
+                }
+              }
+            },
+            [_vm._v("Tambah Tahun")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-sm-4" }, [
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.kdTahun,
+                    expression: "kdTahun"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { required: "" },
+                on: {
+                  click: function($event) {
+                    return _vm.pilihTahun(_vm.kdTahun)
+                  },
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.kdTahun = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              _vm._l(_vm.tahun, function(data) {
+                return _c(
+                  "option",
+                  { key: data.id, domProps: { value: data.kdTahun } },
+                  [_vm._v(_vm._s(data.nmTahun))]
+                )
+              }),
+              0
             )
-          : _vm._e(),
+          ])
+        ]),
         _vm._v(" "),
-        _vm.modalTambahTahun
-          ? _c(
-              "div",
-              [
-                _c("transition", { attrs: { name: "modal" } }, [
-                  _c("div", { staticClass: "modal-mask" }, [
-                    _c("div", { staticClass: "modal-wrapper" }, [
-                      _c("div", { staticClass: "modal-dialog" }, [
-                        _c("div", { staticClass: "modal-content" }, [
-                          _c("div", { staticClass: "modal-header" }, [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "close",
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.modalTambahTahun = false
-                                  }
-                                }
-                              },
-                              [
-                                _c(
-                                  "span",
-                                  { attrs: { "aria-hidden": "true" } },
-                                  [_vm._v("×")]
-                                )
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c("h4", { staticClass: "modal-title" }, [
-                              _vm._v("Tambah Tahun Motor")
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "modal-body" }, [
-                            _c(
-                              "form",
-                              {
-                                on: {
-                                  submit: function($event) {
-                                    $event.preventDefault()
-                                    return _vm.PostStoreTahun($event)
-                                  }
-                                }
-                              },
-                              [
-                                _c("div", { staticClass: "form-group" }, [
-                                  _c("label", [_vm._v("Merek:")]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "select",
-                                    {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.insert.kdMerek,
-                                          expression: "insert.kdMerek"
-                                        }
-                                      ],
-                                      staticClass: "form-control",
-                                      attrs: { required: "" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.getJenis(
-                                            (_vm.kdMerek = _vm.insert.kdMerek)
-                                          )
-                                        },
-                                        change: function($event) {
-                                          var $$selectedVal = Array.prototype.filter
-                                            .call(
-                                              $event.target.options,
-                                              function(o) {
-                                                return o.selected
-                                              }
-                                            )
-                                            .map(function(o) {
-                                              var val =
-                                                "_value" in o
-                                                  ? o._value
-                                                  : o.value
-                                              return val
-                                            })
-                                          _vm.$set(
-                                            _vm.insert,
-                                            "kdMerek",
-                                            $event.target.multiple
-                                              ? $$selectedVal
-                                              : $$selectedVal[0]
-                                          )
-                                        }
-                                      }
-                                    },
-                                    _vm._l(_vm.merek, function(data) {
-                                      return _c(
-                                        "option",
-                                        {
-                                          key: data.id,
-                                          domProps: { value: data.kdMerek }
-                                        },
-                                        [_vm._v(_vm._s(data.nmMerek))]
-                                      )
-                                    }),
-                                    0
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "form-group" }, [
-                                  _c("label", [_vm._v("Jenis:")]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "select",
-                                    {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.insert.kdJenis,
-                                          expression: "insert.kdJenis"
-                                        }
-                                      ],
-                                      staticClass: "form-control",
-                                      attrs: { required: "" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.getType(
-                                            (_vm.kdJenis = _vm.insert.kdJenis)
-                                          )
-                                        },
-                                        change: function($event) {
-                                          var $$selectedVal = Array.prototype.filter
-                                            .call(
-                                              $event.target.options,
-                                              function(o) {
-                                                return o.selected
-                                              }
-                                            )
-                                            .map(function(o) {
-                                              var val =
-                                                "_value" in o
-                                                  ? o._value
-                                                  : o.value
-                                              return val
-                                            })
-                                          _vm.$set(
-                                            _vm.insert,
-                                            "kdJenis",
-                                            $event.target.multiple
-                                              ? $$selectedVal
-                                              : $$selectedVal[0]
-                                          )
-                                        }
-                                      }
-                                    },
-                                    _vm._l(_vm.jenis, function(data) {
-                                      return _c(
-                                        "option",
-                                        {
-                                          key: data.id,
-                                          domProps: { value: data.kdJenis }
-                                        },
-                                        [_vm._v(_vm._s(data.nmJenis))]
-                                      )
-                                    }),
-                                    0
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "form-group" }, [
-                                  _c("label", [_vm._v("Type Motor:")]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "select",
-                                    {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.insert.kdType,
-                                          expression: "insert.kdType"
-                                        }
-                                      ],
-                                      staticClass: "form-control",
-                                      attrs: { required: "" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.getTahun(
-                                            (_vm.kdType = _vm.insert.kdType)
-                                          )
-                                        },
-                                        change: function($event) {
-                                          var $$selectedVal = Array.prototype.filter
-                                            .call(
-                                              $event.target.options,
-                                              function(o) {
-                                                return o.selected
-                                              }
-                                            )
-                                            .map(function(o) {
-                                              var val =
-                                                "_value" in o
-                                                  ? o._value
-                                                  : o.value
-                                              return val
-                                            })
-                                          _vm.$set(
-                                            _vm.insert,
-                                            "kdType",
-                                            $event.target.multiple
-                                              ? $$selectedVal
-                                              : $$selectedVal[0]
-                                          )
-                                        }
-                                      }
-                                    },
-                                    _vm._l(_vm.type, function(data) {
-                                      return _c(
-                                        "option",
-                                        {
-                                          key: data.id,
-                                          domProps: { value: data.kdType }
-                                        },
-                                        [_vm._v(_vm._s(data.nmType))]
-                                      )
-                                    }),
-                                    0
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "form-group" }, [
-                                  _c("label", [_vm._v("Kode Tahun ")]),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.insert.kdTahun,
-                                        expression: "insert.kdTahun"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: { type: "text", disabled: "" },
-                                    domProps: { value: _vm.insert.kdTahun },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          _vm.insert,
-                                          "kdTahun",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  })
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "input-group" }, [
-                                  _c(
-                                    "span",
-                                    { staticClass: "input-group-addon" },
-                                    [_vm._v("Tahun")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.insert.nmTahun,
-                                        expression: "insert.nmTahun"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: {
-                                      type: "text",
-                                      placeholder: "Masukkan Nama Type",
-                                      required: ""
-                                    },
-                                    domProps: { value: _vm.insert.nmTahun },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          _vm.insert,
-                                          "nmTahun",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  })
-                                ]),
-                                _vm._v(" "),
-                                _c("br"),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "form-group" }, [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-md btn-success",
-                                      attrs: { type: "submit" }
-                                    },
-                                    [_vm._v("SIMPAN")]
-                                  )
-                                ])
-                              ]
-                            )
-                          ])
-                        ])
-                      ])
-                    ])
-                  ])
+        _c("div", { staticClass: "form-group" }, [
+          _c("div", { staticClass: "col-sm-8" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-md btn-success",
+                attrs: { type: "submit" },
+                on: {
+                  click: function($event) {
+                    return _vm.PostCari(
+                      (_vm.newKode =
+                        _vm.kdMerek + _vm.kdJenis + _vm.kdType + _vm.kdTahun)
+                    )
+                  }
+                }
+              },
+              [_vm._v("Cari")]
+            ),
+            _vm._v(" "),
+            (_vm.newKode =
+              _vm.kdMerek + _vm.kdJenis + _vm.kdType + _vm.kdTahun.length <= 22)
+              ? _c("span", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-md btn-success disabled",
+                      attrs: { type: "submit" }
+                    },
+                    [_vm._v("Tambah Motor")]
+                  )
                 ])
-              ],
-              1
-            )
-          : _vm._e(),
+              : _c("span", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-md btn-success",
+                      attrs: { type: "submit" },
+                      on: {
+                        click: function($event) {
+                          _vm.modalTambahMotor = true
+                        }
+                      }
+                    },
+                    [_vm._v("Tambah Motor")]
+                  )
+                ])
+          ])
+        ])
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-body" }, [
+      _c("table", { staticClass: "table table-hover table-bordered" }, [
+        _vm._m(0),
         _vm._v(" "),
-        _vm.modalTambahMotor
-          ? _c(
-              "div",
-              [
-                _c("transition", { attrs: { name: "modal" } }, [
-                  _c("div", { staticClass: "modal-mask" }, [
-                    _c("div", { staticClass: "modal-wrapper" }, [
-                      _c("div", { staticClass: "modal-dialog" }, [
-                        _c("div", { staticClass: "modal-content" }, [
-                          _c("div", { staticClass: "modal-header" }, [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "close",
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.modalTambahMotor = false
-                                  }
-                                }
-                              },
-                              [
-                                _c(
-                                  "span",
-                                  { attrs: { "aria-hidden": "true" } },
-                                  [_vm._v("×")]
-                                )
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c("h4", { staticClass: "modal-title" }, [
-                              _vm._v("Tambah Motor")
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "modal-body" }, [
-                            _c(
-                              "form",
-                              {
-                                attrs: { enctype: "multipart/form-data" },
-                                on: {
-                                  submit: function($event) {
-                                    $event.preventDefault()
-                                    return _vm.PostStoreMotor($event)
-                                  }
-                                }
-                              },
-                              [
-                                _c("div", { staticClass: "form-group" }, [
-                                  _c("input", {
-                                    staticClass: "form-control",
-                                    attrs: {
-                                      type: "text",
-                                      name: _vm.kodeDetMotor,
-                                      disabled: ""
-                                    },
-                                    domProps: {
-                                      value:
-                                        _vm.kdMerek +
-                                        _vm.kdJenis +
-                                        _vm.kdType +
-                                        _vm.kdTahun
-                                    }
-                                  })
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "input-group" }, [
-                                  _c(
-                                    "span",
-                                    { staticClass: "input-group-addon" },
-                                    [_vm._v("Kode")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.insert.kdDetailMotor,
-                                        expression: "insert.kdDetailMotor"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: {
-                                      type: "text",
-                                      placeholder: "Masukkan Nama Type",
-                                      required: ""
-                                    },
-                                    domProps: {
-                                      value: _vm.insert.kdDetailMotor
-                                    },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          _vm.insert,
-                                          "kdDetailMotor",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.dataTahun.nmTahun,
-                                        expression: "dataTahun.nmTahun"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: { type: "text", required: "" },
-                                    domProps: { value: _vm.dataTahun.nmTahun },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          _vm.dataTahun,
-                                          "nmTahun",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.dataNama.nmType,
-                                        expression: "dataNama.nmType"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: { type: "text", required: "" },
-                                    domProps: { value: _vm.dataNama.nmType },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          _vm.dataNama,
-                                          "nmType",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  })
-                                ]),
-                                _vm._v(" "),
-                                _c("br"),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "input-group" }, [
-                                  _c(
-                                    "span",
-                                    { staticClass: "input-group-addon" },
-                                    [_vm._v("Nama")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.nmMotor,
-                                        expression: "nmMotor"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: {
-                                      type: "text",
-                                      placeholder: "Masukkan Nama Type",
-                                      required: ""
-                                    },
-                                    domProps: { value: _vm.nmMotor },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.nmMotor = $event.target.value
-                                      }
-                                    }
-                                  })
-                                ]),
-                                _vm._v(" "),
-                                _c("br"),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "input-group" }, [
-                                  _c(
-                                    "span",
-                                    { staticClass: "input-group-addon" },
-                                    [_vm._v("Warna")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.warnaMotor,
-                                        expression: "warnaMotor"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: { type: "text", required: "" },
-                                    domProps: { value: _vm.warnaMotor },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.warnaMotor = $event.target.value
-                                      }
-                                    }
-                                  })
-                                ]),
-                                _vm._v(" "),
-                                _c("br"),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "form-group" }, [
-                                  _c(
-                                    "label",
-                                    { staticClass: "col-sm-3 control-label" },
-                                    [_vm._v("Gambar")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col-sm-8" }, [
-                                    _c("input", {
-                                      staticClass: "form-control",
-                                      attrs: { type: "file" },
-                                      on: { change: _vm.onImageChange }
-                                    }),
-                                    _vm._v(" "),
-                                    _vm.image
-                                      ? _c("div", { staticClass: "col-md-3" }, [
-                                          _c("img", {
-                                            staticClass: "img-responsive",
-                                            attrs: {
-                                              src: _vm.image,
-                                              height: "70",
-                                              width: "90"
-                                            }
-                                          })
-                                        ])
-                                      : _vm._e()
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "form-group" }, [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-md btn-success",
-                                      attrs: { type: "submit" }
-                                    },
-                                    [_vm._v("SIMPAN")]
-                                  )
-                                ])
-                              ]
-                            )
-                          ])
-                        ])
-                      ])
-                    ])
-                  ])
-                ])
-              ],
-              1
-            )
-          : _vm._e()
+        _c(
+          "tbody",
+          _vm._l(_vm.detailmotor, function(det, index) {
+            return _c("tr", { key: det.id }, [
+              _c("td", [_vm._v(_vm._s(det.kdType))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(det.kdTahun))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(det.nmDetail))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(det.warnaDetail))]),
+              _vm._v(" "),
+              _c("td", [
+                _c("img", {
+                  staticClass: "img-responsive",
+                  attrs: {
+                    src: "../image/foto/" + det.gbrDetail,
+                    height: "70",
+                    width: "90"
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c(
+                "td",
+                { staticClass: "text-center" },
+                [
+                  _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-sm btn-primary",
+                      attrs: {
+                        to: {
+                          name: "mastersdetailparepart",
+                          params: { id: det.kdDetailMotor }
+                        }
+                      }
+                    },
+                    [_vm._v("Detail")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-sm btn-danger",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.PostDeleteMotor((_vm.id = det.id), index)
+                        }
+                      }
+                    },
+                    [_vm._v("HAPUS")]
+                  )
+                ],
+                1
+              )
+            ])
+          }),
+          0
+        )
       ])
-    ],
-    1
-  )
+    ]),
+    _vm._v(" "),
+    _vm.modalTambahMerek
+      ? _c(
+          "div",
+          [
+            _c("transition", { attrs: { name: "modal" } }, [
+              _c("div", { staticClass: "modal-mask" }, [
+                _c("div", { staticClass: "modal-wrapper" }, [
+                  _c("div", { staticClass: "modal-dialog" }, [
+                    _c("div", { staticClass: "modal-content" }, [
+                      _c("div", { staticClass: "modal-header" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "close",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                _vm.modalTambahMerek = false
+                              }
+                            }
+                          },
+                          [
+                            _c("span", { attrs: { "aria-hidden": "true" } }, [
+                              _vm._v("×")
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("h4", { staticClass: "modal-title" }, [
+                          _vm._v("Tambah Merek")
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "modal-body" }, [
+                        _c(
+                          "form",
+                          {
+                            on: {
+                              submit: function($event) {
+                                $event.preventDefault()
+                                return _vm.PostStoreMerek($event)
+                              }
+                            }
+                          },
+                          [
+                            _c("div", { staticClass: "input-group" }, [
+                              _c("span", { staticClass: "input-group-addon" }, [
+                                _vm._v("Kode Merek  ")
+                              ]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.insert.kdMerek,
+                                    expression: "insert.kdMerek"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: { type: "text", disabled: "" },
+                                domProps: { value: _vm.insert.kdMerek },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.insert,
+                                      "kdMerek",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "input-group" }, [
+                              _c("span", { staticClass: "input-group-addon" }, [
+                                _vm._v("Nama Merek")
+                              ]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.insert.nmMerek,
+                                    expression: "insert.nmMerek"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Masukkan Nama",
+                                  required: ""
+                                },
+                                domProps: { value: _vm.insert.nmMerek },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.insert,
+                                      "nmMerek",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-md btn-success",
+                                  attrs: { type: "submit" }
+                                },
+                                [_vm._v("SIMPAN")]
+                              )
+                            ])
+                          ]
+                        )
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.modalTambahJenis
+      ? _c(
+          "div",
+          [
+            _c("transition", { attrs: { name: "modal" } }, [
+              _c("div", { staticClass: "modal-mask" }, [
+                _c("div", { staticClass: "modal-wrapper" }, [
+                  _c("div", { staticClass: "modal-dialog" }, [
+                    _c("div", { staticClass: "modal-content" }, [
+                      _c("div", { staticClass: "modal-header" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "close",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                _vm.modalTambahJenis = false
+                              }
+                            }
+                          },
+                          [
+                            _c("span", { attrs: { "aria-hidden": "true" } }, [
+                              _vm._v("×")
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("h4", { staticClass: "modal-title" }, [
+                          _vm._v("Tambah Jenis Motor")
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "modal-body" }, [
+                        _c(
+                          "form",
+                          {
+                            on: {
+                              submit: function($event) {
+                                $event.preventDefault()
+                                return _vm.PostStoreJenis($event)
+                              }
+                            }
+                          },
+                          [
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", [_vm._v("Merek:")]),
+                              _vm._v(" "),
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.insert.kdMerek,
+                                      expression: "insert.kdMerek"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: { required: "" },
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.insert,
+                                        "kdMerek",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                _vm._l(_vm.merek, function(data) {
+                                  return _c(
+                                    "option",
+                                    {
+                                      key: data.id,
+                                      domProps: { value: data.kdMerek }
+                                    },
+                                    [_vm._v(_vm._s(data.nmMerek))]
+                                  )
+                                }),
+                                0
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", [_vm._v("Kode Jenis ")]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.insert.kdJenis,
+                                    expression: "insert.kdJenis"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: { type: "text", disabled: "" },
+                                domProps: { value: _vm.insert.kdJenis },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.insert,
+                                      "kdJenis",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "input-group" }, [
+                              _c("span", { staticClass: "input-group-addon" }, [
+                                _vm._v("Nama Jenis")
+                              ]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.insert.nmJenis,
+                                    expression: "insert.nmJenis"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Masukkan Nama Jenis",
+                                  required: ""
+                                },
+                                domProps: { value: _vm.insert.nmJenis },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.insert,
+                                      "nmJenis",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-md btn-success",
+                                  attrs: { type: "submit" }
+                                },
+                                [_vm._v("SIMPAN")]
+                              )
+                            ])
+                          ]
+                        )
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.modalTambahType
+      ? _c(
+          "div",
+          [
+            _c("transition", { attrs: { name: "modal" } }, [
+              _c("div", { staticClass: "modal-mask" }, [
+                _c("div", { staticClass: "modal-wrapper" }, [
+                  _c("div", { staticClass: "modal-dialog" }, [
+                    _c("div", { staticClass: "modal-content" }, [
+                      _c("div", { staticClass: "modal-header" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "close",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                _vm.modalTambahType = false
+                              }
+                            }
+                          },
+                          [
+                            _c("span", { attrs: { "aria-hidden": "true" } }, [
+                              _vm._v("×")
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("h4", { staticClass: "modal-title" }, [
+                          _vm._v("Tambah Type Motor")
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "modal-body" }, [
+                        _c(
+                          "form",
+                          {
+                            on: {
+                              submit: function($event) {
+                                $event.preventDefault()
+                                return _vm.PostStoreType($event)
+                              }
+                            }
+                          },
+                          [
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", [_vm._v("Merek:")]),
+                              _vm._v(" "),
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.insert.kdMerek,
+                                      expression: "insert.kdMerek"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: { required: "" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.getJenis(
+                                        (_vm.kdMerek = _vm.insert.kdMerek)
+                                      )
+                                    },
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.insert,
+                                        "kdMerek",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                _vm._l(_vm.merek, function(data) {
+                                  return _c(
+                                    "option",
+                                    {
+                                      key: data.id,
+                                      domProps: { value: data.kdMerek }
+                                    },
+                                    [_vm._v(_vm._s(data.nmMerek))]
+                                  )
+                                }),
+                                0
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", [_vm._v("Jenis:")]),
+                              _vm._v(" "),
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.insert.kdJenis,
+                                      expression: "insert.kdJenis"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: { required: "" },
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.insert,
+                                        "kdJenis",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                _vm._l(_vm.jenis, function(data) {
+                                  return _c(
+                                    "option",
+                                    {
+                                      key: data.id,
+                                      domProps: { value: data.kdJenis }
+                                    },
+                                    [_vm._v(_vm._s(data.nmJenis))]
+                                  )
+                                }),
+                                0
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", [_vm._v("Kode Type ")]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.insert.kdType,
+                                    expression: "insert.kdType"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: { type: "text", disabled: "" },
+                                domProps: { value: _vm.insert.kdType },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.insert,
+                                      "kdType",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "input-group" }, [
+                              _c("span", { staticClass: "input-group-addon" }, [
+                                _vm._v("Nama Type")
+                              ]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.insert.nmType,
+                                    expression: "insert.nmType"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Masukkan Nama Type",
+                                  required: ""
+                                },
+                                domProps: { value: _vm.insert.nmType },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.insert,
+                                      "nmType",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-md btn-success",
+                                  attrs: { type: "submit" }
+                                },
+                                [_vm._v("SIMPAN")]
+                              )
+                            ])
+                          ]
+                        )
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.modalTambahTahun
+      ? _c(
+          "div",
+          [
+            _c("transition", { attrs: { name: "modal" } }, [
+              _c("div", { staticClass: "modal-mask" }, [
+                _c("div", { staticClass: "modal-wrapper" }, [
+                  _c("div", { staticClass: "modal-dialog" }, [
+                    _c("div", { staticClass: "modal-content" }, [
+                      _c("div", { staticClass: "modal-header" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "close",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                _vm.modalTambahTahun = false
+                              }
+                            }
+                          },
+                          [
+                            _c("span", { attrs: { "aria-hidden": "true" } }, [
+                              _vm._v("×")
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("h4", { staticClass: "modal-title" }, [
+                          _vm._v("Tambah Tahun Motor")
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "modal-body" }, [
+                        _c(
+                          "form",
+                          {
+                            on: {
+                              submit: function($event) {
+                                $event.preventDefault()
+                                return _vm.PostStoreTahun($event)
+                              }
+                            }
+                          },
+                          [
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", [_vm._v("Merek:")]),
+                              _vm._v(" "),
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.insert.kdMerek,
+                                      expression: "insert.kdMerek"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: { required: "" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.getJenis(
+                                        (_vm.kdMerek = _vm.insert.kdMerek)
+                                      )
+                                    },
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.insert,
+                                        "kdMerek",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                _vm._l(_vm.merek, function(data) {
+                                  return _c(
+                                    "option",
+                                    {
+                                      key: data.id,
+                                      domProps: { value: data.kdMerek }
+                                    },
+                                    [_vm._v(_vm._s(data.nmMerek))]
+                                  )
+                                }),
+                                0
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", [_vm._v("Jenis:")]),
+                              _vm._v(" "),
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.insert.kdJenis,
+                                      expression: "insert.kdJenis"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: { required: "" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.getType(
+                                        (_vm.kdJenis = _vm.insert.kdJenis)
+                                      )
+                                    },
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.insert,
+                                        "kdJenis",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                _vm._l(_vm.jenis, function(data) {
+                                  return _c(
+                                    "option",
+                                    {
+                                      key: data.id,
+                                      domProps: { value: data.kdJenis }
+                                    },
+                                    [_vm._v(_vm._s(data.nmJenis))]
+                                  )
+                                }),
+                                0
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", [_vm._v("Type Motor:")]),
+                              _vm._v(" "),
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.insert.kdType,
+                                      expression: "insert.kdType"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: { required: "" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.getTahun(
+                                        (_vm.kdType = _vm.insert.kdType)
+                                      )
+                                    },
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.insert,
+                                        "kdType",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                _vm._l(_vm.type, function(data) {
+                                  return _c(
+                                    "option",
+                                    {
+                                      key: data.id,
+                                      domProps: { value: data.kdType }
+                                    },
+                                    [_vm._v(_vm._s(data.nmType))]
+                                  )
+                                }),
+                                0
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", [_vm._v("Kode Tahun ")]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.insert.kdTahun,
+                                    expression: "insert.kdTahun"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: { type: "text", disabled: "" },
+                                domProps: { value: _vm.insert.kdTahun },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.insert,
+                                      "kdTahun",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "input-group" }, [
+                              _c("span", { staticClass: "input-group-addon" }, [
+                                _vm._v("Tahun")
+                              ]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.insert.nmTahun,
+                                    expression: "insert.nmTahun"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Masukkan Nama Type",
+                                  required: ""
+                                },
+                                domProps: { value: _vm.insert.nmTahun },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.insert,
+                                      "nmTahun",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-md btn-success",
+                                  attrs: { type: "submit" }
+                                },
+                                [_vm._v("SIMPAN")]
+                              )
+                            ])
+                          ]
+                        )
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.modalTambahMotor
+      ? _c(
+          "div",
+          [
+            _c("transition", { attrs: { name: "modal" } }, [
+              _c("div", { staticClass: "modal-mask" }, [
+                _c("div", { staticClass: "modal-wrapper" }, [
+                  _c("div", { staticClass: "modal-dialog" }, [
+                    _c("div", { staticClass: "modal-content" }, [
+                      _c("div", { staticClass: "modal-header" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "close",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                _vm.modalTambahMotor = false
+                              }
+                            }
+                          },
+                          [
+                            _c("span", { attrs: { "aria-hidden": "true" } }, [
+                              _vm._v("×")
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("h4", { staticClass: "modal-title" }, [
+                          _vm._v("Tambah Motor")
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "modal-body" }, [
+                        _c(
+                          "form",
+                          {
+                            attrs: { enctype: "multipart/form-data" },
+                            on: {
+                              submit: function($event) {
+                                $event.preventDefault()
+                                return _vm.PostStoreMotor($event)
+                              }
+                            }
+                          },
+                          [
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("input", {
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  name: _vm.kodeDetMotor,
+                                  disabled: ""
+                                },
+                                domProps: {
+                                  value:
+                                    _vm.kdMerek +
+                                    _vm.kdJenis +
+                                    _vm.kdType +
+                                    _vm.kdTahun
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "input-group" }, [
+                              _c("span", { staticClass: "input-group-addon" }, [
+                                _vm._v("Kode")
+                              ]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.insert.kdDetailMotor,
+                                    expression: "insert.kdDetailMotor"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Masukkan Nama Type",
+                                  required: ""
+                                },
+                                domProps: { value: _vm.insert.kdDetailMotor },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.insert,
+                                      "kdDetailMotor",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.dataTahun.nmTahun,
+                                    expression: "dataTahun.nmTahun"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: { type: "text", required: "" },
+                                domProps: { value: _vm.dataTahun.nmTahun },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.dataTahun,
+                                      "nmTahun",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.dataNama.nmType,
+                                    expression: "dataNama.nmType"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: { type: "text", required: "" },
+                                domProps: { value: _vm.dataNama.nmType },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.dataNama,
+                                      "nmType",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "input-group" }, [
+                              _c("span", { staticClass: "input-group-addon" }, [
+                                _vm._v("Nama")
+                              ]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.nmMotor,
+                                    expression: "nmMotor"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Masukkan Nama Type",
+                                  required: ""
+                                },
+                                domProps: { value: _vm.nmMotor },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.nmMotor = $event.target.value
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "input-group" }, [
+                              _c("span", { staticClass: "input-group-addon" }, [
+                                _vm._v("Warna")
+                              ]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.warnaMotor,
+                                    expression: "warnaMotor"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: { type: "text", required: "" },
+                                domProps: { value: _vm.warnaMotor },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.warnaMotor = $event.target.value
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c(
+                                "label",
+                                { staticClass: "col-sm-3 control-label" },
+                                [_vm._v("Gambar")]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-sm-8" }, [
+                                _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: { type: "file" },
+                                  on: { change: _vm.onImageChange }
+                                }),
+                                _vm._v(" "),
+                                _vm.image
+                                  ? _c("div", { staticClass: "col-md-3" }, [
+                                      _c("img", {
+                                        staticClass: "img-responsive",
+                                        attrs: {
+                                          src: _vm.image,
+                                          height: "70",
+                                          width: "90"
+                                        }
+                                      })
+                                    ])
+                                  : _vm._e()
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-md btn-success",
+                                  attrs: { type: "submit" }
+                                },
+                                [_vm._v("SIMPAN")]
+                              )
+                            ])
+                          ]
+                        )
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ],
+          1
+        )
+      : _vm._e()
+  ])
 }
 var staticRenderFns = [
   function() {
@@ -80604,292 +80209,319 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "mt-3" },
-    [
-      _vm._m(0),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _c(
-          "form",
-          {
-            staticClass: "form-horizontal",
-            on: {
-              submit: function($event) {
-                $event.preventDefault()
-                return _vm.PostUpdate($event)
-              }
+  return _c("div", { staticClass: "mt-3" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-body" }, [
+      _c(
+        "form",
+        {
+          staticClass: "form-horizontal",
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.PostUpdate($event)
             }
-          },
-          [
-            _c("div", { staticClass: "col-md-6" }, [
-              _c("div", { staticClass: "box box-body" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { staticClass: "col-sm-3 control-label" }, [
-                    _vm._v("Kode Barang")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-sm-8" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.post.kdBarang,
-                          expression: "post.kdBarang"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "text", disabled: "" },
-                      domProps: { value: _vm.post.kdBarang },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.post, "kdBarang", $event.target.value)
-                        }
-                      }
-                    })
-                  ])
+          }
+        },
+        [
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "box box-body" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "col-sm-3 control-label" }, [
+                  _vm._v("Kode Barang")
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { staticClass: "col-sm-3 control-label" }, [
-                    _vm._v("Nama Barang")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-sm-8" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.post.nmBarang,
-                          expression: "post.nmBarang"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: {
-                        type: "text",
-                        placeholder: "Masukkan Title",
-                        required: ""
-                      },
-                      domProps: { value: _vm.post.nmBarang },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.post, "nmBarang", $event.target.value)
-                        }
+                _c("div", { staticClass: "col-sm-8" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.post.kdBarang,
+                        expression: "post.kdBarang"
                       }
-                    })
-                  ])
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", disabled: "" },
+                    domProps: { value: _vm.post.kdBarang },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.post, "kdBarang", $event.target.value)
+                      }
+                    }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "col-sm-3 control-label" }, [
+                  _vm._v("Nama Barang")
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { staticClass: "col-sm-3 control-label" }, [
-                    _vm._v("Harga Pokok")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-sm-5" }, [
-                    _c("input", {
+                _c("div", { staticClass: "col-sm-8" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.post.nmBarang,
+                        expression: "post.nmBarang"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "text",
+                      placeholder: "Masukkan Title",
+                      required: ""
+                    },
+                    domProps: { value: _vm.post.nmBarang },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.post, "nmBarang", $event.target.value)
+                      }
+                    }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "col-sm-3 control-label" }, [
+                  _vm._v("Harga Pokok")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-5" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.post.hrgPokok,
+                        expression: "post.hrgPokok"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "text",
+                      placeholder: "Harga Pokok",
+                      required: ""
+                    },
+                    domProps: { value: _vm.post.hrgPokok },
+                    on: {
+                      blur: function($event) {
+                        return _vm.letterValue()
+                      },
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.post, "hrgPokok", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-3" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.cPokok,
+                        expression: "cPokok"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.cPokok },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.cPokok = $event.target.value
+                      }
+                    }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "col-sm-3 control-label" }, [
+                  _vm._v("Harga Jual")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-5" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.post.hrgJual,
+                        expression: "post.hrgJual"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "text",
+                      placeholder: "Harga Jual",
+                      required: ""
+                    },
+                    domProps: { value: _vm.post.hrgJual },
+                    on: {
+                      blur: function($event) {
+                        return _vm.codeJual()
+                      },
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.post, "hrgJual", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-3" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.cJual,
+                        expression: "cJual"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.cJual },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.cJual = $event.target.value
+                      }
+                    }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "col-sm-3 control-label" }, [
+                  _vm._v("Select Kategori:")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-8" }, [
+                  _c(
+                    "select",
+                    {
                       directives: [
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.post.hrgPokok,
-                          expression: "post.hrgPokok"
+                          value: _vm.post.ktgBarang,
+                          expression: "post.ktgBarang"
                         }
                       ],
                       staticClass: "form-control",
-                      attrs: {
-                        type: "text",
-                        placeholder: "Harga Pokok",
-                        required: ""
-                      },
-                      domProps: { value: _vm.post.hrgPokok },
                       on: {
-                        blur: function($event) {
-                          return _vm.letterValue()
-                        },
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.post, "hrgPokok", $event.target.value)
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.post,
+                            "ktgBarang",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
                         }
                       }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-sm-3" }, [
+                    },
+                    [
+                      _c("option", { attrs: { value: "0" } }, [
+                        _vm._v("Select Kategori")
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.countries, function(data) {
+                        return _c(
+                          "option",
+                          { key: data.id, domProps: { value: data.kodeKtg } },
+                          [_vm._v(_vm._s(data.namaKtg))]
+                        )
+                      })
+                    ],
+                    2
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "col-sm-3 control-label" }, [
+                  _vm._v("Barcode : ")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "col-sm-8" },
+                  [
                     _c("input", {
                       directives: [
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.str,
-                          expression: "str"
+                          value: _vm.post.barcode,
+                          expression: "post.barcode"
                         }
                       ],
                       staticClass: "form-control",
                       attrs: { type: "text" },
-                      domProps: { value: _vm.str },
+                      domProps: { value: _vm.post.barcode },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.str = $event.target.value
+                          _vm.$set(_vm.post, "barcode", $event.target.value)
                         }
                       }
-                    })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { staticClass: "col-sm-3 control-label" }, [
-                    _vm._v("Harga Jual")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-sm-8" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.post.hrgJual,
-                          expression: "post.hrgJual"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: {
-                        type: "text",
-                        placeholder: "Harga Jual",
-                        required: ""
-                      },
-                      domProps: { value: _vm.post.hrgJual },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.post, "hrgJual", $event.target.value)
-                        }
+                    }),
+                    _vm._v(" "),
+                    _c("barcode", {
+                      attrs: { options: { displayValue: true } },
+                      model: {
+                        value: _vm.post.barcode,
+                        callback: function($$v) {
+                          _vm.$set(_vm.post, "barcode", $$v)
+                        },
+                        expression: "post.barcode"
                       }
                     })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { staticClass: "col-sm-3 control-label" }, [
-                    _vm._v("Select Kategori:")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-sm-8" }, [
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.post.ktgBarang,
-                            expression: "post.ktgBarang"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.post,
-                              "ktgBarang",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          }
-                        }
-                      },
-                      [
-                        _c("option", { attrs: { value: "0" } }, [
-                          _vm._v("Select Kategori")
-                        ]),
-                        _vm._v(" "),
-                        _vm._l(_vm.countries, function(data) {
-                          return _c(
-                            "option",
-                            { key: data.id, domProps: { value: data.kodeKtg } },
-                            [_vm._v(_vm._s(data.namaKtg))]
-                          )
-                        })
-                      ],
-                      2
-                    )
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { staticClass: "col-sm-3 control-label" }, [
-                    _vm._v("Barcode : ")
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "col-sm-8" },
-                    [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.post.barcode,
-                            expression: "post.barcode"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { type: "text" },
-                        domProps: { value: _vm.post.barcode },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(_vm.post, "barcode", $event.target.value)
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("barcode", {
-                        attrs: { options: { displayValue: true } },
-                        model: {
-                          value: _vm.post.barcode,
-                          callback: function($$v) {
-                            _vm.$set(_vm.post, "barcode", $$v)
-                          },
-                          expression: "post.barcode"
-                        }
-                      })
-                    ],
-                    1
-                  )
-                ])
+                  ],
+                  1
+                )
               ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-6" }, [
-              _c("div", { staticClass: "box box-body" }, [
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c(
+              "div",
+              { staticClass: "box box-body" },
+              [
                 _c("div", { staticClass: "form-group" }, [
                   _c("label", { staticClass: "col-sm-3 control-label" }, [
                     _vm._v("Stok")
@@ -81080,14 +80712,8 @@ var render = function() {
                       }
                     })
                   ])
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "form-group" },
-              [
+                ]),
+                _vm._v(" "),
                 _c(
                   "button",
                   {
@@ -81112,10 +80738,14 @@ var render = function() {
                 ),
                 _vm._v(" "),
                 _c(
-                  "a",
+                  "button",
                   {
                     staticClass: "btn btn-primary btn-success",
-                    attrs: { href: "#" }
+                    attrs: {
+                      type: "button",
+                      "data-toggle": "modal",
+                      "data-target": "#modal-barcode "
+                    }
                   },
                   [_vm._v("Print Barcode")]
                 ),
@@ -81131,16 +80761,146 @@ var render = function() {
               ],
               1
             )
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _vm._l(_vm.qtys, function(x) {
-        return _c("div", { key: x })
-      })
-    ],
-    2
-  )
+          ])
+        ]
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "modal fade", attrs: { id: "modal-barcode" } }, [
+      _c("div", { staticClass: "modal-dialog" }, [
+        _c("div", { staticClass: "modal-content" }, [
+          _vm._m(1),
+          _vm._v(" "),
+          _c("div", { staticClass: "modal-body" }, [
+            _c(
+              "form",
+              {
+                staticClass: "form-horizontal",
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.PreviewBarcode($event)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "form-group" }, [
+                  _c(
+                    "div",
+                    { staticClass: "col-sm-8" },
+                    [
+                      _c("label", { staticClass: "col-sm-8 control-label" }, [
+                        _vm._v("name : " + _vm._s(_vm.post.nmBarang))
+                      ]),
+                      _vm._v(" "),
+                      _c("label", { staticClass: "col-sm-8 control-label" }, [
+                        _vm._v("Code : " + _vm._s(_vm.cJual))
+                      ]),
+                      _vm._v(" "),
+                      _c("barcode", {
+                        attrs: { options: { displayValue: true } },
+                        model: {
+                          value: _vm.post.barcode,
+                          callback: function($$v) {
+                            _vm.$set(_vm.post, "barcode", $$v)
+                          },
+                          expression: "post.barcode"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { staticClass: "col-sm-3 control-label " }, [
+                    _vm._v("QTY Print")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-3" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.qtyPrint,
+                          expression: "qtyPrint"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", required: "" },
+                      domProps: { value: _vm.qtyPrint },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.qtyPrint = $event.target.value
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-md btn-success",
+                    attrs: { type: "submit" }
+                  },
+                  [_vm._v("VIEW")]
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c("section", { staticClass: "content" }, [
+              _c(
+                "div",
+                { staticClass: "row" },
+                _vm._l(_vm.jlm, function(qt) {
+                  return _c("div", { key: qt }, [
+                    _c("div", { staticClass: "container-fluid" }, [
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "col-md-4" },
+                          [
+                            _c("barcode", {
+                              attrs: { options: { displayValue: true } },
+                              model: {
+                                value: _vm.post.barcode,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.post, "barcode", $$v)
+                                },
+                                expression: "post.barcode"
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-4 ml-auto" }, [
+                          _vm._v(
+                            "name : " +
+                              _vm._s(_vm.post.nmBarang) +
+                              " Code : " +
+                              _vm._s(_vm.cJual)
+                          )
+                        ])
+                      ])
+                    ])
+                  ])
+                }),
+                0
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(2)
+        ])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
@@ -81149,6 +80909,42 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("h3", [_vm._v("EDIT BARANG")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      ),
+      _vm._v(" "),
+      _c("h4", { staticClass: "modal-title" }, [_vm._v("Default Modal")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-default pull-left",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("Close")]
+      )
     ])
   }
 ]
@@ -104154,9 +103950,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Cart_vue_vue_type_template_id_b7f93bea___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Cart.vue?vue&type=template&id=b7f93bea& */ "./resources/js/components/Cart.vue?vue&type=template&id=b7f93bea&");
 /* harmony import */ var _Cart_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Cart.vue?vue&type=script&lang=js& */ "./resources/js/components/Cart.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _Cart_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Cart.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/Cart.vue?vue&type=style&index=0&lang=css&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -104164,7 +103958,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   _Cart_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _Cart_vue_vue_type_template_id_b7f93bea___WEBPACK_IMPORTED_MODULE_0__["render"],
   _Cart_vue_vue_type_template_id_b7f93bea___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -104193,22 +103987,6 @@ component.options.__file = "resources/js/components/Cart.vue"
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Cart_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Cart.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Cart.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Cart_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/Cart.vue?vue&type=style&index=0&lang=css&":
-/*!***************************************************************************!*\
-  !*** ./resources/js/components/Cart.vue?vue&type=style&index=0&lang=css& ***!
-  \***************************************************************************/
-/*! no static exports found */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Cart_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--5-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--5-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Cart.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Cart.vue?vue&type=style&index=0&lang=css&");
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Cart_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Cart_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Cart_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Cart_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-
 
 /***/ }),
 
